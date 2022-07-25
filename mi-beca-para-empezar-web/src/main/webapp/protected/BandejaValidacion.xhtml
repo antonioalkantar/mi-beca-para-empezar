@@ -1,199 +1,303 @@
-<?xml version="1.0" encoding="UTF-8"?> 
+<?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      template="/WEB-INF/templates/default.xhtml">
-     
-      <ui:define name="content">
-      
-      <style>
-    body .ui-fluid .ui-selectonemenu-label {
-    width: calc(90% - 2.357rem);
-    padding: 0.5rem 0.5rem;
-    font-size: 12px !important;
-	}
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/default.xhtml">
 
-      </style>
-  	<div class="contenido-general" >
-	<p:panelGrid id="pnlGeneral" columns="3" columnClasses="ui-grid-col-1, ui-grid-col-10, ui-grid-col-1" layout="grid" style="text-align: center;" styleClass="ui-panelgrid-blank ui-fluid">
-   <p:outputPanel/>
-   <h:form id="formCambioTutor">
-   
-   <p:panelGrid id="pnlFormulario" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
-   		
-   <p:outputPanel style="background: #FFFFFF !important; border-radius:8px; ">				
-					<p:outputPanel style="background: #E2E8F0 !important; border-top-right-radius: 8px; border-top-left-radius: 8px;">
-  				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="padding:10px 0; text-align: left;" >
-					<p:outputLabel value="Validaciones" style="color: #2D3748; font-size:22px; text-align: left; font-weight: bold;" />
-				</p:panelGrid>
-			</p:outputPanel>
-			
-			<br />
-			
-			<p:panelGrid columns="2" columnClasses="ui-grid-col-7, ui-grid-col-5" layout="grid" styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid" style="text-align:center !important; padding-left: 0px !important;" >
-  				<p:panelGrid columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align:center !important; padding-right: 20px !important;" >
-  				<p:panelGrid columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align:center !important; padding-left: 0px !important;" >
-  					<p:outputLabel value="Ciclo escolar:" style="color: #2D3748; font-size:12px; text-align: left; font-weight: bold;"
-  					class="flex align-items-center justify-content-center border-round m-2" />
-  					<p:selectOneMenu >
-							<f:selectItem itemLabel="2022-2023"   />
-						</p:selectOneMenu>
-				</p:panelGrid>
-				<p:panelGrid columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align:center !important; padding-left: 0px !important;" >
-  					<p:outputLabel value="Periodo" style="color: #2D3748; font-size:12px; text-align: left; font-weight: bold;"
-  					class="flex align-items-center justify-content-center border-round m-2" />
-  					<p:selectOneMenu >
-							<f:selectItem itemLabel="Septiembre"   />
-						</p:selectOneMenu>
-				</p:panelGrid>
-				</p:panelGrid>
-				
-				<p:panelGrid columns="2" columnClasses="ui-grid-col-8, ui-grid-col-4" layout="grid" styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid" 
-				style="background-color: #B18147 !important;text-align:center !important; padding-left: 10px !important;" >
-  					<p:outputLabel value="TOTAL DE BENEFICIARIOS A VALIDAR:" style="color: #646D6C; font-family: 'Inter'; font-style: normal; 
-  					font-weight: 600; font-size: 12px; line-height: 24px;"
-  					class="flex align-items-center justify-content-center border-round m-2" />
-  					<p:outputLabel value="1,459,348" style="color: #8B1232; font-family: 'Inter'; font-style: normal; 
-  					font-weight: 600; font-size: 12px; line-height: 24px;"
-  					class="flex align-items-center justify-content-center border-round m-2" />
-				</p:panelGrid>
-			</p:panelGrid>
-     		<br />
-     		<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align:center !important; padding-left: 0px !important;" >
-  				<p:commandButton value="Ejecutar Validación" action="#{bandejaFuncionarioBean.init()}" styleClass="adip-btn-green" immediate="true" />
-			</p:panelGrid>
-			<br />
-			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align:center !important; padding-left: 0px !important;" >
-  				<p:outputLabel value="Historial de validaciones realizadas" style="color: #646D6C; weight:800; font-size:24px; text-align: left; font-weight: bold;" />
-			</p:panelGrid>
-			<br />
-			<p:panelGrid columns="2" columnClasses="ui-grid-col-9, ui-grid-col-3" layout="grid" styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid" style="text-align:center !important; padding-left: 0px !important;" >
-  				<p:panelGrid columns="4" columnClasses="ui-grid-col-3, ui-grid-col-3, ui-grid-col-3, ui-grid-col-3" layout="grid" style="padding-top: 8px !important;" >
-  				<p:panelGrid columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid" styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid" style="text-align:center !important; padding-left: 0px !important;" >
-  					<p:outputLabel value="Ciclo escolar" style="color: #2D3748; font-size:12px; text-align: left; font-weight: bold;"
-  					class="flex align-items-center justify-content-center border-round m-2" />
-  					<p:selectOneMenu >
-							<f:selectItem itemLabel="Seleccionar"   />
-						</p:selectOneMenu>
-				</p:panelGrid>
-				<p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align:center !important; padding-left: 0px !important;" >
-  					<p:outputLabel value="Periodo" style="color: #2D3748; font-size:12px; text-align: left; font-weight: bold;"
-  					class="flex align-items-center justify-content-center border-round m-2" />
-  					<p:selectOneMenu >
-							<f:selectItem itemLabel="Seleccionar"   />
-						</p:selectOneMenu>
-				</p:panelGrid>
-				<p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align:center !important; padding-left: 0px !important;" >
-  					<p:outputLabel value="Tipo" style="color: #2D3748; font-size:12px; text-align: left; font-weight: bold;"
-  					class="flex align-items-center justify-content-center border-round m-2" />
-  					<p:selectOneMenu >
-							<f:selectItem itemLabel="Seleccionar"   />
-						</p:selectOneMenu>
-				</p:panelGrid>
-				<p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align:center !important; padding-left: 0px !important;" >
-  					<p:outputLabel value="Estatus" style="color: #2D3748; font-size:12px; text-align: left; font-weight: bold;"
-  					class="flex align-items-center justify-content-center border-round m-2" />
-  					<p:selectOneMenu  >
-							<f:selectItem itemLabel="Seleccionar" />
-						</p:selectOneMenu>
-				</p:panelGrid>
-				</p:panelGrid>
-				
-				<p:panelGrid columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" 
-				style="padding-top: 0px !important;" >
-  						<p:commandButton value="Buscar" style="font-size: 5px !important" styleClass="adip-btn-green" immediate="true" />
-  						<p:commandButton value="Limpiar" style="font-size: 5px !important" styleClass="adip-btn-green" immediate="true" />
-				</p:panelGrid>
-				
-				
+	<ui:define name="content">
 
-			</p:panelGrid>
-			<br />
-			
-			<p:dataTable lazy="true" styleClass="dt-tramites" reflow="true" rows="8" paginator="true" paginatorPosition="bottom"  
+		<style>
+body .ui-fluid .ui-selectonemenu-label {
+	width: calc(90% - 2.357rem);
+	padding: 0.5rem 0.5rem;
+	font-size: 12px !important;
+}
+</style>
+		<div class="contenido-general">
+			<p:panelGrid id="pnlGeneral" columns="3"
+				columnClasses="ui-grid-col-1, ui-grid-col-10, ui-grid-col-1"
+				layout="grid" style="text-align: center;"
+				styleClass="ui-panelgrid-blank ui-fluid">
+				<p:outputPanel />
+				<h:form id="formCambioTutor">
+
+					<p:panelGrid id="pnlFormulario" columns="1"
+						columnClasses="ui-grid-col-12" layout="grid"
+						styleClass="ui-panelgrid-blank ui-fluid">
+
+						<p:outputPanel
+							style="background: #FFFFFF !important; border-radius:8px; ">
+							<p:outputPanel
+								style="background: #E2E8F0 !important; border-top-right-radius: 8px; border-top-left-radius: 8px;">
+								<p:panelGrid columns="1" columnClasses="ui-grid-col-12"
+									layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+									style="padding:10px 0; text-align: left;">
+									<p:outputLabel value="Validaciones"
+										style="color: #2D3748; font-size:22px; text-align: left; font-weight: bold;" />
+								</p:panelGrid>
+							</p:outputPanel>
+
+							<br />
+
+							<p:panelGrid columns="2"
+								columnClasses="ui-grid-col-7, ui-grid-col-5" layout="grid"
+								styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid"
+								style="text-align:center !important; padding-left: 0px !important;">
+								<p:panelGrid columns="2"
+									columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
+									styleClass="ui-panelgrid-blank ui-fluid"
+									style="text-align:center !important; padding-right: 20px !important;">
+									<p:panelGrid columns="2"
+										columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
+										styleClass="ui-panelgrid-blank ui-fluid"
+										style="text-align:center !important; padding-left: 0px !important;">
+										<p:outputLabel value="Ciclo escolar:"
+											style="color: #2D3748; font-size:12px; text-align: left; font-weight: bold;"
+											class="flex align-items-center justify-content-center border-round m-2" />
+										<p:selectOneMenu id="selCicloEscolar"
+											value="#{bandejaValidacionBean.idCicloEscolar}"
+											>
+											<f:selectItems value="#{bandejaValidacionBean.lstCatCicloEscolarDTO}"
+												var="cicloEscolar" itemLabel="#{cicloEscolar.descripcion}"
+												itemValue="#{cicloEscolar.idCicloEscolar}"></f:selectItems>
+										</p:selectOneMenu>
+									</p:panelGrid>
+									<p:panelGrid columns="2"
+										columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
+										styleClass="ui-panelgrid-blank ui-fluid"
+										style="text-align:center !important; padding-left: 0px !important;">
+										<p:outputLabel value="Periodo"
+											style="color: #2D3748; font-size:12px; text-align: left; font-weight: bold;"
+											class="flex align-items-center justify-content-center border-round m-2" />
+											<p:selectOneMenu id="selPeriodoEscolar"
+											value="#{bandejaValidacionBean.idPeriodoEscolar}"
+											>
+											<f:selectItems value="#{bandejaValidacionBean.lstCatPeriodoEscolarDTO}"
+												var="periodoEscolar" itemLabel="#{periodoEscolar.descripcion}"
+												itemValue="#{periodoEscolar.idPeriodoEscolar}"></f:selectItems>
+										</p:selectOneMenu>
+									</p:panelGrid>
+								</p:panelGrid>
+
+								<p:panelGrid columns="2"
+									columnClasses="ui-grid-col-8, ui-grid-col-4" layout="grid"
+									styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid"
+									style="background-color: rgba(177, 129, 71, 0.27); !important;text-align:center !important; padding-left: 10px !important;">
+									<p:outputLabel value="TOTAL DE BENEFICIARIOS A VALIDAR:"
+										style="color: #646D6C; font-family: 'Inter'; font-style: normal; 
+  					font-weight: 600; font-size: 12px; line-height: 24px;"
+										class="flex align-items-center justify-content-center border-round m-2" />
+									<p:outputLabel
+										value="#{bandejaValidacionBean.cantidadBeneficiarios}"
+										style="color: #8B1232; font-family: 'Inter'; font-style: normal; 
+  					font-weight: 600; font-size: 12px; line-height: 24px;"
+										class="flex align-items-center justify-content-center border-round m-2" />
+								</p:panelGrid>
+							</p:panelGrid>
+							<br />
+							<p:panelGrid columns="1" columnClasses="ui-grid-col-12"
+								layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+								style="text-align:center !important; padding-left: 0px !important;">
+								<p:commandButton value="Ejecutar Validación"
+									action="#{bandejaValidacionBean.ejecutarValidacion()}" 
+									styleClass="adip-btn-green"  />
+							</p:panelGrid>
+							<br />
+							<p:panelGrid columns="1" columnClasses="ui-grid-col-12"
+								layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+								style="text-align:center !important; padding-left: 0px !important;">
+								<p:outputLabel value="Historial de validaciones realizadas"
+									style="color: #646D6C; weight:800; font-size:24px; text-align: left; font-weight: bold;" />
+							</p:panelGrid>
+							<br />
+							<p:panelGrid columns="2"
+								columnClasses="ui-grid-col-9, ui-grid-col-3" layout="grid"
+								styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid"
+								style="text-align:center !important; padding-left: 0px !important;">
+								<p:panelGrid columns="4"
+									columnClasses="ui-grid-col-3, ui-grid-col-3, ui-grid-col-3, ui-grid-col-3"
+									layout="grid" style="padding-top: 8px !important;">
+									<p:panelGrid columns="2"
+										columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
+										styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid"
+										style="text-align:center !important; padding-left: 0px !important;">
+										<p:outputLabel value="Ciclo escolar"
+											style="color: #2D3748; font-size:12px; text-align: left; font-weight: bold;"
+											class="flex align-items-center justify-content-center border-round m-2" />
+										<p:selectOneMenu>
+											<f:selectItem itemLabel="Seleccionar" />
+										</p:selectOneMenu>
+									</p:panelGrid>
+									<p:panelGrid columns="2"
+										columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
+										styleClass="ui-panelgrid-blank ui-fluid"
+										style="text-align:center !important; padding-left: 0px !important;">
+										<p:outputLabel value="Periodo"
+											style="color: #2D3748; font-size:12px; text-align: left; font-weight: bold;"
+											class="flex align-items-center justify-content-center border-round m-2" />
+										<p:selectOneMenu>
+											<f:selectItem itemLabel="Seleccionar" />
+										</p:selectOneMenu>
+									</p:panelGrid>
+									<p:panelGrid columns="2"
+										columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
+										styleClass="ui-panelgrid-blank ui-fluid"
+										style="text-align:center !important; padding-left: 0px !important;">
+										<p:outputLabel value="Tipo"
+											style="color: #2D3748; font-size:12px; text-align: left; font-weight: bold;"
+											class="flex align-items-center justify-content-center border-round m-2" />
+										<p:selectOneMenu>
+											<f:selectItem itemLabel="Seleccionar" />
+										</p:selectOneMenu>
+									</p:panelGrid>
+									<p:panelGrid columns="2"
+										columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
+										styleClass="ui-panelgrid-blank ui-fluid"
+										style="text-align:center !important; padding-left: 0px !important;">
+										<p:outputLabel value="Estatus"
+											style="color: #2D3748; font-size:12px; text-align: left; font-weight: bold;"
+											class="flex align-items-center justify-content-center border-round m-2" />
+										<p:selectOneMenu>
+											<f:selectItem itemLabel="Seleccionar" />
+										</p:selectOneMenu>
+									</p:panelGrid>
+								</p:panelGrid>
+
+								<p:panelGrid columns="2"
+									columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
+									styleClass="ui-panelgrid-blank ui-fluid"
+									style="padding-top: 0px !important;">
+									<p:commandButton value="Buscar"
+										style="font-size: 5px !important" styleClass="adip-btn-green"
+										immediate="true" />
+									<p:commandButton value="Limpiar"
+										style="font-size: 5px !important" styleClass="adip-btn-green"
+										immediate="true" />
+								</p:panelGrid>
+
+
+
+							</p:panelGrid>
+							<br />
+
+							<p:dataTable lazy="true" styleClass="dt-tramites" reflow="true"
+								rows="8" paginator="true" paginatorPosition="bottom"
 								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 								currentPageReportTemplate="Mostrados {startRecord}-{endRecord} de {totalRecords} resultados">
-												
-								<p:column headerText="Ciclo escolar" width="20%" style="vertical-align: middle;">								
-								</p:column>
-								
-								<p:column headerText="Periodo" width="20%" style="vertical-align: middle;">								
-								</p:column>
-								
-								<p:column headerText="Tipo" width="20%" style="vertical-align: middle;">								
-								</p:column>
-								
-								<p:column headerText="No. de beneficiarios" width="20%" style="vertical-align: middle;">								
-								</p:column>
-								
-								<p:column headerText="Estatus" width="20%" style="vertical-align: middle;">								
-								</p:column>
-								
-								<p:column headerText="Fecha de ejecución" width="20%" style="vertical-align: middle;">								
-								</p:column>
-								
-								<p:column headerText="Fecha de conclusión" width="20%" style="vertical-align: middle;">								
-								</p:column>
-								
-								<p:column headerText="Aplica la dispersión (%)" width="20%" style="vertical-align: middle;">								
-								</p:column>
-								
-								<p:column headerText="Acciones" width="20%" style="vertical-align: middle;">								
-								</p:column>
-								
-								<p:column headerText="Fecha de descarga" width="20%" style="vertical-align: middle;">								
+
+								<p:column headerText="Ciclo escolar" width="20%"
+									style="vertical-align: middle;">
 								</p:column>
 
-								
+								<p:column headerText="Periodo" width="20%"
+									style="vertical-align: middle;">
+								</p:column>
+
+								<p:column headerText="Tipo" width="20%"
+									style="vertical-align: middle;">
+								</p:column>
+
+								<p:column headerText="No. de beneficiarios" width="20%"
+									style="vertical-align: middle;">
+								</p:column>
+
+								<p:column headerText="Estatus" width="20%"
+									style="vertical-align: middle;">
+								</p:column>
+
+								<p:column headerText="Fecha de ejecución" width="20%"
+									style="vertical-align: middle;">
+								</p:column>
+
+								<p:column headerText="Fecha de conclusión" width="20%"
+									style="vertical-align: middle;">
+								</p:column>
+
+								<p:column headerText="Aplica la dispersión (%)" width="20%"
+									style="vertical-align: middle;">
+								</p:column>
+
+								<p:column headerText="Acciones" width="20%"
+									style="vertical-align: middle;">
+								</p:column>
+
+								<p:column headerText="Fecha de descarga" width="20%"
+									style="vertical-align: middle;">
+								</p:column>
+
+
 							</p:dataTable>
 
 
 
-				</p:outputPanel>		
-				</p:panelGrid>
-   			</h:form>
-   		</p:panelGrid>
-   		</div>
-   		
-   		<p:dialog id="dlgAsignacionTutor"  widgetVar="mdlAsignacionTutor" header="Asignación del tutor" 
-		modal="true" width="500px" heigh="200px important!" responsive="true" resizable="false" styleClass="ui-modal-gray" closable="true" >
-		<h:form id="frmMdlCambioTutor">
-			<p:panelGrid id="pnlMdlAsignacionTutor" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
-			 style="text-align: left; font-weight: 700; border-bottom: 0 none; padding: 1.5rem; background: #fff;" >
-				<p:panelGrid id="pnlObservacionCambio" for="txtObservacionCambio" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
-				<p:outputLabel value="Agregue un motivo para asignar el cambio de tutor" />
-				
-				<p:inputTextarea id="txtObservacionCambio" rows="5" cols="30"  maxlength="200" required="true" requiredMessage="#{msg.msj_campo_requerido}" 
-                         value="#{cambioTutorBean.observaciones}" autoResize="false"/>
-				<p:message for="txtObservacionCambio" styleClass="adip-messages" display="text" />
-			</p:panelGrid>		
-			
+						</p:outputPanel>
+					</p:panelGrid>
+				</h:form>
 			</p:panelGrid>
-			<p:panelGrid id="pnlAcciones" columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid" style="text-align: right !important;" >
-			  	 					<p:commandButton id="btnCancelar" value="Cancelar" onclick="PF('mdlAsignacionTutor').hide();" immediate="true" styleClass="boton-cancelar-regresar-tarjeta ui-button-acciones"/>
-									<p:commandButton id="btnAsignar"  value="Asignar"  action="#{cambioTutorBean.guardar()}" onclick="PF('mdlAsignacionTutorGreen').show();"  update="pnlMdlAsignacionTutor @this"
-									style="background-color: #1B5C4F !important" styleClass="boton-siguiente-tarjeta"  />
-			  	 				</p:panelGrid>
-			  <br />
-		</h:form>
+		</div>
+
+		<p:dialog id="dlgAsignacionTutor" widgetVar="mdlAsignacionTutor"
+			header="Asignación del tutor" modal="true" width="500px"
+			heigh="200px important!" responsive="true" resizable="false"
+			styleClass="ui-modal-gray" closable="true">
+			<h:form id="frmMdlCambioTutor">
+				<p:panelGrid id="pnlMdlAsignacionTutor" columns="1"
+					columnClasses="ui-grid-col-12" layout="grid"
+					styleClass="ui-panelgrid-blank ui-fluid"
+					style="text-align: left; font-weight: 700; border-bottom: 0 none; padding: 1.5rem; background: #fff;">
+					<p:panelGrid id="pnlObservacionCambio" for="txtObservacionCambio"
+						columns="1" columnClasses="ui-grid-col-12" layout="grid"
+						styleClass="ui-panelgrid-blank ui-fluid">
+						<p:outputLabel
+							value="Agregue un motivo para asignar el cambio de tutor" />
+
+						<p:inputTextarea id="txtObservacionCambio" rows="5" cols="30"
+							maxlength="200" required="true"
+							requiredMessage="#{msg.msj_campo_requerido}"
+							value="#{cambioTutorBean.observaciones}" autoResize="false" />
+						<p:message for="txtObservacionCambio" styleClass="adip-messages"
+							display="text" />
+					</p:panelGrid>
+
+				</p:panelGrid>
+				<p:panelGrid id="pnlAcciones" columns="2"
+					columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
+					style="text-align: right !important;">
+					<p:commandButton id="btnCancelar" value="Cancelar"
+						onclick="PF('mdlAsignacionTutor').hide();" immediate="true"
+						styleClass="boton-cancelar-regresar-tarjeta ui-button-acciones" />
+					<p:commandButton id="btnAsignar" value="Asignar"
+						action="#{cambioTutorBean.guardar()}"
+						onclick="PF('mdlAsignacionTutorGreen').show();"
+						update="pnlMdlAsignacionTutor @this"
+						style="background-color: #1B5C4F !important"
+						styleClass="boton-siguiente-tarjeta" />
+				</p:panelGrid>
+				<br />
+			</h:form>
 		</p:dialog>
 
-	<p:dialog id="dlgAsignacionTutorGreen" widgetVar="mdlAsignacionTutorGreen" header="Asignación del tutor" 
-		modal="true" width="500px" heigh="200px important!" responsive="true" resizable="false" styleClass="ui-modal-green" closable="true" >
-			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
-			 style="text-align: left; 
+		<p:dialog id="dlgAsignacionTutorGreen"
+			widgetVar="mdlAsignacionTutorGreen" header="Asignación del tutor"
+			modal="true" width="500px" heigh="200px important!" responsive="true"
+			resizable="false" styleClass="ui-modal-green" closable="true">
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid"
+				styleClass="ui-panelgrid-blank ui-fluid"
+				style="text-align: left; 
     font-weight: 700;
     border-bottom: 0 none;
     padding: 1.5rem;
-    background: #C7EFBD;" >
-    <p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
-			 style="text-align: center;" >
-				<p:outputLabel value="Nuevo tutor asignado con éxito." style="color: #1B5C4F !important;" />	
+    background: #C7EFBD;">
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12"
+					layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+					style="text-align: center;">
+					<p:outputLabel value="Nuevo tutor asignado con éxito."
+						style="color: #1B5C4F !important;" />
+				</p:panelGrid>
 			</p:panelGrid>
-	</p:panelGrid>
 		</p:dialog>
-	
-   </ui:define>
+
+	</ui:define>
 </ui:composition>

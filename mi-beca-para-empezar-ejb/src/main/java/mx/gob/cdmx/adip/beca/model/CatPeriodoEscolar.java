@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -12,6 +14,18 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "cat_periodo_escolar", schema = "mibecaparaempezar")
+@NamedQueries({
+	@NamedQuery(name="CatPeriodoEscolar.findAll"
+			, query="SELECT NEW mx.gob.cdmx.adip.beca.commons.dto.CatPeriodoEscolarDTO "
+					+ "( "
+					+ "c.idPeriodoEscolar, "
+					+ "c.descripcion, "
+					+ "c.estatus "
+					+ ") "
+					+ "FROM CatPeriodoEscolar c "
+					+ "where c.estatus = true "
+					+ "	ORDER BY c.idPeriodoEscolar ASC ")
+})
 public class CatPeriodoEscolar implements java.io.Serializable {
 		
 	private static final long serialVersionUID = -8493803739019289554L;

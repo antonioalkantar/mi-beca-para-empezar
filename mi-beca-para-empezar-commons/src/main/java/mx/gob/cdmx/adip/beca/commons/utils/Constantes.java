@@ -45,6 +45,11 @@ public final class Constantes {
     public static final String RETURN_REVALIDACION_ESTATUS_BENEFICIARIO_PAGE = "/protected/RevalidacionEstatusBeneficiario.xhtml";
     
     
+    //Rutas bandeja validacion
+    public static final String RETURN_BANDEJA_VALIDACION = "/protected/BandejaValidacion.xhtml.xhtml";
+    
+    
+    
     //Rutas seccion solicitud
     public static final String RETURN_SOLICITUD_TUTOR = "/protected/seccionesTutor/InformacionTutor.xhtml"; 
     public static final String RETURN_SOLICITUD_BENEFICIARIO = "/protected/seccionesBeneficiario/InformacionBeneficiario.xhtml"; 

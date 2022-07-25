@@ -15,13 +15,17 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "beneficiario", schema = "mibecaparaempezar")
 @NamedQueries({
-@NamedQuery(name = "Beneficiario.findByCurp"
-	,query = "SELECT NEW mx.gob.cdmx.adip.beca.commons.dto.BeneficiarioDTO"
-			+ "( "
-			+ "b.idBeneficiario"
-			+ ") "
-			+ "FROM Beneficiario b "
-			+ "WHERE b.curpBeneficiario = :curpBeneficiario")
+	@NamedQuery(
+			name = "Beneficiario.findByCurp",
+			query = "SELECT NEW mx.gob.cdmx.adip.beca.commons.dto.BeneficiarioDTO"
+					+ "( "
+					+ "b.idBeneficiario"
+					+ ") "
+					+ "FROM Beneficiario b "
+					+ "WHERE b.curpBeneficiario = :curpBeneficiario"),
+	@NamedQuery(
+			name = "Beneficiario.countBeneficiarios",
+			query = "SELECT COUNT(b) FROM Beneficiario b")
 
 })
 public class Beneficiario implements java.io.Serializable {
