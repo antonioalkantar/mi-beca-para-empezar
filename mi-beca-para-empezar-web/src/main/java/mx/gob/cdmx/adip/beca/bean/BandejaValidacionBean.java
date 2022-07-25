@@ -1,26 +1,25 @@
 package mx.gob.cdmx.adip.beca.bean;
 
+import java.io.Serializable;
+import java.text.NumberFormat;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import mx.gob.cdmx.adip.beca.commons.dto.CatCicloEscolarDTO;
 import mx.gob.cdmx.adip.beca.commons.dto.CatPeriodoEscolarDTO;
-import mx.gob.cdmx.adip.beca.commons.utils.Constantes;
 import mx.gob.cdmx.adip.beca.dao.BeneficiarioDAO;
 import mx.gob.cdmx.adip.beca.dao.CatCicloEscolarDAO;
 import mx.gob.cdmx.adip.beca.dao.CatPeriodoEscolarDAO;
-
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Named;
-import javax.inject.Inject;
 
 @Named("bandejaValidacionBean")
 @SessionScoped
@@ -44,7 +43,7 @@ public class BandejaValidacionBean implements Serializable {
 
 	private List<CatPeriodoEscolarDTO> lstCatPeriodoEscolarDTO;
 
-	private Long cantidadBeneficiarios;
+	private String cantidadBeneficiarios;
 
 	private Integer idCicloEscolar;
 
@@ -54,11 +53,17 @@ public class BandejaValidacionBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		consultarCatsCicloPeriodo();
-		cantidadBeneficiarios = beneficiarioDAO.countBeneficiarios();
 		establecerCicloPeriodoPorDefecto();
+		cantidadBeneficiarios = obtenerCantidadBeneficiarios();
+	}
+	
+	private String obtenerCantidadBeneficiarios() {
+		Long cantidadBeneficiarios = beneficiarioDAO.countBeneficiarios();
+		String cantidadBeneficiariosConComma = NumberFormat.getNumberInstance(Locale.US).format(cantidadBeneficiarios);
+		return cantidadBeneficiariosConComma;
 	}
 
-	public void establecerCicloPeriodoPorDefecto() {
+	private void establecerCicloPeriodoPorDefecto() {
 		
 		String periodoActual = obtenerPeriodoActual();
 		Optional<CatCicloEscolarDTO> optCiclo = lstCatCicloEscolarDTO.stream()
@@ -132,11 +137,11 @@ public class BandejaValidacionBean implements Serializable {
 		this.lstCatPeriodoEscolarDTO = lstCatPeriodoEscolarDTO;
 	}
 
-	public Long getCantidadBeneficiarios() {
+	public String getCantidadBeneficiarios() {
 		return cantidadBeneficiarios;
 	}
 
-	public void setCantidadBeneficiarios(Long cantidadBeneficiarios) {
+	public void setCantidadBeneficiarios(String cantidadBeneficiarios) {
 		this.cantidadBeneficiarios = cantidadBeneficiarios;
 	}
 
