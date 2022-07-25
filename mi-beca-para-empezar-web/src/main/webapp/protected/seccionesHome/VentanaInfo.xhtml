@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<style>
+.ventana-header>#ventana-info_header>#ventana-info_closer>span.ui-icon.ui-icon-closethick
+	{
+	background-image: url(/resources/img/close2.svg);
+	background-size: 20px 21px !important;
+	background-position: 0 !important;
+	background-repeat: no-repeat !important;
+	position: relative !important;
+	top: 8px !important;
+	width: 20px !important;
+	height: 24px !important;
+	left: -30% !important;
+	color: transparent;
+	/* para que el icono por default de primefaces no se vea y se vea solo el nuestro */
+}
+
+.grid-box {
+	display: -webkit-box !important;
+	flex-wrap: wrap !important;
+	margin-right: -2px !important;
+	margin-left: -2px !important;
+	margin-top: 0rem !important;
+}
+
+@media screen and (max-width: 640px) {
+	.alinear-texto {
+		text-align: left !important;
+	}
+}
+
+@media screen and (min-width: 641px) {
+	.alinear-texto {
+		text-align: right !important;
+	}
+}
+
+.ui-panel .ui-panel-content {
+	border: none !important;
+	background: 0 !important;
+	padding: 0px !important;
+}
+
+.ui-widget-header {
+	background: none !important;
+	border: none !important;
+}
+
+.ui-panel .ui-panel-titlebar {
+	padding: 0px 0px 0px !important;
+}
+
+.derecha {
+	text-align: right !important;
+}
+
+.izquierda {
+	
+}
+
+.alinear-texto {
+	place-self: center !important;
+}
+
+#ventana-info_header .ui-panel-title {
+	display: none !important;
+}
+
+.ui-panel .ui-panel-titlebar-icon, .ui-panel .ui-panel-titlebar-icon:hover,
+	.ui-panel .ui-panel-titlebar-icon:focus {
+	height: 14px !important;
+}
+
+#ventana-info_closer:hover {
+	background: transparent;
+	color: #495057;
+	border-color: transparent;
+}
+</style>
+
+	<p:panel id="ventana-info" header="" closable="true"
+		class="ZeroPadding"
+		style="background-color: #{notificacionesBean.notificacionDTO.backgroundColor} !important; margin-left: auto; max-width: 100%; margin-right: auto;  box-shadow: 0px -25px 24px 40px rgb(0 0 0 / 25%) !important;"
+		styleClass="ventana-header"
+		rendered="#{notificacionesBean.notificacionDTO.activo and authenticatorBean.mostrarNotificacion}">
+		<p:ajax event="close" listener="#{authenticatorBean.onCloseNotificacionHeader}"
+			update="ventana-info" />
+		<div class="grid-box ZeroPadding"
+			style="width: 100%; margin-left: auto; max-width: 2440px; margin-right: auto; background-color: #0000; !important;">
+			<div class="col-1"></div>
+			<div class="col-10 ZeroPadding">
+
+				<p:panelGrid columns="2" layout="grid"
+					styleClass="ui-panelgrid-blank ZeroPadding"
+					columnClasses="ui-xl-11 ui-lg-10 ui-g-10 ui-md-10 ui-sm-12 ZeroPadding-Left ZeroPadding-Right, ui-xl-1 ui-lg-2 ui-g-2 ui-md-2 ui-sm-12 ZeroPadding-Left ZeroPadding-Right alinear-texto"
+					style="background-color: #0000 !important; padding-bottom: 5px !important;">
+
+					<h:outputLabel
+						value="#{notificacionesBean.notificacionDTO.mensaje}"
+						escape="false" styleClass=""
+						style="font-size: 14px; 
+								  font-family: Inter;
+								  font-weight: normal;
+								  font-stretch: normal;
+								  font-style: normal;
+								  line-height: normal;
+								  letter-spacing: normal;
+								  text-align: left;" />
+
+					<p:link href="#{notificacionesBean.notificacionDTO.href}"
+						value="Ver más" immediate="true" target="_blank"
+						style="font-family: Inter;
+								  font-size: 13px;
+								  font-weight: bold;
+								  font-stretch: normal;
+								  font-style: normal;
+								  line-height: normal;
+								  letter-spacing: normal;
+								  text-align: center;
+								  color: rgba(0, 0, 0, 0.62);
+								  padding: 6px 9px;
+								  border-radius: 6px;
+								  border: solid;
+								  border-width: thin; 
+								  text-decoration: solid;">
+					</p:link>
+				</p:panelGrid>
+			</div>
+			<div class="col-1"></div>
+		</div>
+	</p:panel>
+
+</ui:composition>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui" template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="content">
+
+		<!-- Se cambia el titulo de la página HTML dinámicamente para que no tome la del template -->
+		<o:onloadScript>document.title='#{msg.lbl_registro_tutor}'</o:onloadScript>
+
+
+
+		<!--<h:form id="formTutor" rendered="#{not empty header['referer']}"> -->
+		<h:form id="formTutor" rendered="true">
+
+			<p:defaultCommand target="dummy" />
+			<p:commandButton id="dummy" process="@none" global="false" style="display:none;" />
+			
+			<p:panelGrid  columns="1"  layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align: center !important;" >
+	      		<p:outputLabel id="lblTitulo"  value="FIDEGAR-BB-220328-0000125" styleClass="etiqueta" style="color: #8B1232 !important; text-align: left !important;  font-size: 20px !important;" />
+		    </p:panelGrid>
+		      		
+			<p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-4 ui-lg-4, ui-g-12 ui-md-8 ui-lg-8" layout="grid" style="padding: 0% 0 2% 0; max-width: 1024px; margin: auto;"
+				styleClass="ui-panelgrid-blank ui-fluid" rendered="true">
+				<p:outputPanel style="padding: 2% 2%; background: #FFF; border-radius: 10px;">
+					<p:outputPanel>
+						<div class="lg:col-12 sm:col-12 xs:col-12">
+							<!--Stepper HTML -->
+							<ul class="adip-stepProgress">
+								<li id="bull1" class="adip-stepProgress-item #{informacionSolicitudBean.isTutor ? 'is-active' : 'current'}"><p:commandLink value="Información del tutor"
+										actionListener="#{informacionSolicitudBean.mostrarInformacionTutor()}" update="formTutor" immediate="true" /> <br /></li>
+							</ul>
+							<br />
+							<ul class="adip-stepProgress">
+								<li id="bull2" class="adip-stepProgress-item #{informacionSolicitudBean.isBeneficiario ? 'is-active' : 'current'}"><p:commandLink value="Información del beneficiario"
+										actionListener="#{informacionSolicitudBean.mostrarInformacionBeneficiario()}" update="formTutor" immediate="true" /> <br /></li>
+							</ul>
+							<br />
+							<ul class="adip-stepProgress">
+								<li id="bull3" class="adip-stepProgress-item #{informacionSolicitudBean.isEncuesta ? 'is-active' : 'current'}"><p:commandLink value="Encuesta"
+										actionListener="#{informacionSolicitudBean.mostrarInformacionEncuesta()}" update="formTutor" immediate="true" /> <br /></li>
+							</ul>
+							<br />
+							<ul class="adip-stepProgress">
+								<li id="bull4" class="adip-stepProgress-item #{informacionSolicitudBean.isTarjeta ? 'is-active' : 'current'}"><p:commandLink value="Tarjeta"
+										actionListener="#{informacionSolicitudBean.mostrarInformacionTarjeta()}" update="formTutor" immediate="true" /> <br /></li>
+							</ul>
+							<br />
+							<ul class="adip-stepProgress">
+								<li id="bull4" class="adip-stepProgress-item #{informacionSolicitudBean.isHistorial ? 'is-active' : 'current'}"><p:commandLink value="Historial Tutor"
+										actionListener="#{informacionSolicitudBean.mostrarInformacionHistorial()}" update="formTutor" immediate="true" /> <br /></li>
+							</ul>
+						</div>
+					</p:outputPanel>
+				</p:outputPanel>
+				
+				
+				
+				<p:panel header="#{informacionSolicitudBean.titulo}" styleClass="adip-panel">
+
+					<!--SECCIÓN 1 
+					<ui:include src="/protected/seccionesSolicitud/InformacionTutor.xhtml" /> -->
+					
+					<ui:include src="#{informacionSolicitudBean.vista}" />
+
+					<p:outputPanel id="pnlBtns" styleClass="adip-footer-content"  style="padding:0px  !important;">
+						<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+							<p:commandButton value="#{msg.lbl_siguiente}" styleClass="adip-btn-gold" rendered="#{informacionSolicitudBean.isHistorial == false}" process="@this formTutor" update="formTutor"
+								action="#{informacionSolicitudBean.siguiente()}" />
+							<p:commandButton value="Regresar al Buzón" styleClass="adip-btn-gold" rendered="#{informacionSolicitudBean.isHistorial}" process="@this formTutor" update="formTutor"
+								 />
+						</p:panelGrid>
+					</p:outputPanel>
+					
+				</p:panel>
+			</p:panelGrid>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

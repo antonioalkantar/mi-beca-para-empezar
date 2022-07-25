@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui" xmlns:jsf="http://xmlns.jcp.org/jsf" template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="content">
+
+		<!-- Se cambia el titulo de la página HTML dinámicamente para que no tome la del template -->
+		<o:onloadScript>document.title='Bandeja Solicitudes'</o:onloadScript>
+		<!-- rendered="#{empty header['referer']}" -->
+		<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align: center;" rendered="false">
+			<p:outputPanel style="background-color: #FFF !important; border-radius: 10px; padding: 30px 25px; margin: 16% auto;">
+				<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align: center;">
+					<p:outputLabel value="No puedes ingresar a esta página ingresando la URL directamente." style="font-size:35px; color: #000; font-weight: 500;" />
+					<p:outputLabel value="Serás redirigido al inicio del sistema." style="font-size:40px; color: #000; font-weight: 700;" />
+				</p:panelGrid>
+				<p:idleMonitor id="unSeg" timeout="2000">
+					<p:ajax event="idle" oncomplete="location.href='#{authenticatorBean.urlInicio}'" update="messages" />
+				</p:idleMonitor>
+			</p:outputPanel>
+		</p:panelGrid>
+
+		<!-- 		<h:form id="formTramite" rendered="#{not empty header['referer']}"> -->
+		<h:form id="formTramite">
+
+			<p:defaultCommand target="dummy" />
+			<p:commandButton id="dummy" process="@none" global="false" style="display:none;" />
+
+			<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" style="padding: 2% 0 2% 0; max-width: 1024px; margin: auto;"
+				styleClass="ui-panelgrid-blank ui-fluid" rendered="true">
+
+				<p:panel header="Tutor" styleClass="adip-panel">
+
+					<div class="ui-messages-warn ui-corner-all" jsf:rendered="#{bandejaTutorBean.tutorDTO.catEstatusDTO.idEstatus eq bandejaTutorBean.ID_ESTATUS_CORRECCION_POR_PARTE_CIUDADANO}">
+						<p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-9 ui-lg-9 adip-as-center, ui-g-12 ui-md-3 ui-lg-3 center" layout="grid" styleClass="ui-panel-sin-pading">
+							<span class="ui-messages-warn-icon"></span>
+							<span class="ui-messages-warn-detail adip-output-campos-orange">Para poder realizar tu registro exitosamente hay que corregir algunos datos</span>
+							<p:commandButton styleClass="adip-btn-orange" value="Corregir mis datos" action="#{registroTutorBean.consultaTutor(authenticatorBean.usuarioLogueado.idUsuarioLlaveCdmx)}" process="@this"/>
+						</p:panelGrid>
+					</div>
+
+					<p:outputPanel style="padding: 2% 2%; background: #FFF; border-radius: 10px">
+						<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+							<p:panelGrid id="pgTutor" columns="2" columnClasses="ui-g-12 ui-md-9 ui-lg-9, ui-g-12 ui-md-3 ui-lg-3 adip-center-bottom" layout="grid"
+								styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid">
+								<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+									<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+										<p:outputLabel
+											value="#{bandejaTutorBean.tutorDTO.nombre} #{bandejaTutorBean.tutorDTO.primerApellido} #{bandejaTutorBean.tutorDTO.segundoApellido ne null ? bandejaTutorBean.tutorDTO.segundoApellido : ''}"
+											styleClass="adip-output-campos-title" />
+									</p:panelGrid>
+									<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+										<p:outputLabel value="#{msg.lbl_curp_corto}" styleClass="adip-output-campos" />
+										<p:outputLabel value="#{bandejaTutorBean.tutorDTO.curp ne null ? bandejaTutorBean.tutorDTO.curp : ''}" styleClass="adip-output-bold-campos" />
+									</p:panelGrid>
+									<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+										<p:outputLabel value="#{msg.lbl_correo_corto}:" styleClass="adip-output-campos" />
+										<p:outputLabel value="#{bandejaTutorBean.tutorDTO.correo}" styleClass="adip-output-bold-campos" />
+									</p:panelGrid>
+								</p:panelGrid>
+
+								<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" rendered="#{bandejaTutorBean.tutorDTO.idUsuarioLlaveCdmx eq null}">
+									<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" style="text-align: center;">
+										<p:graphicImage styleClass="img-header" value="/resources/img/tutor.png" style="max-width: 134px; padding-top: 10px;" />
+										<p:commandButton value="Realizar registro" action="#{registroTutorBean.initBandejaTutor(authenticatorBean.usuarioLogueado.idUsuarioLlaveCdmx)}"
+											styleClass="adip-btn-green" process="@this formTramite" update="formTramite" />
+									</p:panelGrid>
+								</p:panelGrid>
+
+								<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" rendered="#{bandejaTutorBean.tutorDTO.idUsuarioLlaveCdmx ne null and bandejaTutorBean.tutorDTO.catEstatusDTO.idEstatus ne bandejaTutorBean.ID_ESTATUS_CORRECCION_POR_PARTE_CIUDADANO}">
+									<p:commandButton value="Ver registro" action="#{registroTutorBean.consultaTutor(authenticatorBean.usuarioLogueado.idUsuarioLlaveCdmx)}" icon="adip-icon_eye-grey"
+										styleClass="adip-btn-transparent-grey" process="@this formTramite" update="formTramite" />
+								</p:panelGrid>
+
+							</p:panelGrid>
+
+							<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading center"
+								rendered="#{bandejaTutorBean.tutorDTO.idUsuarioLlaveCdmx ne null}">
+								<span class="adip-output-campos-grey">Estatus del tutor:</span>
+								<span class="adip-output-campos-gold"> #{bandejaTutorBean.tutorDTO.catEstatusDTO.descripcion}</span>
+							</p:panelGrid>
+						</p:panelGrid>
+					</p:outputPanel>
+					<div class="ui-messages-warn ui-corner-all" jsf:rendered="#{bandejaTutorBean.tutorDTO.catEstatusDTO.idEstatus eq bandejaTutorBean.ID_ESTATUS_ACLARACION_POR_CIRCUNSTANCIA}"
+						style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px">
+						<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+							<span class="ui-messages-warn-detail adip-output-campos-orange">Tu solicitud requiere aclaraciones. Es necesario agendar una cita para acudir a las oficinas de
+								FIDEGAR.</span>
+
+							<span style="display: flex;"> <span class="ui-messages-warn-detail adip-output-campos-orange">Da clic</span> <span
+								class="ui-messages-warn-detail adip-output-campos-orange"> <span class="ui-messages-warn-summary" style="margin-left: 0px;"> <a
+										href="https://citas.cdmx.gob.mx/" style="color: #007bff" target=":blank">aquí</a>
+								</span>
+							</span> <span class="ui-messages-warn-detail adip-output-campos-orange">para agendarla.</span>
+							</span>
+						</p:panelGrid>
+					</div>
+				</p:panel>
+				<p:panel header="Beneficiario" styleClass="adip-panel mt-2">
+
+					<div class="ui-messages-error ui-corner-all" style="padding: 2% 2%;" jsf:rendered="#{bandejaTutorBean.tutorDTO.idUsuarioLlaveCdmx eq null}">
+						<p:panelGrid columns="1" columnClasses="ui-grid-col-12 adip-as-center center" layout="grid" styleClass="ui-panel-sin-pading">
+							<span class="ui-messages-error-icon"></span>
+							<span class="ui-messages-error-detail adip-output-campos-red pl-2">Para poder registrar beneficiarios, primero debes realizar tu registro como tutor.</span>
+						</p:panelGrid>
+					</div>
+					
+					<div class="ui-messages-warn ui-corner-all" jsf:rendered="#{bandejaTutorBean.lstCrcBeneficiarioSolicitud.size() == 3 and bandejaTutorBean.tutorDTO.esMayorTresBeneficiarios eq false}"
+						style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px">
+						<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+							<span class="ui-messages-warn-detail adip-output-campos-orange">Si necesitas registrar a otro beneficiario es necesario que acudas a las oficinas de FIDEGAR.</span>
+
+							<span style="display: flex;"> <span class="ui-messages-warn-detail adip-output-campos-orange">Da clic</span> <span
+								class="ui-messages-warn-detail adip-output-campos-orange"> <span class="ui-messages-warn-summary" style="margin-left: 0px;"> <a
+										href="https://citas.cdmx.gob.mx/" style="color: #007bff" target=":blank">aquí</a>
+								</span>
+							</span> <span class="ui-messages-warn-detail adip-output-campos-orange">para agendar una cita.</span>
+							</span>
+						</p:panelGrid>
+					</div>
+
+					<p:outputPanel style="padding: 2% 2%; background: #FFF; border-radius: 10px">
+						<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+
+							<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" style="display: flex; justify-content: right;">
+								<p:commandButton process="@this" styleClass="adip-btn-green" style="margin: 0px !important;"
+									value="#{bandejaTutorBean.tutorDTO.idUsuarioLlaveCdmx eq null or bandejaTutorBean.lstCrcBeneficiarioSolicitud.size() eq 0 ? 'Registrar un beneficiario' : 'Registrar otro beneficiario'}"
+									action="#{registroBeneficiarioBean.init()}"
+									disabled="#{(bandejaTutorBean.lstCrcBeneficiarioSolicitud.size() >= 3) 
+									or bandejaTutorBean.tutorDTO.idUsuarioLlaveCdmx eq null or bandejaTutorBean.tutorDTO.catEstatusDTO.idEstatus eq bandejaTutorBean.ID_ESTATUS_SUSPENDIDAS}">
+								</p:commandButton>
+							</p:panelGrid>
+							<p:dataTable emptyMessage="No existen beneficiarios registrados." lazy="true" styleClass="dt-tramites" reflow="true" rows="10" paginator="true" paginatorPosition="bottom"
+								value="#{bandejaTutorBean.lstCrcBeneficiarioSolicitud}" var="crcBenef"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+								currentPageReportTemplate="Mostrados {startRecord}-{endRecord} de {totalRecords} resultados">
+								<p:column headerText="Folio" styleClass="dt-alineacion" style="word-break:break-word" width="23%">
+									<p:outputLabel value="#{crcBenef.solicitudDTO.folioSolicitud}" />
+								</p:column>
+								<p:column headerText="Nombre de beneficiario" styleClass="dt-alineacion"  style="word-break:break-word" width="42%">
+									<p:outputLabel
+										value="#{crcBenef.beneficiarioDTO.nombresBeneficiario} #{crcBenef.beneficiarioDTO.primerApellidoBeneficiario} #{crcBenef.beneficiarioDTO.segundoApellidoBeneficiario ne null ? crcBenef.beneficiarioDTO.segundoApellidoBeneficiario: ''}" />
+								</p:column>
+								<p:column headerText="Estatus" styleClass="dt-alineacion" width="15%">
+									<p:outputLabel class="adip-output-campos-gold" value="#{crcBenef.encuestaDTO.idEncuesta eq 0 ? 'Solicitud incompleta' : crcBenef.solicitudDTO.catEstatusBeneficiarioDTO.descripcion}"/>
+									<p:graphicImage id="iconTramiteSoc" value="/resources/img/Vector.svg" style=" width: 23px;  height: 23px; margin-left: 10px; vertical-align: bottom;" rendered="#{crcBenef.solicitudDTO.catEstatusBeneficiarioDTO.idEstatusBeneficiario eq 2}" />
+									<p:tooltip id="tooltipTramiteDigitalSoc" for="iconTramiteSoc" showEffect="clip" hideEffect="fold" position="right">
+										<br />
+										<span class="tootip-label">El beneficiario se encuentra</span>
+										<span class="tootip-label" style="font-weight: 700 !important;">Inactivo </span>
+										<span class="tootip-label">al no ser localizado en el</span>
+										<br />
+										<span class="tootip-label">padrón de estudiantes de la Autoridad Educativa Federal de la</span>
+										<br />
+										<span class="tootip-label">Ciudad de México.</span>
+										<br />
+										<br />
+										<span class="tootip-label">Mientras se encuentre inactivo, </span>
+										<span class="tootip-label" style="font-weight: 700 !important;">no le será depositado el apoyo</span>
+										<br />
+										<span class="tootip-label" style="font-weight: 700 !important;">económico.</span>
+										<br />
+										<br />
+<!-- 										<span class="tootip-label">Para consultar más información, da clic en </span> -->
+<!--										<span class="tootip-label" style="font-weight: 700 !important;">Solicitar revalidación.</span> -->
+<!-- 										<br /> -->
+									</p:tooltip>
+									<br />									
+									<p:commandLink value="Solicitar revalidación" action="#{bandejaTutorBean.consultaRevalidacion(crcBenef.solicitudDTO.idSolicitud, crcBenef.encuestaDTO.idEncuesta)}" 
+													 rendered="#{crcBenef.solicitudDTO.catEstatusBeneficiarioDTO.idEstatusBeneficiario == 2}" 
+													 style="font-size: 13px; line-height: 12px; color: #8B1232;"  immediate="true"/>
+								</p:column>
+								<p:column styleClass="dt-alineacion" width="20%">
+									<p:commandButton value="Ver perfil" action="#{bandejaTutorBean.consultaBeneficiario(crcBenef.solicitudDTO.idSolicitud, crcBenef.encuestaDTO.idEncuesta)}"
+										styleClass="adip-btn-transparent-grey" icon="adip-icon_eye-grey" immediate="true" />
+								</p:column>
+							</p:dataTable>
+
+						</p:panelGrid>
+					</p:outputPanel>
+				</p:panel>
+			</p:panelGrid>
+			<style>
+.ui-messages-warn, .ui-messages-error {
+	padding: 0px 0px 0px 2%;
+	margin: 0px;
+}
+
+.ui-messages-warn-icon {
+	height: 35px;
+	width: 38px;
+	background: url(/resources/img/ic_warning.svg) !important;
+	background-repeat: no-repeat;
+}
+
+.ui-messages-error-icon {
+	height: 35px;
+	width: 38px;
+	background: url(/resources/img/ic_error.svg) !important;
+	background-repeat: no-repeat;
+}
+
+.adip-output-campos-orange {
+	font-style: normal;
+	font-weight: 700;
+	font-size: 20px;
+	line-height: 24px;
+	display: flex;
+	align-items: center;
+	letter-spacing: -0.5px;
+	color: #ED9511;
+}
+
+.adip-output-campos-red {
+	font-style: normal;
+	font-weight: 700;
+	font-size: 20px;
+	line-height: 24px;
+	display: flex;
+	align-items: center;
+	letter-spacing: -0.5px;
+	color: #9F2241;
+}
+
+.ui-tooltip {
+	background-color: #E1F6FF !important;
+	background: #E1F6FF !important;
+	font-family: Inter !important;
+	border-color: #E1F6FF !important;
+	border-radius: 5px !important;
+	text-align: center !important;
+}
+
+.ui-tooltip-text {
+	background-color: #E1F6FF !important;
+	background: #E1F6FF !important;
+	font-family: Inter !important;
+	border-color: #E1F6FF !important;
+	border-radius: 5px !important;
+	text-align: center !important;
+}
+
+.tootip-label {
+	font-family: Inter !important;
+	font-size: 11px !important;
+	font-weight: 400 !important;
+	line-height: 12px !important;
+	letter-spacing: 0em !important;
+	text-align: center !important;
+	color: #0043A7 !important;
+}
+
+.ZeroPadding {
+	padding-left: 0px !important;
+	padding-right: 0px !important;
+	padding-top: 0px !important;
+	padding-buttom: 0px !important;
+}
+
+.dt-tramites .ui-datatable-empty-message {
+	text-align: center !important;
+	font-style: normal;
+	font-weight: 800;
+	font-size: 14px !important;
+	line-height: 24px;
+	color: #646D6C !important;
+}
+
+.dt-tramites tbody tr {
+	background: #F7FAFC !important;
+}
+
+.dt-tramites tbody tr {
+	border-bottom: 0px !important;
+	border-left: 0px !important;
+	border-right: 0px !important;
+}
+
+.dt-tramites .ui-paginator .ui-paginator-current {
+	width: 95% !important;
+}
+
+.dt-tramites .ui-datatable-odd {
+	background: #FFFFFF !important;
+}
+
+@media ( min-width : 800px) {
+	.dt-alineacion {
+		text-align: center !important;
+	}
+}
+
+@media ( max-width : 800px) {
+	.dt-alineacion {
+		text-align: left !important;
+	}
+}
+</style>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

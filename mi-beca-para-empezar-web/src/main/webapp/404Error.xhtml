@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="content">
+		<div id="wrap_404" class="centrado-404" >
+			<p:panelGrid id="pnlError404" columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="margin: auto">
+				<p:outputLabel id="lbl404" styleClass="notfound-top">
+					<h1>404</h1>
+				</p:outputLabel>
+				<p:panelGrid id="pnlMensajes" columns="1" columnClasses="ui-grid-col-12" styleClass="content404" layout="grid" style="margin: auto">
+					<p:graphicImage value="/resources/img/error-404.jpg"></p:graphicImage>
+					<p:outputLabel id="lblMensaje" >
+					¡La página a la que intentas ingresar no existe!
+					</p:outputLabel>
+					<p:commandLink  id="cLiInicio404" value="Regresar al menu principal" action="/index.xhtml?faces-redirect=true" immediate="true" styleClass="etiqueta-detalle"/>					
+				</p:panelGrid>
+			</p:panelGrid>
+		</div>
+	</ui:define>
+</ui:composition>

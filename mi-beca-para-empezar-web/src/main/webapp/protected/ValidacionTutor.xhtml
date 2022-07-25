@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui" template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="content">
+
+		<!-- Se cambia el titulo de la página HTML dinámicamente para que no tome la del template -->
+		<o:onloadScript>document.title='#{msg.lbl_registro_tutor}'</o:onloadScript>
+
+		<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align: center;" rendered="false">
+			<!--rendered="#{empty header['referer']}"> -->
+			<p:outputPanel style="background-color: #FFF !important; border-radius: 10px; padding: 30px 25px; margin: 16% auto;">
+				<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align: center;">
+					<p:outputLabel value="No puedes ingresar a esta página ingresando la URL directamente." style="font-size:35px; color: #000; font-weight: 500;" />
+					<p:outputLabel value="Serás redirigido al inicio del sistema." style="font-size:40px; color: #000; font-weight: 700;" />
+				</p:panelGrid>
+				<p:idleMonitor id="unSeg" timeout="2000">
+					<p:ajax event="idle" oncomplete="location.href='#{authenticatorBean.urlInicio}'" update="messages" />
+				</p:idleMonitor>
+			</p:outputPanel>
+		</p:panelGrid>
+
+		<!--<h:form id="form" rendered="#{not empty header['referer']}"> -->
+		<h:form id="form" rendered="true">
+
+			<p:defaultCommand target="dummy" />
+			<p:commandButton id="dummy" process="@none" global="false" style="display:none;" />
+			<p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-4 ui-lg-4, ui-g-12 ui-md-8 ui-lg-8" layout="grid" style="max-width: 1024px; margin: auto; text-align: left !important; "
+				styleClass="ui-panelgrid-blank ui-fluid" rendered="true">
+				<p:commandButton value="#{msg.regresar}" action="#{bandejaTutorBean.init()}" rendered="#{authenticatorBean.rolTutor eq true}" styleClass="adip-btn-green" icon="back"
+					immediate="true" />
+				<p:commandButton value="#{msg.regresar}" action="#{bandejaFuncionarioBean.init()}"
+					rendered="#{authenticatorBean.rolAdministrador eq true or authenticatorBean.rolValidador eq true or authenticatorBean.rolConsulta eq true}" styleClass="adip-btn-green"
+					icon="back" immediate="true" />
+			</p:panelGrid>
+			<p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-4 ui-lg-4, ui-g-12 ui-md-8 ui-lg-8" layout="grid" style="padding: 0% 0 2% 0; max-width: 1024px; margin: auto;"
+				styleClass="ui-panelgrid-blank ui-fluid" rendered="true">
+				<p:outputPanel style="padding: 2% 2%; background: #FFF; border-radius: 10px;">
+					<p:outputPanel>
+						<div class="lg:col-12 sm:col-12 xs:col-12">
+							<!--Stepper HTML -->
+							<ul class="adip-stepProgress">
+								<li id="bull1" class="adip-stepProgress-item is-active"><p:commandLink value="Validación de la información del tutor" action="#" /> <br /></li>
+							</ul>
+						</div>
+					</p:outputPanel>
+				</p:outputPanel>
+				<p:panel header="Validación de la información del tutor" styleClass="adip-panel">
+
+					<!--SECCIÓN 1 -->
+					<ui:include src="/protected/seccionesTutor/InformacionTutor.xhtml" />
+
+					<p:outputPanel id="pnlBtns" styleClass="adip-footer-content-grey" style="padding:0px !important;">
+						
+					<p:panelGrid columns="3" columnClasses="ui-g-12 ui-md-12 ui-lg-4, ui-g-12 ui-md-12 ui-lg-4, ui-g-12 ui-md-12 ui-lg-4" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" rendered="true">
+								 
+								<p:commandButton value="Guardar" styleClass="adip-btn-gold"
+												 process="@this form" update="messages form"
+												 actionListener="#{registroTutorBean.actualizarMasTresBeneficiarios()}"
+												 rendered="#{registroTutorBean.tutorDTO.catEstatusDTO.idEstatus == registroTutorBean.ID_ESTATUS_APROBADA }"
+												 />							
+							
+					
+								<p:commandButton value="Aprobar solicitud" styleClass="adip-btn-gold" process="@this form" update="form" 
+												 actionListener="#{registroTutorBean.actualizaEstatusAprobado(registroTutorBean.ID_ESTATUS_APROBADA)}"												
+									     		 rendered="#{registroTutorBean.tutorDTO.informacionGralCorrecto eq true and registroTutorBean.tutorDTO.domicilioCorrecto eq true
+									     		 		and(registroTutorBean.tutorDTO.catEstatusDTO.idEstatus eq registroTutorBean.ID_ESTATUS_CORRECCION_POR_PARTE_CIUDADANO 
+															or registroTutorBean.tutorDTO.catEstatusDTO.idEstatus eq registroTutorBean.ID_ESTATUS_SUSPENDIDAS
+															or registroTutorBean.tutorDTO.catEstatusDTO.idEstatus eq registroTutorBean.ID_ESTATUS_ACLARACION_POR_CIRCUNSTANCIA
+															or registroTutorBean.tutorDTO.catEstatusDTO.idEstatus eq registroTutorBean.ID_ESTATUS_CORREGIDA_POR_PARTE_CIUDADANO
+															or registroTutorBean.tutorDTO.catEstatusDTO.idEstatus == registroTutorBean.ID_ESTATUS_PENDIENTE_VALIDACION)	
+									     		 	
+									     		 			}"/>
+													
+								<p:commandButton value="Enviar corrección por parte del ciudadano" 
+												styleClass="adip-btn-gold" process="@this form" update="form"
+												actionListener="#{registroTutorBean.actualizaEstatusRechazo(registroTutorBean.ID_ESTATUS_CORRECCION_POR_PARTE_CIUDADANO)}"
+												rendered="#{registroTutorBean.tutorDTO.informacionGralCorrecto eq false or registroTutorBean.tutorDTO.domicilioCorrecto eq false}"/>
+
+								<p:commandButton value="Aclaración por circunstancia" styleClass="adip-btn-gold"
+									process="@this form" update="form" actionListener="#{registroTutorBean.actualizaEstatusRechazo(registroTutorBean.ID_ESTATUS_ACLARACION_POR_CIRCUNSTANCIA)}"
+									rendered="#{registroTutorBean.tutorDTO.informacionGralCorrecto eq false or registroTutorBean.tutorDTO.domicilioCorrecto eq false}" />
+						
+						</p:panelGrid>		
+					
+					</p:outputPanel>
+				</p:panel>
+			</p:panelGrid>
+			<style>
+				.adip-stepProgress-item::before {
+					display: none;
+				}
+			</style>
+		</h:form>
+
+		<ui:include src="/protected/seccionesTutor/DialogINE.xhtml" />
+	</ui:define>
+</ui:composition>

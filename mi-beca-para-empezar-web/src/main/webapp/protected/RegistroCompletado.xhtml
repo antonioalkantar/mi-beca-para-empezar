@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui" template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="content">
+
+		<!-- Se cambia el titulo de la página HTML dinámicamente para que no tome la del template -->
+		<o:onloadScript>document.title='#{msg.lbl_registro_completado}'</o:onloadScript>
+
+		<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align: center;" rendered="false">
+			<!--rendered="#{empty header['referer']}"> -->
+			<p:outputPanel style="background-color: #FFF !important; border-radius: 10px; padding: 30px 25px; margin: 16% auto;">
+				<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align: center;">
+					<p:outputLabel value="No puedes ingresar a esta página ingresando la URL directamente." style="font-size:35px; color: #000; font-weight: 500;" />
+					<p:outputLabel value="Serás redirigido al inicio del sistema." style="font-size:40px; color: #000; font-weight: 700;" />
+				</p:panelGrid>
+				<p:idleMonitor id="unSeg" timeout="2000">
+					<p:ajax event="idle" oncomplete="location.href='#{authenticatorBean.urlInicio}'" update="messages" />
+				</p:idleMonitor>
+			</p:outputPanel>
+		</p:panelGrid>
+
+		<!--<h:form id="formConcluido" rendered="#{not empty header['referer']}"> -->
+		<h:form id="formConcluido" rendered="true">
+
+			<p:defaultCommand target="dummy" />
+			<p:commandButton id="dummy" process="@none" global="false" style="display:none;" />
+			<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" style="padding: 0% 0 2% 0; max-width: 1024px; margin: auto;"
+				styleClass="ui-panelgrid-blank ui-fluid" rendered="true">
+
+				<p:panel header="#{msg.lbl_registro_completado}" styleClass="adip-panel">
+
+					<p:outputPanel style="padding: 2% 20%; background: #E1F6FF">
+						<p:panelGrid columns="2" columnClasses="ui-g-2 ui-md-1 ui-lg-1, ui-g-10 ui-md-11 ui-lg-11" layout="grid"
+							styleClass="ui-panelgrid-blank ui-fluid ui-panel-sin-pading">
+							<p:graphicImage value="/resources/img/ic_info.svg" style="width:32px; height:32px;" />
+							<p:outputLabel styleClass="adip-output-campos-blue"
+								value="Los datos de tu solicitud deberán ser validados. Puedes consultar tus registros y notificaciones en la página de inicio de tu perfil." />
+						</p:panelGrid>
+					</p:outputPanel>
+
+
+					<p:outputPanel style="padding: 2% 2%; background: #FFF; border-radius: 10px 10px 0 0;">
+						<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+							<!-- INFO GENERAL -->
+							<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid">
+								<p:outputLabel value="#{msg.lbl_datos_tutor}:" styleClass="adip-output-campos-subtitle" />
+								<p:separator styleClass="separador" />
+
+								<p:outputLabel value="#{msg.lbl_nombre_2.concat(':')}" styleClass="adip-output-bold-campos" />
+								<p:outputLabel value="#{registroCompletadoBean.solicitud.solicitudDTO.tutorDTO.nombre} #{registroCompletadoBean.solicitud.solicitudDTO.tutorDTO.primerApellido} #{registroCompletadoBean.solicitud.solicitudDTO.tutorDTO.segundoApellido ne null ? registroCompletadoBean.solicitud.solicitudDTO.tutorDTO.segundoApellido : ''}"  styleClass="adip-output-campos" />
+								
+								<p:outputLabel value="#{msg.lbl_nacionalidad.concat(':')}" styleClass="adip-output-bold-campos" />
+								<p:outputLabel value="#{registroCompletadoBean.solicitud.solicitudDTO.tutorDTO.nacionalidad}" styleClass="adip-output-campos" />
+
+								<p:outputLabel value="#{msg.lbl_curp_corto}:" styleClass="adip-output-bold-campos" />
+								<p:outputLabel value="#{registroCompletadoBean.solicitud.solicitudDTO.tutorDTO.curp}"  styleClass="adip-output-campos" />
+
+								<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading mt-4 mb-4">
+									<p:outputLabel value="#{msg.lbl_folio}:" styleClass="adip-output-campos-title" />
+									<p:outputLabel value="#{registroCompletadoBean.solicitud.solicitudDTO.folioSolicitud}" styleClass="adip-output-campos-title-gold" />
+								</p:panelGrid>
+
+								<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+									<p:outputLabel value="#{msg.datosBeneficiario.concat(':')}" styleClass="adip-output-campos-subtitle" />
+									<p:separator styleClass="separador" />
+								</p:panelGrid>
+
+								<p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-6 ui-lg-6, ui-g-12 ui-md-6 ui-lg-6" layout="grid"
+									styleClass="ui-panelgrid-blank ui-fluid ui-panel-sin-pading">
+									<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+										<p:outputLabel value="#{msg.lbl_nombre_2.concat(':')}" styleClass="adip-output-bold-campos" />
+										<p:outputLabel value="#{registroCompletadoBean.solicitud.beneficiarioDTO.nombresCompletoBeneficiario}" styleClass="adip-output-campos" />
+										<p:outputLabel value="#{msg.lbl_nacionalidad.concat(':')}" styleClass="adip-output-bold-campos" />
+										<p:outputLabel value="#{registroCompletadoBean.solicitud.beneficiarioDTO.nacionalidad}" styleClass="adip-output-campos" />
+										<p:outputLabel value="#{msg.lbl_estatus.concat(':')}" styleClass="adip-output-bold-campos" />
+										<p:outputLabel value="#{registroCompletadoBean.solicitud.solicitudDTO.catEstatusBeneficiarioDTO.descripcion}" styleClass="adip-output-campos" />
+										<p:outputLabel value="#{msg.lbl_nivel.concat(':')}" styleClass="adip-output-bold-campos" rendered="#{registroCompletadoBean.muestraInformacion}"/>
+										<p:outputLabel value="#{registroCompletadoBean.solicitud.solicitudDTO.catNivelEducativoDTO.descripcion}" styleClass="adip-output-campos" rendered="#{registroCompletadoBean.muestraInformacion}"/>
+										
+										
+									</p:panelGrid>
+									<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" rendered="#{registroCompletadoBean.muestraInformacion}">
+										<p:outputLabel value="#{msg.lbl_turno.concat(':')}" styleClass="adip-output-bold-campos" />
+										<p:outputLabel value="#{registroCompletadoBean.solicitud.solicitudDTO.turno}" styleClass="adip-output-campos" />
+										<p:outputLabel value="#{msg.lbl_cct.concat(':')}" styleClass="adip-output-bold-campos" />
+										<p:outputLabel value="#{registroCompletadoBean.solicitud.solicitudDTO.cct}" styleClass="adip-output-campos" />
+										<p:outputLabel value="#{msg.lbl_escuela.concat(':')}" styleClass="adip-output-bold-campos" />
+										<p:outputLabel value="#{registroCompletadoBean.solicitud.solicitudDTO.nombre}" styleClass="adip-output-campos" />
+										<p:outputLabel value="#{msg.lbl_grado.concat(':')}" styleClass="adip-output-bold-campos" rendered="#{registroCompletadoBean.muestraInformacion}"/>
+										<p:outputLabel value="#{registroCompletadoBean.solicitud.solicitudDTO.gradoEscolar}" styleClass="adip-output-campos" rendered="#{registroCompletadoBean.muestraInformacion}"/>
+									</p:panelGrid>
+								</p:panelGrid>
+							</p:panelGrid>
+
+							<p:separator styleClass="separador" />
+<!-- 							<p:commandButton type="button" value="#{msg.lbl_registra_otro_benef}" icon="adip-plus-icon" styleClass="adip-btn-transparent" /> -->
+						</p:panelGrid>
+					</p:outputPanel>
+
+					<p:outputPanel id="pnlBtns" styleClass="adip-footer-content"  style="padding:5px 0 5px 0  !important;">
+						<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">							
+							<p:commandButton value="#{msg.salir}" actionListener="#{registroCompletadoBean.redirect()}" styleClass="adip-btn-gold" style="width:159px !important;"  immediate="true" />	
+						</p:panelGrid>
+					</p:outputPanel>
+				</p:panel>
+			</p:panelGrid>
+		</h:form>
+<style>	
+.adip-btn-gold {
+    background: #BC955C !important;
+    border-radius: 6px !important;
+    width: auto !important;
+    height: 100% !important;
+    margin: 1px 10px !important;   
+    padding: 10px 20px !important;
+    border: none !important;
+}
+</style>
+	</ui:define>
+</ui:composition>

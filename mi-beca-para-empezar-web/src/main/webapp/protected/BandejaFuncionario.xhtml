@@ -1,0 +1,618 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:o="http://omnifaces.org/ui" 
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="content">
+
+		<!-- Se cambia el titulo de la página HTML dinámicamente para que no tome la del template -->
+		<o:onloadScript>document.title='#{msg.lbl_bandeja_funcionario}'</o:onloadScript>
+
+		<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align: center;" rendered="false">
+			<!--rendered="#{empty header['referer']}"> -->
+			<p:outputPanel style="background-color: #FFF !important; border-radius: 10px; padding: 30px 25px; margin: 16% auto;">
+				<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align: center;">
+					<p:outputLabel value="No puedes ingresar a esta página ingresando la URL directamente." style="font-size:35px; color: #000; font-weight: 500;" />
+					<p:outputLabel value="Serás redirigido al inicio del sistema." style="font-size:40px; color: #000; font-weight: 700;" />
+				</p:panelGrid>
+				<p:idleMonitor id="unSeg" timeout="2000">
+					<p:ajax event="idle" oncomplete="location.href='#{authenticatorBean.urlInicio}'" update="messages" />
+				</p:idleMonitor>
+			</p:outputPanel>
+		</p:panelGrid>
+
+		<!--<h:form id="formBandeja" rendered="#{not empty header['referer']}"> -->
+		<h:form id="formBandeja" rendered="true">			
+		
+<!-- 			<p:defaultCommand target="dummy" /> -->
+<!-- 			<p:commandButton id="dummy" process="@none" global="false" style="display:none;" /> -->
+		<div style="padding-top: 40px;" />	
+		
+		<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" style="padding: 1% 0px 1% 0; max-width: 1355px; height: 73px; background-color:#E2E8F0;  margin: auto;"
+					 styleClass="ui-panelgrid-blank ui-fluid" rendered="true">
+					 
+				<p:outputLabel value="#{msg.lbl_titulo_bandeja}" styleClass="titulo-bandeja-solicitud" />	 
+					 
+		</p:panelGrid>
+
+			<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12 ZeroPadding" layout="grid" style="padding: 0% 0 2% x; max-width: 1355px; margin: auto; height: 913px;"
+						 styleClass="ui-panelgrid-blank ui-fluid bandeja-desktop" rendered="true">
+				<pe:layout fullPage="false" style="width:100%; height:900px;" options="#{bandejaFuncionario.layoutOptionsOne}">
+					<pe:layoutPane position="west" resizable="false" size="20%">
+						
+						<p:panelGrid id="pnlFiltros" columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid menu-filtros" style="background: #f1f7f6;">
+							
+							<div style="padding-top: 20px;"/>
+							
+							<p:outputLabel value="#{msg.lbl_curp_tutor.concat(':')}" styleClass="adip-output-campos negrita" />
+							<p:inputText id="txtBuscarCurpTutor" value="#{bandejaFuncionarioBean.txtCurpTutor}" placeholder="#{msg.lbl_ingresa_curp_ph}" styleClass="campos-captura  filtros" 
+										 maxlength="18"
+										 onkeyup="$(this).val($(this).val().replace(/[^A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\s-_]/g, ''));" >
+								<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\-\.\,\s]+$/" />
+							</p:inputText>
+							
+							<p:outputLabel value="#{msg.lbl_curp_beneficiario.concat(':')}" styleClass="adip-output-campos negrita" />
+							<p:inputText id="txtBuscarCurpBeneficiario" value="#{bandejaFuncionarioBean.txtCurpBeneficiario}" placeholder="#{msg.lbl_ingresa_curp_ph}" styleClass="campos-captura adip-upperText filtros"
+										 maxlength="18"
+										 onkeyup="$(this).val($(this).val().replace(/[^A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\s-_]/g, ''));" >
+								<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\-\.\,\s]+$/" />
+							</p:inputText>
+
+							<p:outputLabel value="#{msg.lbl_folio.concat(':')}" styleClass="adip-output-campos negrita" />
+							<p:inputText id="tstFolioSolicitud" value="#{bandejaFuncionarioBean.txtFolioDeSolicitud}" placeholder="#{msg.lbl_ingresa_folio_ph}" styleClass="campos-captura filtros">
+								<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\-\.\,\s]+$/" />
+							</p:inputText>
+
+							<p:outputLabel value="#{msg.lbl_numero_tarjeta.concat(':')}" styleClass="adip-output-campos negrita" />
+							<p:inputText id="txtNumTarjeta" value="#{bandejaFuncionarioBean.txtNumeroTarjeta}" placeholder="#{msg.lbl_ingresa_numero_ph}" styleClass="campos-captura adip-upperText filtros">
+								<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\-\.\,\s]+$/" />
+							</p:inputText>
+
+							<p:outputLabel value="#{msg.lbl_cct.concat(':')}" styleClass="adip-output-campos negrita" />
+							<p:inputText id="txtCCT" value="#{bandejaFuncionarioBean.txtCct}" placeholder="#{msg.lbl_ingresa_clave_ph}" styleClass="campos-captura  filtros">
+								<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\-\.\,\s]+$/" />
+							</p:inputText>
+
+							<p:outputLabel value="#{msg.lbl_estatus_tutor}" styleClass="adip-output-campos negrita" />
+							<p:selectOneMenu id="slOneEstatusSolicitud" value="#{bandejaFuncionarioBean.filtroEstatusBeneficiario}" class="adip-selectonemenu" panelStyleClass="adip-selectonemenu-panel filtros">
+								<f:selectItem itemLabel="#{msg.lbl_elige_uno}" noSelectionOption="true" />
+								<f:selectItems  value="#{bandejaFuncionarioBean.lstCatEstatusTutor}" var="lstEstatus" itemValue="#{lstEstatus.idEstatus}" itemLabel="#{lstEstatus.descripcion}" />
+							</p:selectOneMenu>	
+							
+							<p:outputLabel value="#{msg.lbl_alcaldia}" styleClass="adip-output-campos negrita" />
+							<p:selectOneMenu id="slOneAlcaldias" value="#{bandejaFuncionarioBean.filtroAlcaldias}" class="adip-selectonemenu" panelStyleClass="adip-selectonemenu-panel filtros">
+								<f:selectItem itemLabel="#{msg.lbl_elige_uno}" noSelectionOption="true" />
+								<f:selectItems  value="#{bandejaFuncionarioBean.lstCatMunicipios}"  var="lstMunicipios"   itemValue="#{lstMunicipios.idMunicipio}"   itemLabel="#{lstMunicipios.descripcion}" />
+							</p:selectOneMenu>
+							
+							<p:outputLabel value="#{msg.lbl_nivel_educativo}" styleClass="adip-output-campos negrita" />
+							<p:selectOneMenu id="slOneNivelEducativo" value="#{bandejaFuncionarioBean.filtroNivelEducativo}"  class="adip-selectonemenu" panelStyleClass="adip-selectonemenu-panel filtros">
+								<f:selectItem itemLabel="#{msg.lbl_elige_uno}" noSelectionOption="true" />
+								<f:selectItems  value="#{bandejaFuncionarioBean.lstCatNiveles}"  var="lstNiveles"   itemValue="#{lstNiveles.idNivel}"   itemLabel="#{lstNiveles.descripcion}" />
+							</p:selectOneMenu>
+							
+<!-- 							<p:outputLabel value="Periodo escolar" styleClass="adip-output-campos negrita" /> -->
+<!-- 								<p:selectOneMenu id="slOnePeriodoEscolar" class="adip-selectonemenu" panelStyleClass="adip-selectonemenu-panel filtros"> -->
+<!-- 								<f:selectItem itemLabel="#{msg.lbl_elige_uno}" noSelectionOption="true" />							 -->
+<!-- 								</p:selectOneMenu> -->
+							<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid">
+								<p:outputLabel value="#{msg.lbl_buscar_fechas.concat(':')}" styleClass="adip-output-campos negrita" />
+								<p:panelGrid columns="2" columnClasses="ui-g-1 ui-md-1 ui-lg-1 adip-center-self, ui-g-11 ui-md-11 ui-lg-11" layout="grid"
+									styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid">
+									
+									<p:outputLabel value="De:" styleClass="adip-output-campos negrita"/>									
+									<p:datePicker id="txtEventoFechaInicio" value="#{bandejaFuncionarioBean.filtroFechaInicio}" touchUI="true" monthNavigator="true"   yearNavigator="true" 
+										pattern="dd/MM/yyyy"  styleClass="adip-calendar" onkeypress="return false;" locale="es_MX" showOn="button" style="padding-left:22px;"
+										maxdate="#{registrarEventoBean.maxDate}" placeholder="dd/mm/aaaa" autocomplete="nope"/>
+									
+									<p:outputLabel value="Al:" styleClass="adip-output-campos negrita" />
+									<p:datePicker id="txtEventoFechaFin" value="#{bandejaFuncionarioBean.filtroFechaFin}" touchUI="true" monthNavigator="true"   yearNavigator="true" 
+										pattern="dd/MM/yyyy"  styleClass="adip-calendar" onkeypress="return false;" locale="es_MX" showOn="button" style="padding-left:22px;"
+										maxdate="#{registrarEventoBean.maxDate}" placeholder="dd/mm/aaaa" autocomplete="nope"/>									
+								</p:panelGrid>
+								
+								<p:panelGrid columns="2" columnClasses="ui-g-6 ui-md-6 ui-lg-6, ui-g-6 ui-md-6 ui-lg-6" layout="grid" styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid">
+									<p:commandButton value="#{msg.lbl_limpiar}" 
+													 action="#{bandejaFuncionarioBean.limpiarFiltro()}"
+													 partialSubmit="true"
+													 process="@this txtBuscarCurpTutor txtBuscarCurpBeneficiario tstFolioSolicitud txtNumTarjeta txtCCT slOneEstatusSolicitud slOneAlcaldias txtEventoFechaInicio txtEventoFechaFin slOneNivelEducativo"
+													 update="pnlFiltros pnlBandejaSolicitudes"
+													 styleClass="adip-btn-gris" />
+									<p:commandButton value="#{msg.buscar}" 
+													 action="#{bandejaFuncionarioBean.buscarSolicitudes(0)}"
+													 partialSubmit="true"
+													 process="@this txtBuscarCurpTutor txtBuscarCurpBeneficiario tstFolioSolicitud txtNumTarjeta txtCCT slOneEstatusSolicitud slOneAlcaldias txtEventoFechaInicio txtEventoFechaFin slOneNivelEducativo"
+													 update="pnlBandejaSolicitudes"
+													 styleClass="adip-btn-green" />
+								</p:panelGrid>
+
+							</p:panelGrid>
+						</p:panelGrid>
+					
+					</pe:layoutPane>
+					<pe:layoutPane position="center" size="80%" styleClassContent="ui-panel-sin-pading">
+						<p:panelGrid id="pnlBandejaSolicitudes" columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" style="padding: 0% 0 2% 0; max-width: 100%; margin: auto;"
+							styleClass="ui-panelgrid-blank ui-fluid" rendered="true">
+							
+							<div style="padding-top: 20px;" />	
+							<p:dataTable lazy="true" styleClass="dt-tramites" reflow="true" rows="8" paginator="true" paginatorPosition="bottom"  value="#{bandejaFuncionarioBean.lstSolicitudes}" var="solicitudes"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+								currentPageReportTemplate="Mostrados {startRecord}-{endRecord} de {totalRecords} resultados">
+								
+								<p:ajax event="page" immediate="true" listener="#{bandejaFuncionarioBean.buscarSolicitudesCambioPagina}" />
+								
+								<p:column headerText="#{msg.lbl_folio}" width="20%" style="vertical-align: middle;">										
+									<h:commandLink action="#{consultaBean.init(solicitudes.tutorDTO.idUsuarioLlaveCdmx, solicitudes.idSolicitud)}" value="#{solicitudes.folioSolicitud}" styleClass="adip-output-campos estatus-solicitud" 
+												style="color: #475058; font-weight: 700; line-height: 15px; word-break: break-all; " />
+								</p:column>
+								
+								
+								<p:column headerText="#{msg.lbl_tutor}" width="20%" style="vertical-align: middle;">
+									<p:outputLabel value="#{solicitudes.nombreCompletoTutor}" styleClass="adip-output-campos estatus-solicitud" />									
+								</p:column>
+								<p:column headerText="Beneficiario" width="20%" style="vertical-align: middle;">
+									<p:outputLabel value="#{solicitudes.nombreCompletoBeneficiario}" styleClass="adip-output-campos estatus-solicitud" />
+								</p:column>
+								<p:column headerText="#{msg.lbl_cct}" width="10%" style="vertical-align: middle; word-break: break-all;">
+									<p:outputLabel value="#{solicitudes.cct}" styleClass="adip-output-campos estatus-solicitud" />
+								</p:column>
+								<p:column headerText="#{msg.lbl_estatus_beneficiario}" width="13%" style="vertical-align: middle;">
+									<div style="text-align: center;">
+										<p:outputLabel value="#{solicitudes.catEstatusBeneficiarioDTO.descripcion}" styleClass="adip-output-campos estatus-solicitud" />
+									</div>
+									
+								</p:column>
+								<p:column headerText="Estatus del Tutor" width="15%" style="vertical-align: middle;">
+								<div class="estatus-solicitud" style="background-color:#{solicitudes.catEstatusTutorDTO.idEstatus == 1 ? bandejaFuncionarioBean.enProceso :
+																				 solicitudes.catEstatusTutorDTO.idEstatus == 2 ? bandejaFuncionarioBean.pendienteValidacion : 
+																				 solicitudes.catEstatusTutorDTO.idEstatus == 3 ? bandejaFuncionarioBean.corregidaPorCiudadano :
+																				 solicitudes.catEstatusTutorDTO.idEstatus == 4 ? bandejaFuncionarioBean.aclaracionCircunstancia :
+																				 solicitudes.catEstatusTutorDTO.idEstatus == 5 ? bandejaFuncionarioBean.suspendida : 
+																				 solicitudes.catEstatusTutorDTO.idEstatus == 6 ? bandejaFuncionarioBean.aprobadas :
+																				 solicitudes.catEstatusTutorDTO.idEstatus == 7 ? bandejaFuncionarioBean.correccionParteCiudadano :																							 																							 
+																				 bandejaFuncionarioBean.enProceso
+																				 };">
+								<p:outputLabel value="#{solicitudes.catEstatusTutorDTO.descripcion}" styleClass="adip-output-campos" style="color: #FFFFFF;"/>
+								</div>
+								</p:column>
+								<p:column headerText="Opciones" width="15%" style="vertical-align: middle; text-align-last: center;" rendered="#{authenticatorBean.rolAdministrador or authenticatorBean.rolValidador}">
+									<p:commandLink  action="#{cambioTutorBean.init(solicitudes.idSolicitud)}"
+			                        	id="btnCambioTutor" 
+			                        	type="button" 
+			                        	immediate="true" 			                        				                        	                        	
+			                        	>
+			                            <p:graphicImage value="/resources/img/cambio-tutor.svg"  title="Cambio de Tutor" style="width: 56px; padding-right: 9px;"></p:graphicImage>								
+			                        </p:commandLink> 
+			                        
+			                        <p:commandLink 
+			                        	id="btnActualizacion" 
+			                        	type="button" 
+			                        	immediate="true" 	
+			                        	action="#{registroTutorBean.validaTutor(solicitudes.tutorDTO.idUsuarioLlaveCdmx , solicitudes.idSolicitud)}"
+			                        	actionListener="#{consultaBean.validacionVisible()}"		                        	
+			                        	>
+			                         <p:graphicImage value="/resources/img/validar.svg"  title="Consultar y Validar" style="width: 26px; padding-right: 9px;"></p:graphicImage>								
+			                       	</p:commandLink>
+			                       	<p:commandLink  action="#{registroBeneficiarioBean.initFidegar(solicitudes.tutorDTO.idUsuarioLlaveCdmx)}"
+			                        	id="btnBeneficiario" 
+			                        	type="button" 
+			                        	immediate="true"
+			                        	disabled="#{solicitudes.catEstatusTutorDTO.idEstatus == 5}"			                        				                        	
+			                        	>
+			                         <p:graphicImage value="/resources/img/agregar-beneficiario.svg"  title="Agregar Beneficiario" style="width: 24px;"></p:graphicImage>								
+			                       				                       
+			                        </p:commandLink> 
+			                        
+								</p:column>
+							</p:dataTable>
+						</p:panelGrid>
+					</pe:layoutPane>
+				</pe:layout>
+
+			</p:panelGrid>
+			
+			
+			
+			<!--   MOBILE  -->
+
+		<p:panelGrid id="pnlFiltrosMobile" columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12 ui-xl-12" layout="grid" styleClass=" ui-panelgrid-blank ui-fluid pnlFiltrosMobile" >
+			
+			<p:outputLabel value="#{msg.lbl_curp_tutor.concat(':')}" styleClass="adip-output-campos negrita" />
+			<p:inputText id="txtBuscarCurpTutorM" value="#{bandejaFuncionarioBean.txtCurpTutor}" placeholder="#{msg.lbl_ingresa_curp_ph}" styleClass="campos-captura  filtros" 
+						 maxlength="18"
+						 onkeyup="$(this).val($(this).val().replace(/[^A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\s-_]/g, ''));" >
+				<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\-\.\,\s]+$/" />
+			</p:inputText>
+			
+			<p:outputLabel value="#{msg.lbl_curp_beneficiario.concat(':')}" styleClass="adip-output-campos negrita" />
+			<p:inputText id="txtBuscarCurpBeneficiarioM" value="#{bandejaFuncionarioBean.txtCurpBeneficiario}" placeholder="#{msg.lbl_ingresa_curp_ph}" styleClass="campos-captura adip-upperText filtros"
+						 maxlength="18"
+						 onkeyup="$(this).val($(this).val().replace(/[^A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\s-_]/g, ''));" >
+				<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\-\.\,\s]+$/" />
+			</p:inputText>
+
+			<p:outputLabel value="#{msg.lbl_folio.concat(':')}" styleClass="adip-output-campos negrita" />
+			<p:inputText id="tstFolioSolicitudM" value="#{bandejaFuncionarioBean.txtFolioDeSolicitud}" placeholder="#{msg.lbl_ingresa_folio_ph}" styleClass="campos-captura filtros">
+				<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\-\.\,\s]+$/" />
+			</p:inputText>
+
+			<p:outputLabel value="#{msg.lbl_numero_tarjeta.concat(':')}" styleClass="adip-output-campos negrita" />
+			<p:inputText id="txtNumTarjetaM" value="#{bandejaFuncionarioBean.txtNumeroTarjeta}" placeholder="#{msg.lbl_ingresa_numero_ph}" styleClass="campos-captura adip-upperText filtros">
+				<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\-\.\,\s]+$/" />
+			</p:inputText>
+
+			<p:outputLabel value="#{msg.lbl_cct.concat(':')}" styleClass="adip-output-campos negrita" />
+			<p:inputText id="txtCCTM" value="#{bandejaFuncionarioBean.txtCct}" placeholder="#{msg.lbl_ingresa_clave_ph}" styleClass="campos-captura  filtros">
+				<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\-\.\,\s]+$/" />
+			</p:inputText>
+
+			<p:outputLabel value="#{msg.lbl_estatus_tutor}" styleClass="adip-output-campos negrita" />
+			<p:selectOneMenu id="slOneEstatusSolicitudM" value="#{bandejaFuncionarioBean.filtroEstatusBeneficiario}" class="adip-selectonemenu" panelStyleClass="adip-selectonemenu-panel filtros">
+				<f:selectItem itemLabel="#{msg.lbl_elige_uno}" noSelectionOption="true" />
+				<f:selectItems  value="#{bandejaFuncionarioBean.lstCatEstatusTutor}" var="lstEstatus" itemValue="#{lstEstatus.idEstatus}" itemLabel="#{lstEstatus.descripcion}" />
+			</p:selectOneMenu>	
+			
+			<p:outputLabel value="#{msg.lbl_alcaldia}" styleClass="adip-output-campos negrita" />
+			<p:selectOneMenu id="slOneAlcaldiasM" value="#{bandejaFuncionarioBean.filtroAlcaldias}" class="adip-selectonemenu" panelStyleClass="adip-selectonemenu-panel filtros">
+				<f:selectItem itemLabel="#{msg.lbl_elige_uno}" noSelectionOption="true" />
+				<f:selectItems  value="#{bandejaFuncionarioBean.lstCatMunicipios}"  var="lstMunicipios"   itemValue="#{lstMunicipios.idMunicipio}"   itemLabel="#{lstMunicipios.descripcion}" />
+			</p:selectOneMenu>
+			
+			<p:outputLabel value="#{msg.lbl_nivel_educativo}" styleClass="adip-output-campos negrita" />
+			<p:selectOneMenu id="slOneNivelEducativoM" value="#{bandejaFuncionarioBean.filtroNivelEducativo}"  class="adip-selectonemenu" panelStyleClass="adip-selectonemenu-panel filtros">
+				<f:selectItem itemLabel="#{msg.lbl_elige_uno}" noSelectionOption="true" />
+				<f:selectItems  value="#{bandejaFuncionarioBean.lstCatNiveles}"  var="lstNiveles"   itemValue="#{lstNiveles.idNivel}"   itemLabel="#{lstNiveles.descripcion}" />
+			</p:selectOneMenu>
+			
+<!-- 							<p:outputLabel value="Periodo escolar" styleClass="adip-output-campos negrita" /> -->
+<!-- 								<p:selectOneMenu id="slOnePeriodoEscolar" class="adip-selectonemenu" panelStyleClass="adip-selectonemenu-panel filtros"> -->
+<!-- 								<f:selectItem itemLabel="#{msg.lbl_elige_uno}" noSelectionOption="true" />							 -->
+<!-- 								</p:selectOneMenu> -->
+			<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid">
+				<p:outputLabel value="#{msg.lbl_buscar_fechas.concat(':')}" styleClass="adip-output-campos negrita" />
+				<p:panelGrid columns="2" columnClasses="ui-g-1 ui-md-1 ui-lg-1 adip-center-self, ui-g-11 ui-md-11 ui-lg-11" layout="grid"
+					styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid">
+					
+					<p:outputLabel value="De:" styleClass="adip-output-campos negrita" />
+					
+					<p:datePicker id="txtEventoFechaInicioM" value="#{bandejaFuncionarioBean.filtroFechaInicio}" touchUI="true" monthNavigator="true"   yearNavigator="true" 
+										pattern="dd/MM/yyyy"  styleClass="adip-calendar" onkeypress="return false;" locale="es_MX" showOn="button" style="padding-left:22px;"
+										maxdate="#{registrarEventoBean.maxDate}" placeholder="dd/mm/aaaa" autocomplete="nope"/>
+									
+					
+					<p:outputLabel value="Al:" styleClass="adip-output-campos negrita" />
+					
+					<p:datePicker id="txtEventoFechaFinM" value="#{bandejaFuncionarioBean.filtroFechaFin}" touchUI="true" monthNavigator="true"   yearNavigator="true" 
+										pattern="dd/MM/yyyy"  styleClass="adip-calendar" onkeypress="return false;" locale="es_MX" showOn="button" style="padding-left:22px;"
+										maxdate="#{registrarEventoBean.maxDate}" placeholder="dd/mm/aaaa" autocomplete="nope"/>					
+					
+				</p:panelGrid>
+				
+				<p:panelGrid columns="2" columnClasses="ui-g-6 ui-md-6 ui-lg-6, ui-g-6 ui-md-6 ui-lg-6" layout="grid" styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid">
+					<p:commandButton value="#{msg.lbl_limpiar}" 
+									 action="#{bandejaFuncionarioBean.limpiarFiltro()}"
+									 partialSubmit="true"
+									 process="@this txtBuscarCurpTutorM txtBuscarCurpBeneficiarioM tstFolioSolicitudM txtNumTarjetaM txtCCTM slOneEstatusSolicitudM slOneAlcaldiasM txtEventoFechaInicioM txtEventoFechaFinM slOneNivelEducativoM"
+									 update="pnlFiltrosMobile"
+									 styleClass="adip-btn-gris" />
+					<p:commandButton value="#{msg.buscar}" 
+									 action="#{bandejaFuncionarioBean.buscarSolicitudes(0)}"
+									 partialSubmit="true"
+									 process="@this txtBuscarCurpTutorM txtBuscarCurpBeneficiarioM tstFolioSolicitudM txtNumTarjetaM txtCCTM slOneEstatusSolicitudM slOneAlcaldiasM txtEventoFechaInicioM txtEventoFechaFinM slOneNivelEducativoM"
+									 update="pnlFiltrosMobile"
+									 styleClass="adip-btn-green" />
+				</p:panelGrid>
+
+			</p:panelGrid>
+
+			
+				
+				<p:dataTable id="tableR" lazy="true" styleClass="dt-tramites" reflow="true" rows="8" paginator="true" paginatorPosition="bottom"  value="#{bandejaFuncionarioBean.lstSolicitudes}" var="solicitudes"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+					currentPageReportTemplate="Mostrados {startRecord}-{endRecord} de {totalRecords} resultados">
+					
+					<p:column headerText="#{msg.lbl_folio}" width="10%" style="vertical-align: middle;">										
+						<h:commandLink action="#{consultaBean.init(solicitudes.tutorDTO.idUsuarioLlaveCdmx, solicitudes.idSolicitud)}" value="#{solicitudes.folioSolicitud}" styleClass="adip-output-campos" 
+									   style="color: #475058; font-weight: 700; line-height: 15px; " />
+					</p:column>					
+					
+					<p:column headerText="#{msg.lbl_tutor}" width="20%" style="vertical-align: middle;">
+						<p:outputLabel value="#{solicitudes.nombreCompletoTutor}" styleClass="adip-output-campos" />									
+					</p:column>
+					<p:column headerText="Beneficiario" width="20%" style="vertical-align: middle;">
+						<p:outputLabel value="#{solicitudes.nombreCompletoBeneficiario}" styleClass="adip-output-campos" />
+					</p:column>
+					<p:column headerText="#{msg.lbl_cct}" width="10%" style="vertical-align: middle;">
+						<p:outputLabel value="#{solicitudes.cct}" styleClass="adip-output-campos" />
+					</p:column>
+					<p:column headerText="#{msg.lbl_estatus_beneficiario}" width="12%" style="vertical-align: middle;">						
+							<p:outputLabel value="#{solicitudes.catEstatusBeneficiarioDTO.descripcion}" styleClass="adip-output-campos" />						
+					</p:column>
+					<p:column headerText="Estatus del Tutor" width="15%" style="vertical-align: middle;">						
+							<p:outputLabel value="#{solicitudes.catEstatusTutorDTO.descripcion}" styleClass="adip-output-campos" style="background-color:#{solicitudes.catEstatusTutorDTO.idEstatus == 1 ? bandejaFuncionarioBean.enProceso :
+																				 solicitudes.catEstatusTutorDTO.idEstatus == 2 ? bandejaFuncionarioBean.pendienteValidacion : 
+																				 solicitudes.catEstatusTutorDTO.idEstatus == 3 ? bandejaFuncionarioBean.corregidaPorCiudadano :
+																				 solicitudes.catEstatusTutorDTO.idEstatus == 4 ? bandejaFuncionarioBean.aclaracionCircunstancia :
+																				 solicitudes.catEstatusTutorDTO.idEstatus == 5 ? bandejaFuncionarioBean.suspendida : 
+																				 solicitudes.catEstatusTutorDTO.idEstatus == 6 ? bandejaFuncionarioBean.aprobadas :
+																				 solicitudes.catEstatusTutorDTO.idEstatus == 7 ? bandejaFuncionarioBean.correccionParteCiudadano :																							 																							 
+																				 bandejaFuncionarioBean.enProceso
+																				 };">
+																				 </p:outputLabel>
+						
+					</p:column>
+					<p:column headerText="Opciones" width="15%" style="vertical-align: middle;" rendered="#{authenticatorBean.rolAdministrador or authenticatorBean.rolValidador}">
+						<p:commandLink  action="#{cambioTutorBean.init(solicitudes.idSolicitud)}"
+                        	id="btnCambioTutor" 
+                        	type="button" 
+                        	immediate="true" 			                        				                        	                        	
+                        	>
+                            <p:graphicImage value="/resources/img/cambio-tutor.svg"  title="Cambio de Tutor" style="width: 56px; padding-right: 9px;"></p:graphicImage>								
+                        </p:commandLink> 
+                        
+                        <p:commandLink 
+                        	id="btnActualizacion" 
+                        	type="button" 
+                        	immediate="true" 	
+                        	action="#{registroTutorBean.validaTutor(solicitudes.tutorDTO.idUsuarioLlaveCdmx , solicitudes.idSolicitud)}"		                        	
+                        	>
+                         <p:graphicImage value="/resources/img/validar.svg"  title="Consultar y Validar" style="width: 26px; padding-right: 9px;"></p:graphicImage>								
+                       	</p:commandLink>
+                       	<p:commandLink  action="#{registroBeneficiarioBean.initFidegar(solicitudes.tutorDTO.idUsuarioLlaveCdmx)}"
+                        	id="btnBeneficiario" 
+                        	type="button" 
+                        	immediate="true"			                        				                        	
+                        	>
+                         <p:graphicImage value="/resources/img/agregar-beneficiario.svg"  title="Agregar Beneficiario" style="width: 24px;"></p:graphicImage>								
+                       				                       
+                        </p:commandLink> 
+                        
+					</p:column>
+				</p:dataTable>
+			</p:panelGrid>
+			
+</h:form>		
+
+
+
+
+
+<style>
+.estilo-columna {
+	vertical-align: middle;
+}
+
+/* Estilos para scrollbar */
+/* width */
+::-webkit-scrollbar {
+	width: 7px !important;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #C4C4C4 !important;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	border-radius: 10px !important;
+	background: #928F8F !important;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
+/* Fin  Estilos para scrollbar */
+.estatus-solicitud {
+	padding: 5px;
+	text-align: center;
+	border-radius: 6px;
+	height: 55px;
+	letter-spacing: -0.03em;
+	line-height: 1.5;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.negrita {
+	font-weight: 600;
+}
+
+.filtros {
+	height: 45px;
+	background: white !important;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-items-wrapper {
+	background: white;
+}
+
+.adip-calendar {
+	height: 58px !important;
+}
+
+.adip-calendar .ui-trigger-calendar {
+	height: 54px !important;
+}
+
+.adip-calendar input.hasDatepicker {
+	height: 45px !important;
+	border: 1px solid #A0AEC0;
+	border-radius: 8px;
+	background-image: none;
+	width: 146px !important;
+	margin-right: 12px;
+}
+
+.adip-calendar .ui-button.ui-button-icon-only {
+	border: none !important;
+	width: 50px !important;
+	height: 45px;
+	background: #B18147;
+	border-radius: 0px 8px 8px 0px;
+}
+
+.adip-calendar .ui-button.ui-button-icon-only  .ui-icon-calendar {
+	font-weight: normal;
+	display: flex;
+	background: none;
+	width: 30px;
+	height: 30px;
+	background-repeat: no-repeat;
+	top: 40%;
+	left: 42%;
+}
+
+.adip-calendar .ui-button.ui-button-icon-only  .ui-icon-calendar:before
+	{
+	background-image: url(/resources/img/ic_calendar.svg) !important;
+	color: transparent;
+	background-repeat: no-repeat;
+	display: block;
+	height: 30px;
+}
+
+.adip-calendar .ui-button.ui-button-icon-only.ui-state-hover,
+	.adip-calendar .ui-button.ui-button-icon-only.ui-state-active {
+	border-radius: 0px 8px 8px 0px;
+	height: 36px background: #B18147;
+}
+
+.adip-calendar .ui-datepicker-trigger.ui-button-icon-only .ui-button-text
+	{
+	height: 54px !important;
+	border-top: 1px solid #A0AEC0;
+	border-right: 1px solid #A0AEC0;
+	border-bottom: 1px solid #A0AEC0;
+	border-radius: 0px 8px 8px 0px;
+	background: #B18147;
+}
+
+.dt-tramites tbody {
+	background: #FFF;
+}
+
+.adip-center-self {
+	align-self: center;
+}
+
+.dt-tramites .ui-paginator .ui-paginator-current {
+	width: 98% !important;
+}
+
+/* mantener solo en esta seccion para paginador*/
+.dt-tramites .ui-datatable-tablewrapper {
+	padding-bottom: 0 !important;
+}
+
+.dt-tramites .ui-paginator {
+	padding: 0rem !important;
+}
+
+.titulo-bandeja-solicitud {
+	font-family: Inter;
+	font-size: 160% !important;
+	font-weight: 800;
+	line-height: 36px;
+	letter-spacing: -0.03em;
+	text-align: left;
+	color: #2D3748;
+}
+
+
+
+.ui-fluid .ui-inputtext {
+	width: 100%;
+	font-size: 12px !important;
+}
+
+.adip-selectonemenu label {
+	font-size: 12px !important;
+}
+
+@media ( min-width : 800px) {
+	.bandeja-desktop{
+		    display: block;
+	}
+	.pnlFiltrosMobile{
+			display: none;
+	}
+	
+}
+
+@media ( max-width : 800px) {
+	.bandeja-desktop{
+		    display: none;
+	}	
+	.pnlFiltrosMobile{
+			display: block;
+	}
+}
+
+/* .myTable td:nth-child(1) { */
+/*    width: 20px !important; */
+/* } */
+
+.menu-filtros{
+	
+}
+
+.adip-upperText {
+    text-transform: capitalize !important;
+}
+
+
+.dt-tramites tbody td {
+    padding: 17px 5px !important;
+}
+
+.ui-datatable table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+    border: none;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    border-bottom-style: hidden;
+}
+
+body .ui-datatable .ui-datatable-data > tr {
+    color: #495057;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    border-bottom-style: hidden !important;
+}
+
+.ui-datatable-odd {
+    background: #ffffff !important;
+}
+
+.ui-datatable-even {
+    background: #F7FAFC !important;
+}
+
+.ui-fluid .ui-calendar input {
+    background-image: url(/resources/img/Calendario.jpg);
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: contain;
+    background-color: white;
+}
+
+.ui-inputwrapper-focus {
+	display: none;
+}
+
+
+</style>
+		
+
+	</ui:define>
+</ui:composition>

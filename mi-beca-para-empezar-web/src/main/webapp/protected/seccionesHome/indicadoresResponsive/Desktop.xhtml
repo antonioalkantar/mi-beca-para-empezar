@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+    
+    <div id="desktopIndicadorColor">
+    
+                <div class="grid grid-nogutter mt-3 grecaFooterConsulta" style="/*border: 1px solid; border-radius: 10px; background-color: #6a1d33;*/">
+            <div class="col-2 border-rigth-w p-2-1 flex align-items-center justify-content-right" style="">
+                <div class="flex align-items-center justify-content-center">
+                    <div class="grid grid-nogutter p-0">
+                        <div class="col-12">
+                            <div class="flex justify-content-right ">
+                                <h:outputLabel value="La Ciudad hoy" styleClass="xl:font-city  lg:font-city font-semibold text-white " />
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="flex justify-content-right  "><h:outputLabel value="#{widgetBean.seccionIndicadores.fecha}" styleClass="xl:font-fecha  lg:font-fecha text-white text-right" /></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2 border-rigth-w p-2-1 flex align-items-center justify-content-center">
+                <div class="flex justify-content-center flex-wrap">
+                    <h:graphicImage class="img-header" value="/resources/img/thermometer.png" style="width: 26px;  padding-right: 10px;" />
+                    <h:outputLabel value="#{widgetBean.seccionIndicadores.servicioClima.servClimaDTO.temperaturaProm}ºC" styleClass="xl:font-temperatura lg:font-temperatura  text-white flex align-items-center justify-content-center" /> &nbsp;
+                    <h:outputLabel value="#{widgetBean.seccionIndicadores.servicioClima.servClimaDTO.temperaturaFarenheit}ºF" styleClass="xl:font-temperatura lg:font-temperatura text-white flex align-items-center justify-content-center" />
+                </div>
+            </div>
+            <div class="col-1 border-rigth-w p-2-1 flex align-items-center justify-content-center">
+                <div class="flex justify-content-center flex-wrap">
+                    <h:graphicImage class="img-header" value="#{widgetBean.seccionIndicadores.servicioClima.servClimaOpenDTO.icon}" style="width: 26px; padding-right: 5px;" />                    
+                </div>
+                <div class="flex justify-content-center flex-wrap">                    
+                    <h:outputLabel value="#{widgetBean.seccionIndicadores.servicioClima.servClimaOpenDTO.description}" styleClass="xl:font-clima lg:font-clima text-white" />
+                </div>
+            </div>
+            <div class="col-1 border-rigth-w p-2-1 flex align-items-center justify-content-center">
+                <div class="flex align-items-center justify-content-center">
+                    <div class="grid grid-nogutter p-0">
+                        <div class="col-12">
+                            <div class="flex justify-content-center">
+                                <h:outputLabel value="Calidad de aire" styleClass="xl:font-gral_ind lg:font-gral_ind text-white text-center"  />
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="flex justify-content-center flex-wrap">
+                                <h:outputLabel value="#{widgetBean.seccionIndicadores.servicioClima.servCalAireDTO.riesgo}" styleClass="xl:font-clima lg:font-clima text-white" style="text-transform: lowercase;" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-1 border-rigth-w p-2-1 flex align-items-center justify-content-center">
+                <div class="flex align-items-center justify-content-center">
+                    <div class="grid grid-nogutter p-0">
+                        <div class="col-12">
+                            <div class="flex justify-content-center">
+                                <h:outputLabel value="Indice UV" styleClass="xl:font-gral_ind lg:font-gral_ind text-white text-center" />
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="flex justify-content-center flex-wrap">
+                                <h:outputLabel value="#{widgetBean.seccionIndicadores.servicioClima.servIuvDTO.iUV}" styleClass="xl:font-clima lg:font-clima  text-white" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2 border-rigth-w p-2-1 ">
+                <div class="grid grid-nogutter p-1">
+                    <div class="col-3 text-white">
+                        <div class="box-custom clima-fontH6-caja mt-1" style="background-color: #{widgetBean.seccionIndicadores.servicioSemaforoEpDTO.color}; color: black; width: 24px; height: 24px; border-radius: 4px;">&nbsp;</div>
+                    </div>
+                    <div class="col-9 text-white" style="place-self: center;">
+                        <div class="grid grid-nogutter">
+                            <div class="col-12">
+                                <div class="flex justify-content-start flex align-items-start justify-content-start">
+                                    <h:outputLabel value="Semáforo epidemiológico" styleClass="xl:font-gral_ind lg:font-gral_ind text-left" />
+                                </div>
+                            </div>
+                         <!--   <div class="col-12">
+                                <div class="flex justify-content-start flex align-items-start justify-content-start">
+                                    <h:outputLabel value="#{widgetBean.seccionIndicadores.servicioSemaforoEpDTO.nombre}" styleClass="xl:font-clima lg:font-clima text-white" />
+                                </div>
+                            </div> --> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+           <div class="col-3 p-2-1">
+                <div class="p-0">
+                    <div class="grid grid-nogutter p-1 justify-content-left" style="">
+                        <div class="col-2 text-white">
+							<div class="box-custom clima-fontH6-caja mt-1"
+								style="background-color: #{widgetBean.seccionIndicadores.hoyNoCircula.hoyHexadecimalColorNoCircula}; color: black; width: 24px; height: 24px; border-radius: 4px; text-align: -webkit-center; place-content: center; float: left;">
+								&nbsp;												
+							</div>
+                        </div>
+                        
+                        <div class="col-10">
+	                        <div id="pnlLinkNoCircula" class="flex justify-content-left" style="">
+	                        	<h:outputLink id="hoyNoCirculaTituloLink" value="https://hoynocircula.cdmx.gob.mx" target="_blank" styleClass="xl:font-gral_ind lg:font-gral_ind  text-white text-center" style="text-align: -webkit-center; place-content: center;">
+	                        		<p:outputLabel id="lblTituloHoyNoCircula">Hoy no circula</p:outputLabel>
+	                        	</h:outputLink>
+	                        </div>
+	                        	
+		                    <h:panelGroup layout="block">
+								<div class="flex justify-content-center flex-wrap" style="">
+									<div  class="col-12 p-0 text-white xs:font-hoynoc-valor sm:font-hoynoc-valor md:font-hoynoc-valor" style="text-align: left !important;" >	
+										<h:outputLabel id="txtCortoHNC" value="#{widgetBean.seccionIndicadores.hoyNoCircula.hoyTextoCorto}" styleClass=" text-center" style="font-size:13px;" />
+										<p:tooltip id="toolTipHNC" for="txtCortoHNC" value="#{widgetBean.seccionIndicadores.hoyNoCircula.hoyTextoLargo}" />
+										
+										<h:outputLabel id="separadorHoyNoCircula" value=" - " styleClass=" text-center" style="font-size:13px;"/>
+											
+										<h:outputLabel id="txtCortoHNCProxSabado" value="#{widgetBean.seccionIndicadores.hoyNoCircula.proximoSabadoTextoCorto}" styleClass=" text-center" style="font-size:13px;" />
+										<p:tooltip id="toolTipHNCProxSabado" for="txtCortoHNCProxSabado" value="#{widgetBean.seccionIndicadores.hoyNoCircula.proximoSabadoTextoLargo}" />
+									</div>
+								</div>
+							</h:panelGroup>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ui:composition>
+
+

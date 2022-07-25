@@ -1,0 +1,328 @@
+<!--
+    JBoss, Home of Professional Open Source
+    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+    contributors by the @authors tag. See the copyright.txt in the
+    distribution for a full listing of individual contributors.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script src="https://www.googletagmanager.com/gtag/js?id=G-KGCSNP9C6S" async="true" defer="defer" type="text/javascript" />
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		
+		gtag('config', 'G-KGCSNP9C6S');
+	</script>
+
+	<title>Mi Beca para Empezar</title>
+	<!-- Indica a los bots de google que se tiene que indexar el sistema dependiendo el ambiente -->
+	<meta name="robots" content="#{authenticatorBean.parametroMetaRobots()}" />
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<!-- La vista de compatibilidad le permite al usuario o al navegador establecer el modo de compatibilidad, por defecto  -->
+	<!-- IE=edge significa que IE debe usar la última versión (edge) de su motor de renderizado -->
+	<!-- chrome=1 significa que IE debe usar el motor de renderizado Chrome si está instalado -->
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+
+	<!-- Indica al servidor que el contenido de la pagina es codigo HTML y su codificacion de caracteres es UTF-8 -->
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<!--  Con la siguiente línea se renderiza la pantalla de acuerdo al tamaño del dispositivo que la abra -->
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+	<!-- Agrega el ícono con el cual se identifica el sistema en las pestañas de los navegadores web -->
+	<link rel="shortcut icon" type="image/svg"
+		href="#{request.contextPath}/resources/img/favicon_adip.ico" />
+		
+		<!-- Facebook Meta Tags -->
+		<meta property="og:image" content="https://www.registro.mibecaparaempezar.cdmx.gob.mx/resources/img/MiBecaParaEmpezar.jpg" />
+		<meta property="og:image:type" content="image/jpg" />
+		<meta property="og:image:width" content="762" />
+	    <meta property="og:image:height" content="900" />
+	    <meta property="og:type" content="website" />
+	    <meta property="og:title" content="Mi Beca para Empezar" />
+	    <meta property="og:description" content="Registro al programa Mi Beca para Empezar cuyo objetivo es apoyar económicamente a los hogares con niñas, niños y adolescentes inscritos en el nivel básico de educación pública." />
+	    <meta property="og:url" content="https://www.registro.mibecaparaempezar.cdmx.gob.mx" />    	
+	    
+		<!--Twitter Meta Tags -->
+		<meta property="twitter:url" content="https://www.registro.mibecaparaempezar.cdmx.gob.mx"/>
+		<meta name="twitter:title" content="Mi Beca para Empezar"/>
+		<meta name="twitter:description" content="Registro al programa Mi Beca para Empezar cuyo objetivo es apoyar económicamente a los hogares con niñas, niños y adolescentes inscritos en el nivel básico de educación pública."/>
+		<meta name="twitter:image" content="https://www.registro.mibecaparaempezar.cdmx.gob.mx/resources/img/MiBecaParaEmpezar.jpg"/>
+		
+
+	<!-- El proyecto de grafica base requiere JQuery para cargar header y footer, pero dado que en este proyecto ocupamos  
+ 	primefaces debemos de reutilizar la que ya trae embebida (v.3.2.1) sino puede causar conflictos -->
+	<h:outputScript library="primefaces" name="jquery/jquery.js"
+		target="head" />
+	<!--  	No se puede agregar una versión especifica de JQuery porque primefaces ya incluye una y se tendrían problemas   -->
+	<!--    	<script src="https://code.jquery.com/jquery-3.3.1.js" -->
+	<!-- 			  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" -->
+	<!-- 			  crossorigin="anonymous"> -->
+	<!-- 	</script> -->
+
+	<!-- Se agrega el javascript que carga las leyendas de Primefaces en el idioma español de México es_MX. Busca el archivo indicado dentro de resources la carpeta js. -->
+	<h:outputScript library="js" name="primefaces_locale.js" />
+
+	<!-- Se agrega el javascript que contiene las funciones para validar el tipo de caracteres de entrada-->
+	<h:outputScript library="js" name="validacion_caracteres.js" />
+
+	<!-- Javascript que bloquea al usuario el poder utilizar el botón atrás del navegador web -->
+	<h:outputScript library="js" name="noBack.js" target="head" />
+
+	<!-- Javascript que hace que el header se mantenga visible cuando se hace un scroll hacia abajo. Depende del DIV con ID Header y de la hoja de estilos adip-header.css-->
+<!-- 	<h:outputScript library="js" name="onScrollHeader.js" target="body" /> -->
+
+	<h:outputStylesheet name="css/adip-header.css" />
+
+	<h:outputStylesheet name="css/adip-footer.css" />
+
+	<h:outputStylesheet name="css/adip-componentes.css" />
+
+	<h:outputStylesheet name="css/indicadores.css" />
+
+	<h:outputStylesheet name="css/primeflex.css" />
+
+	<h:outputStylesheet name="css/primefaces-personalizado.css" />
+
+	<h:outputStylesheet name="css/stepper-ul.css" />
+
+	<f:view locale="#{localeBean.locale}" />
+	<style> 
+	body .ui-button.ui-button-icon-only .ui-button-text {
+    display: none;
+	}
+	
+	.menu-button-loguin>.ui-button>.ui-icon {
+    /* position: absolute !important; */
+    margin: auto !important;
+    top: 20px !important;
+    bottom: 8px !important;
+    left: -3px !important;
+    right: 10px !important;
+    background-image: url(/resources/img/select.svg) !important;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+	}
+	
+	.ui-panel-sin-pading-border.ui-panelgrid .ui-panelgrid-cell{
+	padding-bottom: 0 !important;
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+	padding-top: 0 !important;
+	}
+	</style> 
+	
+	<script src="https://www.google.com/recaptcha/api.js"/>
+
+</h:head>
+<h:body>
+<div id="wrapper">
+	<!-- La hoja de estilos personalizada de Prospera se debe leer después de la PrimeFaces para que sobreescriba los estilos de este framework.
+   	    Para asegurar lo anterior, la hoja de estilos personalizada se carga en en el body en  lugar del header. ¡Si se mueve al header o se elimina
+   	     ya no sobreescribirá los valores de Primefaces!  -->
+	<h:outputStylesheet name="css/primefaces-personalizado.css" />
+
+	<!-- Se agrega un header volador (On Scroll Header), es decir, cuando se haga scroll en la pagina el header permanece en la parte superior
+		Para hacer este header, se define un div, el cual tiene el style 'header' en la hoja de estilos y por ultimo necesita el javascript onScrollHeader.js -->
+	
+			<div class="header" id="header" >
+<!-- 			<div> -->
+<!-- 			 <h:graphicImage width="220px" onclick="location.href='#{authenticatorBean.incializarHome()}'" value="/resources/img/Logo_CDMX.png"  -->
+<!-- 			 	style="float: left; padding-right: 10px;" /> -->
+<!-- 			 <p:panelGrid> -->
+<!-- 				<p:outputLabel value="PLATAFORMA PARA PERMISO" style="font-size: 13px; color: #9F2241 !important" /> <br/> -->
+<!-- 				<p:outputLabel value="RENOVABLE PARA RESIDENTES" style="font-size: 13px; color: #9F2241 !important" /> -->
+<!-- 			 </p:panelGrid>	 -->
+<!-- 			</div> -->
+				<div id="logueado" class ="logueado" style="text-align:right;" >
+							<div>
+			 <h:graphicImage width="220px" value="/resources/img/Group 2247.svg" 
+			 	style="float: left; padding-right: 10px;" rendered="#{authenticatorBean.usuarioLogueado.idUsuarioLlaveCdmx == null}" />
+			 <h:graphicImage width="220px" onclick="location.href='#{bandejaTutorBean.init()}'" value="/resources/img/Group 2247.svg" 
+			 	style="float: left; padding-right: 10px;" rendered="#{authenticatorBean.usuarioLogueado.idUsuarioLlaveCdmx != null and authenticatorBean.rolTutor == true}" />	
+			<h:graphicImage width="220px" onclick="location.href='#{bandejaFuncionarioBean.init()}'" value="/resources/img/Group 2247.svg" 
+			 	style="float: left; padding-right: 10px;" rendered="#{authenticatorBean.usuarioLogueado.idUsuarioLlaveCdmx != null and authenticatorBean.rolTutor == false}" />	
+			</div>
+			
+			<ui:include src="menubarHeader.xhtml"  />
+ 			
+ 			<div  >
+<!-- 						<h:form id="frmLogin" rendered="#{authenticatorBean.usuarioLogueado.idUsuarioLlaveCdmx == 0 }"> -->
+<!-- 							<div id="login" class="ui-fluid" style="color: #4a5568 !important; text-align: left !important;" > -->
+<!-- 								<p:commandButton id="btnIniciaSesionLlave" value="Inicia sesión #{msg.lbl_cuenta_llave}" action="#{authenticatorBean.redirectUrlLoginCDMX()}"  -->
+<!-- 								immediate="true" style="color: #4a5568 !important; font-size: 14px !important; line-height: 1.2 !important;"  -->
+<!-- 								styleClass="boton-continuar-llave-home" escape="false" update="messages, frmLogin"/> -->
+<!-- 							</div> -->
+<!-- 						</h:form> -->
+
+					<h:form id="frmMenuUsuario" rendered="#{authenticatorBean.usuarioLogueado.idUsuarioLlaveCdmx > 0}" style="text-align: right;">
+                        <div class="parquimetro-login">
+							<p:outputPanel style="display: inline-flex;">
+	                            <p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid ui-panel-sin-pading-border" 
+					      			style="padding-top: 0px; padding-right: 8px;">
+					      			<p:outputLabel value="Mi cuenta Llave CDMX" style="color:#BC955C!important;font-size:12px;font-weight:bold;text-align:right;line-height:10px;margin:2px auto;"/>
+									<p:outputLabel id="lblLogueado" value="#{authenticatorBean.usuarioLogueado.nombre} #{authenticatorBean.usuarioLogueado.primerApellido} #{authenticatorBean.usuarioLogueado.segundoApellido}" 
+									styleClass="etiqueta-logueo" style="font-size: 12px !important; padding-top: 0px !important; padding-bottom: 0px !important;"  />
+								</p:panelGrid>	
+	                            <p:graphicImage library="img" name="Silueta.svg" styleClass="icono-login" style="padding-left: 10px; width: 40px !important;" />
+	                            <p:menuButton styleClass="menu-button-loguin">
+	                           			<p:menuitem id="bandejaSolicitud" styleClass="ui-menu-item-personalizado" value = "Bandeja de solicitudes" action="#{bandejaFuncionarioBean.init()}" update="messages" immediate="true" 
+	                           						 rendered="#{authenticatorBean.rolAdministrador or authenticatorBean.rolValidador or authenticatorBean.rolConsulta}"/>
+	                           			<p:menuitem id="bandejaTutor" styleClass="ui-menu-item-personalizado" value = "Bandeja de Tutor" action="#{bandejaTutorBean.init()}" update="messages" immediate="true" 
+	                           						rendered="#{authenticatorBean.usuarioLogueado.idUsuarioLlaveCdmx != null and authenticatorBean.rolTutor == true}"/>	                           			
+										<p:menuitem id="cerrarSesion" styleClass="ui-menu-item-personalizado" value = "#{msg.cerrar_session}" action="#{authenticatorBean.cerrarSesionUsuario}" update="messages" icon="fa fa-sign-out"/>
+								</p:menuButton>
+                            </p:outputPanel>
+                        </div>
+                    </h:form>
+ 				</div>		
+		</div>
+	</div>
+
+	
+<!-- 	<div class="header" id="header" > -->
+<!-- 		<div style="padding: 15px 0;"> -->
+<!-- 			<h:graphicImage class="img-header" value="/resources/img/adip-header.svg" style="float: left;"/> -->
+<!-- 			<div class="line"></div> -->
+<!-- 				<p class="header-sedeco" style="float: left;">ACRONIMO_DEPENDENCIA</p> -->
+<!-- 			<div class="line"></div> -->
+<!-- 			<p class="header-siapem" style="float: left;">NOMBRE_DE_MI_PORTAL<br />PARTE_DOS</p> -->
+<!-- 		</div> -->
+<!-- 		<div id="logueado" class ="logueado" style="text-align:right;" > -->
+<!-- 			<div class="ui-logueo-componentes"> -->
+				
+<!-- 			<h:form id="frmLogin" rendered="#{authenticatorBean.usuarioLogueado.idPersona == 0}"> -->
+<!-- 			<div id="login" class="ui-fluid" > -->
+<!-- 				<p:commandLink id="btnInicio" action="#{authenticatorBean.redirectUrlLoginCDMX()}"> -->
+<!-- 					<p:graphicImage value="/resources/img/accesoLlave.png"></p:graphicImage>						 -->
+<!-- 		      	</p:commandLink> -->
+<!-- 			</div> -->
+<!-- 			</h:form> -->
+					 
+<!-- 	      		<h:form id="frmMenuUsuario" rendered="#{authenticatorBean.usuarioLogueado.idPersona > 0}" >  -->
+<!-- 					<p:graphicImage library="img" name="logueo.png" styleClass="icono-login"/> -->
+<!-- 					<p:outputLabel id="lblLogueado" value="#{authenticatorBean.usuarioLogueado.nombre} #{authenticatorBean.usuarioLogueado.primerApellido} #{authenticatorBean.usuarioLogueado.segundoApellido}" styleClass="etiqueta-logueo" /> -->
+<!-- 					<p:menuButton  > -->
+<!-- 						<p:menuitem id="cerrarSesion" styleClass="ui-menu-item-personalizado" value = "#{msg.cerrar_session}" action="#{authenticatorBean.cerrarSesionUsuario()}" update="messages" icon="fa fa-sign-out"/> -->
+<!-- 					</p:menuButton> -->
+<!-- 				</h:form>				 -->
+<!-- 			</div>		  -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+
+	<!-- 	<div class="divicion" id="divicion" style="width: 100%; height: 32px;"  >
+			<ui:insert name="menu"  >
+				<ui:include src="menu.xhtml"></ui:include>
+				 <ui:include src="menuResponsive.xhtml"></ui:include> 
+			</ui:insert>
+		</div> -->
+
+
+		<div id="container" class="content" style="width: 100%;height: 90%; background-color: #F0F1F6 !important;">
+		
+		<div id="messages_div" style="text-align:left;" >
+			<p:messages id="messages" showDetail="true" closable="true" globalOnly="false" >
+<!-- 				<p:autoUpdate /> -->
+			</p:messages>
+		</div>
+		<div id="content" class="contenido" style="width: 100%; height: 90%;">
+			<ui:insert name="content">
+                    [Template content will be inserted here]
+         </ui:insert>
+		</div>
+	</div>
+	<div id="footer" class="footer">
+			<div style="max-width: 1240px; margin: 0 auto;">
+				<p:panelGrid id="pnlFooter" columns="5" columnClasses="ui-g-12 ui-md-3 ui-lg-3, ui-g-12 ui-md-2 ui-lg-2, ui-g-12 ui-md-2 ui-lg-2, ui-g-12 ui-md-2 ui-lg-2, ui-g-12 ui-md-3 ui-lg-3" layout="grid"
+					styleClass="ui-panelgrid-blank">
+					<h:graphicImage value="/resources/img/logo_footer.svg" style="max-width:90%; width:100%;" />
+					<p:panelGrid id="pnlFooterLeft" columns="1" style="margin:0; text-align: left;" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank">
+						<p style="text-align: left; color: white; font-size:12px;" >Para emergencias, marca al <a href="tel:911" style="text-align: left; color: white; " > 911</a></p>
+						<p style="text-align: left; color: white; font-size:12px;" >Dudas e información, marca al <a href="tel:*0311" style="text-align: left; color: white; " > *0311</a></p>
+					</p:panelGrid>
+					<p:panelGrid id="pnlFooterMiddle" columns="1" style="margin:0; text-align: left;" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank">
+						<h:outputLabel class="inter-regular" style="text-align: left; font-weight: bold; color: white;" value="Redes de la ciudad" />
+						<p:panelGrid  style="text-align: center !important;" columns="2" columnClasses="ui-xl-6 ui-lg-6 ui-g-6 ui-md-6 ui-sm-6, ui-xl-6 ui-lg-6 ui-g-6 ui-md-6 ui-sm-6" layout="grid">
+						<p:link href="https://www.facebook.com/GobiernoCDMX/" target="_blank" >
+  						<p:graphicImage id="facebook" 
+           				 	value="/resources/img/uno.png"  > </p:graphicImage>
+           				 	</p:link>
+           				 	<p:link href="https://twitter.com/gobcdmx/?lang=es" target="_blank" >
+  						<p:graphicImage id="twitter" 
+           				 	value="/resources/img/dos.png" > </p:graphicImage>
+           				 	</p:link>
+           				 </p:panelGrid>	
+					</p:panelGrid>
+					<p:panelGrid id="pnlFooterRight" columns="1" style="margin:0; text-align: left;" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank">
+						<h:outputLabel class="inter-regular" style="text-align: left; font-weight: bold; color: white;" value="Sitios relacionados" />
+						<p:link style="text-align: left; color: white; font-size:12px" href="https://adip.cdmx.gob.mx/" target="_blank"  value="Agencia Digital de Innovación Pública" />
+						<p:link style="text-align: left; color: white; font-size:12px" href="https://www.finanzas.cdmx.gob.mx/" target="_blank"  value="Secretaría de Administración y Finanzas" />
+						<p:link style="text-align: left; color: white; font-size:12px" href="https://www.bienestareducativo.cdmx.gob.mx//" target="_blank"  value="Bienestar Educativo" />
+						<br />
+						<h:outputLabel class="inter-regular" style="text-align: left; font-weight: bold; color: white;" value="Transparencia" />
+						<p:link style="text-align: left; color: white; font-size:12px" href="https://www.transparencia.cdmx.gob.mx/" target="_blank" value="Ir al portal de transparencia" />
+					</p:panelGrid>
+					<p:link href="https://www.datos.cdmx.gob.mx" target="_blank" >
+					<h:graphicImage value="/resources/img/laptop.png" style="max-width:70%; width:100%;" />
+					</p:link>
+				</p:panelGrid>
+			</div>
+			<div class="cintillo-footer"></div>
+		</div>
+	</div>
+
+     <p:idleMonitor id="inactivo" timeout="500000"  onidle="PF('modalSesion').show()" onactive="modalSesion.show();"/>	
+	
+	 <p:dialog id="dlSesionCad" widgetVar="modalSesion" modal="true" responsive="true" 
+	 			resizable="false" draggable="false" styleClass="modal" closable="false"
+	 			visible="false" fixedCenter="true">
+        <p:outputPanel style="text-align: center; display: block; margin: auto; padding: 2% !important;">                   
+             <p:outputLabel id="lblActualizarCitadlg" value="La sesión ha caducado, para continuar navegando en el sistema es necesario iniciar sesión nuevamente." styleClass="titulos-normales"/>
+             <p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align:center;" >                        
+             	 <p:commandLink  id="cLiInicio" value="Ir a la Página Principal" action="/index.xhtml?faces-redirect=true" immediate="true" styleClass="etiqueta-detalle" style="font-size: 28px !important;">
+              	 	<f:ajax execute="@form" render="@none" />
+             	 </p:commandLink> 
+                <p:column/>
+             </p:panelGrid>                    
+     	</p:outputPanel>
+     </p:dialog>
+     
+     <p:ajaxStatus id="loader" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+     <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false" header="Procesando..."  styleClass="" style="overflow-y:hidden !important; width: 80px !important;">
+            <f:facet name="header">
+				<p:outputLabel value="Procesando..." styleClass="adip-dialog-titulo-green" />
+			</f:facet>
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="center">
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="p-4">
+					<p:outputLabel value="Procesando..." styleClass="adip-output-campos-dialog-green" />
+					 <p:graphicImage value="/resources/img/loadingCDMX.gif" width="100%" height="100%"  />
+				</p:panelGrid>
+			</p:panelGrid>      
+     </p:dialog>
+     
+
+</h:body>
+</html>

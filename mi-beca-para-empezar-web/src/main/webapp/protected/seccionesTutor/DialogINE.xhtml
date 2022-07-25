@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
+	<h:form id="formINE">
+		<!-- DIALOG INE -->
+		<p:dialog id="dialogINE" widgetVar="dialogINE" modal="true" closable="false" responsive="true" styleClass="adip-dialog">
+			<f:facet name="header">
+				<p:outputLabel value="#{msg.lbl_selecciona_modelo_ine}" styleClass="adip-dialog-titulo" />
+				<p:separator styleClass="adip-separador" />
+			</f:facet>
+			<p:panelGrid id="pgMsgDialogINE" columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<p:messages id="mensajeIne" showDetail="true" closable="false" showIcon="false" />
+			</p:panelGrid>
+			<p:panelGrid id="pgDialogINE" columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="#{registroTutorBean.modeloINE eq 1 ? 'adip-panel-gold' :'adip-panel-gris'} m-3">
+					<p:outputLabel value="#{msg.lbl_modelo_efgh}" />
+					<p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-6 ui-lg-6, ui-g-12 ui-md-6 ui-lg-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+							<p:graphicImage value="/resources/img/ine_modelo_e_a.jpg" style="padding-top: 10px;width: 100%;" />
+						</p:panelGrid>
+						<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+							<p:graphicImage value="/resources/img/ine_modelo_e_b.jpg" style="padding-top: 10px;width: 100%;" />
+						</p:panelGrid>
+					</p:panelGrid>
+					<p:outputLabel value="#{msg.lbl_modelo_e_descripcion}" />
+					<p:outputLabel value="#{msg.lbl_modelo_f_descripcion}" />
+					<p:outputLabel value="#{msg.lbl_modelo_gh_descripcion}" />
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading center">
+						<p:commandButton value="#{msg.lbl_modelo_seleccionado}" actionListener="#{registroTutorBean.setModeloINE(1)}" process="@this pgDialogINE" update="pgDialogINE pgMsgDialogINE"
+							immediate="true" styleClass="#{registroTutorBean.modeloINE eq 1 ? 'adip-btn-doble-rojo' : 'adip-btn-doble-gris'}" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" rendered="#{registroTutorBean.modeloINE eq 1}">
+						<p:outputLabel for="txtCIC1" value="#{msg.lbl_codigo_identificacion.concat(':')}" styleClass="adip-output-campos" />
+						<p:inputText id="txtCIC1" placeholder="#{msg.lbl_codigo_identificacion_ph}" value="#{registroTutorBean.tutorDTO.cic}" styleClass="campos-captura adip-upperText"
+							required="true" requiredMessage="#{msg.msj_campo_requerido}" maxlength="9">
+							<p:keyFilter regEx="/^[0-9]\d*$/" />
+						</p:inputText>
+						<p:message for="txtCIC1" display="text" />
+					</p:panelGrid>
+				</p:panelGrid>
+
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="#{registroTutorBean.modeloINE eq 2 ? 'adip-panel-gold' :'adip-panel-gris'} m-3">
+					<p:outputLabel value="#{msg.lbl_modelo_d}" />
+					<p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-6 ui-lg-6, ui-g-12 ui-md-6 ui-lg-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+							<p:graphicImage value="/resources/img/ine_modelo_d_a.jpg" style="padding-top: 10px;width: 100%;" />
+						</p:panelGrid>
+						<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+							<p:graphicImage value="/resources/img/ine_modelo_d_b.jpg" style="padding-top: 10px;width: 100%;" />
+						</p:panelGrid>
+					</p:panelGrid>
+					<p:outputLabel value="#{msg.lbl_modelo_d_descipcion}" />
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading center">
+						<p:commandButton value="#{msg.lbl_modelo_seleccionado}" actionListener="#{registroTutorBean.setModeloINE(2)}" process="@this pgDialogINE" update="pgDialogINE pgMsgDialogINE"
+							immediate="true" styleClass="#{registroTutorBean.modeloINE eq 2 ? 'adip-btn-doble-rojo' : 'adip-btn-doble-gris'}" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" rendered="#{registroTutorBean.modeloINE eq 2}">
+						<p:outputLabel for="txtCIC2" value="#{msg.lbl_codigo_identificacion.concat(':')}" styleClass="adip-output-campos" />
+						<p:inputText id="txtCIC2" placeholder="#{msg.lbl_codigo_identificacion_ph}" value="#{registroTutorBean.tutorDTO.cic}" styleClass="campos-captura adip-upperText"
+							required="true" requiredMessage="#{msg.msj_campo_requerido}" maxlength="9">
+							<p:keyFilter regEx="/^[0-9]\d*$/" />
+						</p:inputText>
+						<p:message for="txtCIC2" display="text" />
+					</p:panelGrid>
+				</p:panelGrid>
+
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="#{registroTutorBean.modeloINE eq 3 ? 'adip-panel-gold' :'adip-panel-gris'} m-3">
+					<p:outputLabel value="#{msg.lbl_modelo_c}" />
+					<p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-6 ui-lg-6, ui-g-12 ui-md-6 ui-lg-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+							<p:graphicImage value="/resources/img/ine_modelo_c_a.jpg" style="padding-top: 10px;width: 100%;" />
+						</p:panelGrid>
+						<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+							<p:graphicImage value="/resources/img/ine_modelo_c_b.jpg" style="padding-top: 10px;width: 100%;" />
+						</p:panelGrid>
+					</p:panelGrid>
+					<p:outputLabel value="#{msg.lbl_modelo_c_descripcion}" />
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading center">
+						<p:commandButton value="#{msg.lbl_modelo_seleccionado}" actionListener="#{registroTutorBean.setModeloINE(3)}" process="@this pgDialogINE" update="pgDialogINE pgMsgDialogINE"
+							immediate="true" styleClass="#{registroTutorBean.modeloINE eq 3 ? 'adip-btn-doble-rojo' : 'adip-btn-doble-gris'}" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" rendered="#{registroTutorBean.modeloINE eq 3}">
+						<p:outputLabel for="txtClaveE" value="#{msg.lbl_clave_elector.concat(':')}" styleClass="adip-output-campos" />
+						<p:inputText id="txtClaveE" placeholder="#{msg.lbl_clave_elector_ph}" value="#{registroTutorBean.tutorDTO.claveElector}" maxlength="18"
+							styleClass="campos-captura adip-upperText" required="true" requiredMessage="#{msg.msj_campo_requerido}">
+							<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\s]+$/" />
+						</p:inputText>
+						<p:message for="txtClaveE" display="text" />
+
+						<p:outputLabel for="txtNumeroE" value="#{msg.lbl_numero_emision.concat(':')}" styleClass="adip-output-campos" />
+						<p:inputText id="txtNumeroE" placeholder="#{msg.lbl_numero_emision_ph}" value="#{registroTutorBean.tutorDTO.numeroEmision}" maxlength="2"
+							styleClass="campos-captura adip-upperText" required="true" requiredMessage="#{msg.msj_campo_requerido}">
+							<p:keyFilter regEx="/^[0-9]\d*$/" />
+						</p:inputText>
+						<p:message for="txtNumeroE" display="text" />
+
+						<p:outputLabel for="txtOCR" value="#{msg.lbl_ocr.concat(':')}" styleClass="adip-output-campos" />
+						<p:inputText id="txtOCR" placeholder="#{msg.lbl_ocr_ph}" value="#{registroTutorBean.tutorDTO.ocr}" maxlength="13" styleClass="campos-captura adip-upperText" required="true"
+							requiredMessage="#{msg.msj_campo_requerido}">
+							<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\s]+$/" />
+						</p:inputText>
+						<p:message for="txtOCR" display="text" />
+					</p:panelGrid>
+				</p:panelGrid>
+				<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid center"
+					rendered="#{!authenticatorBean.esDesarrollo() and registroTutorBean.tutorDTO.catIdentificacionOficialDTO.idIdentificacion eq registroTutorBean.ID_IDENTIFICACION_OFICIAL}">
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12 center adip-as-center" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:captcha id="captcha" label="Captcha" requiredMessage="Debe marcar la casilla del captcha" language="es"/>
+						<p:message for="captcha" styleClass="adip-messages" display="text" />
+					</p:panelGrid>
+				</p:panelGrid>
+				<p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-6 ui-lg-6, ui-g-12 ui-md-6 ui-lg-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid center">
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:commandButton value="#{msg.cancelar}" oncomplete="PF('dialogINE').hide();" styleClass="adip-btn-gris" process="@this" style="width: 8.5rem !important;"
+							actionListener="#{registroTutorBean.cancelarDialogINE()}" update=":form:soIdentifica" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:commandButton value="#{msg.lbl_validar}" styleClass="adip-btn-guinda" process="@this pgDialogINE" update="pgDialogINE" style="width: 8.5rem !important;"
+							actionListener="#{registroTutorBean.validaINE()}" oncomplete="document.getElementById('formINE:pgMsgDialogINE').scrollIntoView();" />
+					</p:panelGrid>
+				</p:panelGrid>
+			</p:panelGrid>
+		</p:dialog>
+
+		<p:remoteCommand name="rcDatosCorrectos" oncomplete="PF('dialogDatosCorrectos').hide();" delay="3000" />
+	</h:form>
+
+	<style>
+body .ui-messages .ui-messages-warn {
+	background: #E1F6FF;
+	border-width: 0px;
+	color: #0043A7;
+}
+
+.adip-dialog {
+	max-height: 80%;
+	overflow-y: overlay;
+}
+
+.adip-dialog-CURP {
+	/* 	min-width: 30em; */
+	max-width: 30em;
+	overflow-y: hidden !important;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+	.adip-dialog {
+		max-width: 100%;
+	}
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+	.adip-dialog {
+		max-width: 55%;
+	}
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+	.adip-dialog {
+		max-width: 30rem;
+		min-width: 30rem !important;
+	}
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+}
+
+.adip-selectonemenu.ui-state-disabled {
+	pointer-events: all !important;
+}
+</style>
+</ui:composition>

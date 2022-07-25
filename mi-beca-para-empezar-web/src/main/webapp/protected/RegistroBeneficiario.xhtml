@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui" template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="content">
+
+		<!-- Se cambia el titulo de la página HTML dinámicamente para que no tome la del template -->
+		<o:onloadScript>document.title='#{msg.lbl_registro_beneficiario}'</o:onloadScript>
+
+		<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align: center;" rendered="#{empty header['referer']}">>
+			<!--rendered="#{empty header['referer']}"> -->
+			<p:outputPanel style="background-color: #FFF !important; border-radius: 10px; padding: 30px 25px; margin: 16% auto;">
+				<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align: center;">
+					<p:outputLabel value="No puedes ingresar a esta página ingresando la URL directamente." style="font-size:35px; color: #000; font-weight: 500;" />
+					<p:outputLabel value="Serás redirigido al inicio del sistema." style="font-size:40px; color: #000; font-weight: 700;" />
+				</p:panelGrid>
+				<p:idleMonitor id="unSeg" timeout="2000">
+					<p:ajax event="idle" oncomplete="location.href='#{authenticatorBean.urlInicio}'" update="messages" />
+				</p:idleMonitor>
+			</p:outputPanel>
+		</p:panelGrid>
+
+		<!--<h:form id="form" rendered="#{not empty header['referer']}"> -->
+		<h:form id="form" rendered="#{not empty header['referer']}">
+			<p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-4 ui-lg-4, ui-g-12 ui-md-8 ui-lg-8" layout="grid" 
+   			style="max-width: 1024px; margin: auto; text-align: left !important; "
+							styleClass="ui-panelgrid-blank ui-fluid" rendered="true"  >
+			<p:commandButton value="#{msg.regresar}" actionListener="#{registroBeneficiarioBean.redirect()}" styleClass="adip-btn-green" icon="back" immediate="true" />
+   			</p:panelGrid>
+			<p:defaultCommand target="dummy" />
+			<p:commandButton id="dummy" process="@none" global="false" style="display:none;" />
+			<!-- 			<p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-4 ui-lg-4, ui-g-12 ui-md-8 ui-lg-8" layout="grid" style="max-width: 1024px; margin: auto;" -->
+			<!-- 				styleClass="ui-panelgrid-blank ui-fluid" rendered="true"> -->
+			<!-- 				<p:outputPanel> -->
+			<!-- 					<p:commandButton value="#{msg.regresar}" styleClass="adip-btn-green" icon="back" immediate="true" /> -->
+			<!-- 				</p:outputPanel> -->
+			<!-- 			</p:panelGrid> -->
+		<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" style="padding: 0% 0 2% 0; max-width: 1024px; margin: auto;text-align: center; " 	styleClass="ui-panelgrid-blank ui-fluid" rendered="#{registroBeneficiarioBean.infoBeneficiario}">
+			<p:outputLabel value="#{msg.lbl_tutor_es_beneficiario}" style="font-family: 'Inter'; font-style: normal; font-weight: 700; font-size: 24px; line-height: 136.02%; text-align: center; color: #475058;" />
+	        <p:inputSwitch  offLabel="No" onLabel="Sí" class="adip-switch" value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.esTutor}" disabled="#{registroBeneficiarioBean.soloLectura}">
+	        	<p:ajax listener="#{registroBeneficiarioBean.buscaTutorEsBeneficiario()}" update="form"/>
+	        </p:inputSwitch>
+		</p:panelGrid>
+			<p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-4 ui-lg-4, ui-g-12 ui-md-8 ui-lg-8" layout="grid" style="padding: 0% 0 2% 0; max-width: 1024px; margin: auto;"
+				styleClass="ui-panelgrid-blank ui-fluid" rendered="true">
+				<p:outputPanel style="padding: 2% 2%; background: #FFF; border-radius: 10px;">
+					<p:outputPanel>
+						<div class="lg:col-12 sm:col-12 xs:col-12">
+							<!--Stepper HTML -->
+							<ul class="adip-stepProgress">
+								<li id="infoBen" class="adip-stepProgress-item #{registroBeneficiarioBean.infoBeneficiario ? 'is-active' : 'current'}"><p:commandLink
+										value="#{msg.lbl_informacion_beneficiario}" actionListener="#{registroBeneficiarioBean.actualizaSeccion(1)}" update="form" immediate="true" /> <br /></li>
+								<li id="infoEncuesta" class="adip-stepProgress-item #{registroBeneficiarioBean.infoEncuesta ? 'is-active' : 'last'}"><p:commandLink
+										value="#{msg.lbl_encuesta}" actionListener="#{registroBeneficiarioBean.actualizaSeccion(2)}" update="form" immediate="true" /> <br /></li>
+							</ul>
+						</div>
+					</p:outputPanel>
+				</p:outputPanel>
+				<p:panel header="#{!registroBeneficiarioBean.infoBeneficiario?msg.lbl_encuesta:registroBeneficiarioBean.soloLectura?msg.lbl_informacion_beneficiario:msg.lbl_registro_beneficiario}" styleClass="adip-panel">
+
+					<!--INFORMACIÓN DEL BENEFICIARIO -->
+					<ui:include src="/protected/seccionesBeneficiario/InformacionBeneficiario.xhtml" />
+					<!--ENCUESTA -->
+					<ui:include src="/protected/seccionesBeneficiario/Encuesta.xhtml" />
+
+					<p:outputPanel id="pnlBtns" styleClass="adip-footer-content"  style="padding-bottom: 4% !important; padding-top: 0px !important; padding-left: 0px  !important; padding-right: 0px !important;">
+						<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+							<p:commandButton value="#{msg.lbl_guardar_continuar}" styleClass="adip-btn-gold" rendered="#{registroBeneficiarioBean.infoBeneficiario and !registroBeneficiarioBean.soloLectura}"
+								process="@this pgCurp" update="form" oncomplete="document.getElementById('form').scrollIntoView();" actionListener="#{registroBeneficiarioBean.guardarBeneficiario()}"
+								disabled="#{!registroBeneficiarioBean.manifiesto}"/>
+							<p:commandButton value="#{msg.lbl_guardar_enviar}" styleClass="adip-btn-gold" rendered="#{registroBeneficiarioBean.infoEncuesta and !encuestaBeneficiarioBean.soloLectura}" 
+								process="@this form" update="form" oncomplete="document.getElementById('form').scrollIntoView();" action="#{encuestaBeneficiarioBean.guardar()}"/>
+						</p:panelGrid>
+					</p:outputPanel>
+				</p:panel>
+			</p:panelGrid>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

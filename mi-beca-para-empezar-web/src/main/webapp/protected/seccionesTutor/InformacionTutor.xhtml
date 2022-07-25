@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<p:outputPanel style="padding: 2% 2%; background: #FFF; border-radius: 10px 10px 0 0;">
+		<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+			<p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-6 ui-lg-6, ui-g-12 ui-md-6 ui-lg-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid ui-panel-sin-pading"
+				rendered="#{!consultaBean.consulta}">
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+					<p:outputLabel value="#{msg.lbl_ingresa_informacion}" styleClass="adip-info-aux" />
+				</p:panelGrid>
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading ta-r">
+					<p:outputLabel value="*#{msg.lbl_campos_requeridos}" styleClass="adip-required-label" />
+				</p:panelGrid>
+			</p:panelGrid>
+			<!-- INFO GENERAL -->
+
+			<p:panelGrid id="pgInfo" columns="2" columnClasses="ui-g-12 ui-md-12 ui-lg-6, ui-g-12 ui-md-12 ui-lg-6" layout="grid"
+				styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid">
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_nombre}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{registroTutorBean.tutorDTO.nombre}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_primer_ap}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{registroTutorBean.tutorDTO.primerApellido}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_segundo_ap}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{registroTutorBean.tutorDTO.segundoApellido ne null ? registroTutorBean.tutorDTO.segundoApellido  : ''}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+				</p:panelGrid>
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_curp}" styleClass="adip-output-campos" />
+						<p:outputLabel id="lblCURP" value="#{registroTutorBean.tutorDTO.curp ne null ? registroTutorBean.tutorDTO.curp : ''}" styleClass="adip-output-bold-campos adip-upperText" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_nacionalidad}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{registroTutorBean.tutorDTO.nacionalidad}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+				</p:panelGrid>
+			</p:panelGrid>
+		</p:panelGrid>
+
+		<p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-12 ui-lg-6, ui-g-12 ui-md-12 ui-lg-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+				<p:outputLabel for="txtTelefono" value="#{msg.lbl_telefono.concat(':')}" styleClass="adip-output-campos" />
+				<p:inputMask id="txtTelefono" value="#{registroTutorBean.tutorDTO.telefono}" placeholder="#{msg.lbl_telefono_ph}" styleClass="campos-captura adip-upperText" required="true"
+				disabled="#{registroTutorBean.disableInformacionGeneral and registroTutorBean.tutorDTO.telefono ne null and registroTutorBean.tutorDTO.catEstatusDTO ne nul}" 
+					requiredMessage="#{msg.msj_campo_requerido}" maxlength="14" 
+					mask="99 99 99 99 99">
+					<p:keyFilter regEx="/^[0-9]\d*$/" />
+				</p:inputMask>
+				<p:message for="txtTelefono" styleClass="adip-messages" display="text" />
+			</p:panelGrid>
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" rendered="#{registroTutorBean.tutorDTO.correo ne null or !registroTutorBean.tutorDTO.correo.isEmpty()}" layout="grid"
+				styleClass="ui-panel-sin-pading">
+				<p:outputLabel value="#{msg.lbl_correo.concat(':')}" styleClass="adip-output-campos" />
+				<p:outputLabel value="#{registroTutorBean.tutorDTO.correo}" styleClass="adip-output-bold-campos" style="overflow-wrap: break-word !important;"/>
+			</p:panelGrid>
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" rendered="#{registroTutorBean.tutorDTO.correo eq null or registroTutorBean.tutorDTO.correo.isEmpty()}" layout="grid"
+				styleClass="ui-panel-sin-pading">
+				<p:outputLabel for="txtCorreo" value="#{msg.lbl_correo.concat(':')}" styleClass="adip-output-campos" />
+				<p:inputText id="txtCorreo" value="#{registroTutorBean.tutorDTO.correo}" placeholder="#{msg.lbl_correo_ph}" styleClass="campos-captura adip-upperText" required="true"
+					requiredMessage="#{msg.msj_campo_requerido}" />
+				<p:message for="txtCorreo" styleClass="adip-messages" display="text" />
+			</p:panelGrid>
+
+		</p:panelGrid>
+		
+		
+	<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" rendered="#{authenticatorBean.rolTutor eq true}">
+		<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+			<div id="mesajeAlerta" class="ui-messages">
+				<div class="ui-messages-warn ui-corner-all">
+
+					<ul>
+						<li><span class="ui-messages-warn-detail"> #{msg.msj_alert_azul_1} <span class="ui-messages-warn-summary"> <a href="https://llave.cdmx.gob.mx/" target="_blank"
+									style="color: #007bff"> #{msg.msj_alert_link_llave_cdmx} </a></span> #{msg.msj_alert_azul_2}
+						</span></li>
+					</ul>
+				</div>
+			</div>
+		</p:panelGrid>
+	</p:panelGrid>
+		<p:panelGrid id="pgIdentificaDoc" columns="2" columnClasses="ui-g-12 ui-md-6 ui-lg-6, ui-g-12 ui-md-6 ui-lg-6 center adip-as-center" layout="grid"
+			styleClass="ui-panelgrid-blank ui-fluid">
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+				<p:outputLabel for="soIdentifica" value="#{registroTutorBean.tutorDTO.esExtranjero ? msg.lbl_identificacion_iden.concat(':') : msg.lbl_identificacion_of.concat(':')}" styleClass="adip-output-campos" />
+				<p:selectOneMenu id="soIdentifica" value="#{registroTutorBean.tutorDTO.catIdentificacionOficialDTO.idIdentificacion}" class="adip-selectonemenu"
+                    panelStyleClass="adip-selectonemenu-panel" required="true" requiredMessage="#{msg.msj_campo_requerido}" disabled="#{registroTutorBean.disableInformacionGeneral}">
+					<f:selectItem itemLabel="#{msg.lbl_elige_una}" itemDisabled="#{registroTutorBean.tutorDTO.catIdentificacionOficialDTO.idIdentificacion ne null}" />
+					<f:selectItems value="#{registroTutorBean.lstIdentificacionOficial}" var="identifica" itemLabel="#{identifica.descripcion}" itemValue="#{identifica.idIdentificacion}" />
+					<p:ajax listener="#{registroTutorBean.verificaIdentificacion()}" process="@this soIdentifica" />
+				</p:selectOneMenu>
+				<p:message for="soIdentifica" styleClass="adip-messages" display="text" />
+				<p:tooltip for="soIdentifica"
+					value="#{registroTutorBean.tutorDTO.catIdentificacionOficialDTO.idIdentificacion ne null ? registroTutorBean.tutorDTO.catIdentificacionOficialDTO.descripcion : ''}"
+					position="top" />
+			</p:panelGrid>
+
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" rendered="#{registroTutorBean.tutorDTO.archivoIdentificacion ne null}">
+				<p:commandLink id="clDocGeneral" target="_blank" value="#{msg.lbl_ver_documento}" ajax="false" immediate="true" styleClass="adip-link"
+					action="#{registroTutorBean.verDocumento(registroTutorBean.tutorDTO.contentFileIdentifica)}">
+				</p:commandLink>
+			</p:panelGrid>
+		</p:panelGrid>
+		<p:panelGrid
+			rendered="#{registroTutorBean.tutorDTO.catIdentificacionOficialDTO.idIdentificacion eq registroTutorBean.ID_IDENTIFICACION_OFICIAL 
+			and (authenticatorBean.rolAdministrador eq true or authenticatorBean.rolValidador eq true) and registroTutorBean.tutorDTO.catEstatusDTO.idEstatus == registroTutorBean.ID_ESTATUS_APROBADA }"
+			columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+				<p:staticMessage severity="warn" detail="Deberá verificar la documentación." styleClass="adip-alerta-message" />
+			</p:panelGrid>
+		</p:panelGrid>
+		<p:panelGrid id="pgIdentifica" columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+			rendered="#{registroTutorBean.viewDocIdentifica or 
+			((authenticatorBean.rolAdministrador eq true or authenticatorBean.rolValidador eq true) 
+			and registroTutorBean.tutorDTO.catEstatusDTO.idEstatus eq registroTutorBean.ID_ESTATUS_ACLARACION_POR_CIRCUNSTANCIA 
+			and registroTutorBean.tutorDTO.informacionGralCorrecto eq false)}">
+			<p:panelGrid id="pgIdentificaOf" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="adip-pg-gris pt-2 pb-2">
+				<p:outputLabel for="uploadIdenOf" value="#{registroTutorBean.tutorDTO.esExtranjero ? msg.lbl_identificacion_iden : msg.lbl_identificacion_of}" styleClass="adip-output-campos ml-2" />
+				<p:fileUpload id="uploadIdenOf" listener="#{registroTutorBean.agregaDocumento}" styleClass="adip-file-upload" accept=".pdf,.jpg,.png,.jpeg" label="#{msg.lbl_cargar_archivo}" mode="advanced"
+					messageTemplate=" " auto="true" required="true" process="@this uploadIdenOf soIdentifica" update="pgIdentifica pgIdentificaDoc" immediate="true"
+					valueChangeListener="#{registroTutorBean.asignaIdentificacionOficial()}" sizeLimit="4194304" invalidSizeMessage="#{msg.msj_documento_oversize}"
+					invalidFileMessage="#{msg.msj_formato_permitido}" allowTypes="/(\.|\/)(jpe?g|png|pdf)$/" />
+				<p:message for="uploadIdenOf" display="text" styleClass="adip-messages" />
+				<p:outputLabel id="lblfileIdenOf" value="#{msg.lbl_max_file_size.concat('.')}" styleClass="adip-observacion-file" />
+
+				<p:panelGrid rendered="#{registroTutorBean.tutorDTO.archivoIdentificacion ne null}" columns="1"
+					columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel id="txtIdentifica" value="#{registroTutorBean.tutorDTO.nombreArchivoIdentificaCorto}" styleClass="adip-output-campos-green" style="overflow-wrap: anywhere;"/>
+					</p:panelGrid>
+				</p:panelGrid>
+
+				<p:panelGrid rendered="#{registroTutorBean.tutorDTO.archivoIdentificacion ne null}" columns="2" columnClasses="ui-g-1 ui-md-1 ui-lg-1 adip-info-icon, ui-g-11 ui-md-11 ui-lg-11"
+					layout="grid" styleClass="ui-panel-sin-pading">
+					<p:graphicImage value="/resources/img/ic_chek_green.svg" style=" width: 17px;  height: 17px;" />
+					<p:outputLabel value="Carga completa y correcta." styleClass="adip-lbl-green-info ml-2" />
+				</p:panelGrid>
+			</p:panelGrid>
+		</p:panelGrid>
+
+		<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" rendered="#{!consultaBean.consulta}">
+			<p:panelGrid id="pgValidaDatosG" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+				rendered="#{authenticatorBean.rolTutor ne true and (authenticatorBean.rolValidador eq true or authenticatorBean.rolAdministrador eq true)}">
+
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+					<p:outputLabel value="#{msg.lbl_datos_de_identificacion}" styleClass="adip-output-campos" />
+				</p:panelGrid>
+
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<p:panelGrid columns="2" columnClasses="ui-g-6 ui-md-3 ui-lg-3 center, ui-g-6 ui-md-3 ui-lg-3" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:commandLink actionListener="#{registroTutorBean.actualizaBotones(1,1)}" update="pgValidaDatosG form:pnlBtns" process="@this">
+							<p:graphicImage
+								value="#{registroTutorBean.tutorDTO.informacionGralCorrecto ne null and registroTutorBean.tutorDTO.informacionGralCorrecto eq true 
+							? '/resources/img/ic_accept_green.svg' :'/resources/img/ic_accept_gray.svg'}" />
+						</p:commandLink>
+						<p:commandLink actionListener="#{registroTutorBean.actualizaBotones(1,2)}" update="pgValidaDatosG form:pnlBtns" process="@this form:pnlBtns">
+							<p:graphicImage
+								value="#{registroTutorBean.tutorDTO.informacionGralCorrecto ne null and registroTutorBean.tutorDTO.informacionGralCorrecto eq false 
+							? '/resources/img/ic_deny_red.svg' :'/resources/img/ic_deny_gray.svg'}" />
+						</p:commandLink>
+					</p:panelGrid>
+				</p:panelGrid>
+
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" rendered="#{registroTutorBean.tutorDTO.informacionGralCorrecto eq false}">
+					<p:outputLabel value="#{msg.lbl_observaciones_tutor}" styleClass="adip-output-campos" />
+					<p:inputTextarea id="txtOtroFundJuridicoOfi" value="#{registroTutorBean.tutorDTO.informacionGeneralObservaciones}" rows="3" maxlength="2500"
+						placeholder="#{msg.plahol_ingresa_observaciones }" required="true" requiredMessage="#{msg.lbl_campos_requeridos}" />
+					<p:message for="txtOtroFundJuridicoOfi" styleClass="adip-messages" display="text" />
+				</p:panelGrid>
+
+			</p:panelGrid>
+
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+				rendered="#{registroTutorBean.tutorDTO.informacionGralCorrecto eq false 
+				and authenticatorBean.rolTutor eq true 
+				and (registroTutorBean.tutorDTO.catEstatusDTO.idEstatus eq registroTutorBean.ID_ESTATUS_CORRECCION_POR_PARTE_CIUDADANO
+				or registroTutorBean.tutorDTO.catEstatusDTO.idEstatus eq registroTutorBean.ID_ESTATUS_ACLARACION_POR_CIRCUNSTANCIA)}">
+				<p:outputLabel id="lblInformacionGeneral" value="#{msg.lbl_correcciones.concat(':')}" styleClass="adip-output-campos-red" />
+				<p:staticMessage severity="error" detail="#{registroTutorBean.tutorDTO.informacionGeneralObservaciones}" styleClass="adip-correccion-message" />
+			</p:panelGrid>
+		</p:panelGrid>
+
+		<p:separator styleClass="adip-separador" />
+
+		<!-- DOMICILIO -->
+
+		<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+				<p:outputLabel value="#{msg.lbl_direccion_tutor}" styleClass="adip-info-aux" />
+			</p:panelGrid>
+		</p:panelGrid>
+		<p:panelGrid id="pgDomicilio" columns="2" columnClasses="ui-g-12 ui-md-12 ui-lg-6, ui-g-12 ui-md-12 ui-lg-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+					<p:outputLabel for="txtCalle" value="#{msg.lbl_calle}" styleClass="adip-output-campos" />
+					<p:inputText id="txtCalle" value="#{registroTutorBean.tutorDTO.calle}" disabled="#{registroTutorBean.disableInformacionDireccion}" placeholder="#{msg.lbl_calle_ph}" styleClass="campos-captura adip-upperText" required="true"
+						requiredMessage="#{msg.msj_campo_requerido}" maxlength="200">
+						<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\-\.\,\s]+$/" />
+					</p:inputText>
+					<p:message for="txtCalle" styleClass="adip-messages" display="text" />
+				</p:panelGrid>
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+					<p:outputLabel for="txtNumExt" value="#{msg.lbl_num_ext}" styleClass="adip-output-campos" />
+					<p:inputText id="txtNumExt" value="#{registroTutorBean.tutorDTO.numExt}" disabled="#{registroTutorBean.disableInformacionDireccion}" placeholder="#{msg.lbl_num_ext_ph}" styleClass="campos-captura adip-upperText" required="true"
+						requiredMessage="#{msg.msj_campo_requerido}" maxlength="200">
+						<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\-\.\,\s]+$/" />
+					</p:inputText>
+					<p:message for="txtNumExt" styleClass="adip-messages" display="text" />
+				</p:panelGrid>
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+					<p:outputLabel for="txtNumInt" value="#{msg.lbl_num_int}" styleClass="adip-output-campos" />
+					<p:inputText id="txtNumInt" value="#{registroTutorBean.tutorDTO.numInt}" disabled="#{registroTutorBean.disableInformacionDireccion}" placeholder="#{msg.lbl_num_int_ph}" styleClass="campos-captura adip-upperText"
+						requiredMessage="#{msg.msj_campo_requerido}"  maxlength="200">
+						<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\-\.\,\s]+$/" />
+					</p:inputText>
+				</p:panelGrid>
+			</p:panelGrid>
+			<p:panelGrid id="pgCombosCP" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+					<p:outputLabel for="txtCP" value="#{msg.lbl_codigo_postal}" styleClass="adip-output-campos" />
+					<p:inputText id="txtCP" value="#{registroTutorBean.tutorDTO.codigoPostal}" disabled="#{registroTutorBean.disableInformacionDireccion}" placeholder="#{msg.lbl_cp_ph}" onkeyup="$(this).val($(this).val().replace(/[^0-9]/g, ''));"
+						styleClass="campos-captura adip-upperText" required="true" requiredMessage="#{msg.msj_campo_requerido}" maxlength="5"
+						>
+						<p:keyFilter regEx="/^[0-9]\d*$/" />
+						<p:ajax event="blur" listener="#{registroTutorBean.consultaCodigosPostales()}" update="pgCombosCP txtEntidad" process="@this txtCP" />
+					</p:inputText>
+					<p:message for="txtCP" styleClass="adip-messages" display="text" />
+				</p:panelGrid>
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+					<p:outputLabel for="soColonia" value="#{msg.lbl_colonia}" styleClass="adip-output-campos" />
+					<p:selectOneMenu id="soColonia" value="#{registroTutorBean.tutorDTO.catAsentamientosDTO}" disabled="#{registroTutorBean.disableInformacionDireccion}" converter="entityConverter" class="adip-selectonemenu"
+						panelStyleClass="adip-selectonemenu-panel" required="true" requiredMessage="#{msg.msj_campo_requerido}" >
+						<f:selectItem itemLabel="#{msg.lbl_elige_uno}" />
+						<f:selectItems value="#{registroTutorBean.listColonia}" var="colonia" itemLabel="#{colonia.descripcion}" itemValue="#{colonia}" />
+						<p:ajax process="@this soColonia" />
+					</p:selectOneMenu>
+					<p:message for="soColonia" styleClass="adip-messages" display="text" />
+				</p:panelGrid>
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+					<p:outputLabel for="soAlcaldia" value="#{msg.lbl_alcaldia_municipio}" styleClass="adip-output-campos" />
+					<p:inputText id="soAlcaldia" value="#{registroTutorBean.tutorDTO.catMunicipiosDTO.descripcion}" placeholder="Alcaldía/Municipio" disabled="true"
+						styleClass="campos-captura adip-upperText" required="true" requiredMessage="#{msg.msj_campo_requerido}">
+					</p:inputText>
+					<p:message for="soAlcaldia" styleClass="adip-messages" display="text" />
+				</p:panelGrid>
+			</p:panelGrid>
+		</p:panelGrid>
+
+		<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+				<p:outputLabel for="txtEntidad" value="#{msg.lbl_entidad}" styleClass="adip-output-campos" />
+				<p:inputText id="txtEntidad" value="#{registroTutorBean.tutorDTO.catMunicipiosDTO.catEstadosDTO.descripcion}" placeholder="#{msg.lbl_entidad_ph}"
+					styleClass="campos-captura adip-upperText" required="true" requiredMessage="#{msg.msj_campo_requerido}" disabled="true" />
+				<p:message for="txtEntidad" styleClass="adip-messages" display="text" />
+			</p:panelGrid>
+		</p:panelGrid>
+
+		<p:panelGrid id="pgComprobanteDocs" columns="2" columnClasses="ui-g-12 ui-md-6 ui-lg-6, ui-g-12 ui-md-6 ui-lg-6 center adip-as-center" layout="grid"
+			styleClass="ui-panelgrid-blank ui-fluid">
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+				<p:outputLabel for="soComprobanteDom" value="#{msg.lbl_comprobante_dom}" styleClass="adip-output-campos" />
+				<p:selectOneMenu id="soComprobanteDom" value="#{registroTutorBean.tutorDTO.catComprobanteDomicilioDTO.idComprobanteDomicilio}" class="adip-selectonemenu"
+					panelStyleClass="adip-selectonemenu-panel" required="true" requiredMessage="#{msg.msj_campo_requerido}" disabled="#{registroTutorBean.disableInformacionDireccion}">
+					<f:selectItem itemLabel="#{msg.lbl_elige_uno}" itemDisabled="#{registroTutorBean.tutorDTO.catComprobanteDomicilioDTO.idComprobanteDomicilio ne null}" />
+					<f:selectItems value="#{registroTutorBean.lstCatComprobanteDomicilioDTO}" var="dom" itemLabel="#{dom.descripcion}" itemValue="#{dom.idComprobanteDomicilio}" />
+					<p:ajax process="@this soComprobanteDom" />
+				</p:selectOneMenu>
+				<p:message for="soComprobanteDom" styleClass="adip-messages" display="text" />
+				<p:tooltip for="soComprobanteDom"
+					value="#{registroTutorBean.tutorDTO.catComprobanteDomicilioDTO.idComprobanteDomicilio ne null ? registroTutorBean.tutorDTO.catComprobanteDomicilioDTO.descripcion : ''}"
+					position="top" />
+			</p:panelGrid>
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading"
+				rendered="#{registroTutorBean.tutorDTO.archivoComprobanteDomicilio ne null}">
+				<p:commandLink id="clDocDomicilio" target="_blank" value="#{msg.lbl_ver_documento}" ajax="false" immediate="true" styleClass="adip-link"
+					action="#{registroTutorBean.verDocumento(registroTutorBean.tutorDTO.contentFileComprobanteDom)}">
+				</p:commandLink>
+			</p:panelGrid>
+		</p:panelGrid>
+
+		<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+			rendered="#{registroTutorBean.viewDocDomicilio or 
+			((authenticatorBean.rolAdministrador eq true or authenticatorBean.rolValidador eq true) 
+			and registroTutorBean.tutorDTO.catEstatusDTO.idEstatus eq registroTutorBean.ID_ESTATUS_ACLARACION_POR_CIRCUNSTANCIA
+			and registroTutorBean.tutorDTO.domicilioCorrecto eq false)}">
+			<p:panelGrid id="pgComprobante" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="adip-pg-gris pt-2 pb-2">
+				<p:outputLabel id="lblComprobanteDom" for="uploadComprobanteDom" value="#{msg.lbl_comprobante_dom}" styleClass="adip-output-campos" />
+				<p:fileUpload id="uploadComprobanteDom" listener="#{registroTutorBean.agregaDocumento}" valueChangeListener="#{registroTutorBean.asignaComprobanteDomicilio()}"
+					styleClass="adip-file-upload" accept=".pdf,.jpg,.png,.jpeg" label="#{msg.lbl_cargar_archivo}" mode="advanced" messageTemplate=" " auto="true" required="true"
+					process="@this uploadComprobanteDom soComprobanteDom" immediate="true" sizeLimit="4194304" update="pgComprobante pgComprobanteDocs"
+					invalidSizeMessage="#{msg.msj_documento_oversize}" invalidFileMessage="#{msg.msj_formato_permitido}" allowTypes="/(\.|\/)(jpe?g|png|pdf)$/" />
+				<p:message for="uploadComprobanteDom" display="text" />
+				<p:outputLabel id="lblfileComprobanteDom" value="#{msg.lbl_max_file_size.concat('.')}" styleClass="adip-observacion-file" />
+
+				<p:panelGrid rendered="#{registroTutorBean.tutorDTO.archivoComprobanteDomicilio ne null}" columns="1"
+					columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel id="txtComprobanteDom" value="#{registroTutorBean.tutorDTO.nombreArchivoComprobanteDomCorto}" styleClass="adip-output-campos-green" style="overflow-wrap: anywhere;"/>
+					</p:panelGrid>
+				</p:panelGrid>
+
+				<p:panelGrid rendered="#{registroTutorBean.tutorDTO.archivoComprobanteDomicilio ne null}" columns="2"
+					columnClasses="ui-g-1 ui-md-1 ui-lg-1 adip-info-icon, ui-g-11 ui-md-11 ui-lg-11" layout="grid" styleClass="ui-panel-sin-pading">
+					<p:graphicImage value="/resources/img/ic_chek_green.svg" style=" width: 17px;  height: 17px;" />
+					<p:outputLabel value="Carga completa y correcta." styleClass="adip-lbl-green-info ml-2" />
+				</p:panelGrid>
+			</p:panelGrid>
+		</p:panelGrid>
+
+		<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" rendered="#{!consultaBean.consulta}">
+			<p:panelGrid id="pgValidaDomicilio" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+				rendered="#{authenticatorBean.rolTutor ne true and (authenticatorBean.rolValidador eq true or authenticatorBean.rolAdministrador eq true)}">
+
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+					<p:outputLabel value="#{msg.lbl_datos_de_domicilio}" styleClass="adip-output-campos" />
+				</p:panelGrid>
+
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<p:panelGrid columns="2" columnClasses="ui-g-6 ui-md-3 ui-lg-3 center, ui-g-6 ui-md-3 ui-lg-3" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:commandLink actionListener="#{registroTutorBean.actualizaBotones(2,1)}" update="pgValidaDomicilio form:pnlBtns" process="@this">
+							<p:graphicImage
+								value="#{registroTutorBean.tutorDTO.domicilioCorrecto ne null and registroTutorBean.tutorDTO.domicilioCorrecto eq true ? '/resources/img/ic_accept_green.svg' :'/resources/img/ic_accept_gray.svg'}" />
+						</p:commandLink>
+						<p:commandLink actionListener="#{registroTutorBean.actualizaBotones(2,2)}" update="pgValidaDomicilio form:pnlBtns" process="@this">
+							<p:graphicImage
+								value="#{registroTutorBean.tutorDTO.domicilioCorrecto ne null and registroTutorBean.tutorDTO.domicilioCorrecto eq false ? '/resources/img/ic_deny_red.svg' :'/resources/img/ic_deny_gray.svg'}" />
+						</p:commandLink>
+					</p:panelGrid>
+				</p:panelGrid>
+
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" rendered="#{registroTutorBean.tutorDTO.domicilioCorrecto eq false}">
+					<p:outputLabel value="#{msg.lbl_observaciones_tutor}" styleClass="adip-output-campos" />
+					<p:inputTextarea id="iTexAObservacionesDir" value="#{registroTutorBean.tutorDTO.domicilioObservaciones}" rows="3" maxlength="2500"
+						placeholder="#{msg.plahol_ingresa_observaciones }" required="true" requiredMessage="#{msg.lbl_campos_requeridos}" />
+					<p:message for="iTexAObservacionesDir" styleClass="adip-messages" display="text" />
+				</p:panelGrid>
+			</p:panelGrid>
+
+		</p:panelGrid>
+
+		<p:panelGrid id="pgObservacionesDomicilio" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+			rendered="#{registroTutorBean.tutorDTO.domicilioCorrecto eq false 
+			and authenticatorBean.rolTutor eq true
+			and (registroTutorBean.tutorDTO.catEstatusDTO.idEstatus eq registroTutorBean.ID_ESTATUS_CORRECCION_POR_PARTE_CIUDADANO
+				or registroTutorBean.tutorDTO.catEstatusDTO.idEstatus eq registroTutorBean.ID_ESTATUS_ACLARACION_POR_CIRCUNSTANCIA)}">
+			<p:outputLabel id="lblCorreccionComprobante" value="#{msg.lbl_correcciones.concat(':')}" styleClass="adip-output-campos-red" />
+			<p:staticMessage severity="error" detail="#{registroTutorBean.tutorDTO.domicilioObservaciones}" styleClass="adip-correccion-message" />
+		</p:panelGrid>
+		
+		
+		
+	<!-- Seccion para agregar mas de 3 funconarios   -->
+	
+	<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" rendered="#{!consultaBean.consulta or registroTutorBean.tutorDTO.catEstatusDTO.idEstatus == registroTutorBean.ID_ESTATUS_APROBADA}">
+	
+	  <p:separator styleClass="adip-separador" rendered="#{authenticatorBean.rolTutor ne true and (authenticatorBean.rolValidador eq true or authenticatorBean.rolAdministrador eq true or authenticatorBean.rolConsulta eq true) and registroTutorBean.tutorDTO.catEstatusDTO.idEstatus == registroTutorBean.ID_ESTATUS_APROBADA}" />
+	
+	  <p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading"  rendered="#{authenticatorBean.rolTutor ne true and (authenticatorBean.rolValidador eq true or authenticatorBean.rolAdministrador eq true or authenticatorBean.rolConsulta eq true) and registroTutorBean.tutorDTO.catEstatusDTO.idEstatus == registroTutorBean.ID_ESTATUS_APROBADA}" >
+			<p:outputLabel value="Información de número de beneficiarios" styleClass="adip-info-aux" />
+	  </p:panelGrid>
+		  
+	  <p:panelGrid id="pgAgregaMasBeneficiarios" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+				rendered="#{authenticatorBean.rolTutor ne true and (authenticatorBean.rolValidador eq true or authenticatorBean.rolAdministrador eq true or authenticatorBean.rolConsulta eq true)}">
+				
+		<p:outputLabel value="¿Deseas agregar más de 3 beneficiarios?" styleClass="adip-output-campos" rendered="#{registroTutorBean.tutorDTO.catEstatusDTO.idEstatus == registroTutorBean.ID_ESTATUS_APROBADA}"/>
+				
+		<p:selectOneRadio id="rdAgregaMasBenef" value="#{registroTutorBean.tutorDTO.esMayorTresBeneficiarios}" styleClass="campos-captura" required="true" requiredMessage="#{msg.lbl_campos_requeridos}" rendered="#{registroTutorBean.tutorDTO.catEstatusDTO.idEstatus == registroTutorBean.ID_ESTATUS_APROBADA}" disabled="#{consultaBean.consulta}">
+						<f:selectItem itemLabel="#{msg.opcion_si}" itemValue="true" />
+						<f:selectItem itemLabel="#{msg.opcion_no}" itemValue="false" />
+						<p:ajax listener="#{registroTutorBean.seleccionaOneTreBeneficiarios()}" update="pgAgregaMasBeneficiarios"/>
+		</p:selectOneRadio>			
+	
+		<p:outputLabel value="¿El tutor registrado es responsable de una casa hogar o fundación?" for="rdEresCasaH" styleClass="adip-output-campos" rendered="#{registroTutorBean.tutorDTO.esMayorTresBeneficiarios and registroTutorBean.tutorDTO.catEstatusDTO.idEstatus == registroTutorBean.ID_ESTATUS_APROBADA}" />
+		<p:selectOneRadio id="rdEresCasaH" value="#{registroTutorBean.tutorDTO.esCasaHogar}" styleClass="campos-captura" rendered="#{registroTutorBean.tutorDTO.esMayorTresBeneficiarios and registroTutorBean.tutorDTO.catEstatusDTO.idEstatus == registroTutorBean.ID_ESTATUS_APROBADA}" required="true" requiredMessage="#{msg.lbl_campos_requeridos}" disabled="#{consultaBean.consulta}">
+						<f:selectItem itemLabel="#{msg.opcion_si}" itemValue="true" />
+						<f:selectItem itemLabel="#{msg.opcion_no}" itemValue="false" />
+						<p:ajax listener="#{registroTutorBean.seleccionaOneCaseHogar()}" update="pgAgregaMasBeneficiarios"/>
+		</p:selectOneRadio>	
+		<p:message for="rdEresCasaH" styleClass="adip-messages" display="text" />
+	
+		<p:outputLabel value="Nombre de la casa hogar o fundación: " for="iTexNombreCasaH" styleClass="adip-output-campos" rendered="#{registroTutorBean.tutorDTO.esCasaHogar and registroTutorBean.tutorDTO.esMayorTresBeneficiarios and registroTutorBean.tutorDTO.catEstatusDTO.idEstatus == registroTutorBean.ID_ESTATUS_APROBADA}" />
+		<p:inputTextarea id="iTexNombreCasaH" value="#{registroTutorBean.tutorDTO.nombreCasaHogar}" rows="3" maxlength="2500"  required="true" requiredMessage="#{msg.lbl_campos_requeridos}" disabled="#{consultaBean.consulta}"
+						 rendered="#{registroTutorBean.tutorDTO.esCasaHogar and registroTutorBean.tutorDTO.esMayorTresBeneficiarios and registroTutorBean.tutorDTO.catEstatusDTO.idEstatus == registroTutorBean.ID_ESTATUS_APROBADA}"/>
+		<p:message for="iTexNombreCasaH" styleClass="adip-messages" display="text" />
+		
+		<p:outputLabel value="Motivo por el cual deseas agregar más de 3 beneficiarios :" for="iTexMotivo" styleClass="adip-output-campos"  rendered="#{!registroTutorBean.tutorDTO.esCasaHogar and registroTutorBean.tutorDTO.esMayorTresBeneficiarios and registroTutorBean.tutorDTO.catEstatusDTO.idEstatus == registroTutorBean.ID_ESTATUS_APROBADA}" />
+		<p:inputTextarea id="iTexMotivo" value="#{registroTutorBean.tutorDTO.motivoMayorTresBeneficiarios}" rows="3" maxlength="2500" required="true" requiredMessage="#{msg.lbl_campos_requeridos}" disabled="#{consultaBean.consulta}"
+						 rendered="#{!registroTutorBean.tutorDTO.esCasaHogar and registroTutorBean.tutorDTO.esMayorTresBeneficiarios and registroTutorBean.tutorDTO.catEstatusDTO.idEstatus == registroTutorBean.ID_ESTATUS_APROBADA}"/>	
+		<p:message for="iTexMotivo" styleClass="adip-messages" display="text" />
+	  </p:panelGrid>
+	</p:panelGrid>
+	<!-- FIN  Seccion para agregar mas de 3 funconarios   FIN -->
+
+		<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" rendered="#{registroTutorBean.viewAvisoPrivacidad}">
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading ta-r">
+				<p:selectBooleanCheckbox id="sbAviso" value="#{registroTutorBean.avisoPrivacidad}" itemLabel="#{msg.lbl_terminos_y_condiciones_html}" escape="false">
+				<p:ajax process="@this" update="form:pnlBtns"/>
+				</p:selectBooleanCheckbox>
+			</p:panelGrid>
+		</p:panelGrid>
+
+	</p:outputPanel>
+
+	<p:dialog id="dialogValidaTutor" widgetVar="dialogValidaTutor" modal="true" closable="false" responsive="true" styleClass="adip-dialog" style="overflow-y:hidden !important;">
+		<f:facet name="header">
+			<p:outputLabel value="Aprobación de la solicitud" styleClass="adip-dialog-titulo" />
+		</f:facet>
+
+		<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading center">
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading pt-4">
+				<p:outputLabel value="¿Deseas aprobar la solicitud?" styleClass="adip-output-campos-dialog" />
+			</p:panelGrid>
+			<p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-6 ui-lg-6, ui-g-12 ui-md-6 ui-lg-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid center">
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+					<p:commandButton value="#{msg.cancelar}" oncomplete="PF('dialogValidaTutor').hide();" style="    width: inherit !important; max-width:133px !important;"
+						styleClass="adip-btn-gris" process="@this" />
+				</p:panelGrid>
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+					<p:commandButton value="Aceptar" style="    width: inherit !important; max-width:133px !important;" styleClass="adip-btn-green" process="@this"
+							oncomplete="PF('dialogValidaTutor').hide(); document.getElementById('frmMenuUsuario').scrollIntoView();"  actionListener="#{registroTutorBean.guardaValidaTutor()}"  />
+				</p:panelGrid>
+			</p:panelGrid>
+		</p:panelGrid>
+	</p:dialog>
+
+	<p:dialog id="dialogTutorAprobado" widgetVar="dialogTutorAprobado" modal="true" closable="false" responsive="true" styleClass="adip-dialog adip-dialog-green"
+		style="overflow-y:hidden !important;">
+		<f:facet name="header">
+			<p:outputLabel value="Solicitud aprobada" styleClass="adip-dialog-titulo-green" />
+		</f:facet>
+
+		<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading center">
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading p-4">
+				<p:outputLabel value="La aprobación del registro se ha realizado con éxito." styleClass="adip-output-campos-dialog-green" />
+			</p:panelGrid>
+
+		</p:panelGrid>
+	</p:dialog>
+	<p:dialog id="dialogRechazoTutor" widgetVar="dialogRechazoTutor" modal="true" closable="false" responsive="true" styleClass="adip-dialog"
+		style="overflow-y:hidden !important;min-width:320px !important;">
+		<f:facet name="header">
+			<p:outputLabel value="Enviar solicitud" styleClass="adip-dialog-titulo" />
+		</f:facet>
+
+		<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading center">
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading p-4">
+				<p:outputLabel value="¿Deseas enviar la solicitud para corrección por parte del ciudadano?" styleClass="adip-output-campos-dialog"
+					rendered="#{registroTutorBean.idEstatus eq registroTutorBean.ID_ESTATUS_CORRECCION_POR_PARTE_CIUDADANO}" />
+				<p:outputLabel value="¿Deseas enviar la solicitud para aclaración por circunstancia?" styleClass="adip-output-campos-dialog"
+					rendered="#{registroTutorBean.idEstatus eq registroTutorBean.ID_ESTATUS_ACLARACION_POR_CIRCUNSTANCIA}" />
+			</p:panelGrid>
+			<p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-6 ui-lg-6, ui-g-12 ui-md-6 ui-lg-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid center">
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+					<p:commandButton value="#{msg.cancelar}" oncomplete="PF('dialogRechazoTutor').hide();" style="    width: inherit !important; max-width:133px !important;"
+						styleClass="adip-btn-gris" process="@this" />
+				</p:panelGrid>
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+					<p:commandButton value="Aceptar" style="width: inherit !important; max-width:133px !important;" styleClass="adip-btn-green" process="@this"
+						oncomplete="PF('dialogRechazoTutor').hide(); document.getElementById('frmMenuUsuario').scrollIntoView();" actionListener="#{registroTutorBean.envioCorreccion()}" />
+				</p:panelGrid>
+			</p:panelGrid>
+		</p:panelGrid>
+	</p:dialog>
+
+	<p:dialog id="dialogTutorRechazado" widgetVar="dialogTutorRechazado" modal="true" closable="false" responsive="true" styleClass="adip-dialog adip-dialog-green"
+		style="overflow-y:hidden !important;">
+		<f:facet name="header">
+			<p:outputLabel value="Solicitud enviada" styleClass="adip-dialog-titulo-green" />
+		</f:facet>
+		<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading center">
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading p-4">
+				<p:outputLabel value="La solicitud se ha enviado con éxito." styleClass="adip-output-campos-dialog-green" />
+			</p:panelGrid>
+		</p:panelGrid>
+	</p:dialog>
+	
+	<p:dialog id="dialogTutorActualizarNumbeneficiarios" widgetVar="dialogTutorActualizarNumbeneficiarios" modal="true" closable="false" responsive="true" styleClass="adip-dialog adip-dialog-green"
+		style="overflow-y:hidden !important;">
+		<f:facet name="header">
+			<p:outputLabel value="Información actualizada" styleClass="adip-dialog-titulo-green" />
+		</f:facet>
+		<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading center">
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading p-4">
+				<p:outputLabel value="Se actualizó la seccion de beneficiarios por Tutor" styleClass="adip-output-campos-dialog-green" />
+			</p:panelGrid>
+		</p:panelGrid>
+	</p:dialog>
+
+	<p:dialog id="dialogDatosCorrectos" widgetVar="dialogDatosCorrectos" modal="true" closable="false" responsive="true" styleClass="adip-dialog adip-dialog-green"
+		style="overflow-y:hidden !important;">
+		<f:facet name="header">
+			<p:outputLabel value="Datos correctos" styleClass="adip-dialog-titulo-green" />
+		</f:facet>
+
+		<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading center">
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading p-4">
+				<p:outputLabel value="Los datos de la credencial son correctos." styleClass="adip-output-campos-dialog-green" />
+			</p:panelGrid>
+		</p:panelGrid>
+	</p:dialog>
+
+	<!-- 	DIALOG PARA CAPTURA DE CURP -->
+	<p:dialog id="dialogCapturaCURP" widgetVar="dialogCapturaCURP" modal="true" closable="false" responsive="true" styleClass="adip-dialog adip-dialog-CURP" resizable="false">
+		<f:facet name="header">
+			<p:outputLabel value="Comprobación de CURP: Tutor Extranjero" styleClass="adip-dialog-titulo" />
+		</f:facet>
+
+		<p:panelGrid id="pgMsgDialogCURP" columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+			<p:messages id="mensajeCURP" showDetail="true" closable="false" showIcon="false" />
+		</p:panelGrid>
+		<p:panelGrid id="pgCompruebaCURP" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading pl-4 pr-4">
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading pt-4 pl-4 pr-4">
+				<p:outputLabel value="¿Tienes una CURP registrada en la aplicación móvil Obtén Más para el programa Mi Beca para Empezar?" styleClass="adip-output-bold-campos" />
+			</p:panelGrid>
+
+			<p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-6 ui-lg-6, ui-g-12 ui-md-6 ui-lg-6" layout="grid" styleClass="ui-panel-sin-pading center">
+				<p:commandButton value="SÍ" actionListener="#{registroTutorBean.actualizacomprobacioCURP(1)}"
+					styleClass="#{registroTutorBean.curpExtranjero eq true ? 'adip-btn-guinda' : 'adip-btn-gris'}" style="width:90% !important" process="@this" update="pgCompruebaCURP" />
+				<p:commandButton value="NO" actionListener="#{registroTutorBean.actualizacomprobacioCURP(2)}"
+					styleClass="#{registroTutorBean.curpExtranjero eq false ? 'adip-btn-guinda' : 'adip-btn-gris'}" style="width:90% !important" process="@this" update="pgCompruebaCURP" />
+			</p:panelGrid>
+
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" rendered="#{registroTutorBean.curpExtranjero eq true}">
+				<p:outputLabel value="#{msg.lbl_curp_corto.concat(':')}" styleClass="adip-output-campos" />
+				<p:inputText id="txtCampoCURP" onblur="value=value.toUpperCase()" value="#{registroTutorBean.curpExtranjeroSt}" styleClass="campos-captura adip-upperText" required="true"
+					requiredMessage="#{msg.msj_campo_requerido}" maxlength="18">
+					<p:keyFilter regEx="/^[a-zA-Z0-9\s]+$/" preventPaste="false"/>
+				</p:inputText>
+				<p:message for="txtCampoCURP" styleClass="adip-messages" display="text" />
+			</p:panelGrid>
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" rendered="#{registroTutorBean.curpExtranjero eq false}">
+				<p:staticMessage severity="warn" detail="La CURP generada será para uso exclusivo de la plataforma Mi Beca para Empezar y para la aplicación móvil Obtén Más."
+					styleClass="adip-alerta-message" />
+			</p:panelGrid>
+			<p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-6 ui-lg-6, ui-g-12 ui-md-6 ui-lg-6" layout="grid" styleClass="ui-panel-sin-pading center">
+				<p:commandButton value="Validar" actionListener="#{registroTutorBean.validaCURPExtranjero()}" styleClass="adip-btn-guinda" style="width:90% !important"
+					process="@this txtCampoCURP" update="pgCompruebaCURP" rendered="#{registroTutorBean.curpExtranjero eq true}" />
+				<p:commandButton value="Generar CURP" actionListener="#{registroTutorBean.generarCURP()}" styleClass="adip-btn-guinda" style="width:90% !important" process="@this"
+					rendered="#{registroTutorBean.curpExtranjero eq false}" />
+				<p:commandButton value="Cancelar" action="#{bandejaTutorBean.init()}" styleClass="adip-btn-gris" style="width:90% !important" process="@this" />
+			</p:panelGrid>
+
+		</p:panelGrid>
+	</p:dialog>
+
+	<p:remoteCommand name="rcBandejaTutor" delay="3000" action="#{bandejaFuncionarioBean.init()}" immediate="true"/>
+
+	<p:remoteCommand name="rcRechazoDatosCorrectos" action="#{bandejaFuncionarioBean.init()}" delay="3000" />
+	
+
+	<style>
+body .ui-messages .ui-messages-warn {
+	background: #E1F6FF;
+	border-width: 0px;
+	color: #0043A7;
+}
+
+.adip-dialog {
+	max-height: 80%;
+	overflow-y: overlay;
+}
+
+.adip-dialog-CURP {
+	/* 	min-width: 30em; */
+	max-width: 30em;
+	overflow-y: hidden !important;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+	.adip-dialog {
+		max-width: 100%;
+	}
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+	.adip-dialog {
+		max-width: 55%;
+	}
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+	.adip-dialog {
+		max-width: 30rem;
+		min-width: 30rem !important;
+	}
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+}
+
+.adip-selectonemenu.ui-state-disabled {
+	pointer-events: all !important;
+}
+
+.adip-link {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px !important;
+    line-height: 24px !important;
+    text-decoration-line: underline !important;
+    color: #007BFF !important;
+    margin-right: 12px;
+}
+</style>
+</ui:composition>

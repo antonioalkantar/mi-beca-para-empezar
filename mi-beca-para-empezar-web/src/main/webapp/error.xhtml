@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="content">
+		<div id="divMsjErron" class="ui-message ui-message-warn ui-widget ui-corner-all" align="left">
+			<span class="ui-message-warn-icon"></span>
+			<span class="ui-message-warn-summary">#{msg.msj_error}</span>
+			<span class="ui-message-warn-detail">#{msg.msj_error_indicacion}</span>
+		</div>
+		<div id="detalleError" align="left">
+			<ul>
+			    <li>Fecha/hora: #{of:formatDate(now, 'yyyy-MM-dd HH:mm:ss')}</li>
+			    <li>Navegador: #{header['user-agent']}</li>
+			    <li>IP de usuario: #{request.remoteAddr}</li>
+			    <li>Request URI: #{requestScope['javax.servlet.error.request_uri']}</li>
+			    <li>Solicitud Ajax: #{facesContext.partialViewContext.ajaxRequest ? 'Sí' : 'No'}</li>
+			    <li>Codigo de estatus: #{requestScope['javax.servlet.error.status_code']}</li>
+			    <li>Tipo Excepción: #{requestScope['javax.servlet.error.exception_type']}</li>
+			    <li>Mensaje de Excepción: #{requestScope['javax.servlet.error.message']}</li>
+			    <li>Exception UUID: #{requestScope['org.omnifaces.exception_uuid']}</li>
+			    <li>Stack trace:
+			        <pre>#{of:printStackTrace(requestScope['javax.servlet.error.exception'])}</pre>
+			    </li>
+			</ul>
+		</div>
+	</ui:define>
+</ui:composition>

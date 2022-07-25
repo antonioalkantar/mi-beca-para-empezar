@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      template="/WEB-INF/templates/default.xhtml">
+     
+      <ui:define name="content">
+      
+      <style>
+.etiqueta{
+  font-size: 12px !important;
+  font-weight: bold !important;
+  line-height: 1.33 !important;
+  letter-spacing: 0.2px !important;
+  color: #009288 !important;
+}
+.adip-radio-button  .ui-radiobutton .ui-radiobutton-box {
+ 	border: #B18147; 
+ 	border-color: #B18147; 
+ 	color: #ffffff; 
+	background: #E2E8F0 !important;
+	border: 1px solid #E2E8F0 !important;
+}
+
+.adip-radio-button  .ui-radiobutton .ui-radiobutton-box.ui-state-active
+	{
+	border-color: #B18147 !important;
+	background: #B18147 !important;
+	color: #ffffff !important;
+}
+
+.adip-radio-button .ui-radiobutton .ui-radiobutton-box.ui-state-active.ui-state-hover
+	{
+	border-color: #e0a660 !important;
+}
+
+.adip-radio-button .ui-radiobutton .ui-radiobutton-box.ui-state-focus {
+	box-shadow: 0 0 0 0.2em #dda25c !important;
+}
+
+	      .adip-separador {
+	    	border: 1px solid #BC955C;
+	    	width: 90%;
+		  }
+		  
+		   body .ui-modal-green .ui-dialog-titlebar {
+		    color: #1B5C4F;
+		    font-weight: 700 !important;
+		    border-bottom: 0 none;
+		    padding: .5rem !important;
+		    background: #D2F2CA;
+			font-weight: bold;
+			font-size: 24px;
+			}
+		
+		  body .ui-modal-gray .ui-dialog-titlebar {
+		    color: #475058;
+		    font-weight: 700 !important;
+		    border-bottom: 0 none;
+		    padding: .5rem !important;
+		    background: #E2E8F0;
+			font-weight: bold;
+			font-size: 24px;
+			}
+      </style>
+  	<div class="contenido-general" >
+   <p:panelGrid id="pnlGeneral" columns="3" columnClasses="ui-grid-col-2, ui-grid-col-8, ui-grid-col-2" layout="grid" style="text-align: center;" styleClass="ui-panelgrid-blank ui-fluid">
+   <p:outputPanel/>
+   <h:form id="formCambioTutor">
+   <p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align:left !important; padding-left: 0px !important;" >
+  		<p:commandButton value="#{msg.regresar}" action="#{bandejaFuncionarioBean.init()}" styleClass="adip-btn-green" icon="back" immediate="true" />
+	</p:panelGrid>
+   <p:panelGrid id="pnlFormulario" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+   		
+   <p:outputPanel style="background: #FFFFFF !important; border-radius:8px; ">				
+			<p:outputPanel style="background: #9f2241 !important; border-top-right-radius: 8px; border-top-left-radius: 8px;">
+  				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="padding:10px 0; text-align: left;" >
+					<p:outputLabel value="Cambiar tutor" style="color: #fff; font-size:22px; text-align: left; font-weight: bold;" />
+				</p:panelGrid>
+			</p:outputPanel>
+     		
+     		<br />
+			<p:panelGrid id="pnlInformacion" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align: left; padding-left: .5em" >
+	      		<p:outputLabel id="lblDatosTitulo"  value="Datos del beneficiario:" styleClass="etiqueta" style="color: #BC955C !important; font-size:22px !important; text-align: left; font-weight: bold !important;" />
+			</p:panelGrid>
+	      	<p:panelGrid id="pnlDatosBeneficiario" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align: left; padding-left: 1em" >				
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" >
+					<p:outputLabel value="#{msg.lbl_nombre_2}" styleClass="adip-output-bold-campos" style="font-size: 18px !important" />
+					<p:outputLabel value="#{cambioTutorBean.solicitud.beneficiarioDTO.nombresCompletoBeneficiario}" styleClass="adip-output-campos" style="font-size: 18px !important"  />
+				</p:panelGrid>
+				
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" >
+					<p:outputLabel value="#{msg.lbl_nacionalidad}" styleClass="adip-output-bold-campos" style="font-size: 18px !important"  />
+					<p:outputLabel value="#{cambioTutorBean.solicitud.beneficiarioDTO.nacionalidad}" styleClass="adip-output-campos" style="font-size: 18px !important"  />
+				</p:panelGrid>
+				
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" >
+					<p:outputLabel value="Estatus" styleClass="adip-output-bold-campos" style="font-size: 18px !important"  />
+					<p:outputLabel value="#{cambioTutorBean.solicitud.catEstatusBeneficiarioDTO.descripcion}" styleClass="adip-output-campos" style="font-size: 18px !important"  />
+				</p:panelGrid>
+	      	</p:panelGrid>
+	      		<br />
+	      		<p:separator styleClass="adip-separador" />
+				<br />
+				
+				<p:panelGrid id="pnlInformacionTutorActual" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align: left; padding-left: .5em" >
+	      		<p:outputLabel id="lblDatosTituloTutorActual"  value="Datos del tutor actual:" styleClass="etiqueta" style="color: #BC955C !important; font-size:22px !important; text-align: left; font-weight: bold !important;" />
+				</p:panelGrid>
+				
+				<p:panelGrid id="pnlDatosTutorActual" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align: left; padding-left: 1em" >				
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" >
+					<p:outputLabel value="#{msg.lbl_nombre_2}" styleClass="adip-output-bold-campos" style="font-size: 18px !important" />
+					<p:outputLabel value="#{cambioTutorBean.solicitud.nombreCompletoTutor}" styleClass="adip-output-campos" style="font-size: 18px !important"  />
+				</p:panelGrid>
+				
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" >
+					<p:outputLabel value="#{msg.lbl_curp}" styleClass="adip-output-bold-campos" style="font-size: 18px !important"  />
+					<p:outputLabel value="#{cambioTutorBean.solicitud.tutorDTO.curp}" styleClass="adip-output-campos" style="font-size: 18px !important"  />
+				</p:panelGrid>
+				
+	      		</p:panelGrid>
+	      		<br />
+	      		<p:separator styleClass="adip-separador" />
+				<br />
+		<p:panelGrid id="pnlRadio" columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" rendered="#{!cambioTutorBean.busquedaCorrecta}">
+			<p:panelGrid  columns="1" columnClasses="ui-g-12" layout="grid" styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid" style="text-align: right;" >
+				<p:outputLabel value="Buscar por: " styleClass="etiqueta" style="color: #BC955C !important; font-size:22px !important; text-align: left; font-weight: bold !important;"/>
+			</p:panelGrid>
+			<p:panelGrid  columns="1" columnClasses="ui-g-12" layout="grid" styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid" style="text-align: left;" >
+			    <p:selectOneRadio
+			    	id="rdResolucion" 
+			    	required="true" 
+			    	requiredMessage="Seleccione una opción."
+			    	value="#{cambioTutorBean.habilitaCampos}"
+			    	styleClass="adip-radio-button" style="font-size: 18px !important"
+			    >
+					<f:selectItem itemLabel="#{msg.opcion_nombre}" itemValue="#{true}"/>
+					<f:selectItem itemLabel="#{msg.opcion_curp}" itemValue="#{false}"/>
+					<p:ajax listener="#{cambioTutorBean.habilitaCamposBusqueda}" update="pnlBeneficiarioAccionesNombre pnlBeneficiarioAccionesCurp" />
+				</p:selectOneRadio>
+				<p:message for="rdResolucion" style="width: 100%"> <p:autoUpdate /> </p:message>
+			</p:panelGrid>
+		</p:panelGrid>
+				
+		<p:panelGrid id="pnlBeneficiarioAccionesNombre" columns="3" columnClasses="ui-grid-col-4, ui-grid-col-4, ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align: left;" rendered="#{!cambioTutorBean.busquedaCorrecta}">
+			<p:outputLabel value="Nombre del tutor:" styleClass="adip-output-campos" />		
+			<p:outputLabel value="Apellido paterno del tutor:" styleClass="adip-output-campos" />		
+			<p:outputLabel value="Apellido materno del tutor:" styleClass="adip-output-campos" />		
+
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" >
+				<p:inputText id="txtNombreTutor" value="#{cambioTutorBean.nombreNuevoTutor}" maxlength="60" required="true" requiredMessage="Ingresa nombre" placeholder="Nombre" styleClass="campos-captura adip-upperText" disabled="#{!cambioTutorBean.habilitaNombre}"/>
+				<p:message for="txtNombreTutor" style="width: 100%"> <p:autoUpdate /> </p:message>
+			</p:panelGrid>
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" >
+				<p:inputText id="txtAPTutor" value="#{cambioTutorBean.aPaternoNuevoTutor}" maxlength="60" required="true" requiredMessage="Ingresa el apellido paterno" placeholder="Apellido paterno" styleClass="campos-captura adip-upperText" disabled="#{!cambioTutorBean.habilitaNombre}"/>
+				<p:message for="txtAPTutor" style="width: 100%"> <p:autoUpdate /> </p:message>
+			</p:panelGrid>
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" >
+				<p:inputText id="txtAMTutor" value="#{cambioTutorBean.aMaternoNuevoTutor}" maxlength="60" placeholder="Apellido materno" styleClass="campos-captura adip-upperText" disabled="#{!cambioTutorBean.habilitaNombre}"/>
+			</p:panelGrid>
+
+		</p:panelGrid>
+
+		<p:panelGrid id="pnlBeneficiarioAccionesCurp" columns="3" columnClasses="ui-grid-col-4, ui-grid-col-4, ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align: left;" rendered="#{!cambioTutorBean.busquedaCorrecta}" >
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" >
+				<p:outputLabel value="CURP del tutor:" styleClass="adip-output-campos"/>	
+				<p:inputText id="txtCurp" value="#{cambioTutorBean.curp}" maxlength="18" minlength="18" required="true" requiredMessage="Ingresa la CURP" placeholder="CURP" styleClass="campos-captura adip-upperText" disabled="#{!cambioTutorBean.habilitaCurp}">	
+					<f:validateLength minimum="18" maximum="18"/>
+				</p:inputText>
+				<p:message for="txtCurp" style="width: 100%"> <p:autoUpdate /> </p:message>
+			</p:panelGrid>
+		</p:panelGrid>
+		
+		<p:panelGrid id="pgAcciones" columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid" styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid" rendered="#{!cambioTutorBean.busquedaCorrecta}" >	
+			<p:panelGrid  columns="1" columnClasses="ui-g-12" layout="grid" styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid" style="text-align: right;" >
+				<p:commandButton value="Limpiar" action="#{cambioTutorBean.init(cambioTutorBean.solicitud.idSolicitud)}" styleClass="adip-btn-gris" style="width: 50% !important" process="@this formCambioTutor" update="formCambioTutor" immediate="true"/>	
+			</p:panelGrid>
+			<p:panelGrid  columns="1" columnClasses="ui-g-12" layout="grid" styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid" style="text-align: left;" >
+			<p:commandButton value="Buscar" styleClass="adip-btn-green" action="#{cambioTutorBean.buscarNuevoTutor()}" style="width: 50% !important" process="@this formCambioTutor" 
+				update="formCambioTutor"/>	
+			</p:panelGrid>
+	    </p:panelGrid>  	
+	        
+	     <p:panelGrid rendered="#{cambioTutorBean.sinResultados}" columns="1" columnClasses="ui-g-12" layout="grid" styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid" style="text-align: center;" >
+			<p:outputLabel value="No se encontraron resultados" styleClass="adip-output-bold-campos" style="font-size: 18px !important" />
+		</p:panelGrid>			
+	      		
+
+				<br />
+				
+				<p:panelGrid id="pgAccionesBusqueda" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid" rendered="#{cambioTutorBean.busquedaCorrecta}" >	
+					<p:panelGrid  columns="1" columnClasses="ui-g-12" layout="grid" styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid" style="text-align: center;" >
+						<p:commandButton value="Nueva búsqueda" action="#{cambioTutorBean.init(cambioTutorBean.solicitud.idSolicitud)}" styleClass="adip-btn-green" style="width: 30% !important" process="@this formCambioTutor" update="formCambioTutor"/>	
+					</p:panelGrid>
+	    		</p:panelGrid>  
+	    		<br />
+
+				<p:outputPanel style="padding: 2% 2%; background: #FFF; border-radius: 10px" rendered="#{cambioTutorBean.busquedaCorrecta}">
+					<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<p:dataTable emptyMessage="No existen beneficiarios registrados." lazy="true" styleClass="dt-tramites" reflow="true" rows="10" paginator="true" paginatorPosition="bottom"
+							value="#{cambioTutorBean.lstTutores}" var="tutores"
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+							currentPageReportTemplate="Mostrados {startRecord}-{endRecord} de {totalRecords} resultados">
+							<p:column headerText="Tutor" styleClass="dt-alineacion" style="word-break:break-word" width="23%">
+								<p:outputLabel value="#{tutores.nombre} #{tutores.primerApellido} #{tutores.segundoApellido ne null ? tutores.segundoApellido : ''}" />
+							</p:column>
+							<p:column headerText="CURP" styleClass="dt-alineacion"  style="word-break:break-word" width="42%">
+								<p:outputLabel
+									value="#{tutores.curp}" />
+							</p:column>
+							<p:column headerText="Opciones" styleClass="dt-alineacion"  style="word-break:break-word" width="42%">
+								<p:commandLink onclick="PF('mdlAsignacionTutor').show();"   >
+									<p:outputLabel value="+ Asignar" style="font-size:14px; text-align: left; font-weight: bold;" />
+									<f:setPropertyActionListener value="#{tutores}" target="#{cambioTutorBean.nuevoTutor}" />
+								</p:commandLink>
+							</p:column>
+						</p:dataTable>
+
+					</p:panelGrid>
+				</p:outputPanel>
+
+
+				<br />
+				 <p:outputPanel style="background: #E2E8F0 !important; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px; height: 4em">		
+				<br />
+				</p:outputPanel>
+				</p:outputPanel>		
+				</p:panelGrid>
+   			</h:form>
+   		</p:panelGrid>
+   		</div>
+   		
+   		<p:dialog id="dlgAsignacionTutor"  widgetVar="mdlAsignacionTutor" header="Asignación del tutor" 
+				  modal="true" width="500px" heigh="200px important!" responsive="true" resizable="false" styleClass="ui-modal-gray" closable="true" >
+		<h:form id="frmMdlCambioTutor">
+			<p:panelGrid id="pnlMdlAsignacionTutor" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+			             style="text-align: left; font-weight: 700; border-bottom: 0 none; padding: 1.5rem; background: #fff;" >
+				<p:panelGrid id="pnlObservacionCambio" for="txtObservacionCambio" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<p:outputLabel value="Agregue un motivo para asignar el cambio de tutor" />
+				
+				<p:inputTextarea id="txtObservacionCambio" rows="5" cols="30"  maxlength="200" required="true" requiredMessage="#{msg.msj_campo_requerido}" 
+                         value="#{cambioTutorBean.observaciones}" autoResize="false"/>
+				<p:message for="txtObservacionCambio" styleClass="adip-messages" display="text" />
+			</p:panelGrid>		
+			
+			</p:panelGrid>
+			<p:panelGrid id="pnlAcciones" columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid" style="text-align: right !important;" >
+	 			<p:commandButton id="btnCancelar" value="Cancelar" onclick="PF('mdlAsignacionTutor').hide();" immediate="true" styleClass="boton-cancelar-regresar-tarjeta ui-button-acciones"/>
+				<p:commandButton id="btnAsignar"  value="Asignar"  action="#{cambioTutorBean.guardar()}" onclick="PF('mdlAsignacionTutorGreen').show();"  update="pnlMdlAsignacionTutor @this"
+				style="background-color: #1B5C4F !important" styleClass="boton-siguiente-tarjeta"  />
+			</p:panelGrid>
+			  <br />
+		</h:form>
+		</p:dialog>
+
+	<p:dialog id="dlgAsignacionTutorGreen" widgetVar="mdlAsignacionTutorGreen" header="Asignación del tutor" 
+		modal="true" width="500px" heigh="200px important!" responsive="true" resizable="false" styleClass="ui-modal-green" closable="true" >
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+			 style="text-align: left; 
+    font-weight: 700;
+    border-bottom: 0 none;
+    padding: 1.5rem;
+    background: #C7EFBD;" >
+    <p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+			 style="text-align: center;" >
+				<p:outputLabel value="Nuevo tutor asignado con éxito." style="color: #1B5C4F !important;" />	
+			</p:panelGrid>
+	</p:panelGrid>
+		</p:dialog>
+	
+   </ui:define>
+</ui:composition>

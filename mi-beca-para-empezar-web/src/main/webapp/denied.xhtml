@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	template="/WEB-INF/templates/default.xhtml">
+	
+	<ui:fragment rendered="false">
+	<!-- Se redirecciona a esta pagina si:
+		
+	 	 1. El usuario por ejemplo ingresa a una URI que no deberia tener acceso. Esto se debe programar en cada xhtml
+		 de la siguiente manera:
+		 
+			 <script type="text/javascript">
+	  			if(${!authenticator1.hasRole('SCU_ADMIN')}){ 
+	  				window.location.href = '/SCU/denied.xhtml';
+	 			} 
+	 		</script> 
+		 
+		 2. El usuario ejecuta un método al cual no tiene permisos. Esto se configura en el EJB:
+		 	@Stateless
+			@LocalBean
+			@RolesAllowed("SCU_ADMIN_AGREGAR")
+			public class AgregarEditarDMFacade ....
+			
+			Y en el web.xml se estipula a donde redireccionar:
+			<error-page>
+				<exception-type>javax.ejb.EJBAccessException</exception-type>
+				<location>/denied.xhtml?faces-redirect=true</location>
+			</error-page>
+		  -->
+	</ui:fragment>
+	
+	<ui:define name="content">
+		<div id="divMsjErron" class="ui-message ui-message-warn ui-widget ui-corner-all" align="left">
+			<span class="ui-message-warn-icon"></span>
+			<span class="ui-message-warn-summary">#{msg.acceso_denegado}</span>
+			<span class="ui-message-warn-detail">#{msg.permiso_denegado}</span>
+		</div>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,658 @@
+		
+@media screen and (max-width: 575.98px) {
+  .xs\:font-city {
+      font-family: Inter;
+	  font-size: 16.4px;
+	  font-weight: 700;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 0.96;
+	  letter-spacing: normal;
+  }
+  .xs\:font-fecha {
+     font-family: Inter;
+	  font-size: 16.1px;
+	  font-weight: 500;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.39;
+	  letter-spacing: normal;
+  }
+  .xs\:font-temperatura {
+      font-family: Inter;
+	  font-size: 16.1px;
+	  font-weight: 500;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.39;
+	  letter-spacing: normal;
+  }
+   .xs\:font-clima {
+	  font-family: Inter;
+	  font-size: 16.1px;
+	  font-weight: 500;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.39;
+	  letter-spacing: normal;
+   }
+   .xs\:font-gral_ind {
+         font-family: Inter;
+	  font-size: 16.1px;
+	  font-weight: normal;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.23;
+	  letter-spacing: -0.61px;
+   }
+   
+   .xs\:font-tram-nom {
+      font-family: Inter;
+	  font-size: 34px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.18;
+	  letter-spacing: -0.5px;
+   }
+   .xs\:font-tram-tipo {
+	 font-family: Inter;
+	font-size: 17px;
+	font-weight: bold;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.18;
+	letter-spacing: -0.5px;
+   }
+   .xs\:font-tram-unidad {
+	 font-family: Inter;
+	font-size: 17px;
+	font-weight: bold;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.18;
+	letter-spacing: -0.5px;
+   }
+   .xs\:font-tram-texto {
+	  font-family: Inter;
+	  font-size: 15px;
+	  font-weight: normal;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.47;
+	  letter-spacing: -0.1px;
+   }
+   .xs\:font-tram-quenecesita,.xs\:font-tram-otros,.xs\:font-tram-fundamento {
+      font-family: Inter;
+	  font-size: 34px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.18;
+	  letter-spacing: -0.5px;
+   }
+    .xs\:font-tram-subtitle {
+        font-family: Inter;
+	  font-size: 22px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.18;
+	  letter-spacing: -0.5px;
+   }
+   .xs\:font-semaf-bold {
+	      font-family: Inter;
+	  font-size: 16.8px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.02;
+	  letter-spacing: -0.65px;
+   }
+    .xs\:font-semaf-valor {
+	       font-family: Inter;
+		  font-size: 18.1px;
+		  font-weight: bold;
+		  font-stretch: normal;
+		  font-style: normal;
+		  line-height: 1.16;
+		  letter-spacing: -0.65px;
+   }
+   .xs\:font-hoynoc {
+	       font-family: Inter;
+		  font-size: 16.8px;
+		  font-weight: bold;
+		  font-stretch: normal;
+		  font-style: normal;
+		  line-height: 1.02;
+		  letter-spacing: -0.65px;
+   }
+   
+    .xs\:font-hoynoc-valor {
+	       font-family: Inter;
+		  font-size: 13.8px;
+		  font-weight: normal;
+		  font-stretch: normal;
+		  font-style: normal;
+		  line-height: 1.16;
+		  letter-spacing: -0.49px;
+   }
+
+}
+
+
+@media screen and (min-width: 576px) {
+  .sm\:font-city {
+      font-family: Inter;
+	  font-size: 23.2px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 0.96;
+	  letter-spacing: normal;
+  }
+  .sm\:font-fecha {
+       font-family: Inter;
+	  font-size: 16.1px;
+	  font-weight: 500;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.39;
+	  letter-spacing: normal;
+  }
+  .sm\:font-temperatura {
+       font-family: Inter;
+	  font-size: 16.1px;
+	  font-weight: 500;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.39;
+	  letter-spacing: normal;
+  }
+  .sm\:font-clima {
+	   font-family: Inter;
+	  font-size: 16.1px;
+	  font-weight: 500;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.39;
+	  letter-spacing: normal;
+   }
+   .sm\:font-gral_ind {
+         font-family: Inter;
+	  font-size: 16.1px;
+	  font-weight: normal;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.23;
+	  letter-spacing: -0.61px;
+   }
+   
+   .sm\:font-tram-nom {
+      font-family: Inter;
+	  font-size: 34px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.18;
+	  letter-spacing: -0.5px;
+   }
+   .sm\:font-tram-tipo {
+	 font-family: Inter;
+	font-size: 17px;
+	font-weight: bold;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.18;
+	letter-spacing: -0.5px;
+   }
+   .sm\:font-tram-unidad {
+	 font-family: Inter;
+	font-size: 17px;
+	font-weight: bold;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.18;
+	letter-spacing: -0.5px;
+   }
+   .sm\:font-tram-texto {
+	  font-family: Inter;
+	  font-size: 15px;
+	  font-weight: normal;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.47;
+	  letter-spacing: -0.1px;
+   }
+    .sm\:font-tram-quenecesita,.sm\:font-tram-donde,.sm\:font-tram-otros,.sm\:font-tram-fundamento {
+      font-family: Inter;
+	  font-size: 34px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.18;
+	  letter-spacing: -0.5px;
+   }
+   
+      .sm\:font-tram-subtitle {
+        font-family: Inter;
+	  font-size: 22px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.18;
+	  letter-spacing: -0.5px;
+   }
+    .sm\:font-semaf-bold {
+	      font-family: Inter;
+	  font-size: 16.8px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.02;
+	  letter-spacing: -0.65px;
+   }
+    .sm\:font-semaf-valor {
+	       font-family: Inter;
+		  font-size: 18.1px;
+		  font-weight: bold;
+		  font-stretch: normal;
+		  font-style: normal;
+		  line-height: 1.16;
+		  letter-spacing: -0.65px;
+   }
+   .sm\:font-hoynoc {
+	       font-family: Inter;
+		  font-size: 16.8px;
+		  font-weight: bold;
+		  font-stretch: normal;
+		  font-style: normal;
+		  line-height: 1.02;
+		  letter-spacing: -0.65px;
+   }
+    .sm\:font-hoynoc-valor {
+	       font-family: Inter;
+		  font-size: 13.8px;
+		  font-weight: normal;
+		  font-stretch: normal;
+		  font-style: normal;
+		  line-height: 1.16;
+		  letter-spacing: -0.49px;
+   }
+}
+@media screen and (min-width: 768px) {
+  .md\:font-city {
+     font-family: Inter;
+	  font-size: 23.2px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 0.96;
+	  letter-spacing: normal;
+  }
+  .md\:font-fecha {
+       font-family: Inter;
+	  font-size: 16.1px;
+	  font-weight: 500;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.39;
+	  letter-spacing: normal;
+  }
+  .md\:font-temperatura {
+       font-family: Inter;
+	  font-size: 16.1px;
+	  font-weight: 500;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.39;
+	  letter-spacing: normal;
+  }
+  .md\:font-clima {
+	   font-family: Inter;
+	  font-size: 16.1px;
+	  font-weight: 500;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.39;
+	  letter-spacing: normal;
+   }
+   .md\:font-gral_ind {
+	   font-family: Inter;
+	  font-size: 16.1px;
+	  font-weight: normal;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.23;
+	  letter-spacing: -0.61px;
+   }
+   .md\:font-tram-nom {
+      font-family: Inter;
+	  font-size: 34px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.18;
+	  letter-spacing: -0.5px;
+   }
+   .md\:font-tram-tipo {
+	 font-family: Inter;
+	font-size: 17px;
+	font-weight: bold;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.18;
+	letter-spacing: -0.5px;
+   }
+   .md\:font-tram-unidad {
+	 font-family: Inter;
+	font-size: 17px;
+	font-weight: bold;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.18;
+	letter-spacing: -0.5px;
+   }
+   .md\:font-tram-texto {
+	  font-family: Inter;
+	  font-size: 15px;
+	  font-weight: normal;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.47;
+	  letter-spacing: -0.1px;
+   }
+    .md\:font-tram-quenecesita,.md\:font-tram-donde,.md\:font-tram-otros,.md\:font-tram-fundamento {
+      font-family: Inter;
+	  font-size: 34px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.18;
+	  letter-spacing: -0.5px;
+   }
+      .md\:font-tram-subtitle {
+        font-family: Inter;
+	  font-size: 22px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.18;
+	  letter-spacing: -0.5px;
+   }
+    .md\:font-semaf-bold {
+	      font-family: Inter;
+	  font-size: 16.8px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.02;
+	  letter-spacing: -0.65px;
+   }
+    .md\:font-semaf-valor {
+	       font-family: Inter;
+		  font-size: 18.1px;
+		  font-weight: bold;
+		  font-stretch: normal;
+		  font-style: normal;
+		  line-height: 1.16;
+		  letter-spacing: -0.65px;
+   }
+   .md\:font-hoynoc {
+	       font-family: Inter;
+		  font-size: 16.8px;
+		  font-weight: bold;
+		  font-stretch: normal;
+		  font-style: normal;
+		  line-height: 1.02;
+		  letter-spacing: -0.65px;
+   }
+   .md\:font-hoynoc-valor {
+	       font-family: Inter;
+		  font-size: 13.8px;
+		  font-weight: normal;
+		  font-stretch: normal;
+		  font-style: normal;
+		  line-height: 1.16;
+		  letter-spacing: -0.49px;
+   }
+ 
+}
+@media screen and (min-width: 992px) {
+  .lg\:font-city {
+      font-family: Inter;
+	  font-size: 13.2px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.04;
+	  letter-spacing: -0.43px;
+  }
+  .lg\:font-fecha {
+     font-family: Inter;
+	  font-size: 9.9px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.39;
+	  letter-spacing: -0.43px;
+  }
+  .lg\:font-temperatura {
+      font-family: Inter;
+	  font-size: 15.9px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 0.87;
+  }
+  .lg\:font-clima {
+	  font-family: Inter;
+	  font-size: 11.9px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.16;
+	  letter-spacing: -0.43px;
+   }
+   .lg\:font-gral_ind {
+      font-family: Inter;
+	  font-size: 11px;
+	  font-weight: normal;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.25;
+	  letter-spacing: -0.43px;
+   }
+   .lg\:font-tram-nom {
+      font-family: Inter;
+	  font-size: 34px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.18;
+	  letter-spacing: -0.5px;
+   }
+   .lg\:font-tram-tipo {
+	 font-family: Inter;
+	font-size: 17px;
+	font-weight: bold;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.18;
+	letter-spacing: -0.5px;
+   }
+   .lg\:font-tram-unidad {
+	 font-family: Inter;
+	font-size: 17px;
+	font-weight: bold;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.18;
+	letter-spacing: -0.5px;
+   }
+   .lg\:font-tram-texto {
+	  font-family: Inter;
+	  font-size: 15px;
+	  font-weight: normal;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.47;
+	  letter-spacing: -0.1px;
+   }
+    .lg\:font-tram-quenecesita,.lg\:font-tram-donde,.lg\:font-tram-otros,.lg\:font-tram-fundamento {
+      font-family: Inter;
+	  font-size: 34px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.18;
+	  letter-spacing: -0.5px;
+   }
+      .lg\:font-tram-subtitle {
+        font-family: Inter;
+	  font-size: 22px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.18;
+	  letter-spacing: -0.5px;
+   }
+    .lg\:font-semaf-bold {
+	      font-family: Inter;
+	  font-size: 16.8px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.02;
+	  letter-spacing: -0.65px;
+   }
+    .lg\:font-semaf-valor {
+	       font-family: Inter;
+		  font-size: 18.1px;
+		  font-weight: bold;
+		  font-stretch: normal;
+		  font-style: normal;
+		  line-height: 1.16;
+		  letter-spacing: -0.65px;
+   }
+ 
+}
+@media screen and (min-width: 1200px) {
+  .xl\:font-city {
+      font-family: Inter;
+	  font-size: 13.2px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.04;
+	  letter-spacing: -0.43px;
+  }
+  .xl\:font-fecha {
+     font-family: Inter;
+	  font-size: 9.9px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.39;
+	  letter-spacing: -0.43px;
+  }
+  .xl\:font-temperatura {
+      font-family: Inter;
+	  font-size: 15.9px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 0.87;
+  }
+  .xl\:font-clima {
+	  font-family: Inter;
+	  font-size: 11.9px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.16;
+	  letter-spacing: -0.43px;
+   }
+   .xl\:font-gral_ind {
+      font-family: Inter;
+	  font-size: 11px;
+	  font-weight: normal;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.25;
+	  letter-spacing: -0.43px;
+   }
+   .xl\:font-tram-nom {
+      font-family: Inter;
+	  font-size: 34px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.18;
+	  letter-spacing: -0.5px;
+   }
+   .xl\:font-tram-tipo {
+	 font-family: Inter;
+	font-size: 17px;
+	font-weight: bold;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.18;
+	letter-spacing: -0.5px;
+   }
+   .xl\:font-tram-unidad {
+	 font-family: Inter;
+	font-size: 17px;
+	font-weight: bold;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.18;
+	letter-spacing: -0.5px;
+   }
+   .xl\:font-tram-texto {
+	  font-family: Inter;
+	  font-size: 15px;
+	  font-weight: normal;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.47;
+	  letter-spacing: -0.1px;
+   }
+    .xl\:font-tram-quenecesita,.xl\:font-tram-donde,.xl\:font-tram-otros,.xl\:font-tram-fundamento {
+      font-family: Inter;
+	  font-size: 34px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.18;
+	  letter-spacing: -0.5px;
+   }
+     .xl\:font-tram-subtitle {
+        font-family: Inter;
+	  font-size: 22px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.18;
+	  letter-spacing: -0.5px;
+   }
+    .xl\:font-semaf-bold {
+	      font-family: Inter;
+	  font-size: 16.8px;
+	  font-weight: bold;
+	  font-stretch: normal;
+	  font-style: normal;
+	  line-height: 1.02;
+	  letter-spacing: -0.65px;
+   }
+    .xl\:font-semaf-valor {
+	       font-family: Inter;
+		  font-size: 18.1px;
+		  font-weight: bold;
+		  font-stretch: normal;
+		  font-style: normal;
+		  line-height: 1.16;
+		  letter-spacing: -0.65px;
+   }
+}
+

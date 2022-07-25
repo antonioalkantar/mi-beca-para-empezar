@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    JBoss, Home of Professional Open Source
+    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+    contributors by the @authors tag. See the copyright.txt in the
+    distribution for a full listing of individual contributors.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   xmlns:pe="http://primefaces.org/ui/extensions"
+   template="/WEB-INF/templates/default.xhtml">
+   
+   <ui:define name="content">
+   
+      	<f:metadata>
+     		<f:event listener="#{authenticatorBean.revisaRedirectUrlInicio}" type="preRenderView"/>
+		</f:metadata> 
+		<!-- Banner de lanzamiento -->
+   		<p:outputPanel rendered="false" style="padding: 8% 0 2%; max-width: 1024px; margin: auto;">
+			<p:outputPanel style="padding: 10% 5%; background: #FFF; border-radius: 5px;">
+				<p:panelGrid id="pnlTitulo" columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="parrafo1 ui-panelgrid-blank ui-fluid" 
+						style="padding-bottom: 35px;">
+						<p:graphicImage styleClass="img-header" value="/resources/img/logo-CDMX.svg" style="width: 50%; padding-top: 10px;" />
+					<p:outputLabel value="Sitio próximo a liberar." style="color: #9F2241 !important; font-weight: bold !important; font-size: 45px;"/>
+				</p:panelGrid>				
+				<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="padding-bottom: 10px; text-align: center;">					
+				</p:panelGrid>
+			</p:outputPanel>
+		</p:outputPanel>
+		<!-- Banner de lanzamiento -->
+   		<p:panelGrid id="contenidoGeneral" rendered="true" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="max-width: 1024px; padding: 3% 0; margin: auto;">
+   			<h:form id="frmIniciarSesion">
+   			<p:outputPanel style="background: #FFFFFF !important; border-radius:8px;">
+   				<p:outputPanel style="text-align:justify; background: #FFFFFF !important; padding: 0px 0px 0px 0px; border-radius:8px; ">					
+				   	<p:graphicImage id="imgSacmex" style="width:100%; border-radius:10px 10px 0px 0px;" value="/resources/img/miBeca-Banner.svg" cache="false" />	
+				   	<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" style="text-align:center; padding-bottom: 15px;" styleClass="ui-panelgrid-blank ui-fluid">
+				   	<p:outputLabel value="#{msg.lbl_home_titulo}" style="font-size: 30px !important; color: #175E50;"/>
+				   	</p:panelGrid>
+				   	<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" style="text-align:center; padding-bottom: 15px;" styleClass="ui-panelgrid-blank ui-fluid">
+				   	<p:outputLabel value="#{msg.lbl_home_subtitulo}" style="font-size: 14px !important; color: #475058;"/>
+				   	</p:panelGrid>
+						<p:outputPanel id="pnlInicioSesion" style="text-align: center !important; background: #fff !important; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px;">
+							<p:panelGrid id="pnlBtnInicSes" style="text-align: center !important;" columns="1" columnClasses="ui-xl-12 ui-lg-12 ui-g-12 ui-md-12 ui-sm-12" layout="grid">
+   								
+   								<p:commandButton id="btnIniciaSesionLlave" value="#{msg.lbl_home_btn_llave}" 
+   									action="#{authenticatorBean.redirectUrlLoginCDMX()}" immediate="true" rendered="#{!authenticatorBean.ingresaDesdeLlave and (authenticatorBean.usuarioLogueado == null or authenticatorBean.usuarioLogueado.idUsuarioLlaveCdmx == 0)}"
+   									style="font-size: 14px !important; text-align: center !important;line-height: 10px !important;" 
+   									styleClass="boton-continuar-llave-home botonAncho " escape="false" /> 						
+   							</p:panelGrid>
+   						
+					</p:outputPanel>	
+				
+				</p:outputPanel>   			
+   			</p:outputPanel>
+   			   		</h:form>	
+   			
+   			   			
+   			<p:outputPanel style="background: #FFFFFF !important; border-radius:8px; ">
+   							
+				<p:outputPanel style="background: #BC955C !important; border-top-right-radius: 8px; border-top-left-radius: 8px;">					
+					<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="padding:12px 0 0 0;">
+					<!-- 	<p:outputLabel value="#{msg.lbl_home_sacmex_titulo}" style="font-size: 20px !important; color: #fff;"/> -->
+						
+					</p:panelGrid>
+				</p:outputPanel>
+				
+				<p:outputPanel id="oplInformativo" >		
+					
+					<p:outputPanel style="text-align:justify; background: #FFFFFF !important; padding: 0px 10px;">
+											
+								
+					</p:outputPanel>
+					
+					
+					
+					<p:outputPanel id="opnlContenidoHomeInferior" style="background: #fff; border-radius: 8px; padding: 0; margin: 0px auto;" >
+						<p:panelGrid id="pnlgSecciones" columns="2" columnClasses="ui-g-12 ui-md-6 ui-lg-6, ui-g-12 ui-md-6 ui-lg-6 fondoGris" layout="grid" styleClass="ui-panel-sin-pading-border ui-panelgrid-blank ui-fluid" 
+							style="text-align: left !important; border-radius: 8px;" >
+							
+							<p:panelGrid id="pnlgRequisitos" columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+								style="padding:4% 5%;text-align: left !important; background: #FFF; border-top-left-radius: 8px; border-bottom-left-radius: 8px;" >
+<!-- 									<p:outputLabel value="Requisitos para realizar el trámite" styleClass="subtitulo-home-inferior" style="color:#9F2241 !important; padding-left: 10px; font-size: 22px; font-weight: 700; color: #000; line-height: 27px;"/> -->
+									<p:outputPanel>
+		
+									<div class="lg:col-12 sm:col-12 xs:col-12 pt-4" style="padding-top: 0px !important;">
+		                            	<!-- Stepper HTML -->
+		                                	<ul class="StepProgress">
+		                                    	<li class="StepProgress-item current">
+		                                        	<p:outputLabel styleClass="font-texto-medio" value="#{msg.lbl_home_step_1}" 
+														style="font-size: 18px; line-height: 27px; color: #475058 !important;  font-weight: bold;" /> <br />		
+														<p:outputLabel value="#{msg.lbl_home_substep_1}"  style="font-size: 15.5px; font-weight: normal; color: #475058" />											
+		                                        </li>
+		                                        
+		                                        <li class="StepProgress-item current">
+		                                        	<p:outputLabel styleClass="font-texto-medio" value="#{msg.lbl_home_step_2}" style="font-size: 18px; line-height: 27px; color: #475058 !important; font-weight: bold;" /> <br />										
+		                                        	<p:outputLabel value="#{msg.lbl_home_substep_2}"  style="font-size: 15.5px; font-weight: normal; color: #475058" />		
+		                                  		</li>
+		                                  		
+		                                  		 <li class="StepProgress-item current">
+		                                        	<p:outputLabel styleClass="font-texto-medio" value="#{msg.lbl_home_step_3}" style="font-size: 18px; line-height: 27px; color: #475058 !important; font-weight: bold;" /> <br />
+		                                        	<p:outputLabel value="#{msg.lbl_home_substep_3}"  style="font-size: 15.5px; font-weight: normal; color: #475058" />												
+		                                  		</li>
+		                                  		
+		                                        <li class="StepProgress-item last">   
+		                                        	<p:outputLabel styleClass="font-texto-medio" value="Requisitos" style="font-size: 18px; line-height: 27px; color: #475058 !important; font-weight: bold;" />
+		                                       			<p:panelGrid id="pnlgDocs1" columns="1"	columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"	style="padding:0% 0%; text-align: left !important;">
+														
+													<ul style="list-style-type: disc; font-size: 16px; padding-left: 0px;">
+														<li>#{msg.lbl_home_substep_4_1}</li>
+														<li>#{msg.lbl_home_substep_4_2}</li>
+														<li>#{msg.lbl_home_substep_4_3}</li>
+													</ul>
+												</p:panelGrid>
+		                                        </li>                                        
+		                                                                           
+		                               		</ul>
+		                                   	<!-- End Stepper HTML -->
+												
+									</div>
+		                              	
+		                              	
+		                              	
+								
+								</p:outputPanel>
+									
+							</p:panelGrid>
+
+							<p:panelGrid id="pnlgAplica" columns="1"	columnClasses="ui-grid-col-12" layout="grid"	styleClass="ui-panelgrid-blank ui-fluid"	style=" padding:4% 7%; text-align: left !important; border-top-right-radius: 8px; border-bottom-right-radius: 8px;">
+
+								<h:panelGrid columns="1" cellpadding="0"
+									style="padding: 10px 0;" styleClass="">
+
+									<p:outputLabel value="#{msg.lbl_home_txt1}" styleClass="subtitulo-home-inferior"
+										style="font-size: 20px; font-weight: 700; color: #4C5566; line-height: 27px;" />
+										<p:outputLabel value="#{msg.lbl_home_txt2}"  style="font-size: 16px; font-weight: normal; color: #475058" />
+									<ul style="list-style-type: disc; font-size: 15px;">
+										<li>#{msg.lbl_home_txt3}</li>
+										<li>#{msg.lbl_home_txt4}</li>
+										<li>#{msg.lbl_home_txt5}</li>										
+									</ul>
+									<br />
+
+									<p:outputLabel value="#{msg.lbl_home_txt6}" styleClass="subtitulo-home-inferior"
+										style="font-size: 20px; font-weight: 700; color: #4C5566; line-height: 27px;" />
+										<p:outputLabel value="#{msg.lbl_home_txt7}" style="font-size: 15.5px; font-weight: normal; color: #475058" />
+										<br />
+										<p:outputLabel value="#{msg.lbl_home_txt8}" styleClass="subtitulo-home-inferior"
+										style="font-size: 20px; font-weight: 700; color: #4C5566; line-height: 27px;" />
+										<p:outputLabel value="#{msg.lbl_home_txt9}" style="font-size: 15.5px; font-weight: normal; color: #475058" />
+										<br />
+										<p:outputLabel value="#{msg.lbl_manual_usuario}" styleClass="subtitulo-home-inferior"
+										style="font-size: 20px; font-weight: 700; color: #4C5566; line-height: 27px;" escape="false"/>
+								</h:panelGrid>
+								
+							
+								
+
+							</p:panelGrid>
+
+						</p:panelGrid>
+					
+					</p:outputPanel>
+			
+					
+							
+					
+				</p:outputPanel>
+			
+			</p:outputPanel>
+			
+			
+							
+		
+   		</p:panelGrid>
+   		<style > 
+   		.fondoGris{background: #F2F2F2 !important;}
+   		</style>
+   	
+	</ui:define>
+</ui:composition>

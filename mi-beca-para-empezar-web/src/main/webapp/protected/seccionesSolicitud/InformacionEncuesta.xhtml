@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui">
+
+	<p:outputPanel style="padding: 2% 2%; background: #FFF; border-radius: 10px 10px 0 0;">
+		<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+			<!-- INFO GENERAL -->
+
+			<p:panelGrid id="pgInfo" columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12, ui-g-12 ui-md-12 ui-lg-12" layout="grid"
+				styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid">
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_pregunta_1}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{encuestaBeneficiarioBean.encuestaDTO.catTipoDomicilioDTO.descripcion}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_pregunta_2}" styleClass="adip-output-campos" />
+						<p:outputLabel value="Concreto" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_pregunta_3}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{encuestaBeneficiarioBean.encuestaDTO.numeroHabitantes}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_pregunta_4}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{encuestaBeneficiarioBean.encuestaDTO.habitantesTrabajadores}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_pregunta_5}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{encuestaBeneficiarioBean.encuestaDTO.catIngresosFamiliaDTO.descripcion}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_pregunta_6}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{encuestaBeneficiarioBean.encuestaDTO.catGrupoPerteneceDTO.descripcion}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+							<p:outputLabel value="#{msg.lbl_pregunta_7}" styleClass="adip-output-campos" />
+						<p:panelGrid columns="2" columnClasses="ui-grid-col-1, ui-grid-col-10" rendered="#{encuestaBeneficiarioBean.encuestaDTO.ropa}" layout="grid" styleClass="ui-panel-sin-pading">
+						<h:graphicImage class="img-header" value="/resources/img/checkgold.svg" style="width: 26px;" />
+						<p:outputLabel value="Ropa"  styleClass="adip-output-bold-campos" />
+						</p:panelGrid>
+						<p:panelGrid columns="2" columnClasses="ui-grid-col-1, ui-grid-col-10" rendered="#{encuestaBeneficiarioBean.encuestaDTO.zapatos}" layout="grid" styleClass="ui-panel-sin-pading">
+						<h:graphicImage class="img-header" value="/resources/img/checkgold.svg" style="width: 26px;" />
+						<p:outputLabel value="Zapatos"  styleClass="adip-output-bold-campos" />
+						</p:panelGrid>
+						<p:panelGrid columns="2" columnClasses="ui-grid-col-1, ui-grid-col-10" rendered="#{encuestaBeneficiarioBean.encuestaDTO.comida}" layout="grid" styleClass="ui-panel-sin-pading">
+						<h:graphicImage class="img-header" value="/resources/img/checkgold.svg" style="width: 26px;" />
+						<p:outputLabel value="Comida"  styleClass="adip-output-bold-campos" />
+						</p:panelGrid>
+						<p:panelGrid columns="2" columnClasses="ui-grid-col-1, ui-grid-col-10" rendered="#{encuestaBeneficiarioBean.encuestaDTO.juguetes}" layout="grid" styleClass="ui-panel-sin-pading">
+						<h:graphicImage class="img-header" value="/resources/img/checkgold.svg" style="width: 26px;" />
+						<p:outputLabel value="Juguetes"  styleClass="adip-output-bold-campos" />
+						</p:panelGrid>
+						<p:panelGrid columns="1" columnClasses="ui-grid-col-12" rendered="#{encuestaBeneficiarioBean.encuestaDTO.otro}" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:panelGrid columns="2" columnClasses="ui-grid-col-1, ui-grid-col-10" rendered="#{encuestaBeneficiarioBean.encuestaDTO.otro}" layout="grid" styleClass="ui-panel-sin-pading">
+						<h:graphicImage class="img-header" value="/resources/img/checkgold.svg" style="width: 26px;" />
+						<p:outputLabel value="Otro"  styleClass="adip-output-bold-campos" />
+						</p:panelGrid>
+						<p:outputLabel value="#{encuestaBeneficiarioBean.encuestaDTO.especificaOtro}" styleClass="adip-output-bold-campos" style="padding-left: 40px;"  />
+						</p:panelGrid>
+					</p:panelGrid>
+				</p:panelGrid>
+			</p:panelGrid>
+
+		</p:panelGrid>
+	</p:outputPanel>
+
+	<style>
+.adip-dialog {
+	max-height: 80%;
+	max-width: 40%;
+	overflow-y: initial;
+}
+
+.adip-dialog .ui-dialog-titlebar {
+	padding: 1rem 1rem 0rem 1.5rem !important;
+}
+
+.adip-dialog-titulo {
+	font-style: normal;
+	font-weight: 600;
+	font-size: 24px !important;
+	line-height: 29px;
+	align-items: center;
+	letter-spacing: -0.5px;
+	color: #000000;
+}
+
+body .ui-messages .ui-messages-warn {
+    background: #E1F6FF;
+    border-width: 0px;
+    color: #0043A7;
+}
+</style>
+</ui:composition>

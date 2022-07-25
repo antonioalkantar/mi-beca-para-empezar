@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition 
+xmlns="http://www.w3.org/1999/xhtml" 
+xmlns:ui="http://java.sun.com/jsf/facelets" 
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:h="http://java.sun.com/jsf/html" 
+xmlns:o="http://omnifaces.org/ui" 
+xmlns:p="http://primefaces.org/ui" 
+template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="content">
+<style>	
+	/*SELECTONEMENU*/
+	body .ui-selectonemenu .ui-selectonemenu-label {
+    background: transparent !important;
+    color: #fff;
+    padding-right: 2.357rem;
+    min-height: calc(2rem + 3px);
+ }
+
+.adip-selectonemenu-back {
+	border-radius: 8px !important;
+	box-shadow: none !important;
+	display: inline-block !important;
+	box-sizing: border-box !important;
+	border: 1px solid #A0AEC0 !important;
+	width: 100% !important;
+	min-width: 100% !important;
+}
+
+.adip-selectonemenu-back .ui-inputfield {
+	box-shadow: none !important;
+	/*height: 54px;*/
+	height: 25px;
+	background: #FFFFFF !important;
+	box-sizing: border-box;
+	border-radius: 8px;
+	display: flex !important;
+	align-items: center;
+}
+
+.adip-selectonemenu-back .ui-icon {
+	background-position: center !important;
+	background-size: 18px !important;
+	color: #FFF !important;
+}
+
+.adip-selectonemenu-back .ui-selectonemenu-trigger {
+	background: #B18147 !important;
+	box-shadow: none !important;
+	border-left: 0 !important;
+	width: 50px !important;
+	height: 35px !important;
+}
+
+.adip-selectonemenu-back label {
+	background: none !important;
+	padding-left: 9px !important;
+	padding-top: 9px !important;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 15px !important;
+	line-height: 24px;
+	color: #4A5568;
+	line-height: 24px;
+}
+
+body .ui-selectonemenu-panel .ui-selectonemenu-items .ui-selectonemenu-item.ui-state-highlight {
+    background: transparent !important;
+    color: #fff;
+    overflow: auto;
+}
+
+.estilo2 {
+	background-color: #54B0BC !important; 
+	color: #fff !important;"
+	}
+
+.estilo3 {
+	background-color: #6EC844 !important; 
+	color: #fff !important;";
+	}
+		
+.estilo4 {
+	background-color: #4479C8 !important; 
+	color: #fff !important;";
+	}
+.estilo5 {
+	background-color: #ED9511 !important; 
+	color: #fff !important;";
+	}
+.estilo6 {
+	background-color: #6EC844 !important; 
+	color: #fff !important;";
+	}
+.estilo9 {
+	background-color: #ED9511 !important; 
+	color: #fff !important;";
+	}
+.adip-btn-gold {
+    background: #BC955C !important;
+    border-radius: 6px !important;
+    width: auto !important;
+    height: 100% !important;
+    margin: 1px 10px !important;   
+    padding: 10px 20px !important;
+    border: none !important;
+}
+
+
+</style>
+
+		<!-- Se cambia el titulo de la página HTML dinámicamente para que no tome la del template -->
+		<o:onloadScript>document.title='#{msg.lbl_titulo_consulta}'</o:onloadScript>
+
+		<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align: center;" rendered="false">
+			<!--rendered="#{empty header['referer']}"> -->
+			<p:outputPanel style="background-color: #FFF !important; border-radius: 10px; padding: 30px 25px; margin: 16% auto;">
+				<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align: center;">
+					<p:outputLabel value="No puedes ingresar a esta página ingresando la URL directamente." style="font-size:35px; color: #000; font-weight: 500;" />
+					<p:outputLabel value="Serás redirigido al inicio del sistema." style="font-size:40px; color: #000; font-weight: 700;" />
+				</p:panelGrid>
+				<p:idleMonitor id="unSeg" timeout="2000">
+					<p:ajax event="idle" oncomplete="location.href='#{authenticatorBean.urlInicio}'" update="messages" />
+				</p:idleMonitor>
+			</p:outputPanel>
+		</p:panelGrid>
+
+		<!--<h:form id="form" rendered="#{not empty header['referer']}"> -->
+		<h:form id="form" rendered="true">
+			<p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-4 ui-lg-4, ui-g-12 ui-md-8 ui-lg-8" layout="grid" style="max-width: 1024px; margin: auto; text-align: left !important; "
+						 styleClass="ui-panelgrid-blank ui-fluid" rendered="true"  >
+			<p:commandButton value="#{msg.regresar}" action="#{bandejaFuncionarioBean.init()}" styleClass="adip-btn-green" icon="back" immediate="true" />
+			<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align: center;">
+					<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.solicitudDTO.folioSolicitud}" styleClass="font-bold" style="font-size:35px; color: #8B1232; font-weight: 500;" />
+					<p:panelGrid id="pnlEstatus" columns="2" columnClasses="ui-g-6 ui-md-6 ui-lg-6" layout="grid" styleClass="ui-panel-sin-pading" style="text-align: right;">
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align: center;">
+						<p:outputLabel value="Estatus del tutor" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>						
+						<p:selectOneMenu id="soEstatus" class="adip-selectonemenu-back" panelStyleClass="adip-selectonemenu-panel" 
+						 				 value="#{registroTutorBean.tutorDTO.catEstatusDTO.idEstatus}" var="estatusSeleccionado"
+						  				style="#{consultaBean.estiloSelectOneMenu}" update="soEstatus form"
+						   				rendered="#{registroTutorBean.tutorDTO.catEstatusDTO.idEstatus == registroTutorBean.ID_ESTATUS_APROBADA 
+						  		 				 or  registroTutorBean.tutorDTO.catEstatusDTO.idEstatus == registroTutorBean.ID_ESTATUS_SUSPENDIDAS						  												  		 					  	
+						  						 }" 
+						  				disabled="#{registroTutorBean.tutorDTO.catEstatusDTO.idEstatus == registroTutorBean.ID_ESTATUS_ACLARACION_POR_CIRCUNSTANCIA}" >
+							 <f:selectItems value="#{consultaBean.lstEstatus}" var="estatus" itemValue="#{estatus.idEstatus}" itemLabel="#{estatus.descripcion}">							 	
+							 </f:selectItems>											 
+							 <p:column styleClass="estilo#{estatusSeleccionado}">
+                                <h:outputText value="#{consultaBean.getDescripcionEstatusById(estatusSeleccionado)}" />
+                            </p:column>
+                             <p:ajax listener="#{consultaBean.seleccionaEstatus(registroTutorBean.tutorDTO.catEstatusDTO.idEstatus)}" update="form :dialogCambioEstatus"/>
+                           
+						</p:selectOneMenu>
+						<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" 
+						styleClass="ui-panelgrid-blank ui-fluid"  style="#{consultaBean.estiloSelectOneMenu} height: 35px; padding-top: 4px;"  
+						rendered="#{registroTutorBean.tutorDTO.catEstatusDTO.idEstatus == registroTutorBean.ID_ESTATUS_PENDIENTE_VALIDACION
+								   or  registroTutorBean.tutorDTO.catEstatusDTO.idEstatus == registroTutorBean.ID_ESTATUS_CORRECCION_POR_PARTE_CIUDADANO
+								   or  registroTutorBean.tutorDTO.catEstatusDTO.idEstatus == registroTutorBean.ID_ESTATUS_CORREGIDA_POR_PARTE_CIUDADANO	
+								   or  registroTutorBean.tutorDTO.catEstatusDTO.idEstatus == registroTutorBean.ID_ESTATUS_ACLARACION_POR_CIRCUNSTANCIA
+								 }">
+							<p:outputLabel value="#{consultaBean.getDescripcionEstatusById(registroTutorBean.tutorDTO.catEstatusDTO.idEstatus)}"							
+							 style="#{consultaBean.estiloSelectOneMenu}"  />
+						</p:panelGrid>
+						
+					</p:panelGrid>
+				</p:panelGrid>
+   			</p:panelGrid>
+			<p:defaultCommand target="dummy" />
+			<p:commandButton id="dummy" process="@none" global="false" style="display:none;" />
+	
+			<p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-4 ui-lg-4, ui-g-12 ui-md-8 ui-lg-8" layout="grid" style="padding: 0% 0 2% 0; max-width: 1024px; margin: auto;"
+						 styleClass="ui-panelgrid-blank ui-fluid" rendered="true">
+				<p:outputPanel style="padding: 2% 2%; background: #FFF; border-radius: 10px;">
+					<p:outputPanel>
+						<div class="lg:col-12 sm:col-12 xs:col-12">
+							<!--Stepper HTML -->
+							<ul class="adip-stepProgress">
+								<li id="infoCTutor" class="adip-stepProgress-item #{consultaBean.infoTutor ? 'is-active' : 'current'}"><p:commandLink
+										value="#{msg.lbl_informacion_consulta_tutor}" actionListener="#{consultaBean.actualizaSeccion(1)}" update="form" immediate="true" /> <br /></li>
+								<li id="infoCBeneficiario" class="adip-stepProgress-item #{consultaBean.infoBeneficiario ? 'is-active' : 'current'}"><p:commandLink
+										value="#{msg.lbl_informacion_consulta_beneficiario}" actionListener="#{consultaBean.actualizaSeccion(2)}" update="form" immediate="true" /> <br /></li>
+								<li id="infoCEncuesta" class="adip-stepProgress-item #{consultaBean.infoEncuesta ? 'is-active' : 'current'}"><p:commandLink
+										value="#{msg.lbl_informacion_consulta_encuesta}" actionListener="#{consultaBean.actualizaSeccion(3)}" update="form" immediate="true" /> <br /></li>
+<!-- 								<li id="infoCTarjeta" class="adip-stepProgress-item #{consultaBean.infoTarjeta ? 'is-active' : 'current'}"><p:commandLink -->
+<!-- 										value="#{msg.lbl_informacion_consulta_tarjeta}" actionListener="#{consultaBean.actualizaSeccion(4)}" update="form" immediate="true" /> <br /></li> -->
+								<li id="infoCBitacora" class="adip-stepProgress-item #{consultaBean.infoBitacora ? 'is-active' : 'last'}"><p:commandLink
+										value="Historial Tutor" actionListener="#{consultaBean.actualizaSeccion(5)}" update="form" immediate="true" style="font-size: 18px !important;"/> <br /></li>
+							</ul>
+						</div>
+					</p:outputPanel>
+				</p:outputPanel>
+				<p:panel header="#{consultaBean.titulo}" styleClass="adip-panel">
+					
+					
+					<ui:include src="#{consultaBean.vista}" />
+					
+					
+
+					<p:outputPanel id="pnlBtns" styleClass="adip-footer-content"  style="padding:5px 0 5px 0  !important; ">
+						<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" rendered="#{!consultaBean.consulta}" styleClass="ui-panelgrid-blank ui-fluid">
+							<p:commandButton value="#{msg.lbl_guardar_continuar}" styleClass="adip-btn-gold" rendered="#{registroBeneficiarioBean.infoBeneficiario}"
+								process="@this form" update="form" oncomplete="document.getElementById('form').scrollIntoView();" action="#{registroBeneficiarioBean.guardarBeneficiario()}"/>
+							<p:commandButton value="#{msg.lbl_guardar_enviar}" styleClass="adip-btn-gold" rendered="#{registroBeneficiarioBean.infoEncuesta}" 
+								process="@this form" update="form" oncomplete="document.getElementById('form').scrollIntoView();" action="#{encuestaBeneficiarioBean.guardar()}"/>
+						</p:panelGrid>
+						<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" rendered="#{consultaBean.consulta}" styleClass="ui-panelgrid-blank ui-fluid">
+							<p:commandButton value="#{msg.continuar}" styleClass="adip-btn-gold" rendered="#{!consultaBean.infoBitacora}"
+								process="@this form" update="form" oncomplete="document.getElementById('form').scrollIntoView();" action="#{consultaBean.siguiente()}" />
+							<p:commandButton value="#{msg.regresar}" styleClass="adip-btn-gold" rendered="#{consultaBean.infoBitacora}"
+								process="@this form" update="form" oncomplete="document.getElementById('form').scrollIntoView();" action="#{bandejaFuncionarioBean.init()}" />
+						</p:panelGrid>
+					</p:outputPanel>
+				</p:panel>
+			</p:panelGrid>
+		</h:form>
+		
+		
+	<p:dialog id="dialogCambioEstatus" widgetVar="dialogCambioEstatus" modal="true" closable="false" responsive="true" styleClass="adip-dialog" style="overflow-y:hidden !important;">
+		<f:facet name="header">
+			<p:outputLabel value="Cambio de Estatus" styleClass="adip-dialog-titulo" />
+		</f:facet>
+
+		<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading center">
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading pt-4">
+				<p:outputLabel value="¿Deseas cambiar el estatus del tutor a  #{consultaBean.descripcionEstatus}?"  styleClass="adip-output-campos-dialog" />
+			</p:panelGrid>
+			<p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-6 ui-lg-6, ui-g-12 ui-md-6 ui-lg-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid center">
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+					<p:commandButton value="#{msg.cancelar}" oncomplete="PF('dialogCambioEstatus').hide();" action="#{bandejaFuncionarioBean.init()}"  update="form" 
+						style="width: inherit !important; max-width:133px !important;"
+						styleClass="adip-btn-gris" process="@this" />
+				</p:panelGrid>
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+					<p:commandButton value="Aceptar" style="    width: inherit !important; max-width:133px !important;" styleClass="adip-btn-green" process="@this"
+						oncomplete="PF('dialogCambioEstatus').hide();" actionListener="#{consultaBean.cambiarEstatusSolicitud()}"  update="form"/>
+				</p:panelGrid>
+			</p:panelGrid>
+		</p:panelGrid>
+	</p:dialog>	
+
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- JBoss, Home of Professional Open Source Copyright 2013, Red Hat, Inc. 
+	and/or its affiliates, and individual contributors by the @authors tag. See 
+	the copyright.txt in the distribution for a full listing of individual contributors. 
+	Licensed under the Apache License, Version 2.0 (the "License"); you may not 
+	use this file except in compliance with the License. You may obtain a copy 
+	of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required 
+	by applicable law or agreed to in writing, software distributed under the 
+	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
+	OF ANY KIND, either express or implied. See the License for the specific 
+	language governing permissions and limitations under the License. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<artifactId>mi-beca-para-empezar</artifactId>
+		<groupId>mx.gob.cdmx.adip</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>mi-beca-para-empezar-ejb</artifactId>
+	<packaging>ejb</packaging>
+
+	<name>mi-beca-para-empezar: EJB Module</name>
+
+	<url>http://www.cdmx.gob.mx</url>
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<distribution>repo</distribution>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+		</license>
+	</licenses>
+
+	<dependencies>
+
+		<!-- Dependency on the COMMONS module so we can use it's services if needed -->
+		<dependency>
+			<groupId>mx.gob.cdmx.adip</groupId>
+			<artifactId>mi-beca-para-empezar-commons</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+		<!-- Declare the APIs we depend on and need for compilation. All of them 
+			are provided by JBoss WildFly -->
+
+		<!-- Import the EJB API, we use provided scope as the API is included in 
+			JBoss WildFly -->
+		<dependency>
+			<groupId>org.jboss.spec.javax.ejb</groupId>
+			<artifactId>jboss-ejb-api_3.2_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Import the CDI API, we use provided scope as the API is included in 
+			JBoss WildFly -->
+		<dependency>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Import the JPA API, we use provided scope as the API is included in 
+			JBoss WildFly -->
+		<dependency>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.1-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- JSR-303 (Bean Validation) Implementation -->
+		<!-- Provides portable constraints such as @Email -->
+		<!-- Hibernate Validator is shipped in JBoss WildFly -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-core</artifactId>
+		    <scope>provided</scope>
+		</dependency>
+
+		<!-- Test scope dependencies -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+		     <groupId>org.slf4j</groupId>
+		     <artifactId>slf4j-api</artifactId>
+		     <version>1.7.22.jbossorg-1</version>
+		     <scope>provided</scope>
+	  	</dependency>
+	  
+	  	<dependency>
+			 <groupId>org.jboss.logging</groupId>
+			 <artifactId>jboss-logging</artifactId>
+			 <version>3.4.0.Final</version>
+			 <scope>provided</scope>
+	  	</dependency>
+	  	
+		<!-- Librería para utilizar el cliente Jersey para servicios REST-->
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-json</artifactId>
+			<version>1.19</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>1.19</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.sun.jersey.contribs</groupId>
+			  <artifactId>jersey-multipart</artifactId>
+			 <version>1.19</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			 <artifactId>jersey-core</artifactId>
+			 <version>1.19</version>
+		</dependency>
+		
+	  <!-- Librería para utilizar las utilerías de Apache Commons -->
+	  <dependency>
+	      <groupId>commons-io</groupId>
+	      <artifactId>commons-io</artifactId>
+	      <version>2.6</version>
+	  </dependency>
+	  
+	  	<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+	  	<dependency>
+	      	<groupId>com.google.code.gson</groupId>
+	      	<artifactId>gson</artifactId>
+	      	<version>2.8.6</version>
+	  	</dependency>
+	  	
+	  	<dependency>
+		    <groupId>org.apache.cxf</groupId>
+		    <artifactId>cxf-rt-frontend-jaxws</artifactId>
+		    <version>3.1.11</version>
+		</dependency>
+	    <dependency>
+	        <groupId>org.apache.cxf</groupId>
+	        <artifactId>cxf-rt-transports-http</artifactId>
+	        <version>3.1.11</version>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.apache.cxf</groupId>
+	        <artifactId>cxf-rt-ws-security</artifactId>
+	        <version>3.1.11</version>
+	    </dependency>
+	  	
+	  	
+	
+	</dependencies>
+	
+	<repositories>
+		
+		<!-- Del repositorio de RedHat 3rd Party se obtienen las librerias de Wildfly -->
+		<repository>
+			<id>redhat3rdparty</id>
+			<name>RedHat 3rd party</name>
+			<url>https://repository.jboss.org/nexus/content/repositories/thirdparty-releases/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+		
+	</repositories>
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<plugins>
+			<plugin>
+				<artifactId>maven-ejb-plugin</artifactId>
+				<version>${version.ejb.plugin}</version>
+				<configuration>
+					<!-- Tell Maven we are using EJB 3.2 -->
+					<ejbVersion>3.2</ejbVersion>
+				</configuration>
+			</plugin>
+		</plugins>
+		
+		 <!-- Se activa el filtrado Maven en la carpeta resources del modulo EJB.
+    	Con lo anterior, Maven sustituira los valores del archivo src/main/resources/META-INF/env.properties con los definidos en este pom.xml -->
+    	<resources>
+    		<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>local</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<app.profile>local</app.profile>
+
+				<ejb.log>true</ejb.log>
+				<web.log>true</web.log>
+				<jsf.lifeCycle>true</jsf.lifeCycle>
+
+				<jpa.as.showsql>true</jpa.as.showsql>
+				<jpa.as.statistics>true</jpa.as.statistics>
+				<jpa.as.formatsql>true</jpa.as.formatsql>
+				<jpa.test.showsql>true</jpa.test.showsql>
+				<jpa.test.statistics>true</jpa.test.statistics>
+				<jpa.test.formatsql>true</jpa.test.formatsql>
+				
+				<login.urlLoginCdmx>https://llave-dev.cdmx.gob.mx/oauth.xhtml</login.urlLoginCdmx>
+				<login.urlRedirectLoginCdmx>http://localhost:8080/home.xhtml</login.urlRedirectLoginCdmx>
+				<login.appId>202205131803028218</login.appId>
+				<login.secretKey>7tsMoGk-GUwvGG_gW3CeiRmR5xE2XJ</login.secretKey>
+				<login.userHttpBasicAuth>mi_beca_para_empezar</login.userHttpBasicAuth>
+				<login.passwordHttpBasicAuth>M1%b3c4%p4r4%3eMp3z4r%d3v%13%m4y0%2022</login.passwordHttpBasicAuth>
+				  
+				<services.cdmx.getToken>https://llave-dev.cdmx.gob.mx/rest/oauth/token</services.cdmx.getToken>
+				<services.cdmx.getDatosUsuario>https://llave-dev.cdmx.gob.mx/rest/oauth/usuario</services.cdmx.getDatosUsuario>
+				<services.cdmx.getRolesUsuario>https://llave-dev.cdmx.gob.mx/rest/oauth/roles</services.cdmx.getRolesUsuario>
+				<services.cdmx.logout>https://llave-dev.cdmx.gob.mx/rest/oauth/logout</services.cdmx.logout>
+				
+				<servicio.clima.url>http://simat.aire.cdmx.gob.mx:8002/webserviceSIMAT.asmx/Indice_Aire_Salud</servicio.clima.url>
+				<servicio.hoynocircula.url>http://simat.aire.cdmx.gob.mx/calidadaire/xml/simat.json</servicio.hoynocircula.url>
+				<servicio.climaopen.url>https://api.openweathermap.org/data/2.5/weather?id=3530597&amp;lang=sp&amp;units=metric&amp;APPID=bd95d6a747404c06b6989721a1e79d03</servicio.climaopen.url>
+				<servicio.semaforoepidemiologico.url>https://www.cdmx.gob.mx/rest/semaforo-epidemiologico/consultar</servicio.semaforoepidemiologico.url>				
+				<servicio.cdmx.hoynocircula.url>https://hoynocircula.cdmx.gob.mx/rest/hoynocircula/hoy</servicio.cdmx.hoynocircula.url>				
+				
+				<servicio.urlINE>https://ine.cdmx.gob.mx/rest/datosIne/verificar</servicio.urlINE>
+				<servicio.userHttpBasicAuthINE>mibeca_empezar</servicio.userHttpBasicAuthINE>
+				<servicio.passwordHttpBasicAuthINE>M1b3C4Emp3Z4r12M4y2022</servicio.passwordHttpBasicAuthINE>
+				
+				<services.cdmx.curp.url>https://curp.cdmx.gob.mx/curp/rest/curp/</services.cdmx.curp.url>
+				<services.cdmx.curp.userCurpBasicAuth>mibecaparaempezar</services.cdmx.curp.userCurpBasicAuth>
+				<services.cdmx.curp.passwordCurpBasicAuth>M1_b3c4EMpez44rXkWs!</services.cdmx.curp.passwordCurpBasicAuth>
+				
+				<services.cdmx.obtenmas.url>https://dev.obtenmas.com/</services.cdmx.obtenmas.url>
+				<services.cdmx.obtenmas.endpoint.token>connect/token/</services.cdmx.obtenmas.endpoint.token>
+				<services.cdmx.obtenmas.endpoint.registrar.tutor>Regom/api/adip/registry/</services.cdmx.obtenmas.endpoint.registrar.tutor>
+				<services.cdmx.obtenmas.endpoint.reasignar.tutor>Regom/api/adip/reassignstudent/</services.cdmx.obtenmas.endpoint.reasignar.tutor>
+				<services.cdmx.obtenmas.endpoint.consultar.tutor>Regom/api/adip/curpexists/</services.cdmx.obtenmas.endpoint.consultar.tutor>
+
+				<beca.pathDocumentos>/home/mibeca/documentos/</beca.pathDocumentos>
+				
+				<services.cdmx.documentos.url>https://llave-dev.cdmx.gob.mx/rest/consulta/documentoUsuario</services.cdmx.documentos.url>
+				
+				<service.aefcm.user>mci_fidegar_adip</service.aefcm.user>
+				<service.aefcm.password>3AL7R0LD39UO</service.aefcm.password>
+				
+				<services.cdmx.valida.documentos.url>https://llave-dev.cdmx.gob.mx/rest/documentos/validarDocumento</services.cdmx.valida.documentos.url>
+				
+			</properties>
+		</profile>
+	
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<app.profile>dev</app.profile>
+
+				<ejb.log>true</ejb.log>
+				<web.log>true</web.log>
+				<jsf.lifeCycle>true</jsf.lifeCycle>
+
+				<jpa.as.showsql>true</jpa.as.showsql>
+				<jpa.as.statistics>true</jpa.as.statistics>
+				<jpa.as.formatsql>true</jpa.as.formatsql>
+				<jpa.test.showsql>true</jpa.test.showsql>
+				<jpa.test.statistics>true</jpa.test.statistics>
+				<jpa.test.formatsql>true</jpa.test.formatsql>
+				
+				<login.urlLoginCdmx>https://llave-dev.cdmx.gob.mx/oauth.xhtml</login.urlLoginCdmx>
+				<login.urlRedirectLoginCdmx>https://registro.mibecaparaempezar-dev.cdmx.gob.mx/home.xhtml</login.urlRedirectLoginCdmx>
+				<login.appId>202205131803028218</login.appId>
+				<login.secretKey>7tsMoGk-GUwvGG_gW3CeiRmR5xE2XJ</login.secretKey>
+				<login.userHttpBasicAuth>mi_beca_para_empezar</login.userHttpBasicAuth>
+				<login.passwordHttpBasicAuth>M1%b3c4%p4r4%3eMp3z4r%d3v%13%m4y0%2022</login.passwordHttpBasicAuth>
+				  
+				<services.cdmx.getToken>https://llave-dev.cdmx.gob.mx/rest/oauth/token</services.cdmx.getToken>
+				<services.cdmx.getDatosUsuario>https://llave-dev.cdmx.gob.mx/rest/oauth/usuario</services.cdmx.getDatosUsuario>
+				<services.cdmx.getRolesUsuario>https://llave-dev.cdmx.gob.mx/rest/oauth/roles</services.cdmx.getRolesUsuario>
+				<services.cdmx.logout>https://llave-dev.cdmx.gob.mx/rest/oauth/logout</services.cdmx.logout>				
+			
+				<servicio.clima.url>http://simat.aire.cdmx.gob.mx:8002/webserviceSIMAT.asmx/Indice_Aire_Salud</servicio.clima.url>
+				<servicio.hoynocircula.url>http://simat.aire.cdmx.gob.mx/calidadaire/xml/simat.json</servicio.hoynocircula.url>
+				<servicio.climaopen.url>https://api.openweathermap.org/data/2.5/weather?id=3530597&amp;lang=sp&amp;units=metric&amp;APPID=bd95d6a747404c06b6989721a1e79d03</servicio.climaopen.url>
+				<servicio.semaforoepidemiologico.url>https://www.cdmx.gob.mx/rest/semaforo-epidemiologico/consultar</servicio.semaforoepidemiologico.url>				
+				<servicio.cdmx.hoynocircula.url>https://hoynocircula.cdmx.gob.mx/rest/hoynocircula/hoy</servicio.cdmx.hoynocircula.url>
+				
+				<servicio.urlINE>https://ine.cdmx.gob.mx/rest/datosIne/verificar</servicio.urlINE>
+				<servicio.userHttpBasicAuthINE>mibeca_empezar</servicio.userHttpBasicAuthINE>
+				<servicio.passwordHttpBasicAuthINE>M1b3C4Emp3Z4r12M4y2022</servicio.passwordHttpBasicAuthINE>
+				
+				<services.cdmx.curp.url>https://curp.cdmx.gob.mx/curp/rest/curp/</services.cdmx.curp.url>
+				<services.cdmx.curp.userCurpBasicAuth>mibecaparaempezar</services.cdmx.curp.userCurpBasicAuth>
+				<services.cdmx.curp.passwordCurpBasicAuth>M1_b3c4EMpez44rXkWs!</services.cdmx.curp.passwordCurpBasicAuth>
+				
+				<beca.pathDocumentos>/home/usrmibecadev/documentos/</beca.pathDocumentos>
+				
+				<services.cdmx.documentos.url>https://llave-dev.cdmx.gob.mx/rest/consulta/documentoUsuario</services.cdmx.documentos.url>
+				<service.aefcm.user>mci_fidegar_adip</service.aefcm.user>
+				<service.aefcm.password>3AL7R0LD39UO</service.aefcm.password>
+				
+				<services.cdmx.valida.documentos.url>https://llave-dev.cdmx.gob.mx/rest/documentos/validarDocumento</services.cdmx.valida.documentos.url>
+							
+			</properties>
+		</profile>
+
+		<profile>
+			<id>qa</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<app.profile>qa</app.profile>
+				
+				<ejb.log>false</ejb.log>
+				<web.log>false</web.log>
+				<jsf.lifeCycle>false</jsf.lifeCycle>
+
+				<jpa.as.showsql>false</jpa.as.showsql>
+				<jpa.as.statistics>false</jpa.as.statistics>
+				<jpa.as.formatsql>false</jpa.as.formatsql>
+				<jpa.test.showsql>false</jpa.test.showsql>
+				<jpa.test.statistics>false</jpa.test.statistics>
+				<jpa.test.formatsql>false</jpa.test.formatsql>
+				 	
+				<login.urlLoginCdmx>https://llave-dev.cdmx.gob.mx/oauth.xhtml</login.urlLoginCdmx>
+				<login.urlRedirectLoginCdmx>https://registro.mibecaparaempezar-dev.cdmx.gob.mx/home.xhtml</login.urlRedirectLoginCdmx>
+				<login.appId>202205131803028218</login.appId>
+				<login.secretKey>7tsMoGk-GUwvGG_gW3CeiRmR5xE2XJ</login.secretKey>
+				<login.userHttpBasicAuth>mi_beca_para_empezar</login.userHttpBasicAuth>
+				<login.passwordHttpBasicAuth>M1%b3c4%p4r4%3eMp3z4r%d3v%13%m4y0%2022</login.passwordHttpBasicAuth>
+				  
+				<services.cdmx.getToken>https://llave-dev.cdmx.gob.mx/rest/oauth/token</services.cdmx.getToken>
+				<services.cdmx.getDatosUsuario>https://llave-dev.cdmx.gob.mx/rest/oauth/usuario</services.cdmx.getDatosUsuario>
+				<services.cdmx.getRolesUsuario>https://llave-dev.cdmx.gob.mx/rest/oauth/roles</services.cdmx.getRolesUsuario>
+				<services.cdmx.logout>https://llave-dev.cdmx.gob.mx/rest/oauth/logout</services.cdmx.logout>
+
+				<servicio.clima.url>http://simat.aire.cdmx.gob.mx:8002/webserviceSIMAT.asmx/Indice_Aire_Salud</servicio.clima.url>
+				<servicio.hoynocircula.url>http://simat.aire.cdmx.gob.mx/calidadaire/xml/simat.json</servicio.hoynocircula.url>
+				<servicio.climaopen.url>https://api.openweathermap.org/data/2.5/weather?id=3530597&amp;lang=sp&amp;units=metric&amp;APPID=bd95d6a747404c06b6989721a1e79d03</servicio.climaopen.url>
+				<servicio.semaforoepidemiologico.url>https://www.cdmx.gob.mx/rest/semaforo-epidemiologico/consultar</servicio.semaforoepidemiologico.url>				
+				<servicio.cdmx.hoynocircula.url>https://hoynocircula.cdmx.gob.mx/rest/hoynocircula/hoy</servicio.cdmx.hoynocircula.url>
+				
+				<servicio.urlINE>https://ine.cdmx.gob.mx/rest/datosIne/verificar</servicio.urlINE>
+				<servicio.userHttpBasicAuthINE>mibeca_empezar</servicio.userHttpBasicAuthINE>
+				<servicio.passwordHttpBasicAuthINE>M1b3C4Emp3Z4r12M4y2022</servicio.passwordHttpBasicAuthINE>
+				
+				<services.cdmx.curp.url>https://curp.cdmx.gob.mx/curp/rest/curp/</services.cdmx.curp.url>
+				<services.cdmx.curp.userCurpBasicAuth>mibecaparaempezar</services.cdmx.curp.userCurpBasicAuth>
+				<services.cdmx.curp.passwordCurpBasicAuth>M1_b3c4EMpez44rXkWs!</services.cdmx.curp.passwordCurpBasicAuth>
+				
+				<beca.pathDocumentos>/home/usrmibecadev/documentos/</beca.pathDocumentos>
+				
+				<services.cdmx.documentos.url>https://llave-dev.cdmx.gob.mx/rest/consulta/documentoUsuario</services.cdmx.documentos.url>
+
+				<service.aefcm.user>mci_fidegar_adip</service.aefcm.user>
+				<service.aefcm.password>3AL7R0LD39UO</service.aefcm.password>
+				
+				<services.cdmx.valida.documentos.url>https://llave-dev.cdmx.gob.mx/rest/documentos/validarDocumento</services.cdmx.valida.documentos.url>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>prod</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<app.profile>prod</app.profile>
+
+				<ejb.log>false</ejb.log>
+				<web.log>false</web.log>
+				<jsf.lifeCycle>false</jsf.lifeCycle>
+
+				<jpa.as.showsql>false</jpa.as.showsql>
+				<jpa.as.statistics>false</jpa.as.statistics>
+				<jpa.as.formatsql>false</jpa.as.formatsql>
+				<jpa.test.showsql>false</jpa.test.showsql>
+				<jpa.test.statistics>false</jpa.test.statistics>
+				<jpa.test.formatsql>false</jpa.test.formatsql>
+				
+				<login.urlLoginCdmx>https://llave.cdmx.gob.mx/oauth.xhtml</login.urlLoginCdmx>				
+				<login.urlRedirectLoginCdmx>https://registro.mibecaparaempezar-dev.cdmx.gob.mx/home.xhtml</login.urlRedirectLoginCdmx>
+				<login.appId>APP_ID_QUE_ME_PROPORCIONA_EL_ADMINISTRADOR_DE_LLAVE_CDMX</login.appId>
+				<login.secretKey>SECRET_KEY_QUE_ME_PROPORCIONA_EL_ADMINISTRADOR_DE_LLAVE_CDMX</login.secretKey>
+				<login.userHttpBasicAuth>admin</login.userHttpBasicAuth>
+				<login.passwordHttpBasicAuth>admin</login.passwordHttpBasicAuth>
+
+				<services.cdmx.getToken>https://llave.cdmx.gob.mx/rest/oauth/token</services.cdmx.getToken>
+				<services.cdmx.getDatosUsuario>https://llave.cdmx.gob.mx/rest/oauth/usuario</services.cdmx.getDatosUsuario>
+				<services.cdmx.getRolesUsuario>https://llave.cdmx.gob.mx/rest/oauth/roles</services.cdmx.getRolesUsuario>
+				<services.cdmx.logout>https://llave.cdmx.gob.mx/rest/oauth/logout</services.cdmx.logout>
+				
+				<servicio.clima.url>http://simat.aire.cdmx.gob.mx:8002/webserviceSIMAT.asmx/Indice_Aire_Salud</servicio.clima.url>
+				<servicio.hoynocircula.url>http://simat.aire.cdmx.gob.mx/calidadaire/xml/simat.json</servicio.hoynocircula.url>
+				<servicio.climaopen.url>https://api.openweathermap.org/data/2.5/weather?id=3530597&amp;lang=sp&amp;units=metric&amp;APPID=bd95d6a747404c06b6989721a1e79d03</servicio.climaopen.url>
+				<servicio.semaforoepidemiologico.url>https://www.cdmx.gob.mx/rest/semaforo-epidemiologico/consultar</servicio.semaforoepidemiologico.url>				
+				<servicio.cdmx.hoynocircula.url>https://hoynocircula.cdmx.gob.mx/rest/hoynocircula/hoy</servicio.cdmx.hoynocircula.url>
+				
+				<servicio.urlINE>https://ine.cdmx.gob.mx/rest/datosIne/verificar</servicio.urlINE>
+				<servicio.userHttpBasicAuthINE>mibeca_empezar</servicio.userHttpBasicAuthINE>
+				<servicio.passwordHttpBasicAuthINE>M1b3C4Emp3Z4r12M4y2022</servicio.passwordHttpBasicAuthINE>
+				
+				<services.cdmx.curp.url>https://curp.cdmx.gob.mx/curp/rest/curp/</services.cdmx.curp.url>
+				<services.cdmx.curp.userCurpBasicAuth>mibecaparaempezar</services.cdmx.curp.userCurpBasicAuth>
+				<services.cdmx.curp.passwordCurpBasicAuth>M1_b3c4EMpez44rXkWs!</services.cdmx.curp.passwordCurpBasicAuth>
+								
+				<beca.pathDocumentos>/home/wwwmibeca/documentos/</beca.pathDocumentos>
+				
+				<services.cdmx.documentos.url>https://llave.cdmx.gob.mx/rest/consulta/documentoUsuario</services.cdmx.documentos.url>
+				<service.aefcm.user>mci_fidegar_adip</service.aefcm.user>
+				<service.aefcm.password>3AL7R0LD39UO</service.aefcm.password>
+				
+				<services.cdmx.valida.documentos.url>https://llave.cdmx.gob.mx/rest/documentos/validarDocumento</services.cdmx.valida.documentos.url>
+			</properties>
+		</profile>
+	</profiles>
+
+</project>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<link type="text/css" rel="stylesheet" href="/javax.faces.resource/theme.css.xhtml?ln=primefaces-aristo" />
+		<link type="text/css" rel="stylesheet" href="/javax.faces.resource/fa/font-awesome.css.xhtml?ln=primefaces&amp;v=8.0" />
+		<link type="text/css" rel="stylesheet" href="/javax.faces.resource/css/adip-header.css.xhtml" />
+		<link type="text/css" rel="stylesheet" href="/javax.faces.resource/css/adip-footer.css.xhtml" />
+		<link type="text/css" rel="stylesheet" href="/javax.faces.resource/css/adip-componentes.css.xhtml" />
+		<link type="text/css" rel="stylesheet" href="/javax.faces.resource/components.css.xhtml?ln=primefaces&amp;v=8.0" />
+		<script type="text/javascript" src="/javax.faces.resource/jquery/jquery.js.xhtml?ln=primefaces&amp;v=8.0"></script>
+		<script type="text/javascript" src="/javax.faces.resource/jquery/jquery-plugins.js.xhtml?ln=primefaces&amp;v=8.0"></script>
+		<script type="text/javascript" src="/javax.faces.resource/core.js.xhtml?ln=primefaces&amp;v=8.0"></script>
+		<script type="text/javascript" src="/javax.faces.resource/components.js.xhtml?ln=primefaces&amp;v=8.0"></script>
+		<link type="text/css" rel="stylesheet" href="/javax.faces.resource/css/primefaces-personalizado.css.xhtml" />		
+		<script type="text/javascript">if(window.PrimeFaces){PrimeFaces.settings.locale='es';}</script> 
+		
+		<title>titulo_sistema</title>
+	</head>
+	
+	<body>
+		<div class="header" id="header">
+			<div id="divHeader" class="ui-panelgrid ui-widget ui-panel-sin-pading header-centrado ui-panelgrid-blank ui-fluid" style="text-align: right;">
+				<div id="jdivContent" class="ui-panelgrid-content ui-widget-content ui-grid ui-grid-responsive">
+					<div class="ui-g">
+						<div class="ui-panelgrid-cell ui-g-12 ui-md-8 ui-lg-7">
+							<img id="imgHeader" src="/resources/img/adip-header.svg" alt="" class="img-header" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="pnlError500" class="ui-panelgrid ui-widget ui-panelgrid-blank ui-fluid" style=" max-width: 1024px; margin: 4% auto; padding-bottom: 3.5em;">
+			<div id="pnlError500_content" class="ui-panelgrid-content ui-widget-content ui-grid ui-grid-responsive">
+				<div class="ui-grid-row">
+					<div class="ui-panelgrid-cell ui-grid-col-6">
+						<label id="lbl500" class="ui-outputlabel ui-widget notfound-top">
+							<h1>500</h1>
+						</label>
+					</div>
+					<div class="ui-panelgrid-cell ui-grid-col-6">
+						<div id="pnlMensajes" class="ui-panelgrid ui-widget" style="border-left: 2px solid  #0f4c42; width:100%; padding-left: 3em; margin:4% auto; padding-top: 10px;">
+							<div id="pnlMensajes_content" class="ui-panelgrid-content ui-widget-content ui-grid ui-grid-responsive">
+								<div class="ui-grid-row">
+									<div class="ui-panelgrid-cell ui-grid-col-12">
+										<img id="imgError" src="/resources/img/error-500.jpg" alt="" style="width: 30%;" />
+									</div>
+								</div>
+								<div class="ui-grid-row" >
+									<div class="ui-panelgrid-cell ui-grid-col-12">
+										<label id="lblMensaje" class="ui-outputlabel ui-widget"> 
+											¡Ocurrió un error!  Vuelve a iniciar Sesión (500 Internal Server Error).
+										</label>
+									</div>
+								</div>
+								<div class="ui-grid-row">
+									<div class="ui-panelgrid-cell ui-grid-col-12">										
+										<a id="frmIndex:cLiInicio500" href="/index.xhtml" class="ui-commandlink ui-widget etiqueta-detalle">
+											Regresar al inicio
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="footer" class="footer">
+			<div style="max-width: 1024px; margin: 0 auto;">
+				<div id="pnlFooter" class="ui-panelgrid ui-widget ui-panelgrid-blank">
+					<div id="pnlFooter_content" class="ui-panelgrid-content ui-widget-content ui-grid ui-grid-responsive">
+						<div class="ui-g">
+							<div class="ui-panelgrid-cell ui-g-12 ui-md-8 ui-lg-8">
+								<div id="pnlFooterLeft" class="ui-panelgrid ui-widget ui-panelgrid-blank" style="margin:0;">
+									<div id="pnlFooterLeft_content" class="ui-panelgrid-content ui-widget-content ui-grid ui-grid-responsive">
+										<div class="ui-grid-row">
+											<div class="ui-panelgrid-cell ui-grid-col-12">
+												<img src="/resources/img/footer_adip.svg" alt="Logotipo Gobierno de la CDMX" style="max-width:295px; width:100%;" class="img-footer" />
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="ui-panelgrid-cell ui-g-12 ui-md-4 ui-lg-4">
+								<div id="pnlFooterAtencion" class="ui-panelgrid ui-widget ui-panelgrid-blank" style="margin:0; ">
+									<div id="pnlFooterAtencion_content" class="ui-panelgrid-content ui-widget-content ui-grid ui-grid-responsive">
+										<div class="ui-grid-row">
+											<div class="ui-panelgrid-cell ui-grid-col-12">
+												<label id="lblInformacion" class="ui-outputlabel ui-widget adip-footer-titulo" style="color: #fff;  font-size:20px; font-weight: 600;">
+													Para mayor información
+												</label>
+											</div>
+										</div>
+										<div class="ui-grid-row">
+											<div class="ui-panelgrid-cell ui-grid-col-12">
+												<label id="lblContacto" class="ui-outputlabel ui-widget adip-footer-textos" style="color: #fff; font-size:14px; font-weight: 100;">
+													Contáctanos al teléfono:
+												</label>
+											</div>
+										</div>
+										<div class="ui-grid-row">
+											<div class="ui-panelgrid-cell ui-grid-col-12">
+												<div id="divTel" class="ui-panelgrid ui-widget ui-panelgrid-blank" style="margin:0; ">
+													<div id="divTel_content" class="ui-panelgrid-content ui-widget-content ui-grid ui-grid-responsive">
+		          										<a style="text-decoration:none; color: #fff; font-size: 14px; font-weight: 100;" href="tel:5556581111"> Locatel: 55 5658 1111</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<hr id="hrSepatator" class="ui-separator ui-state-default ui-corner-all" style="border: 1px solid #004943;" />
+			<div style="max-width: 1024px; margin: 0 auto;">
+				<div id="pnlFooterFin" class="ui-panelgrid ui-widget ui-panelgrid-blank" style="text-align: right;">
+					<div id="pnlFooterFin_content" class="ui-panelgrid-content ui-widget-content ui-grid ui-grid-responsive">
+						<div class="ui-grid-row">
+							<div class="ui-panelgrid-cell ui-grid-col-12">
+								<!-- <a href="/500Error.xhtml" class="ui-link ui-widget" style="padding-left: 5%; text-decoration:none; color: white" target="_black">
+									Aviso de privacidad
+								</a> -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="divGreca" class="ui-outputpanel ui-widget" style="max-width: 1024px; width: 100%; margin:0 auto;">
+				<img id="imgGreca" src="/resources/img/greca.svg?pfdrid_c=true" alt="" style="width: 100%; height: 25px;" />
+			</div>
+		</div>
+	</body>
+</html>

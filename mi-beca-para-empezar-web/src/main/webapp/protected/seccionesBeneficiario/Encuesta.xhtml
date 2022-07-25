@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui">
+
+
+	<p:outputPanel style="padding: 2% 2%; background: #E1F6FF" rendered="#{registroBeneficiarioBean.infoEncuesta}">
+		<p:panelGrid columns="2" columnClasses="ui-g-2 ui-md-1 ui-lg-1, ui-g-10 ui-md-11 ui-lg-11" layout="grid" styleClass="ui-panelgrid-blank ui-fluid ui-panel-sin-pading">
+			<p:graphicImage value="/resources/img/ic_info.svg" style="width:32px; height:32px;" />
+			<p:outputLabel styleClass="adip-output-campos-blue" value="#{msg.lbl_programa_universal.concat('.')}" />
+		</p:panelGrid>
+	</p:outputPanel>
+	<p:outputPanel style="padding: 2% 2%; background: #FFF; border-radius: 10px 10px 0 0;" rendered="#{registroBeneficiarioBean.infoEncuesta}" >
+		<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+			<p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-6 ui-lg-6, ui-g-12 ui-md-6 ui-lg-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid ui-panel-sin-pading">
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+					<p:outputLabel value="#{msg.lbl_ingresa_informacion}" styleClass="adip-info-aux" />
+				</p:panelGrid>
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading ta-r">
+					<p:outputLabel value="*#{msg.lbl_campos_requeridos}" styleClass="adip-required-label" />
+				</p:panelGrid>
+			</p:panelGrid>
+
+			<!-- INFO GENERAL -->
+			<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid">
+				<p:outputLabel for="soDomicilio" value="#{msg.lbl_propiedad_domicilio.concat(':')}" styleClass="adip-output-campos" />
+				<p:selectOneMenu id="soDomicilio" class="adip-selectonemenu" panelStyleClass="adip-selectonemenu-panel" disabled="#{encuestaBeneficiarioBean.soloLectura}"
+					required="true" requiredMessage="#{msg.msj_campo_requerido}" value="#{encuestaBeneficiarioBean.encuestaDTO.catTipoDomicilioDTO.idTipoDomicilio}">
+					<f:selectItem itemLabel="#{msg.lbl_elige_una}" />
+					<f:selectItems value="#{encuestaBeneficiarioBean.lstCatTipoDomicilio}" var="domicilio" itemLabel="#{domicilio.descripcion}" itemValue="#{domicilio.idTipoDomicilio}" />
+				</p:selectOneMenu>
+				<p:message for="soDomicilio" styleClass="adip-messages" display="text" />
+
+				<p:outputLabel for="soMaterial" value="#{msg.lbl_material_domicilio}" styleClass="adip-output-campos" />
+				<p:selectOneMenu id="soMaterial" class="adip-selectonemenu" panelStyleClass="adip-selectonemenu-panel" disabled="#{encuestaBeneficiarioBean.soloLectura}"
+					required="true" requiredMessage="#{msg.msj_campo_requerido}" value="#{encuestaBeneficiarioBean.encuestaDTO.catMaterialesDomicilioDTO.idMaterialesDomicilio}">
+					<f:selectItem itemLabel="#{msg.lbl_elige_una}" />
+					<f:selectItems value="#{encuestaBeneficiarioBean.lstCatMaterialesDomicilio}" var="material" itemLabel="#{material.descripcion}" itemValue="#{material.idMaterialesDomicilio}" />
+				</p:selectOneMenu>
+				<p:message for="soMaterial" styleClass="adip-messages" display="text" />
+			</p:panelGrid>
+
+			<p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-12 ui-lg-12, ui-g-12 ui-md-6 ui-lg-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid ui-panel-sin-pading">
+				<p:outputLabel for="txtNumeroP" value="#{msg.lbl_numero_habitantes}" styleClass="adip-output-campos" />
+				<p:spinner id="txtNumeroP" 
+					buttons="horizontal" 
+					min="0" 
+					max="99" 
+					styleClass="adip-spinner" 
+					upIcon="adip-spinner-up-icon" 
+					downIcon="adip-spinner-down-icon" 
+					value="#{encuestaBeneficiarioBean.encuestaDTO.numeroHabitantes}"
+					disabled="#{encuestaBeneficiarioBean.soloLectura}"/>
+			</p:panelGrid>
+			<p:panelGrid rendered="#{encuestaBeneficiarioBean.msgNumeroP ne null}" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="padding: 0px !important;">
+				<p:staticMessage id="stmsgnumerop" severity="error" detail="#{encuestaBeneficiarioBean.msgNumeroP}"	styleClass="adip-correccion-message" escape="false" style="padding: 2% !important;"/>
+			</p:panelGrid>
+
+			<p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-12 ui-lg-12, ui-g-12 ui-md-6 ui-lg-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid ui-panel-sin-pading">
+				<p:outputLabel for="txtNumeroT" value="#{msg.lbl_personas_trabajan}" styleClass="adip-output-campos" />
+				<p:spinner 
+					id="txtNumeroT" 
+					buttons="horizontal" 
+					min="0" 
+					max="99" 
+					styleClass="adip-spinner" 
+					upIcon="adip-spinner-up-icon" 
+					downIcon="adip-spinner-down-icon" 
+					value="#{encuestaBeneficiarioBean.encuestaDTO.habitantesTrabajadores}"
+					disabled="#{encuestaBeneficiarioBean.soloLectura}"/>
+			</p:panelGrid>
+			<p:panelGrid rendered="#{encuestaBeneficiarioBean.msgNumeroT ne null}" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="padding: 0px !important;">
+				<p:staticMessage id="stmsgnumerot" severity="error" detail="#{encuestaBeneficiarioBean.msgNumeroT}"	styleClass="adip-correccion-message" escape="false" style="padding: 2% !important;"/>
+			</p:panelGrid>
+
+			<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid">
+				<p:outputLabel for="sovIngreso" value="#{msg.lbl_sueldo_reunido}" styleClass="adip-output-campos" />
+				<p:selectOneMenu id="sovIngreso" class="adip-selectonemenu" panelStyleClass="adip-selectonemenu-panel" disabled="#{encuestaBeneficiarioBean.soloLectura}"
+					required="true" requiredMessage="#{msg.msj_campo_requerido}" value="#{encuestaBeneficiarioBean.encuestaDTO.catIngresosFamiliaDTO.idIngresosFamilia}">
+					<f:selectItem itemLabel="#{msg.lbl_elige_una}" />
+					<f:selectItems value="#{encuestaBeneficiarioBean.lstCatIngresoFamiliar}" var="ingreso" itemLabel="#{ingreso.descripcion}" itemValue="#{ingreso.idIngresosFamilia}" />
+				</p:selectOneMenu>
+				<p:message for="sovIngreso" styleClass="adip-messages" display="text" />
+
+				<p:outputLabel for="soGrupoBenef" value="#{msg.lbl_grupo_beneficiario}" styleClass="adip-output-campos" />
+				<p:selectOneMenu id="soGrupoBenef" class="adip-selectonemenu" panelStyleClass="adip-selectonemenu-panel" disabled="#{encuestaBeneficiarioBean.soloLectura}"
+					required="true" requiredMessage="#{msg.msj_campo_requerido}" value="#{encuestaBeneficiarioBean.encuestaDTO.catGrupoPerteneceDTO.idGrupoPertenece}">
+					<f:selectItem itemLabel="#{msg.lbl_elige_una}" />
+					<f:selectItems value="#{encuestaBeneficiarioBean.lstCatGrupoPertenece}" var="grupo" itemLabel="#{grupo.descripcion}" itemValue="#{grupo.idGrupoPertenece}" />
+					<p:ajax listener="#{encuestaBeneficiarioBean.seleccionaOtroGpo}" update="pnlOtroGpo" />
+				</p:selectOneMenu>
+				<p:message for="soGrupoBenef" styleClass="adip-messages" display="text" />
+			</p:panelGrid>
+
+			<p:panelGrid id="pnlOtroGpo" columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid">
+				<p:outputLabel for="txtEspecificaOtroGpo" value="#{msg.lbl_especifica_otro_gpo}" styleClass="adip-output-campos" rendered="#{encuestaBeneficiarioBean.habilitaOtroGpo}"/>
+				<p:inputText id="txtEspecificaOtroGpo" 
+					placeholder="#{msg.lbl_ingresa}" 
+					styleClass="campos-captura adip-upperText" 
+					required="true" 
+					disabled="#{encuestaBeneficiarioBean.soloLectura}"
+					maxlength="60"
+					requiredMessage="#{msg.msj_campo_requerido}" value="#{encuestaBeneficiarioBean.encuestaDTO.otroGrupo}" 
+					rendered="#{encuestaBeneficiarioBean.habilitaOtroGpo}">
+					<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\-\.\,\s]+$/" />
+				</p:inputText>
+				<p:message for="txtEspecificaOtroGpo" styleClass="adip-messages" display="text" />
+			</p:panelGrid>
+
+			<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid">
+				<p:outputLabel value="#{msg.lbl_utiliza_beca_html}" styleClass="adip-output-campos" escape="false"/>
+				<p:selectManyCheckbox id="smUtiliza" layout="responsive" columns="3" required="true" requiredMessage="#{msg.msj_campo_requerido}" styleClass="adip-check-box"
+				value="#{encuestaBeneficiarioBean.lstDatos}" disabled="#{encuestaBeneficiarioBean.soloLectura}">
+					<f:selectItem itemLabel="Útiles escolares" itemValue="Útiles escolares"/>
+					<f:selectItem itemLabel="Ropa" itemValue="Ropa"/>
+					<f:selectItem itemLabel="Zapatos" itemValue="Zapatos"/>
+					<f:selectItem itemLabel="Comida" itemValue="Comida"/>
+					<f:selectItem itemLabel="Juguetes" itemValue="Juguetes"/>
+					<f:selectItem itemLabel="Otro" itemValue="Otro"/>
+					<p:ajax listener="#{encuestaBeneficiarioBean.seleccionaOtro}" update="pnlOtro" />
+				</p:selectManyCheckbox>
+				<p:message for="smUtiliza" styleClass="adip-messages" display="text" />
+			</p:panelGrid>
+
+			<p:panelGrid id="pnlOtro" columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid">
+				<p:outputLabel for="txtEspecifica" value="#{msg.lbl_especifica}" styleClass="adip-output-campos" rendered="#{encuestaBeneficiarioBean.habilitaOtro}"/>
+				<p:inputText id="txtEspecifica" 
+					placeholder="#{msg.lbl_ingresa}" 
+					styleClass="campos-captura adip-upperText" 
+					required="true" 
+					disabled="#{encuestaBeneficiarioBean.soloLectura}"
+					requiredMessage="#{msg.msj_campo_requerido}" 
+					value="#{encuestaBeneficiarioBean.encuestaDTO.especificaOtro}" 
+					rendered="#{encuestaBeneficiarioBean.habilitaOtro}"
+					maxlength="50">
+					<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\-\.\,\s]+$/" />
+				</p:inputText>
+				<p:message for="txtEspecifica" styleClass="adip-messages" display="text" />
+			</p:panelGrid>
+		</p:panelGrid>
+	</p:outputPanel>
+	
+	
+	<p:panelGrid id="pgInfoConsulta" columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12, ui-g-12 ui-md-12 ui-lg-12" layout="grid"
+				styleClass="ui-panelgrid-blank ui-fluid" rendered="#{consultaBean.consulta}" >
+				<p:outputPanel style="padding: 2% 4%; background: #FFF; border-radius: 10px 10px 0 0;" >
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_pregunta_1}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{encuestaBeneficiarioBean.encuestaDTO.catTipoDomicilioDTO.descripcion}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_pregunta_2}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{encuestaBeneficiarioBean.encuestaDTO.catMaterialesDomicilioDTO.descripcion}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_pregunta_3}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{encuestaBeneficiarioBean.encuestaDTO.numeroHabitantes}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_pregunta_4}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{encuestaBeneficiarioBean.encuestaDTO.habitantesTrabajadores}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_pregunta_5}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{encuestaBeneficiarioBean.encuestaDTO.catIngresosFamiliaDTO.descripcion}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_pregunta_6}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{encuestaBeneficiarioBean.encuestaDTO.catGrupoPerteneceDTO.descripcion}" styleClass="adip-output-bold-campos"/>
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" rendered="#{encuestaBeneficiarioBean.encuestaDTO.otroGrupo ne null}">
+						<p:outputLabel />
+						<p:outputLabel value="#{encuestaBeneficiarioBean.encuestaDTO.otroGrupo}" styleClass="adip-output-bold-campos"  />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+							<p:outputLabel value="#{msg.lbl_pregunta_7}" styleClass="adip-output-campos" />
+
+						<p:panelGrid columns="2" columnClasses="ui-grid-col-1, ui-grid-col-10" rendered="#{encuestaBeneficiarioBean.encuestaDTO.utilesEscolares}" layout="grid" styleClass="ui-panel-sin-pading">
+							<h:graphicImage class="img-header" value="/resources/img/checkgold.svg" style="width: 26px;" />
+							<p:outputLabel value="Útiles escolares"  styleClass="adip-output-bold-campos" />
+						</p:panelGrid>
+						<p:panelGrid columns="2" columnClasses="ui-grid-col-1, ui-grid-col-10" rendered="#{encuestaBeneficiarioBean.encuestaDTO.ropa}" layout="grid" styleClass="ui-panel-sin-pading">
+							<h:graphicImage class="img-header" value="/resources/img/checkgold.svg" style="width: 26px;" />
+							<p:outputLabel value="Ropa"  styleClass="adip-output-bold-campos" />
+						</p:panelGrid>
+						<p:panelGrid columns="2" columnClasses="ui-grid-col-1, ui-grid-col-10" rendered="#{encuestaBeneficiarioBean.encuestaDTO.zapatos}" layout="grid" styleClass="ui-panel-sin-pading">
+							<h:graphicImage class="img-header" value="/resources/img/checkgold.svg" style="width: 26px;" />
+							<p:outputLabel value="Zapatos"  styleClass="adip-output-bold-campos" />
+						</p:panelGrid>
+						<p:panelGrid columns="2" columnClasses="ui-grid-col-1, ui-grid-col-10" rendered="#{encuestaBeneficiarioBean.encuestaDTO.comida}" layout="grid" styleClass="ui-panel-sin-pading">
+							<h:graphicImage class="img-header" value="/resources/img/checkgold.svg" style="width: 26px;" />
+							<p:outputLabel value="Comida"  styleClass="adip-output-bold-campos" />
+						</p:panelGrid>
+						<p:panelGrid columns="2" columnClasses="ui-grid-col-1, ui-grid-col-10" rendered="#{encuestaBeneficiarioBean.encuestaDTO.juguetes}" layout="grid" styleClass="ui-panel-sin-pading">
+							<h:graphicImage class="img-header" value="/resources/img/checkgold.svg" style="width: 26px;" />
+							<p:outputLabel value="Juguetes"  styleClass="adip-output-bold-campos" />
+						</p:panelGrid>
+						<p:panelGrid columns="2" columnClasses="ui-grid-col-1, ui-grid-col-10" rendered="#{encuestaBeneficiarioBean.encuestaDTO.otro}" layout="grid" styleClass="ui-panel-sin-pading">
+							<h:graphicImage class="img-header" value="/resources/img/checkgold.svg" style="width: 26px;" />
+							<p:outputLabel value="Otro"  styleClass="adip-output-bold-campos" />
+						</p:panelGrid>
+						<p:panelGrid columns="2" columnClasses="ui-grid-col-1, ui-grid-col-10" rendered="#{encuestaBeneficiarioBean.encuestaDTO.otro}" layout="grid" styleClass="ui-panel-sin-pading">
+							<p:outputLabel />
+							<p:outputLabel value="#{encuestaBeneficiarioBean.encuestaDTO.especificaOtro}" styleClass="adip-output-bold-campos"  />
+						</p:panelGrid>
+					</p:panelGrid>
+				</p:panelGrid>
+				</p:outputPanel>
+			</p:panelGrid>
+	<style>
+</style>
+</ui:composition>
+

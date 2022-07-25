@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<h:form rendered="#{authenticatorBean.usuarioLogueado.idUsuarioLlaveCdmx == null }">
+		<p:menubar style="padding: 0; width: 100%; height: 49px; background: none;" styleClass="menu-normal menu-barra-header" autoDisplay="false">
+			
+			<p:menuitem id="residentes" value="Residentes" styleClass="seleccionado-item" style="font-weight: 700; color: #104C42 !important; padding: 18px 0 !important; height: 25px; width: 80px; " 
+				url="https:\\cdmx.gob.mx"  />
+				<!-- url="#{authenticatorBean.urlInicioSistema}" -->
+			<p:menuitem value="Negocios" style="font-weight: 500 !important; color:#104C42 !important; padding: 18px 0 !important; height: 25px; width: 80px; " target="_blank" 
+				url="https:\\cdmx.gob.mx" />
+			
+			<p:menuitem  value="Visitantes" target="_blank" style="font-weight: 500 !important; color: #104C42 !important; padding: 18px 0 !important; height: 25px; width: 80px;" 
+				url="https:\\cdmx.gob.mx"/>
+			
+			<p:menuitem value="Gobierno" style="font-weight: 500 !important; color: #104C42 !important; padding: 18px 0 !important; height: 25px; width: 80px; " target="_blank" 
+				url="https:\\gobierno.cdmx.gob.mx" />	
+		</p:menubar>	
+		
+			<p:commandButton type="button" value="" styleClass="menu-responsive claseButttonHeader"  onclick="PF('sidebar1').show()"
+                    			style="font-size: 25px; background-image: url(/resources/img/menu-mobile.svg); height: 24px; width: 27px !important; border: none; border-radius: 0;margin: 5px auto;"/>
+         					
+    	<p:sidebar id="sidebar1" widgetVar="sidebar1" baseZIndex="10000" 
+    		styleClass="side-bar-header" 
+    		style=".ui-sidebar-close: none; width: 80%; max-width: 400px;">
+    		
+			<p:scrollPanel mode="native" style="width:100%; height:80%; padding: 0;">
+			
+				<p:panelGrid id="idGridMenuSidebarLogo" columns="2"
+					style="margin:0;width:100%;text-align:left;display: table;"
+					columnClasses="ui-g-10 ui-md-10 ui-lg-10, ui-g-2 ui-md-2 ui-lg-2"
+					layout="grid" styleClass="ui-panelgrid-blank ">
+					<p:column>
+<!-- 						<h:graphicImage onclick="#{authenticatorBean.listenerClicImagenHeader()}" class="img-header" value="/resources/img/logo_cdmx.svg" style="float: left; width: 100%; " /> -->
+					</p:column>
+					<p:column>
+						<p:commandLink onclick="PF('sidebar1').hide()" immediate="true">
+							<p:graphicImage value="/resources/img/close3.svg"
+								style="width: 25px;position: relative; float: right; margin: 9px auto;"
+								styleClass="imagexgreenMenu" />
+						</p:commandLink>
+					</p:column>
+				</p:panelGrid>
+	
+<!-- 				<div style="padding-top: 27px" /> -->
+	
+				<p:panelGrid id="idGridMenuSidebar" columns="1" style="margin:0;width:100%;text-align:left;display: table;"
+					columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ZeroPadding-sidebar ">				
+					
+					<hr style="color: #f0f1f6; border: solid; margin: 10px 0 5px;" />
+<!-- 					<p:link href="#{authenticatorBean.urlInicioSistema}" value="Atención Ciudadana" -->
+<!-- 						styleClass="fontRespSidebar opcionmenuGreen" immediate="true"> -->
+<!-- 					</p:link> -->
+					<hr style="color: #f0f1f6; border: solid;margin: 10px 0 5px;" />
+					
+					<p:link href="https://datos.cdmx.gob.mx/dataset/0311-locatel" value="Datos Abiertos" target="_blank"
+						styleClass="fontRespSidebar opcionmenuGreen" immediate="true">
+					</p:link>
+					<hr style="color: #f0f1f6; border: solid;margin: 10px 0 5px;" />
+					
+					<p:link href="https://gobierno.cdmx.gob.mx/" value="Gobierno" target="_blank"
+						styleClass="fontRespSidebar opcionmenuGreen" immediate="true">
+					</p:link>
+					<hr style="color: #f0f1f6; border: solid;margin: 10px 0 5px;" />
+									
+					<p:link href="https:\\cdmx.gob.mx" value="Trámites y Servicios" target="_blank"
+						styleClass="fontRespSidebar opcionmenuGreen" immediate="true">
+					</p:link>
+					<hr style="color: #f0f1f6; border: solid;margin: 10px 0 5px;" />
+					
+				</p:panelGrid>
+			</p:scrollPanel>
+		</p:sidebar>
+		
+		<style>				
+			@media (max-width: 640px){
+				.ui-panelgrid .ui-grid-responsive .ui-grid-row {
+				    border-top: none !important;
+				}
+			}
+			.ui-sidebar-close {
+			    visibility: collapse;		   
+			}	
+			.ui-sidebar{
+				padding: 0.5em 1em !important; 
+			}
+		</style>	
+	
+	</h:form>
+</ui:composition>

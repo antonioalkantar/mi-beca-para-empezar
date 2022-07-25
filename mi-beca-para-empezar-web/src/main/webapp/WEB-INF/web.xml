@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_1.xsd"
+	version="3.1">
+
+	<display-name>/</display-name>
+
+	<!-- La siguiente configuracion solo se debe descomentar para ejecutar las pruebas de estres en el ambiente de QA.
+		 Con esta configuracion, se habilita el monitoreo de la aplicacion mediante JavaMelody.
+		 Requiere que SOLO en el pom.xml del ear se agregue la dependencia de javamelody-core.
+		 Por ultimo, se debe pasar el valor del parametro datasources conforme al nombre definido en el persistence.xml, por ejemplo: java:jboss/MiDS
+		 Al desplegar la aplicacion se puede ver el monitoreo desde la ruta http://<host>:<port>/<context>/monitoring
+	 -->
+	 <!-- 
+	<filter>
+		<filter-name>javamelody</filter-name>
+		<filter-class>net.bull.javamelody.MonitoringFilter</filter-class>
+		<async-supported>true</async-supported>
+		
+		<init-param>
+        	<param-name>datasources</param-name>
+        	<param-value>java:jboss/SCUDS</param-value>
+        </init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>javamelody</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>ASYNC</dispatcher>
+	</filter-mapping>
+	<listener>
+		<listener-class>net.bull.javamelody.SessionListener</listener-class>
+	</listener>  -->
+	<!-- Fin configuracion JavaMelody solo para ambiente de QA -->
+	
+	<filter>
+		<filter-name>PrimeFaces FileUpload Filter</filter-name>
+		<filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
+	</filter>
+	<filter-mapping>
+  		<filter-name>PrimeFaces FileUpload Filter</filter-name>
+ 		<servlet-name>Faces Servlet</servlet-name>
+	</filter-mapping>
+	
+	<filter>
+        <filter-name>autenticacionFilter</filter-name>
+        <filter-class>mx.gob.cdmx.adip.beca.acceso.filters.AutenticacionFilter</filter-class>
+    </filter>
+	
+	<context-param>
+		<param-name>timezone</param-name>
+		<param-value>America/Mexico_City</param-value>
+	</context-param>
+  	<context-param>
+    	<param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+    	<param-value>true</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>javax.faces.FACELETS_BUFFER_SIZE</param-name>
+		<param-value>100000</param-value> <!-- 0.1 Megabytes -->
+	</context-param>
+
+	<!-- Se declara de manera explicita el archivo de configuración de JSF. El valor es por default -->
+	<context-param>
+		<param-name>javax.faces.CONFIG_FILES</param-name>
+		<param-value>/WEB-INF/faces-config.xml</param-value>
+	</context-param>
+
+	<!-- numberOfViewsInSession defines the number of view states (pages) to support back button operation. 
+
+		 This is basically synchronous (non-ajax!) POST request based. Every synchronous POST request creates a new logical view. 
+		 They are all stored on basis of a physical view like so Map<PhysicalView, Map<LogicalView, ViewState>>. 
+		 So, with max 15 physical views and max 15 logical views, you can theoretically have 15*15 = 225 views in session.
+		 To experiment with it, set it to a value of 3, open a view with a synchronous form, submit it 4 times and then press the browser's back button 4 times and then submit the form again. 
+		 You will get a ViewExpiredException, because this view has been pushed out from the LRU (Least Recently Used) map for logical views. This will not happen if you go back max 3 times and then resubmit it.
+	
+		 Note that ajax submits reuse the same logical view (you can confirm it by seeing exactly the same javax.faces.ViewState value being returned on ajax postbacks).
+	-->
+	<context-param>
+		<param-name>com.sun.faces.numberOfViewsInSession</param-name>
+		<param-value>1</param-value>
+	</context-param>
+
+	<!-- numberOfLogicalViews defines the number of logical views (frames) that can present in a page.
+	     This is basically GET request based. Every GET request creates a new view in session.
+		 To experiment with it, set it to a value of 3, start a new browser session and open 4 different browser tabs (regardless of the URL; may be same, may be different) 
+		 in sequence and then go back to the 1st tab and submit the form in there.  
+		 You will get a ViewExpiredException, because this view has been pushed out from the LRU (Least Recently Used) map for views in session. 
+		 This will not happen if you opened max 3 tabs. 
+	 -->
+	<context-param>
+		<param-name>com.sun.faces.numberOfLogicalViews</param-name>
+		<param-value>2</param-value>
+	</context-param>
+	
+	<!-- Lecturas Sucias de los elementos de JSF -->
+	<context-param>
+		<param-name>com.sun.faces.enableAgressiveSessionDirtying</param-name>
+		<param-value>false</param-value>
+	</context-param>
+	
+	<!-- Menor tamanio de Sesion, pero mas consumo de CPU -->
+	<context-param>
+		<param-name>com.sun.faces.compressViewState</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	
+	<!-- Almacenamiento de Arboles de JSF Server (es el default, pero se coloca 
+		ahora explicito) -->
+	<context-param>
+		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+		<param-value>server</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	
+	<!-- Cambiar cuando se despliegue en produccion : Development, Production. 
+		en desarrollo activa mejores mensajes sacrificando performance; con el parametro 
+		production es viseversa. -->
+	<context-param>
+		<param-name>javax.faces.PROJECT_STAGE</param-name>
+		<param-value>Production</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>facelets.DEVELOPMENT</param-name>
+		<param-value>false</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>javax.faces.VALIDATE_EMPTY_FIELDS</param-name>
+		<param-value>false</param-value>
+	</context-param>
+
+	<!-- Para que JMeter pueda mandar peticiones y JSF las entienda -->
+	<!-- significa 'no tirar un ViewExpiredException, en su lugar, basta con 
+		crear una nueva vista si el viejo se ha vencido.' -->
+	<context-param>
+		<param-name>com.sun.faces.enableRestoreView11Compatibility</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	
+	 	<!-- Claves activadas el 27-05-2022 --> 
+	<context-param>
+		<param-name>primefaces.PRIVATE_CAPTCHA_KEY</param-name>
+		<param-value>6Lfh4SMgAAAAAKT7Ixgyf4FLRDmmB0WLXL36KmzD</param-value>
+	</context-param>
+	<context-param>
+		<param-name>primefaces.PUBLIC_CAPTCHA_KEY</param-name>
+		<param-value>6Lfh4SMgAAAAABSdlw8bJOj6vJuHsN6NcHMnE8Z2</param-value>
+	</context-param>
+	
+	<!-- Contexto necesario para manipulación de iconos -->
+	<context-param>
+		<param-name>primefaces.FONT_AWESOME</param-name>
+		<param-value>true</param-value>
+	</context-param>
+
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.xhtml</url-pattern>
+	</servlet-mapping>
+
+	<!-- <servlet> -->
+	<!-- <servlet-name>hajsp</servlet-name> -->
+	<!-- <jsp-file>/hajsp.jsp</jsp-file> -->
+	<!-- </servlet> -->
+	<!-- <servlet> -->
+	<!-- <servlet-name>clearsession</servlet-name> -->
+	<!-- <jsp-file>/clearsession.jsp</jsp-file> -->
+	<!-- </servlet> -->
+
+	<!-- Se define el filtro de seguridad que garantiza que un usuario no pueda 
+		ingresar a una URL para la cual sea necesario haber iniciado sesion con anterioridad. 
+		En caso de intentarlo, redirecciona a index.xhtml. Por default bloquea las rutas /protected, /view, /vista /layout -->
+<!-- 	<filter> -->
+<!-- 		<filter-name>SecurityFilter</filter-name> -->
+<!-- 		<filter-class>mx.gob.cdmx.adip.commons.auth.SecurityFilter</filter-class> -->
+<!-- 	</filter> -->
+<!-- 	<filter-mapping> -->
+<!-- 		<filter-name>SecurityFilter</filter-name> -->
+<!-- 		<url-pattern>/protected/*</url-pattern> -->
+<!-- 	</filter-mapping> -->
+
+	<session-config>
+		<session-timeout>15</session-timeout>
+		<!-- According to Michael Howard, Senior Security Program Manager in the 
+			Secure Windows Initiative group at Microsoft, the majority of XSS attacks 
+			target theft of session cookies. A server could help mitigate this issue 
+			by setting the HttpOnly flag on a cookie it creates, indicating the cookie 
+			should not be accessible on the client. If a browser that supports HttpOnly 
+			detects a cookie containing the HttpOnly flag, and client side script code 
+			attempts to read the cookie, the browser returns an empty string as the result. 
+			This causes the attack to fail by preventing the malicious (usually XSS) 
+			code from sending the data to an attacker's website. -->
+
+		<!-- No se puede activar en ambientes de desarrollo publicados en http 
+			con valores true porque sino las peticiones no llegan al server. Por ejemplo, 
+			al ejecutar cualquier boton va a parecer como si no hiciera la accion. Es 
+			por esto que estos parametros se inyectan con maven en el momento de compilacion, 
+			de acuerdo a los parametros configurados en el pom.xml 
+			
+			 Estos parametros se pasan desde el pom.xml con ayuda de filtering de Maven. Esto puede generar que el IDE de Eclipse marque errores.
+			 Para que no marque error hay que deshabilitar las validaciones en este archivo, ingresando a Window>Preference>validation y 
+			 para XML Schema Validator, XML validator, DTD Validator y XSL Validator agregar una exclusion al archivo web.xml y por ultimo reiniciar el Eclipse
+			--> 
+	 	    <cookie-config> 
+<!-- 	 	    	<http-only>${app.cookieconfig.httponly}</http-only> -->
+<!-- 	 			<secure>${app.cookieconfig.secure}</secure>  -->
+	 			<http-only>false</http-only>
+	 			<secure>false</secure> 
+	 		</cookie-config> 
+
+		<tracking-mode>COOKIE</tracking-mode>
+	</session-config>
+
+	<welcome-file-list>
+		<welcome-file>/index.xhtml</welcome-file>
+	</welcome-file-list>
+
+	<mime-mapping>
+		<extension>xcss</extension>
+		<mime-type>text/css</mime-type>
+	</mime-mapping>
+	
+	<!-- Mapeo necesario para iconos de font-awesome -->
+	<mime-mapping>
+		<extension>eot</extension>
+		<mime-type>application/vnd.ms-fontobject</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>otf</extension>
+		<mime-type>font/opentype</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>ttf</extension>
+		<mime-type>application/x-font-ttf</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>woff</extension>
+		<mime-type>application/x-font-woff</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>svg</extension>
+		<mime-type>image/svg+xml</mime-type>
+	</mime-mapping>
+	<!-- fin mapeo necesario para iconos de font-awesome -->
+
+	<!-- Cuando el error se produce en una peticion Ajax, no se redirecciona a las paginas configuradas en esta seccion.
+		 Para que funcione con peticiones Ajax se debe implementar un ExceptionHandler. 
+		 Por lo cual se implementa el de Omnifaces FullAjaxExceptionHandlerFactory el cual se configura en el faces-config
+		 pero requiere que en el web.xml se declare el HTTP error code 500 o el tipo de excepcion java.lang.Throwable -->
+	<error-page>
+		<exception-type>javax.faces.application.ViewExpiredException</exception-type>
+		<location>/index.xhtml?faces-redirect=true</location>
+	</error-page>
+	
+	<error-page>
+		<exception-type>javax.enterprise.context.NonexistentConversationException</exception-type>
+		<location>/index.xhtml?faces-redirect=true</location>
+	</error-page>
+	
+	<error-page>
+		<exception-type>javax.ejb.EJBAccessException</exception-type>
+		<location>/denied.xhtml?faces-redirect=true</location>
+	</error-page>
+	
+	<error-page>
+	    <error-code>404</error-code>
+	    <location>/404Error.xhtml?faces-redirect=true</location>	
+	</error-page>
+	
+	<error-page>
+	    <exception-type>java.lang.Exception</exception-type>
+	    <location>/500Error.xhtml?faces-redirect=true</location>
+	</error-page>
+	
+	<error-page>
+	    <exception-type> java.io.FileNotFoundException</exception-type>
+	    <location>/500Error.xhtml?faces-redirect=true</location>
+	</error-page>
+	
+	<error-page>
+		<location>/500Error.xhtml?faces-redirect=true</location>
+	</error-page>
+	
+	<error-page>
+	    <error-code>500</error-code>
+	    <location>/500Error.xhtml?faces-redirect=true</location>
+	</error-page>
+	
+	<error-page>
+    	<!-- Unsupported servlet method -->
+	    <error-code>503</error-code>
+	    <location>/500Error.xhtml?faces-redirect=true</location>
+	</error-page>
+	
+	<error-page>
+    	<exception-type>java.io.IOException</exception-type>
+    	<location>/500Error.xhtml?faces-redirect=true</location>
+	</error-page>
+	
+	<error-page>
+	    <exception-type>java.lang.Throwable</exception-type>
+	    <location>/500Error.xhtml?faces-redirect=true</location>
+	</error-page>
+	
+</web-app>

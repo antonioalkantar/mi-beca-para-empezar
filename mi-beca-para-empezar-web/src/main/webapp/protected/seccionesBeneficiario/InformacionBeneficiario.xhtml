@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui">
+
+	<p:outputPanel style="padding: 2% 2%; background: #FFF; border-radius: 10px 10px 0 0;" rendered="#{registroBeneficiarioBean.infoBeneficiario}">
+		<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" rendered="#{!consultaBean.consulta}" >		
+			<p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-6 ui-lg-6, ui-g-12 ui-md-6 ui-lg-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+					<p:outputLabel value="#{msg.lbl_ingresa_informacion}" styleClass="adip-info-aux" />
+				</p:panelGrid>
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading ta-r">
+					<p:outputLabel value="*#{msg.lbl_campos_requeridos}" styleClass="adip-required-label" />
+				</p:panelGrid>				
+			</p:panelGrid>
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">				
+				<p:panelGrid id="pgBusqCurp" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">					
+					<p:staticMessage id="smCurp" rendered="false" severity="error" detail="El servicio de la Autoridad Educativa presenta intermitencias, la información será guardada y posteriormente serás notificado sobre el resultado de la consulta."
+				styleClass="adip-correccion-message" />
+					<p:panelGrid columns="2" columnClasses="ui-g-11 ui-md-11 ui-lg-7, ui-g-1 ui-md-1 ui-lg-1 adip-info-icon" layout="grid"
+									styleClass="ui-panelgrid-blank ui-fluid">
+									<p:outputLabel for="curpBenef" value="#{msg.lbl_curp}" styleClass="pred-output-campos" />
+									<p:graphicImage id="icInfoCURP" value="/resources/img/ic_info.svg" style=" width: 17px;  height: 17px;">
+										<p:tooltip for="icInfoCURP" value="Si el beneficiario no cuenta con una CURP para el registro, contacta a su centro educativo."  position="top" />
+									</p:graphicImage>
+					</p:panelGrid>		
+				<p:inputText id="curpBenef" value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.curpBeneficiario}" maxlength="18" placeholder="AAAA000000AAABBB00" 
+						styleClass="adip-inputtext adip-upperText" required="true" requiredMessage="#{msg.msj_campo_requerido}" disabled="#{registroBeneficiarioBean.soloLectura}" readonly="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.esTutor}"
+						onblur="value=value.toUpperCase()" onkeyup="$(this).val($(this).val().replace(/[^A-Za-z0-9]/g, ''));">
+						<p:keyFilter regEx="/[a-z0-9]/i" preventPaste="false" />						
+				</p:inputText>
+					<p:message for="curpBenef" styleClass="adip-messages" display="text" />
+				</p:panelGrid>
+			</p:panelGrid>	
+			<p:panelGrid rendered="#{registroBeneficiarioBean.msjSeccionDos ne null}" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<p:staticMessage id="stmsgTwo" severity="error" detail="#{registroBeneficiarioBean.msjSeccionDos}"	styleClass="adip-correccion-message" escape="false" />
+				</p:panelGrid>
+			<p:panelGrid rendered="#{registroBeneficiarioBean.msjSeccionTres ne null}" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<p:staticMessage id="stmsgThree" severity="info" detail="#{registroBeneficiarioBean.msjSeccionTres}"	styleClass="adip-correccion-message" />
+			</p:panelGrid>	
+			<p:panelGrid  columns="2" columnClasses="ui-g-12 ui-md-6 ui-lg-6, ui-g-12 ui-md-6 ui-lg-6" layout="grid" styleClass="">
+				<p:panelGrid id="pnlCaptcha" columns="1" columnClasses="ui-grid-col-12"	layout="grid" styleClass="ui-panel-sin-pading">		
+				   			<p:captcha id="Captcha" language="es" required="false" requiredMessage="Debe marcar la casilla del captcha" size="100px" 
+				   				rendered="#{registroBeneficiarioBean.visualizarCaptcha() and !registroBeneficiarioBean.soloLectura}" />				   				
+					      	<p:message for="Captcha" display="text"/>
+				</p:panelGrid>
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12"	layout="grid" styleClass="ui-panel-sin-pading">
+					<p:commandButton process="@this curpBenef Captcha"	actionListener="#{registroBeneficiarioBean.validarCurp}" 
+						value="Consultar CURP" 
+						styleClass="adip-btn-green"	
+						update="form"
+						rendered="#{!registroBeneficiarioBean.soloLectura}" 
+						disabled="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.esTutor or registroBeneficiarioBean.soloLectura}">
+					</p:commandButton>
+				</p:panelGrid>
+			</p:panelGrid>
+				<p:panelGrid id="pgCurp" columns="2" columnClasses="ui-g-12 ui-md-6 ui-lg-6, ui-g-12 ui-md-6 ui-lg-6" layout="grid" styleClass="">
+							<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">								
+										<p:outputLabel value="#{msg.lbl_nombre}" styleClass="adip-output-campos" />
+										<p:inputText id="txtNombre" value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.nombresBeneficiario}" styleClass="campos-captura adip-upperText" readonly="true" required="true"/> 
+										<p:message for="txtNombre" styleClass="adip-messages" display="text" />
+										
+										<p:outputLabel value="#{msg.lbl_primer_ap}" styleClass="adip-output-campos" />
+										<p:inputText id="txtPrimerAp"  value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.primerApellidoBeneficiario}" styleClass="campos-captura adip-upperText" readonly="true" required="true"/> 
+										<p:message for="txtPrimerAp" styleClass="adip-messages" display="text" />
+										
+										<p:outputLabel value="#{msg.lbl_segundo_ap}" styleClass="adip-output-campos" />
+										<p:inputText id="txtSegundoAp"  value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.segundoApellidoBeneficiario}" styleClass="campos-captura adip-upperText" readonly="true" required="true"/>
+										
+							</p:panelGrid>
+							<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+									
+										<p:outputLabel value="#{msg.lbl_nacionalidad}" styleClass="adip-output-campos" />
+										<p:inputText id="txtNacionalidad"  value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.esExtranjero ? 'Extranjera' : registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.nacionalidad}" styleClass="campos-captura adip-upperText" readonly="true" /> 
+										<p:message for="txtNacionalidad" styleClass="adip-messages" display="text" />
+									
+										<p:outputLabel for="txtFechaNac" value="#{msg.lbl_fecha_nac}" styleClass="adip-output-campos" />
+										<p:datePicker id="txtFechaNac" value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.fechaNacimientoBeneficiario}" touchUI="true" monthNavigator="true"   yearNavigator="true" 
+													  pattern="dd/MM/yyyy"  styleClass="campos-captura adip-upperText" onkeypress="return false;" disabled="#{!registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.esExtranjero}"
+													  onchange="obtenerEdad();"  requiredMessage="#{msg.msj_campo_requerido}"/>
+										<p:message for="txtFechaNac" styleClass="adip-messages" display="text" />
+									
+										<p:outputLabel value="#{msg.lbl_edad}" styleClass="adip-output-campos" />										
+										<p:inputText id="txtEdad"  value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.edad}" onkeypress="return false;" styleClass="campos-captura adip-upperText" 
+													 required="true" requiredMessage="#{msg.msj_campo_requerido}"/>			  
+										<p:message for="txtEdad" styleClass="adip-messages" display="text" />
+										
+							</p:panelGrid>
+							
+				</p:panelGrid>
+				
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<p:outputLabel for="soParentesco" value="#{msg.lbl_parentesco}" styleClass="adip-output-campos" />
+					<p:selectOneMenu id="soParentesco" class="adip-selectonemenu" panelStyleClass="adip-selectonemenu-panel" 
+							required="true" requiredMessage="#{msg.msj_campo_requerido}" 
+							value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.solicitudDTO.catParentescoDTO.idParentesco}" 
+							disabled="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.solicitudDTO.catParentescoDTO.idParentesco eq null or registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.esTutor or registroBeneficiarioBean.soloLectura}"
+							readonly="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.esTutor}">
+						<f:selectItem itemLabel="#{msg.lbl_elige_uno}" />
+						<f:selectItems value="#{registroBeneficiarioBean.lstParentesco}" var="tutor" itemLabel="#{tutor.descripcion}" itemValue="#{tutor.idParentesco}" />
+						<p:ajax process="@this" />
+					</p:selectOneMenu>
+					<p:message for="soParentesco" styleClass="adip-messages" display="text" />
+				</p:panelGrid>
+						<p:panelGrid columns="2" columnClasses="ui-g-1 ui-md-1 ui-lg-1,ui-g-11 ui-md-11 ui-lg-11" layout="grid" style=" padding: 0 13px;" rendered="#{!registroBeneficiarioBean.soloLectura}"
+							styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid">
+							<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" style="padding-top: 39% !important;text-align: center;" styleClass="ui-panelgrid-blank ui-fluid">
+								<p:selectBooleanCheckbox id="txtManifiesto" value="#{registroBeneficiarioBean.manifiesto}" styleClass="adip-check-box" itemLabel="">
+									<p:ajax event="change" update="pnlBtns" />
+								</p:selectBooleanCheckbox>
+							</p:panelGrid>
+							<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+								<p class="pl-2" style="font-size: 12px !important; font-weight: 600; color: #6F7271 !important; text-align: justify;">#{msg.lbl_manifiesto} </p>
+							</p:panelGrid>
+						</p:panelGrid>
+		
+				
+		</p:panelGrid>
+		
+		<p:panelGrid id="vistaBack" columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" rendered="#{consultaBean.consulta}" >
+			<!-- INFO GENERAL -->
+
+			<p:panelGrid id="pgInfo" columns="2" columnClasses="ui-g-12 ui-md-12 ui-lg-6, ui-g-12 ui-md-12 ui-lg-6" layout="grid"
+				styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid">
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_nombre}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.nombresBeneficiario}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_primer_ap}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.primerApellidoBeneficiario}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_segundo_ap}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.segundoApellidoBeneficiario}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_parentesco}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.solicitudDTO.catParentescoDTO.descripcion}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+					 
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_estatus}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.solicitudDTO.catEstatusBeneficiarioDTO.descripcion}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>					
+				</p:panelGrid>
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_curp}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.curpBeneficiario}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_nacionalidad}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.nacionalidad}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_fecha}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.fechaNacimientoBeneficiario}" styleClass="adip-output-bold-campos" >
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+						</p:outputLabel>
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_edad}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.edad}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12"	layout="grid" styleClass="ui-panel-sin-pading">
+
+				</p:panelGrid>
+				</p:panelGrid>
+			</p:panelGrid>
+			
+			<p:separator styleClass="adip-separador" />
+			
+			<p:panelGrid id="pgInfoDos" columns="3" columnClasses="ui-grid-col-4, ui-grid-col-4, ui-grid-col-4" layout="grid"
+				styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid" style="text-align:left;">
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" style="" >
+						<p:outputLabel value="#{msg.lbl_nivel_escolar}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.solicitudDTO.catNivelEducativoDTO.descripcion}"  styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" style="" >
+						<p:outputLabel value="#{msg.lbl_grado}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.solicitudDTO.gradoEscolar}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" style="" >
+						<p:outputLabel value="#{msg.lbl_turno}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.solicitudDTO.turno}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+			</p:panelGrid>
+			
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_nombre_escuela}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.solicitudDTO.nombre}" styleClass="adip-output-bold-campos" />
+			</p:panelGrid>
+			
+			<p:panelGrid id="pgInfoTres" columns="2" columnClasses="ui-g-12 ui-md-12 ui-lg-6, ui-g-12 ui-md-12 ui-lg-6" layout="grid"
+				styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid">
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_CCT}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.solicitudDTO.cct}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_calle}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.solicitudDTO.calle}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_codigo_postal}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.solicitudDTO.codigopostal}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+				</p:panelGrid>
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_colonia}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.solicitudDTO.colonia}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_alcaldia}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.solicitudDTO.alcaldia}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:outputLabel value="#{msg.lbl_entidad}" styleClass="adip-output-campos" />
+						<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.solicitudDTO.entidad}" styleClass="adip-output-bold-campos" />
+					</p:panelGrid>
+				</p:panelGrid>
+			</p:panelGrid>
+
+		</p:panelGrid>
+	</p:outputPanel>
+<style>
+.campos-captura input {height: 56px;
+color: #000000 !important;
+    /* text-transform: uppercase; */
+    font-size: 20px !important;
+    border-radius: 8px !important;
+    height: 56px;
+    border-color: #A0AEC0 !important;
+}
+.ui-fluid .ui-calendar input {
+    background-image: url(/resources/img/calendar.png);
+    background-repeat: no-repeat;
+    background-position: right;
+    background-position-x: -100px;    
+}
+
+.p-datepicker .ui-datepicker-touch-ui, .ui-datepicker-touch-ui {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	min-width: 20rem !important;
+	width: auto;
+	-webkit-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+body .ui-datepicker .ui-datepicker-calendar td {
+    padding: 0rem;
+    text-align: center;
+}
+
+</style>
+<script type="text/javascript">   
+    		
+    		PrimeFaces.locales['es'] = {
+    		        closeText: 'Cerrar',
+    		        prevText: 'Anterior',
+    		        nextText: 'Siguiente',
+    		        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+    		        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+    		        dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+    		        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+    		        dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+    		        weekHeader: 'Semana',
+    		        firstDay: 1,
+    		        isRTL: false,
+    		        showMonthAfterYear: false,
+    		        yearSuffix: '',
+    		        timeOnlyTitle: 'Sólo hora',
+    		        timeText: 'Tiempo',
+    		        hourText: 'Hora',
+    		        minuteText: 'Minuto',
+    		        secondText: 'Segundo',
+    		        millisecondText: 'Milisegundo',
+    		        currentText: 'Fecha actual',
+    		        ampm: false,
+    		        month: 'Mes',
+    		        week: 'Semana',
+    		        day: 'Día',
+    		        allDayText: 'Todo el día',
+    		        today: 'Hoy',
+    		        clear: 'Claro'
+        		};
+    	   
+    		
+    	    function obtenerEdad() {
+    	    	
+    	    	var birthday = document.getElementById("form:txtFechaNac_input").value;
+    	        var birthday_arr = birthday.split("/");
+    	        var birthday_date = new Date(birthday_arr[2], birthday_arr[1] - 1, birthday_arr[0]);
+    	        var ageDifMs = Date.now() - birthday_date.getTime();
+    	        var ageDate = new Date(ageDifMs);
+    	        edad = Math.abs(ageDate.getUTCFullYear() - 1970);
+    	        console.log(edad);
+    	        document.getElementById("form:txtEdad").value = edad;
+    	        console.log("edad");
+    	    }
+			
+    	    
+
+    	
+	</script>
+</ui:composition>

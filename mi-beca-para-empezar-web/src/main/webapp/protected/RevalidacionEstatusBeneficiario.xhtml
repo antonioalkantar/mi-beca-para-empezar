@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:o="http://omnifaces.org/ui" 
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="content">
+		
+		<!-- Se cambia el titulo de la página HTML dinámicamente para que no tome la del template -->
+		<o:onloadScript>document.title='#{msg.lbl_titulo_revalidacion}'</o:onloadScript>
+		
+		<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align: center;" rendered="false">
+			<!--rendered="#{empty header['referer']}"> -->
+			<p:outputPanel style="background-color: #FFF !important; border-radius: 10px; padding: 30px 25px; margin: 16% auto;">
+				<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align: center;">
+					<p:outputLabel value="No puedes ingresar a esta página ingresando la URL directamente." style="font-size:35px; color: #000; font-weight: 500;" />
+					<p:outputLabel value="Serás redirigido al inicio del sistema." style="font-size:40px; color: #000; font-weight: 700;" />
+				</p:panelGrid>
+				<p:idleMonitor id="unSeg" timeout="2000">
+					<p:ajax event="idle" oncomplete="location.href='#{authenticatorBean.urlInicio}'" update="messages" />
+				</p:idleMonitor>
+			</p:outputPanel>
+		</p:panelGrid>
+		
+		
+		<!--<h:form id="formBandeja" rendered="#{not empty header['referer']}"> -->
+		<h:form id="formRevalidacion" rendered="true">
+			
+			<p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-4 ui-lg-4, ui-g-12 ui-md-8 ui-lg-8" layout="grid" style="max-width: 1024px; margin: auto; text-align: left !important; "
+						 styleClass="ui-panelgrid-blank ui-fluid" rendered="true"  >
+				<p:commandButton value="#{msg.regresar}" actionListener="#{registroBeneficiarioBean.redirect()}" styleClass="adip-btn-green" icon="back" immediate="true" />
+   			</p:panelGrid>
+   			
+   			<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" style="padding: 2% 0 2% 0; max-width: 1024px; margin: auto;"
+						 styleClass="ui-panelgrid-blank ui-fluid" rendered="true">
+	   			<p:panel header="#{msg.lbl_titulo_panel_revalidacion}" styleClass="adip-panel">
+	   				<p:outputPanel style="padding: 2% 2%; background: #FFF; border-radius: 10px 10px 0 0;">
+	   					
+	   					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+							<p:outputLabel value="#{msg.lbl_info_beneficiario}" styleClass="adip-info-aux" />
+						</p:panelGrid>
+						<div style="padding-top: 37px;" />	
+	   					
+	   					<p:panelGrid id="pnlNombreBen" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+							<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.nombresCompletoBeneficiario}" styleClass="adip-info-aux" />
+						</p:panelGrid>
+						
+						<div style="padding-top: 14px;" />		   					
+						
+						<p:panelGrid id="pnlDatosBen1" columns="3" columnClasses="ui-g-12 ui-md-4 ui-lg-4, ui-g-12 ui-md-4 ui-lg-4, ui-g-12 ui-md-4 ui-lg-4" layout="grid" styleClass="ui-panel-sin-pading">
+							<p:outputLabel value="Estatus:" styleClass="adip-output-campos" />
+							<p:outputLabel value="CURP" styleClass="adip-output-campos" />
+							<p:outputLabel value="Edad" styleClass="adip-output-campos" />
+							
+							<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.solicitudDTO.catEstatusBeneficiarioDTO.descripcion}"/>
+							<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.curpBeneficiario}"/>
+							<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.edad}"/>
+	   					</p:panelGrid>
+	   					
+	   					<div style="padding-top: 38px;" />	
+	   					
+	   					<p:panelGrid id="pnlDatosBen2" columns="3" columnClasses="ui-g-12 ui-md-4 ui-lg-4, ui-g-12 ui-md-4 ui-lg-4, ui-g-12 ui-md-4 ui-lg-4" layout="grid" styleClass="ui-panel-sin-pading">
+							<p:outputLabel value="Nivel:" styleClass="adip-output-campos" />
+							<p:outputLabel value="Turno:" styleClass="adip-output-campos" />
+							<p:outputLabel value="Grado:" styleClass="adip-output-campos" />
+							
+							<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.solicitudDTO.catNivelEducativoDTO.descripcion}"/>
+							<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.solicitudDTO.turno}"/>
+							<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.solicitudDTO.gradoEscolar}"/>
+	   					</p:panelGrid>
+	   					
+	   					<div style="padding-top: 32px;" />
+	   					<p:separator styleClass="adip-separador"/>
+	   					<div style="padding-top: 39px;" />	 
+	   					
+	   					
+	   					<p style="font-family: Inter !important; font-size:17px !important; color: #000000; font-weight: 400;" >El estatus <span style="color: #CB2020; font-weight: bold;"> Inactivo </span> del beneficiario fue asignado al no ser localizado en el padrón de estudiantes de la Autoridad Educativa Federal de la Ciudad de México (AEFCDMX).</p>
+	   					
+	   					<p style="font-family: Inter !important; font-size:17px !important; color: #000000; font-weight: 400;" >Para que el beneficiario sea reactivado, deberá realizar una aclaración ante la institución educativa en la que esté inscrito el beneficiario para que sea registrado. Una vez que el beneficiario esté inscrito en el padrón, deberá solicitar la validación del estatus del beneficiario dando clic en<span style="font-weight: bold;"> Validar beneficiario</span>.</p>
+						
+						<p style="font-family: Inter !important; font-size:17px !important; color: #000000; font-weight: 400;" ><span style="color: #8B1232; font-weight: bold;"> Importante: </span> El estatus del beneficiario se mantendrá como <span style="color: #CB2020; font-weight: bold;"> Inactivo </span> en caso de no aparecer en el padrón de  la AEFCDMX como un estudiante inscrito en una escuela pública de los niveles preescolar, primaria, secundaria o en un Centro de Atención Múltiple (en todos sus niveles).</p>
+	   							   				
+		   				<div style="padding-top: 55px;" />	
+		   					   					   				
+		   				<p:panelGrid  columns="2" columnClasses="ui-g-12 ui-md-6 ui-lg-6, ui-g-12 ui-md-6 ui-lg-6" layout="grid" style="text-align: -webkit-center;">
+							<p:panelGrid id="pnlCaptcha" columns="1" columnClasses="ui-grid-col-12"	layout="grid" styleClass="ui-panel-sin-pading">		
+							   			<p:captcha id="Captcha" language="es" required="false" requiredMessage="Debe marcar la casilla del captcha" rendered="#{registroBeneficiarioBean.visualizarCaptcha()}" size="100px"/>				   				
+								      	<p:message for="Captcha" display="text"/>
+							</p:panelGrid>
+							<p:panelGrid columns="1" columnClasses="ui-grid-col-12"	layout="grid" styleClass="ui-panel-sin-pading">
+								<p:commandButton 
+									value="Validar beneficiario" 
+									styleClass="adip-btn-green"	
+									update="formRevalidacion"
+									actionListener="#{registroBeneficiarioBean.actualizaDatosCurp}" >
+								</p:commandButton>
+							</p:panelGrid>
+						</p:panelGrid>
+	   				
+		   				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" style="background: rgba(248, 221, 221, 1.56); border-radius: 10px;" rendered="#{registroBeneficiarioBean.msjSeccionDos ne null}">
+							
+							<p class="adip-output-campos-red"> El beneficiario con CURP <span style="font-weight: bold;"> #{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.curpBeneficiario} </span> 
+								no fue localizado en el padrón de la AEFCDMX por lo que su estatus no fue actualizado. Para realizar una aclaración ante FIBIEN, agenda una cita en  
+								<a href="https://citas.cdmx.gob.mx/" style="font-weight: bold; text-decoration: none; color: #8B1232;" target=":blank">Citas CDMX</a>
+								
+							.</p>						
+						</p:panelGrid>												
+						
+						<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" style="background: rgba(199, 239, 189, 0.56); border-radius: 10px;" rendered="#{registroBeneficiarioBean.msjSeccionTres ne null}">
+							
+							<p class="adip-output-campos-verde"> El beneficiario con CURP <span style="font-weight: bold;"> #{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.curpBeneficiario} </span> 
+								fue localizado en el padrón de la AEFCDMX por lo que su estatus fue actualizado a   
+								<span style="font-weight: bold;"> Activo. </span>								
+							</p>						
+						</p:panelGrid>
+						
+	   				</p:outputPanel>
+	   			</p:panel>
+	   			
+	   			
+	   		</p:panelGrid>
+			
+		</h:form>
+	<style>
+		.adip-output-campos-red {
+		font-style: normal;
+		font-weight: 500;
+		font-size: 18px;
+		line-height: 22px;		
+		letter-spacing: -0.5px;
+		color: #8B1232;
+		margin: 17px 20px;
+	}
+
+		.adip-output-campos-verde {
+		font-style: normal;
+		font-weight: 500;
+		font-size: 20px;
+		line-height: 22px;	
+		letter-spacing: -0.5px;
+		color: #1B5C4F;
+		margin: 17px 20px;
+	}
+	</style>
+	</ui:define>
+</ui:composition>

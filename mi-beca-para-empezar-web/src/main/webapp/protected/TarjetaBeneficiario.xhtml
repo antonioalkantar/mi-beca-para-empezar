@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      template="/WEB-INF/templates/default.xhtml">
+     
+      <ui:define name="content">
+  <style>
+  
+  body .ui-modal-green .ui-dialog-titlebar {
+    color: #1B5C4F;
+    font-weight: 700 !important;
+    border-bottom: 0 none;
+    padding: .5rem !important;
+    background: #D2F2CA;
+	font-weight: bold;
+	font-size: 24px;
+	}
+	
+  body .ui-modal-gray .ui-dialog-titlebar {
+    color: #475058;
+    font-weight: 700 !important;
+    border-bottom: 0 none;
+    padding: .5rem !important;
+    background: #E2E8F0;
+	font-weight: bold;
+	font-size: 24px;
+	}
+  
+  body .ui-tabs .ui-tabs-nav li.ui-tabs-header.ui-state-active a {
+    color: #fff;
+	}
+
+     body .ui-tabs.ui-tabs-top > .ui-tabs-nav li.ui-tabs-header.ui-state-active {
+     border-color: none; 
+     background-color: #9f2241;
+     height: 10px;
+     border-top-right-radius: 10px;
+     border-top-left-radius: 10px;
+
+	}
+
+	body .ui-tabs.ui-tabs-top > .ui-tabs-nav li.ui-tabs-header {
+     top: 0;
+     border-bottom: none; 
+     background-color:  #F5F5F5;
+     height: 10px;
+     border-top-right-radius: 10px;
+     border-top-left-radius: 10px;
+	}
+	
+	body .ui-tabs.ui-tabs-top > .ui-tabs-nav li.ui-tabs-header.ui-state-active {
+    border-color: #9f2241;
+	}
+	
+	body .ui-tabs.ui-tabs-top > .ui-tabs-nav:before {
+    content: "";
+    position: absolute;
+    display: block;
+    border-bottom: none;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+	}
+	
+	body .ui-tabs.ui-tabs-top > .ui-tabs-panels {
+    border-width: 1px 0 0 0;
+    border-radius: 10px;
+	}
+	
+	@media screen and (min-width: 760px) {
+  	.ui-grid-col-12-tarjeta {
+    width: 520px !important;
+    background-size: 520px !important;
+    height: 100% !important;
+    background-repeat: no-repeat !important;
+    background-image: url(/resources/img/tarjeta_image.svg) !important;
+    padding-top: 240px !important;
+		}
+	.tarjeta-label{
+	color: #fff; font-size:18px !important; text-align: left; font-weight: bold;
+		}
+	.input-tarjeta-label{
+	font-size:18px !important;
+	width: 200px !important; 
+	height: 25px !important; 
+	background-color: #fff !important; 
+	font-size:18px !important;
+		}
+	}
+	
+	
+	@media screen and (min-width: 481px) and (max-width: 759px) {
+  	.ui-grid-col-12-tarjeta {
+    width: 390px !important;
+    background-size: 390px !important;
+    padding-top: 165px !important;
+    height: 100% !important;
+    background-repeat: no-repeat !important;
+    background-image: url(/resources/img/tarjeta_image.svg) !important;
+		}
+	.tarjeta-label{
+	color: #fff; font-size:14px !important; text-align: left; font-weight: bold;
+		}
+	.input-tarjeta-label{
+	font-size:18px !important;
+	width: 200px !important; 
+	height: 25px !important; 
+	background-color: #fff !important; 
+	font-size:18px !important;
+		}
+	}
+	
+	@media screen and (min-width: 431px) and (max-width: 480px) {
+  	.ui-grid-col-12-tarjeta {
+    width: 100% !important;
+    background-size: 100% !important;
+    padding-top: 8rem !important;
+    height: 100% !important;
+    background-repeat: no-repeat !important;
+    background-image: url(/resources/img/tarjeta_image.svg) !important;
+		}
+	.tarjeta-label{
+	color: #fff; font-size:10px !important; text-align: left; font-weight: bold;
+		}
+	.input-tarjeta-label{
+	font-size:18px !important;
+	width: 200px !important; 
+	height: 25px !important; 
+	background-color: #fff !important; 
+	font-size:18px !important;
+		}
+	}
+	
+	@media screen and (min-width: 381px) and (max-width: 430px) {
+  	.ui-grid-col-12-tarjeta {
+    width: 100% !important;
+    background-size: 100% !important;
+    padding-top: 7.5rem !important;
+    height: 100% !important;
+    background-repeat: no-repeat !important;
+    background-image: url(/resources/img/tarjeta_image.svg) !important;
+		}
+	.tarjeta-label{
+	display: none;
+		}
+	.input-tarjeta-label{
+	font-size:18px !important;
+	width: 200px !important; 
+	height: 25px !important; 
+	background-color: #fff !important; 
+	font-size:18px !important;
+		}
+	}
+	
+	@media screen and (min-width: 361px) and (max-width: 380px) {
+  	.ui-grid-col-12-tarjeta {
+    width: 100% !important;
+    background-size: 100% !important;
+    padding-top: 7rem !important;
+    height: 100% !important;
+    background-repeat: no-repeat !important;
+    background-image: url(/resources/img/tarjeta_image.svg) !important;
+		}
+	.tarjeta-label{
+	display: none;
+		}
+	.input-tarjeta-label{
+	font-size:18px !important;
+	width: 200px !important; 
+	height: 15px !important; 
+	background-color: #fff !important; 
+	font-size:18px !important;
+		}
+	}
+	
+	@media screen and (min-width: 321px) and (max-width: 360px) {
+  	.ui-grid-col-12-tarjeta {
+    width: 100% !important;
+    background-size: 100% !important;
+    padding-top: 6rem !important;
+    height: 100% !important;
+    background-repeat: no-repeat !important;
+    background-image: url(/resources/img/tarjeta_image.svg) !important;
+		}
+	.tarjeta-label{
+	display: none;
+		}
+	.input-tarjeta-label{
+	font-size:18px !important;
+	width: 150px !important; 
+	height: 15px !important; 
+	background-color: #fff !important; 
+	font-size:18px !important;
+		}
+	}
+	
+	@media screen and (max-width: 320px) {
+  	.ui-grid-col-12-tarjeta {
+    width: 100% !important;
+    background-size: 100% !important;
+    padding-top: 5.2rem !important;
+    height: 100% !important;
+    background-repeat: no-repeat !important;
+    background-image: url(/resources/img/tarjeta_image.svg) !important;
+		}
+	.tarjeta-label{
+	display: none;
+		}
+	.input-tarjeta-label{
+	font-size:18px !important;
+	width: 120px !important; 
+	height: 10px !important; 
+	background-color: #fff !important; 
+	font-size:18px !important;
+		}	
+	
+	}
+	
+	
+  </style> 
+  
+  
+  
+	<p:panelGrid id="pnlGeneral" columns="3" columnClasses="ui-grid-col-1, ui-grid-col-10, ui-grid-col-1" layout="grid" style="text-align: center;" styleClass="ui-panelgrid-blank ui-fluid">
+   <p:outputPanel/>
+   <h:form id="frmGrafica">
+   
+   <p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-4 ui-lg-4, ui-g-12 ui-md-8 ui-lg-8" layout="grid" 
+   style="margin: auto; text-align: left !important; "
+							styleClass="ui-panelgrid-blank ui-fluid" rendered="true"  >
+			<p:commandButton value="#{msg.regresar}" action="#{bandejaTutorBean.init()}" styleClass="adip-btn-green" icon="back" immediate="true" />
+   </p:panelGrid>
+   
+   
+   <p:panelGrid id="pnlFormulario" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+   <p:outputPanel style="background: #FFFFFF !important; border-radius:8px; ">				
+					<p:outputPanel style="background: #9f2241 !important; border-top-right-radius: 8px; border-top-left-radius: 8px;">
+  				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="padding:10px 0; text-align: left;" >
+					<p:outputLabel value="#{msg.lbl_Beneficiario}" style="color: #fff; font-size:22px; text-align: left; font-weight: bold;"/>
+				</p:panelGrid>
+			</p:outputPanel>
+     		
+     		<br />
+			
+			<p:panelGrid id="pnlInformacion" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<p:panelGrid id="pnlNombre" columns="1" columnClasses="ui-grid-col-12" layout="grid" style="text-align: left;" styleClass="ui-panelgrid-blank ui-fluid">
+	      					<p:outputLabel id="lblNombre"  value="María José Carranza Alcaraz" styleClass="etiqueta" style="color: #475058 !important;" />
+		      			</p:panelGrid>
+			</p:panelGrid>
+	      		<p:panelGrid id="pnlInformacion2" columns="4" columnClasses="ui-grid-col-3, ui-grid-col-3, ui-grid-col-3, ui-grid-col-3" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+	      			<p:panelGrid id="pnlEstatusInfo" columns="1" columnClasses="ui-grid-col-12" layout="grid" style="text-align: left;" styleClass="ui-panelgrid-blank ui-fluid">
+	      				<p:outputLabel id="lblEstatus"  value="#{msg.lbl_estatus}" styleClass="etiqueta" style="color: #475058 !important; font-weight: normal !important;" />
+	      				<p:outputLabel id="lblEstatusInfo"  value="#{tarjetaBeneficiarioBean.crcBeneficiarioSolicitudDTO.solicitudDTO.estatusBeneficiario}" styleClass="etiqueta" style="color: #475058 !important;" />
+	      			</p:panelGrid>
+
+	      			<p:panelGrid id="pnlCurpInfo" columns="1" columnClasses="ui-grid-col-12" layout="grid" style="text-align: left;" styleClass="ui-panelgrid-blank ui-fluid">
+	      				<p:outputLabel id="lblCurp"  value="#{msg.lbl_curp_info}" styleClass="etiqueta" style="color: #475058 !important; font-weight: normal !important;" />
+	      				<p:outputLabel id="lblCurpInfo"  value="#{tarjetaBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.curpBeneficiario}" styleClass="etiqueta" style="color: #475058 !important;" />
+	      			</p:panelGrid>
+	      			
+	      			<p:panelGrid id="pnlEdadInfo" columns="1" columnClasses="ui-grid-col-12" layout="grid" style="text-align: left;" styleClass="ui-panelgrid-blank ui-fluid">
+	      				<p:outputLabel id="lblEdad"  value="#{msg.lbl_edad}" styleClass="etiqueta" style="color: #475058 !important; font-weight: normal !important;" />
+	      				<p:outputLabel id="lblEdadInfo"  value="#{tarjetaBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.edad}" styleClass="etiqueta" style="color: #475058 !important;" />
+	      			</p:panelGrid>
+	      			
+	      			<p:panelGrid id="pnlVerRegistro" columns="1" columnClasses="ui-grid-col-12" layout="grid" style="text-align: left;" styleClass="ui-panelgrid-blank ui-fluid">
+						<p:commandButton value="Ver registro" 
+						action="#{registroBeneficiarioBean.consulta(tarjetaBeneficiarioBean.crcBeneficiarioSolicitudDTO.solicitudDTO.idSolicitud)}"
+						styleClass="adip-btn-transparent-grey" 
+						icon="adip-icon_eye-grey" 
+						immediate="true" />
+	      			</p:panelGrid>
+	      		</p:panelGrid>
+<!--  	      			
+	      		<p:panelGrid id="pnlInformacion3" columns="4" columnClasses="ui-grid-col-3, ui-grid-col-3, ui-grid-col-3, ui-grid-col-3"  layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+
+	      			<p:panelGrid id="pnlInstitucionInfo" columns="1" columnClasses="ui-grid-col-12" layout="grid" style="text-align: left;" styleClass="ui-panelgrid-blank ui-fluid">
+	      				<p:outputLabel id="lblInstitucion"  value="#{msg.lbl_institucion}" styleClass="etiqueta" style="color: #475058 !important; font-weight: normal !important;" />
+	      				<p:outputLabel id="lblInstitucionInfo"  value="#{tarjetaBeneficiarioBean.crcBeneficiarioSolicitudDTO.solicitudDTO.nombre}" styleClass="etiqueta" style="color: #475058 !important;" />
+		      			</p:panelGrid>
+	      			
+	      			<p:panelGrid id="pnlNivelInfo" columns="1" columnClasses="ui-grid-col-12" layout="grid" style="text-align: left;" styleClass="ui-panelgrid-blank ui-fluid">
+	      				<p:outputLabel id="lblNivel"  value="#{msg.lbl_nivel}" styleClass="etiqueta" style="color: #475058 !important; font-weight: normal !important;" />
+	      				<p:outputLabel id="lblNivelInfo"  value="#{tarjetaBeneficiarioBean.crcBeneficiarioSolicitudDTO.solicitudDTO.nivelEducativo}" styleClass="etiqueta" style="color: #475058 !important;" />
+		      			</p:panelGrid>
+	      			
+	      			<p:panelGrid id="pnlTurnoInfo" columns="1" columnClasses="ui-grid-col-12" layout="grid" style="text-align: left;" styleClass="ui-panelgrid-blank ui-fluid">
+	      				<p:outputLabel id="lblTurno"  value="#{msg.lbl_turno}" styleClass="etiqueta" style="color: #475058 !important; font-weight: normal !important;" />
+	      				<p:outputLabel id="lblTurnoInfo"  value="#{tarjetaBeneficiarioBean.crcBeneficiarioSolicitudDTO.solicitudDTO.turno}" styleClass="etiqueta" style="color: #475058 !important;" />
+		      			</p:panelGrid>
+		      			
+		      			<p:panelGrid id="pnlGradoInfo" columns="1" columnClasses="ui-grid-col-12" layout="grid" style="text-align: left;" styleClass="ui-panelgrid-blank ui-fluid">
+	      				<p:outputLabel id="lblGrado"  value="#{msg.lbl_grado}" styleClass="etiqueta" style="color: #475058 !important; font-weight: normal !important;" />
+	      				<p:outputLabel id="lblGradoInfo"  value="#{tarjetaBeneficiarioBean.crcBeneficiarioSolicitudDTO.solicitudDTO.gradoEscolar}" styleClass="etiqueta" style="color: #475058 !important;" />
+		      			</p:panelGrid>
+	      		</p:panelGrid>
+	      		
+-->    		
+	      		<p:panelGrid id="pnlEstatusGral" columns="2"  layout="grid" styleClass="ui-panelgrid-blank ui-fluid" >
+	      			<p:panelGrid  columns="1"  layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align: right !important;" >
+	      				<p:outputLabel id="lblEstatusSolicitud"  value="#{msg.lbl_estatus_solicitud}:" styleClass="etiqueta" style="color: #475058 !important; text-align: right !important; font-size: 20px !important;" />
+	      			</p:panelGrid>
+	      			<p:panelGrid  columns="1"  layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align: left !important;" >
+	      				<p:outputLabel id="lblEstatusSolicitudInfo"  value="#{tarjetaBeneficiarioBean.crcBeneficiarioSolicitudDTO.solicitudDTO.estatusBeneficiario}" styleClass="etiqueta" style="color: #3D9926 !important; text-align: left !important;  font-size: 20px !important;" />
+ 		      		</p:panelGrid>
+				</p:panelGrid>
+				<br />
+				</p:outputPanel>		
+				</p:panelGrid>
+   			</h:form>
+   			<p:outputPanel/>
+   			<p:outputPanel/>
+   			<p:tabView>
+            <p:tab title="Tarjeta">
+                <p:panelGrid id="pnlTarjeta" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<p:panelGrid id="pnlTarjetaInfo" columns="2" columnClasses="ui-lg-8 ui-g-12 ui-md-12 ui-sm-12, ui-lg-4 ui-g-12 ui-md-12 ui-sm-12" layout="grid" style="text-align: left;" styleClass="ui-panelgrid-blank ui-fluid">			
+	      				<!--<p:panelGrid  columns="1" columnClasses="ui-grid-col-12-esp" layout="grid" style="text-align: left; padding: 0px 0px 0px 0px !important" styleClass="ui-panelgrid-blank ui-fluid">		
+	      					
+	      					<p:panelGrid id="pnlTarjetaImagenTop" columns="1" columnClasses="ui-grid-col-12" layout="grid" 
+	      					style="border-top: 1.5px solid #aeb3b7 !important; border-left: 1.5px solid #aeb3b7 !important; border-right: 1.5px solid #aeb3b7 !important; border-bottom-right-radius: 0px; 
+	      					border-bottom-left-radius: 0px; border-top-right-radius: 20px; border-top-left-radius: 20px; width: 506px; height: 230.74px;" styleClass="ui-panelgrid-blank ui-fluid">
+	      						
+	      						<p:panelGrid columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid" style="text-align: left;" styleClass="ui-panelgrid-blank ui-fluid">
+	      						<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" style="text-align: left;" styleClass="ui-panelgrid-blank ui-fluid">
+	      							<p:graphicImage value="/resources/img/Group 2247.svg" style="width: 200px !important; padding-top: 20px;" />		
+		      					</p:panelGrid>
+		      					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" style="text-align: right;" styleClass="ui-panelgrid-blank ui-fluid">
+		      						<p:graphicImage value="/resources/img/ciudad_innovadora.svg" style="width: 130px !important; padding-top: 25px;" />	
+		      					</p:panelGrid>
+		      					</p:panelGrid>
+		      					
+		      					<p:panelGrid id="pnlTarjetaImagenTexto" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+	      						<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" style="text-align: left;" styleClass="ui-panelgrid-blank ui-fluid">
+	      							<p:graphicImage value="/resources/img/image 27.svg" style="width: 65px !important; padding-top: 20px;" />		
+		      					</p:panelGrid>
+		      					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" style="text-align: left;" styleClass="ui-panelgrid-blank ui-fluid">
+		      						<p:graphicImage value="/resources/img/Beca de Bienestar para niñas y niños.svg" style="width: 270px !important; padding-top: 0px;" />	
+		      						<p:graphicImage value="/resources/img/Mi beca para empezar.svg" style="width: 220px !important;" />	
+		      					</p:panelGrid>
+		      				</p:panelGrid>
+		      				</p:panelGrid>
+		      				<p:outputPanel  style="border-bottom: 1.5px solid #581A36 !important; border-left: 1.5px solid #581A36 !important; border-right: 1.5px solid #581A36 !important;
+		      				 background: #581A36 !important; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px; width: 506px !important; height: 90.18px !important">
+  								<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="padding: 0px 0px 0px 0px; text-align: center;" >
+									<p:outputLabel value="#{msg.lbl_numeros_tarjeta}" style="color: #fff; font-size:18px; text-align: left; font-weight: bold;"/>
+									<p:inputText id="txtNumerosTarjeta"   maxlength="16" minlength="16" 	
+										style="width: 200px; height: 25px; background-color: #fff; font-size:18px;"								
+										requiredMessage="#{msg.msj_campo_requerido}" required="false" onkeyup="$(this).val($(this).val().replace(/[^0-9]/g, ''));" />
+								</p:panelGrid>
+							</p:outputPanel>
+							</p:panelGrid>-->
+							<p:panelGrid  columns="1" columnClasses="ui-grid-col-12-tarjeta" layout="grid" style="text-align: center; padding: 0px 0px 0px 0px !important" styleClass="ui-panelgrid-blank ui-fluid">		
+		      				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="padding: 0px 0px 0px 0px; text-align: center;" >
+									<p:outputLabel value="#{msg.lbl_numeros_tarjeta}" styleClass="tarjeta-label" />
+									<p:inputText id="txtNumerosTarjeta"   maxlength="16" minlength="16" 
+										styleClass="input-tarjeta-label"								
+										requiredMessage="#{msg.msj_campo_requerido}" required="false" onkeyup="$(this).val($(this).val().replace(/[^0-9]/g, ''));" />
+										<br />
+								</p:panelGrid>	
+							</p:panelGrid>
+		      				<p:panelGrid id="pnlTarjetaAccesos" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"   >
+	      					<br />
+	      					<p:commandButton id="btnBloquearTarjeta" value="#{msg.lbl_bloque_tarjeta}" 
+   								onclick="PF('mdlBloquearTarjeta').show();"	styleClass="boton-bloquear-tarjeta botonAncho"  />
+   							<br />	
+   							<p:commandButton id="btnRestablecerTarjeta" value="#{msg.lbl_reestablecer_nip}" 
+   								onclick="PF('mdlReestablecerNIP').show();"	styleClass="boton-restablecer-tarjeta botonAncho"  />
+   							<br />		
+   							<p:commandButton id="btnReportarTarjeta" value="#{msg.lbl_reportar_tarjeta}" 
+   									styleClass="boton-reportar-tarjeta botonAncho"  />
+	      					
+	      					
+		      				</p:panelGrid>
+		      				
+		      				<p:panelGrid id="pnlTarjetaSubMenu" columns="2" columnClasses="ui-grid-col-8, ui-grid-col-4" layout="grid" style="text-align: right;" styleClass="ui-panelgrid-blank ui-fluid">		
+			<p:panelGrid columns="1" ></p:panelGrid>
+	      	<p:commandButton id="btnVincular" value="#{msg.lbl_vincular}" 
+   									styleClass="boton-vincular-tarjeta botonAncho"  />	
+			
+			</p:panelGrid>
+		      				
+		      			</p:panelGrid>
+				</p:panelGrid>
+            </p:tab>
+            <p:tab title="Movimientos">
+                <p class="p-m-0">
+                    
+                </p>
+            </p:tab>
+
+        </p:tabView>
+        <br />
+        
+        
+        
+   			<p:outputPanel/>
+   		</p:panelGrid>
+   		
+   		<p:dialog widgetVar="mdlBloquearTarjeta" header="Bloquear tarjeta" 
+		modal="true" width="500px" heigh="200px important!" responsive="true" resizable="false" styleClass="ui-modal-gray" closable="true" >
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+			 style="text-align: left; 
+    font-weight: 700;
+    border-bottom: 0 none;
+    padding: 1.5rem;
+    background: #fff;" >
+				<p:outputLabel value="¿Estás seguro/a de que deseas bloquear tu tarjeta?" />	
+			
+			<p:panelGrid columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid" style="text-align: right !important;" >
+			  	 					<p:commandButton id="btnRegresarBloquearTarjeta" value="Cancelar" onclick="PF('mdlBloquearTarjeta').hide();" immediate="true" styleClass="boton-cancelar-regresar-tarjeta ui-button-acciones"/>
+									<p:commandButton id="btnSiguienteBloquearTarjeta"  value="Bloquear" onclick="PF('mdlBloquearTarjeta').hide(); PF('mdlBloquearTarjetaGreen').show();" style="background-color: #1B5C4F !important" styleClass="boton-siguiente-tarjeta"/>
+			  	 				</p:panelGrid>
+			
+			</p:panelGrid>
+		</p:dialog>
+   		
+   		<p:dialog widgetVar="mdlBloquearTarjetaGreen" header="Bloquear tarjeta" modal="true" width="400px" heigh="200px important!" responsive="true" resizable="false" 
+   		styleClass="ui-modal-green" closable="true" >
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+			 style="text-align: center; color: #1B5C4F !important;
+    font-weight: 700;
+    border-bottom: 0 none;
+    padding: 1.5rem;
+    background: #E0F6DA;" >
+				<p:outputLabel value="Tarjeta bloqueada con éxito" style="color: #1B5C4F !important;" />
+			</p:panelGrid>
+		</p:dialog>	
+		
+		<p:dialog widgetVar="mdlReestablecerNIP" header="Bloquear tarjeta" 
+		modal="true" width="500px" heigh="200px important!" responsive="true" resizable="false" styleClass="ui-modal-gray" closable="true" >
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+			 style="text-align: left; 
+    font-weight: 700;
+    border-bottom: 0 none;
+    padding: 1.5rem;
+    background: #fff;" >
+				<p style="font-weight: normal !important;">El NIP debe estar conformado por <span style="font-weight: bold !important;">4</span> carácteres numéricos</p>
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<p:outputLabel value="#{msg.lbl_nuevo_nip}" />
+				<p:inputText id="txtNuevoNip"   maxlength="4" minlength="4" 
+					styleClass="input-tarjeta-label"								
+					requiredMessage="#{msg.msj_campo_requerido}" required="false" onkeyup="$(this).val($(this).val().replace(/[^0-9]/g, ''));" />
+				<p:outputLabel value="#{msg.lbl_confirmar_nip}" />
+				<p:inputText id="txtNuevoNipConfirmar"   maxlength="4" minlength="4" 
+					styleClass="input-tarjeta-label"								
+					requiredMessage="#{msg.msj_campo_requerido}" required="false" onkeyup="$(this).val($(this).val().replace(/[^0-9]/g, ''));" />
+			</p:panelGrid>	
+			
+			<p:panelGrid columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid" style="text-align: right !important;" >
+			  	 					<p:commandButton id="btnRegresarmdlReestablecerNIP" value="Cancelar" onclick="PF('mdlReestablecerNIP').hide();" immediate="true" styleClass="boton-cancelar-regresar-tarjeta ui-button-acciones"/>
+									<p:commandButton id="btnSiguientemdlReestablecerNIP"  value="Reestablecer" onclick="PF('mdlReestablecerNIP').hide(); PF('mdlReestablecerNIPGreen').show();" style="background-color: #1B5C4F !important" styleClass="boton-siguiente-tarjeta"/>
+			  	 				</p:panelGrid>
+			
+			</p:panelGrid>
+		</p:dialog>
+		
+		<p:dialog widgetVar="mdlReestablecerNIPGreen" header="Reestablecer NIP" modal="true" width="400px" heigh="200px important!" responsive="true" resizable="false" 
+   		styleClass="ui-modal-green" closable="true" >
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+			 style="text-align: center; color: #1B5C4F !important;
+    font-weight: 700;
+    border-bottom: 0 none;
+    padding: 1.5rem;
+    background: #E0F6DA;" >
+				<p:outputLabel value="NIP reestablecido con éxito." style="color: #1B5C4F !important;" />
+			</p:panelGrid>
+		</p:dialog>		
+
+   </ui:define>
+</ui:composition>

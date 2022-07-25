@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      template="/WEB-INF/templates/default.xhtml">
+     
+      <ui:define name="content">
+  <style>
+  
+  body .ui-tabs .ui-tabs-nav li.ui-tabs-header.ui-state-active a {
+    color: #fff;
+	}
+
+     body .ui-tabs.ui-tabs-top > .ui-tabs-nav li.ui-tabs-header.ui-state-active {
+     border-color: none; 
+     background-color: #9f2241;
+     height: 10px;
+     border-top-right-radius: 10px;
+     border-top-left-radius: 10px;
+
+	}
+
+	body .ui-tabs.ui-tabs-top > .ui-tabs-nav li.ui-tabs-header {
+     top: 0;
+     border-bottom: none; 
+     background-color:  #F5F5F5;
+     height: 10px;
+     border-top-right-radius: 10px;
+     border-top-left-radius: 10px;
+	}
+	
+	body .ui-tabs.ui-tabs-top > .ui-tabs-nav li.ui-tabs-header.ui-state-active {
+    border-color: #9f2241;
+	}
+	
+	body .ui-tabs.ui-tabs-top > .ui-tabs-nav:before {
+    content: "";
+    position: absolute;
+    display: block;
+    border-bottom: none;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+	}
+	
+	body .ui-tabs.ui-tabs-top > .ui-tabs-panels {
+    border-width: 1px 0 0 0;
+    border-radius: 10px;
+	}
+	
+	.ui-grid-col-12-esp {
+    width: 100%;
+	}
+  </style> 
+  
+  
+  
+	<p:panelGrid id="pnlGeneral" columns="3" columnClasses="ui-grid-col-1, ui-grid-col-10, ui-grid-col-1" layout="grid" style="text-align: center;" styleClass="ui-panelgrid-blank ui-fluid">
+   <p:outputPanel/>
+   <h:form id="frmGrafica">
+   <p:panelGrid id="pnlFormulario" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+   <p:outputPanel style="background: #FFFFFF !important; border-radius:8px; ">				
+					<p:outputPanel style="background: #9f2241 !important; border-top-right-radius: 8px; border-top-left-radius: 8px;">
+  				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="padding:10px 0; text-align: left;" >
+					<p:outputLabel value="#{msg.lbl_reportar_tarjeta}" style="color: #fff; font-size:22px; text-align: left; font-weight: bold;"/>
+				</p:panelGrid>
+			</p:outputPanel>
+     		
+     		<br />
+			
+			<p:panelGrid id="pnlInformacionTitulo" columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<p:panelGrid id="pnlIngresaInformacion" columns="1" columnClasses="ui-grid-col-12" layout="grid" style="text-align: left;" styleClass="ui-panelgrid-blank ui-fluid">
+	      					<p:outputLabel id="lblIngresaInformacion"  value="#{msg.lbl_ingresa_informacion}" styleClass="etiqueta" style="color: #475058 !important;" />
+		      			</p:panelGrid>
+		      			
+		      			<p:panelGrid id="pnlCamposRequeridos" columns="1" columnClasses="ui-grid-col-12" layout="grid" style="text-align: right;" styleClass="ui-panelgrid-blank ui-fluid">
+	      					<p:outputLabel id="lblCamposRequeridos"  value="*#{msg.lbl_campos_requeridos}" styleClass="etiqueta" style="color: #007BFF !important;" />
+		      			</p:panelGrid>
+			</p:panelGrid>
+	      		<p:panelGrid id="pnlInformacion2" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<p:panelGrid id="pnlTipoReporte" columns="1" columnClasses="ui-grid-col-12" layout="grid" style="text-align: left;" styleClass="ui-panelgrid-blank ui-fluid">
+	      					<p:outputLabel id="lblTipoReporte"  value="#{msg.lbl_tipo_reporte}" styleClass="etiqueta" style="color: #475058 !important; font-size: 18px !important" />
+		      			</p:panelGrid>
+		      		
+		      		<p:panelGrid id="pnlTipoReporteOption" columns="1" columnClasses="ui-grid-col-12" layout="grid" style="text-align: left;" styleClass="ui-panelgrid-blank ui-fluid">
+	      					<p:selectOneRadio id="lblTipoReporteOption" value="#{radioView.console}" unselectable="true">
+            					<f:selectItem itemLabel="#{msg.lbl_robo}" itemValue="Option1"/>
+            					<f:selectItem itemLabel="#{msg.lbl_extravio}" itemValue="Option2"/>
+            					<f:selectItem itemLabel="#{msg.lbl_danio}" itemValue="Option3"/>
+       				 		</p:selectOneRadio>
+		      			</p:panelGrid>
+
+	      		</p:panelGrid>
+	      		
+	      		<p:panelGrid id="pnlInformacion3" columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<p:panelGrid id="pnlMotivo" columns="1" columnClasses="ui-grid-col-12" layout="grid" style="text-align: left;" styleClass="ui-panelgrid-blank ui-fluid">
+	      					<p:outputLabel id="lblMotivo"  value="#{msg.lbl_motivo}" styleClass="etiqueta" style="color: #475058 !important; font-size: 18px !important" />
+		      			</p:panelGrid>
+		      		
+		      		<p:panelGrid id="pnlMotivoInfo" columns="1" columnClasses="ui-grid-col-12" layout="grid" style="text-align: left;" styleClass="ui-panelgrid-blank ui-fluid">
+	      					<p:inputTextarea id="lblMotivoInfo" rows="6" style="height: 352px; min-height: 352px;" />
+		      			</p:panelGrid>
+
+	      		</p:panelGrid>
+
+				<br />
+				<p:outputPanel style="background: #E2E8F0 !important; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px;">		
+								<p:panelGrid columns="2" columnClasses="ui-g-4 ui-md-4 ui-lg-4, ui-g-4 ui-md-4 ui-lg-4" layout="grid" styleClass="ui-panel-sin-pading" style="text-align: right !important;" >
+			  	 					<p:commandButton id="btnRegresar" value="#{msg.regresar}" action="#{nuevoReporteBean.regresar()}" immediate="true" styleClass="boton-cancelar-regresar-tarjeta ui-button-acciones"/>
+									<p:commandButton id="btnSiguiente" action="#{nuevoReporteBean.siguiente()}" value="#{msg.siguiente}" styleClass="boton-siguiente-tarjeta"/>
+			  	 				</p:panelGrid>
+						</p:outputPanel>
+				</p:outputPanel>		
+				</p:panelGrid>
+		
+   			</h:form>
+   			<p:outputPanel/>
+        
+   		</p:panelGrid>
+
+   </ui:define>
+</ui:composition>
