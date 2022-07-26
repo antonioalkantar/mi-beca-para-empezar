@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -12,17 +14,28 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "cat_tipo_dispersion", schema = "mibecaparaempezar")
+@NamedQueries({
+	@NamedQuery(name="CatTipoDispersion.findAll"
+			, query="SELECT NEW mx.gob.cdmx.adip.beca.commons.dto.CatTipoDispersionDTO "
+					+ "( "
+					+ "c.idTipoDispersion, "
+					+ "c.descripcion, "
+					+ "c.estatus "
+					+ ") "
+					+ "FROM CatTipoDispersion c "
+					+ "where c.estatus = true ")
+})
 public class CatTipoDispersion implements java.io.Serializable {
 		
 	private static final long serialVersionUID = -8493803739019289554L;
-	private Integer idTipoDispersion;
+	private Long idTipoDispersion;
 	private String descripcion;
 	private Boolean estatus;
 
 	public CatTipoDispersion() {
 	}
 
-	public CatTipoDispersion(Integer idTipoDispersion, String descripcion, Boolean estatus) {
+	public CatTipoDispersion(Long idTipoDispersion, String descripcion, Boolean estatus) {
 		this.idTipoDispersion = idTipoDispersion;
 		this.descripcion = descripcion;
 		this.estatus = estatus;
@@ -31,11 +44,11 @@ public class CatTipoDispersion implements java.io.Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id_tipo_dispersion", unique = true, nullable = false)
-	public Integer getIdTipoDispersion() {
+	public Long getIdTipoDispersion() {
 		return this.idTipoDispersion;
 	}
 
-	public void setIdTipoDispersion(Integer idTipoDispersion) {
+	public void setIdTipoDispersion(Long idTipoDispersion) {
 		this.idTipoDispersion = idTipoDispersion;
 	}
 

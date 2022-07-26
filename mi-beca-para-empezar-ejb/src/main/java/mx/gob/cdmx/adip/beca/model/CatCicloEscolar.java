@@ -45,7 +45,7 @@ import javax.persistence.TemporalType;
 public class CatCicloEscolar implements java.io.Serializable {
 		
 	private static final long serialVersionUID = -8493803739019289554L;
-	private Integer idCicloEscolar;
+	private Long idCicloEscolar;
 	private String descripcion;
 	private Date fechaInicio;
 	private Date fechaFin;
@@ -58,11 +58,11 @@ public class CatCicloEscolar implements java.io.Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id_ciclo_escolar", unique = true, nullable = false)
-	public Integer getIdCicloEscolar() {
+	public Long getIdCicloEscolar() {
 		return this.idCicloEscolar;
 	}
 
-	public void setIdCicloEscolar(Integer idCicloEscolar) {
+	public void setIdCicloEscolar(Long idCicloEscolar) {
 		this.idCicloEscolar = idCicloEscolar;
 	}
 

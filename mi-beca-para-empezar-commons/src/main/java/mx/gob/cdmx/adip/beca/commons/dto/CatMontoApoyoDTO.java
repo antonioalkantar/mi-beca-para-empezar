@@ -24,7 +24,7 @@ public class CatMontoApoyoDTO implements Serializable {
 	 * @param estatus
 	 * @param fechaCreacion
 	 */
-	public CatMontoApoyoDTO(Integer idMontoApoyo, Double monto, Integer idNivel, String descripcionNivel , Integer idCicloEscolar, String cicloEscolar ) {
+	public CatMontoApoyoDTO(Integer idMontoApoyo, Double monto, Integer idNivel, String descripcionNivel , Long idCicloEscolar, String cicloEscolar ) {
 		this.idMontoApoyo = idMontoApoyo;
 		this.catCicloEscolarDTO = new CatCicloEscolarDTO(idCicloEscolar, cicloEscolar);
 		this.catNivelEducativoDTO = new CatNivelEducativoDTO(idNivel, descripcionNivel);

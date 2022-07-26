@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -19,6 +21,65 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "dispersion", schema = "mibecaparaempezar")
+@NamedQueries({
+	@NamedQuery(name="Dispersion.findAll"
+			, query="SELECT NEW mx.gob.cdmx.adip.beca.commons.dto.DispersionDTO "
+					+ "( "
+					+ "d.idDispersion, "
+					+ "cce.idCicloEscolar, "
+					+ "cce.descripcion, "
+					+ "cpe.idPeriodoEscolar, "
+					+ "cpe.descripcion, "
+					+ "ctd.idTipoDispersion, "
+					+ "ctd.descripcion, "
+					+ "d.numBeneficiarios, "
+					+ "d.fechaEjecucion, "
+					+ "d.idUsuarioEjecucion, "
+					+ "d.fechaConclusion, "
+					+ "ced.idEstatusDispersion, "
+					+ "ced.descripcion, "
+					+ "d.aplicaDispersionPorcentaje, "
+					+ "d.aplicaDispersionNumero, "
+					+ "d.noAplicaDispersionPorcentaje, "
+					+ "d.noAplicaDispersionNumero, "
+					+ "d.fechaDescarga "
+					+ ") "
+					+ "FROM Dispersion d "
+					+ "JOIN d.catCicloEscolar cce "
+					+ "JOIN d.catPeriodoEscolar cpe "
+					+ "JOIN d.catTipoDispersion ctd "
+					+ "JOIN d.catEstatusDispersion ced"),
+	@NamedQuery(name="Dispersion.findByCicloPeriodoAndTipoDispersion"
+	, query="SELECT NEW mx.gob.cdmx.adip.beca.commons.dto.DispersionDTO "
+			+ "( "
+			+ "d.idDispersion, "
+			+ "cce.idCicloEscolar, "
+			+ "cce.descripcion, "
+			+ "cpe.idPeriodoEscolar, "
+			+ "cpe.descripcion, "
+			+ "ctd.idTipoDispersion, "
+			+ "ctd.descripcion, "
+			+ "d.numBeneficiarios, "
+			+ "d.fechaEjecucion, "
+			+ "d.idUsuarioEjecucion, "
+			+ "d.fechaConclusion, "
+			+ "ced.idEstatusDispersion, "
+			+ "ced.descripcion, "
+			+ "d.aplicaDispersionPorcentaje, "
+			+ "d.aplicaDispersionNumero, "
+			+ "d.noAplicaDispersionPorcentaje, "
+			+ "d.noAplicaDispersionNumero, "
+			+ "d.fechaDescarga "
+			+ ") "
+			+ "FROM Dispersion d "
+			+ "JOIN d.catCicloEscolar cce "
+			+ "JOIN d.catPeriodoEscolar cpe "
+			+ "JOIN d.catTipoDispersion ctd "
+			+ "JOIN d.catEstatusDispersion ced "
+			+ "WHERE cce.idCicloEscolar = :idCicloEscolar "
+			+ "AND cpe.idPeriodoEscolar = :idPeriodoEscolar "
+			+ "AND ctd.idTipoDispersion = :idTipoDispersion")
+})
 public class Dispersion implements java.io.Serializable {
 	
 	private static final long serialVersionUID = 1938283627957991307L;
@@ -60,7 +121,7 @@ public class Dispersion implements java.io.Serializable {
 		this.noAplicaDispersionNumero = noAplicaDispersionNumero;
 		this.fechaDescarga = fechaDescarga;
 	}
-
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id_dispersion", unique = true, nullable = false)

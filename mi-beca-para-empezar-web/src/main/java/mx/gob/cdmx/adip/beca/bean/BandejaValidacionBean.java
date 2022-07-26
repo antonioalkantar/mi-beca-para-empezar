@@ -2,6 +2,7 @@ package mx.gob.cdmx.adip.beca.bean;
 
 import java.io.Serializable;
 import java.text.NumberFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -17,10 +18,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import mx.gob.cdmx.adip.beca.commons.dto.CatCicloEscolarDTO;
+import mx.gob.cdmx.adip.beca.commons.dto.CatEstatusDispersionDTO;
 import mx.gob.cdmx.adip.beca.commons.dto.CatPeriodoEscolarDTO;
+import mx.gob.cdmx.adip.beca.commons.dto.CatTipoDispersionDTO;
+import mx.gob.cdmx.adip.beca.commons.dto.DispersionDTO;
+import mx.gob.cdmx.adip.beca.commons.utils.Constantes;
 import mx.gob.cdmx.adip.beca.dao.BeneficiarioDAO;
 import mx.gob.cdmx.adip.beca.dao.CatCicloEscolarDAO;
+import mx.gob.cdmx.adip.beca.dao.CatEstatusDispersionDAO;
 import mx.gob.cdmx.adip.beca.dao.CatPeriodoEscolarDAO;
+import mx.gob.cdmx.adip.beca.dao.CatTipoDispersionDAO;
+import mx.gob.cdmx.adip.beca.dao.DispersionDAO;
 
 @Named("bandejaValidacionBean")
 @SessionScoped
@@ -38,24 +46,59 @@ public class BandejaValidacionBean implements Serializable {
 	private CatPeriodoEscolarDAO catPeriodoEscolarDAO;
 
 	@Inject
+	private CatTipoDispersionDAO catTipoDispersionDAO;
+
+	@Inject
+	private CatEstatusDispersionDAO catEstatusDispersionDAO;
+
+	@Inject
 	private BeneficiarioDAO beneficiarioDAO;
+
+	@Inject
+	private DispersionDAO dispersionDAO;
 
 	private List<CatCicloEscolarDTO> lstCatCicloEscolarDTO;
 
 	private List<CatPeriodoEscolarDTO> lstCatPeriodoEscolarDTO;
 
+	private List<CatTipoDispersionDTO> lstCatTipoDispersionDTO;
+
+	private List<CatEstatusDispersionDTO> lstCatEstatusDispersionDTO;
+
+	private List<DispersionDTO> dispersiones;
+
 	private String cantidadBeneficiarios;
 
-	private Integer idCicloEscolar;
+	private Long idCicloEscolar;
 
-	private Integer idPeriodoEscolar;
+	private Long idPeriodoEscolar;
+	
+	private String mensajeTipoValidacion;
 
-	// TODO Eliminar cuando se sepa a traves de cual boton se accedera
+	// TODO Eliminar anotacion PostConstruct y descomentar return cuando se sepa a
+	// traves de cual boton se accedera
 	@PostConstruct
 	public void init() {
-		consultarCatsCicloPeriodo();
-		establecerCicloPeriodoPorDefecto();
+		consultarCatalogos();
+		establecerCicloConPeriodoPorDefecto();
+		consultarCantBeneficiarios();
+		consultarDispersiones();
+//		return Constantes.RETURN_BANDEJA_VALIDACION + Constantes.JSF_REDIRECT;
+	}
+
+	private void consultarCatalogos() {
+		lstCatCicloEscolarDTO = catCicloEscolarDAO.buscarTodos();
+		lstCatPeriodoEscolarDTO = catPeriodoEscolarDAO.buscarTodos();
+		lstCatTipoDispersionDTO = catTipoDispersionDAO.buscarTodos();
+		lstCatEstatusDispersionDTO = catEstatusDispersionDAO.buscarTodos();
+	}
+
+	private void consultarCantBeneficiarios() {
 		cantidadBeneficiarios = obtenerCantidadBeneficiarios();
+	}
+
+	private void consultarDispersiones() {
+		dispersiones = dispersionDAO.buscarTodos();
 	}
 
 	private String obtenerCantidadBeneficiarios() {
@@ -64,7 +107,7 @@ public class BandejaValidacionBean implements Serializable {
 		return cantidadBeneficiariosConComma;
 	}
 
-	private void establecerCicloPeriodoPorDefecto() {
+	private void establecerCicloConPeriodoPorDefecto() {
 		String periodoActual = obtenerPeriodoActual();
 		Optional<CatCicloEscolarDTO> optCiclo = lstCatCicloEscolarDTO.stream()
 				.filter(ciclo -> ciclo.getDescripcion().equals(periodoActual)).findFirst();
@@ -107,29 +150,40 @@ public class BandejaValidacionBean implements Serializable {
 		return optCiclo.isPresent() ? optCiclo.get().getDescripcion() : "";
 	}
 
-//	public String init() {
-//		consultarCatsCicloPeriodo();
-//		cantidadBeneficiarios = beneficiarioDAO.countBeneficiarios();
-//		return Constantes.RETURN_BANDEJA_VALIDACION + Constantes.JSF_REDIRECT;
-//	}
-
-	/**
-	 * Consulta los catalogos de ciclo escolar y periodo
-	 */
-	private void consultarCatsCicloPeriodo() {
-		lstCatCicloEscolarDTO = catCicloEscolarDAO.buscarTodos();
-		lstCatPeriodoEscolarDTO = catPeriodoEscolarDAO.buscarTodos();
-	}
-
-	/**
-	 * Ejecuta la validacion del ciclo y periodo escolar
-	 */
 	public void ejecutarValidacion() {
-		LOGGER.info("ID CICLO ESCOLAR: " + idCicloEscolar);
-		LOGGER.info("ID PERIODO ESCOLAR: " + idPeriodoEscolar);
-		PrimeFaces current = PrimeFaces.current();
-		current.executeScript("PF('dlgConfirmacion').show();");
+		boolean existeDispersionOrdinaria = existeDispersion(idCicloEscolar,idPeriodoEscolar,(long) (Constantes.ID_TIPO_DISPERSION_ORDINARIA));
+		if(!existeDispersionOrdinaria) {
+			mensajeTipoValidacion = Constantes.TIPO_VALIDACION_ORDINARIA;
+			PrimeFaces.current().executeScript("PF('dlgConfirmacion').show();");
+		}
 	}
+	
+	public void insertarDispersion() {
+		if(mensajeTipoValidacion.equals(Constantes.TIPO_VALIDACION_ORDINARIA)) {
+			insertarDispersionOrdinaria();
+			consultarDispersiones();
+			PrimeFaces.current().executeScript("PF('dlgConfirmacion').hide();");
+		}
+	}
+	
+	public void insertarDispersionOrdinaria(){
+		DispersionDTO dispersion = new DispersionDTO();
+		dispersion.setCatCicloEscolar(new CatCicloEscolarDTO(idCicloEscolar));
+		dispersion.setCatPeriodoEscolar(new CatPeriodoEscolarDTO(idPeriodoEscolar));
+		dispersion.setCatTipoDispersion(new CatTipoDispersionDTO((long)Constantes.ID_TIPO_DISPERSION_ORDINARIA));
+		dispersion.setCatEstatusDispersion(new CatEstatusDispersionDTO((long)Constantes.ID_ESTATUS_DISPERSION_EN_PROCESO));
+		dispersion.setNumBeneficiarios(beneficiarioDAO.countBeneficiarios());
+		dispersion.setFechaEjecucion(new Date());
+		dispersion.setIdUsuarioEjecucion(233l);
+		dispersionDAO.guardar(dispersion);
+	}
+
+	private boolean existeDispersion(Long idCicloEscolar, Long idPeriodoEscolar, Long idTipoDispersion) {
+		List<DispersionDTO> dispersionesResultado = dispersionDAO.buscarPorCicloPeriodoAndTipoDispersion(idCicloEscolar,
+				idPeriodoEscolar, idTipoDispersion);
+		return dispersionesResultado.size() != Constantes.SIZE_ARRAY_EMPTY;
+	}
+	
 
 	public List<CatCicloEscolarDTO> getLstCatCicloEscolarDTO() {
 		return lstCatCicloEscolarDTO;
@@ -155,19 +209,51 @@ public class BandejaValidacionBean implements Serializable {
 		this.cantidadBeneficiarios = cantidadBeneficiarios;
 	}
 
-	public Integer getIdCicloEscolar() {
+	public Long getIdCicloEscolar() {
 		return idCicloEscolar;
 	}
 
-	public void setIdCicloEscolar(Integer idCicloEscolar) {
+	public void setIdCicloEscolar(Long idCicloEscolar) {
 		this.idCicloEscolar = idCicloEscolar;
 	}
 
-	public Integer getIdPeriodoEscolar() {
+	public Long getIdPeriodoEscolar() {
 		return idPeriodoEscolar;
 	}
 
-	public void setIdPeriodoEscolar(Integer idPeriodoEscolar) {
+	public void setIdPeriodoEscolar(Long idPeriodoEscolar) {
 		this.idPeriodoEscolar = idPeriodoEscolar;
+	}
+
+	public List<CatTipoDispersionDTO> getLstCatTipoDispersionDTO() {
+		return lstCatTipoDispersionDTO;
+	}
+
+	public void setLstCatTipoDispersionDTO(List<CatTipoDispersionDTO> lstCatTipoDispersionDTO) {
+		this.lstCatTipoDispersionDTO = lstCatTipoDispersionDTO;
+	}
+
+	public List<CatEstatusDispersionDTO> getLstCatEstatusDispersionDTO() {
+		return lstCatEstatusDispersionDTO;
+	}
+
+	public void setLstCatEstatusDispersionDTO(List<CatEstatusDispersionDTO> lstCatEstatusDispersionDTO) {
+		this.lstCatEstatusDispersionDTO = lstCatEstatusDispersionDTO;
+	}
+
+	public List<DispersionDTO> getDispersiones() {
+		return dispersiones;
+	}
+
+	public void setDispersiones(List<DispersionDTO> dispersiones) {
+		this.dispersiones = dispersiones;
+	}
+
+	public String getMensajeTipoValidacion() {
+		return mensajeTipoValidacion;
+	}
+
+	public void setMensajeTipoValidacion(String mensajeTipoValidacion) {
+		this.mensajeTipoValidacion = mensajeTipoValidacion;
 	}
 }

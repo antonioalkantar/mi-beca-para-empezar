@@ -119,15 +119,23 @@
 											style="text-align:center !important; padding-left: 0px !important;">
 											<p:outputLabel value="Tipo" styleClass="label-filtro" />
 											<p:selectOneMenu>
-												<f:selectItem itemLabel="Seleccionar" />
+												<f:selectItems
+													value="#{bandejaValidacionBean.lstCatTipoDispersionDTO}"
+													var="tipoDispersion"
+													itemLabel="#{tipoDispersion.descripcion}"
+													itemValue="#{tipoDispersion.idTipoDispersion}"></f:selectItems>
 											</p:selectOneMenu>
 										</p:panelGrid>
 										<p:panelGrid columns="2"
 											columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
 											styleClass="ui-panelgrid-blank ui-fluid">
 											<p:outputLabel value="Estatus" styleClass="label-filtro" />
-											<p:selectOneMenu>
-												<f:selectItem itemLabel="Seleccionar" />
+												<p:selectOneMenu>
+												<f:selectItems
+													value="#{bandejaValidacionBean.lstCatEstatusDispersionDTO}"
+													var="estatusDispersion"
+													itemLabel="#{estatusDispersion.descripcion}"
+													itemValue="#{estatusDispersion.idEstatusDispersion}"></f:selectItems>
 											</p:selectOneMenu>
 										</p:panelGrid>
 									</p:panelGrid>
@@ -141,39 +149,54 @@
 									</p:outputPanel>
 								</p:panelGrid>
 
-								<p:dataTable lazy="true" styleClass="dt-tramites" reflow="true"
-									rows="8" paginator="true" paginatorPosition="bottom"
+								<p:dataTable styleClass="dt-tramites" reflow="true"
+									rows="10" paginator="true" paginatorPosition="bottom"
+									value="#{bandejaValidacionBean.dispersiones}"
+									var="dispersion"
 									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 									currentPageReportTemplate="Mostrados {startRecord}-{endRecord} de {totalRecords} resultados">
 									<p:column headerText="Ciclo escolar" width="20%"
 										style="vertical-align: middle;">
+										<p:outputLabel value="#{dispersion.catCicloEscolar.descripcion}" />
 									</p:column>
 									<p:column headerText="Periodo" width="20%"
 										style="vertical-align: middle;">
+										<p:outputLabel value="#{dispersion.catPeriodoEscolar.descripcion}" />
 									</p:column>
 									<p:column headerText="Tipo" width="20%"
 										style="vertical-align: middle;">
+											<p:outputLabel value="#{dispersion.catTipoDispersion.descripcion}" />
 									</p:column>
 									<p:column headerText="No. de beneficiarios" width="20%"
 										style="vertical-align: middle;">
+										<p:outputLabel value="#{dispersion.numBeneficiarios}" />
 									</p:column>
 									<p:column headerText="Estatus" width="20%"
 										style="vertical-align: middle;">
+										<p:outputLabel value="#{dispersion.catEstatusDispersion.descripcion}" />
 									</p:column>
 									<p:column headerText="Fecha de ejecución" width="20%"
 										style="vertical-align: middle;">
+										<p:outputLabel value="#{dispersion.fechaEjecucion}" />
 									</p:column>
 									<p:column headerText="Fecha de conclusión" width="20%"
 										style="vertical-align: middle;">
+										<p:outputLabel value="#{dispersion.fechaConclusion}" />
 									</p:column>
 									<p:column headerText="Aplica la dispersión (%)" width="20%"
 										style="vertical-align: middle;">
+										<p:outputLabel value="#{dispersion.aplicaDispersionPorcentaje}" />
+									</p:column>
+									<p:column headerText="No aplica la dispersión (%)" width="20%"
+										style="vertical-align: middle;">
+										<p:outputLabel value="#{dispersion.noAplicaDispersionPorcentaje}" />
 									</p:column>
 									<p:column headerText="Acciones" width="20%"
 										style="vertical-align: middle;">
 									</p:column>
 									<p:column headerText="Fecha de descarga" width="20%"
 										style="vertical-align: middle;">
+										<p:outputLabel value="#{dispersion.fechaDescarga}" />
 									</p:column>
 								</p:dataTable>
 							</p:outputPanel>
@@ -189,7 +212,7 @@
 				styleClass="dlg-confirmacion" closable="false">
 				<p:outputPanel>
 					<p class="text-center">
-						Será realizada la validación complementaria para el periodo de <b>#{bandejaValidacionBean.obtenerDescripcionPeriodo()}</b>
+						Será realizada la validación <b>#{bandejaValidacionBean.mensajeTipoValidacion}</b> para el periodo de <b>#{bandejaValidacionBean.obtenerDescripcionPeriodo()}</b>
 						del ciclo escolar <b>#{bandejaValidacionBean.obtenerDescripcionCiclo()}</b>
 					</p>
 					<p class="my-4 text-center">¿Deseas confirmar la acción?</p>
@@ -197,7 +220,8 @@
 				<p:outputPanel
 					styleClass="flex justify-content-center align-items-center mt-3">
 					<p:commandButton style="margin:0 !important" value="Confirmar"
-						onclick="PF('dlgConfirmacion').hide();"
+						update="@form"
+						action="#{bandejaValidacionBean.insertarDispersion()}"
 						styleClass="adip-btn-green" immediate="true" />
 					<p:commandButton style="margin:0 0 0 20px !important"
 						onclick="PF('dlgConfirmacion').hide();" value="Cancelar"

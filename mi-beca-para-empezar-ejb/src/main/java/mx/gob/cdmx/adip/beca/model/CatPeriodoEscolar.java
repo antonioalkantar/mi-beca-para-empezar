@@ -23,20 +23,19 @@ import javax.persistence.Table;
 					+ "c.estatus "
 					+ ") "
 					+ "FROM CatPeriodoEscolar c "
-					+ "where c.estatus = true "
-					+ "	ORDER BY c.idPeriodoEscolar ASC ")
+					+ "where c.estatus = true ")
 })
 public class CatPeriodoEscolar implements java.io.Serializable {
 		
 	private static final long serialVersionUID = -8493803739019289554L;
-	private Integer idPeriodoEscolar;
+	private Long idPeriodoEscolar;
 	private String descripcion;
 	private Boolean estatus;
 
 	public CatPeriodoEscolar() {
 	}
 
-	public CatPeriodoEscolar(Integer idPeriodoEscolar, String descripcion, Boolean estatus) {
+	public CatPeriodoEscolar(Long idPeriodoEscolar, String descripcion, Boolean estatus) {
 		this.idPeriodoEscolar = idPeriodoEscolar;
 		this.descripcion = descripcion;
 		this.estatus = estatus;
@@ -45,11 +44,11 @@ public class CatPeriodoEscolar implements java.io.Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id_periodo_escolar", unique = true, nullable = false)
-	public Integer getIdPeriodoEscolar() {
+	public Long getIdPeriodoEscolar() {
 		return this.idPeriodoEscolar;
 	}
 
-	public void setIdPeriodoEscolar(Integer idPeriodoEscolar) {
+	public void setIdPeriodoEscolar(Long idPeriodoEscolar) {
 		this.idPeriodoEscolar = idPeriodoEscolar;
 	}
 

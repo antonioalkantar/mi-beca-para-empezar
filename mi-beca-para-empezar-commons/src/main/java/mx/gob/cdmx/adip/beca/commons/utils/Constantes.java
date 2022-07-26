@@ -103,12 +103,20 @@ public final class Constantes {
     
     public static final int ID_ESTATUS_BENEFICIARIO = 7;
     public static final int ID_ESTATUS_PENDIENTE_VALIDACION = 2;
+    public static final int ID_ESTATUS_CONCLUIDO = 3;
     public static final String ID_CLAVE_FOLIO_SOLICITUD = "FIBIEN_BB";
     public static final String SEPARADOR_FOLIO = "_";
     public static final String BENEFICIARIO_ACTIVO = "Activo";
     public static final String BENEFICIARIO_ESCUELA_PRIVADA = "privada";
     public static final String BENEFICIARIO_NO_LOCALIZADO = "localizado";
 
+    //Bandeja validacion
+    public static final int ID_TIPO_DISPERSION_ORDINARIA = 1;
+    public static final int ID_TIPO_DISPERSION_COMPLEMENTARIA = 2;
+    public static final int ID_ESTATUS_DISPERSION_EN_PROCESO= 1;
+    public static final String TIPO_VALIDACION_ORDINARIA= "ordinaria";
+    public static final String TIPO_VALIDACION_COMPLEMENTARIA = "complementaria";
+    
     
     public static final String UTILES_ESCOLARES = "Útiles escolares";
     public static final String ROPA = "Ropa";

@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -12,17 +14,27 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "cat_estatus_dispersion", schema = "mibecaparaempezar")
+@NamedQueries({
+	@NamedQuery(name="CatEstatusDispersion.findAll"
+			, query="SELECT NEW mx.gob.cdmx.adip.beca.commons.dto.CatEstatusDispersionDTO "
+					+ "( "
+					+ "c.idEstatusDispersion, "
+					+ "c.descripcion, "
+					+ "c.estatus "
+					+ ") "
+					+ "FROM CatEstatusDispersion c ")
+})
 public class CatEstatusDispersion implements java.io.Serializable {
 		
 	private static final long serialVersionUID = -8493803739019289554L;
-	private Integer idEstatusDispersion;
+	private Long idEstatusDispersion;
 	private String descripcion;
 	private Boolean estatus;
 
 	public CatEstatusDispersion() {
 	}
 
-	public CatEstatusDispersion(Integer idEstatusDispersion, String descripcion, Boolean estatus) {
+	public CatEstatusDispersion(Long idEstatusDispersion, String descripcion, Boolean estatus) {
 		this.idEstatusDispersion = idEstatusDispersion;
 		this.descripcion = descripcion;
 		this.estatus = estatus;
@@ -31,11 +43,11 @@ public class CatEstatusDispersion implements java.io.Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id_estatus_dispersion", unique = true, nullable = false)
-	public Integer getIdEstatusDispersion() {
+	public Long getIdEstatusDispersion() {
 		return this.idEstatusDispersion;
 	}
 
-	public void setIdEstatusDispersion(Integer idEstatusDispersion) {
+	public void setIdEstatusDispersion(Long idEstatusDispersion) {
 		this.idEstatusDispersion = idEstatusDispersion;
 	}
 
