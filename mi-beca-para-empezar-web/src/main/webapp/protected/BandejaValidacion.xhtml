@@ -68,6 +68,7 @@
 									layout="grid"
 									styleClass="ui-panelgrid-blank ui-fluid mb-5 text-center">
 									<p:commandButton value="Ejecutar Validación"
+										onclick="PF('dlgConfirmacion').show();"
 										action="#{bandejaValidacionBean.ejecutarValidacion()}"
 										styleClass="adip-btn-green" />
 								</p:panelGrid>
@@ -175,40 +176,22 @@
 			</div>
 
 			<!-- Inicio modal validacion -->
-			<p:dialog id="dlgAsignacionTutor" widgetVar="mdlAsignacionTutor"
-				header="Asignación del tutor" modal="true" width="500px"
-				heigh="200px important!" responsive="true" resizable="false"
-				styleClass="ui-modal-gray" closable="true">
-				<p:panelGrid id="pnlMdlAsignacionTutor" columns="1"
-					columnClasses="ui-grid-col-12" layout="grid"
-					styleClass="ui-panelgrid-blank ui-fluid"
-					style="text-align: left; font-weight: 700; border-bottom: 0 none; padding: 1.5rem; background: #fff;">
-					<p:panelGrid id="pnlObservacionCambio" for="txtObservacionCambio"
-						columns="1" columnClasses="ui-grid-col-12" layout="grid"
-						styleClass="ui-panelgrid-blank ui-fluid">
-						<p:outputLabel
-							value="Agregue un motivo para asignar el cambio de tutor" />
-						<p:inputTextarea id="txtObservacionCambio" rows="5" cols="30"
-							maxlength="200" required="true"
-							requiredMessage="#{msg.msj_campo_requerido}"
-							value="#{cambioTutorBean.observaciones}" autoResize="false" />
-						<p:message for="txtObservacionCambio" styleClass="adip-messages"
-							display="text" />
-					</p:panelGrid>
-				</p:panelGrid>
-				<p:panelGrid id="pnlAcciones" columns="2"
-					columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
-					style="text-align: right !important;">
-					<p:commandButton id="btnCancelar" value="Cancelar"
-						onclick="PF('mdlAsignacionTutor').hide();" immediate="true"
-						styleClass="boton-cancelar-regresar-tarjeta ui-button-acciones" />
-					<p:commandButton id="btnAsignar" value="Asignar"
-						action="#{cambioTutorBean.guardar()}"
-						onclick="PF('mdlAsignacionTutorGreen').show();"
-						update="pnlMdlAsignacionTutor @this"
-						style="background-color: #1B5C4F !important"
-						styleClass="boton-siguiente-tarjeta" />
-				</p:panelGrid>
+			<p:dialog widgetVar="dlgConfirmacion"
+				header="Confirmar validación complementaria" modal="true"
+				width="500px" responsive="true" resizable="false"
+				styleClass="dlg-confirmacion" closable="false">
+				<p:outputPanel>
+					<p class="text-center">Será realizada la validación complementaria para el periodo
+						de <b>Septiembre</b> del ciclo escolar <b>2022-2023</b></p>
+					<p class="my-4 text-center">¿Deseas confirmar la acción?</p>
+				</p:outputPanel>
+				<p:outputPanel styleClass="flex justify-content-center align-items-center mt-3">
+					<p:commandButton style="margin:0 !important" value="Confirmar" onclick="PF('dlgConfirmacion').hide();"
+						styleClass="adip-btn-green" immediate="true" />
+					<p:commandButton style="margin:0 0 0 20px !important"
+						onclick="PF('dlgConfirmacion').hide();" value="Cancelar"
+						styleClass="adip-btn-white-2" immediate="true" />
+				</p:outputPanel>
 			</p:dialog>
 			<!-- Fin modal validacion -->
 		</h:form>
