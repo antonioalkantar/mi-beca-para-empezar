@@ -151,28 +151,45 @@ public class BandejaValidacionBean implements Serializable {
 	}
 
 	public void ejecutarValidacion() {
-		List<DispersionDTO> dispersionesEncontradas =  dispersionDAO.buscarPorCicloPeriodoAndTipo(idCicloEscolar,
+		List<DispersionDTO> dispersionesOrdinarias = dispersionDAO.buscarPorCicloPeriodoAndTipo(idCicloEscolar,
 				idPeriodoEscolar, Constantes.ID_TIPO_DISPERSION_ORDINARIA);
-		if (dispersionesEncontradas.size() == Constantes.SIZE_ARRAY_EMPTY) {
+		if (dispersionesOrdinarias.size() == Constantes.SIZE_ARRAY_EMPTY) {
 			mensajeTipoValidacion = Constantes.TIPO_VALIDACION_ORDINARIA;
 			PrimeFaces.current().executeScript("PF('dlgConfirmacion').show();");
 		} else {
-			Long idEstatusDispersion = dispersionesEncontradas.get(0).getCatEstatusDispersion().getIdEstatusDispersion();
-			if(idEstatusDispersion == Constantes.ID_ESTATUS_DISPERSION_EN_PROCESO) {
+			Long idEstatusDispersion = dispersionesOrdinarias.get(0).getCatEstatusDispersion().getIdEstatusDispersion();
+			if (idEstatusDispersion == Constantes.ID_ESTATUS_DISPERSION_EN_PROCESO
+					|| idEstatusDispersion == Constantes.ID_ESTATUS_DISPERSION_PROCESANDO) {
 				PrimeFaces.current().executeScript("PF('dlgValidacion').show();");
+			} else if (idEstatusDispersion == Constantes.ID_ESTATUS_DISPERSION_CONCLUIDO) {
+				List<DispersionDTO> dispersionesComplementarias = dispersionDAO.buscarPorCicloPeriodoAndTipo(
+						idCicloEscolar, idPeriodoEscolar, Constantes.ID_TIPO_DISPERSION_COMPLEMENTARIA);
+				if (dispersionesComplementarias.size() == Constantes.SIZE_ARRAY_EMPTY) {
+					mensajeTipoValidacion = Constantes.TIPO_VALIDACION_COMPLEMENTARIA;
+					PrimeFaces.current().executeScript("PF('dlgConfirmacion').show();");
+				} else {
+					Long idEstatusDispersionComplementaria = dispersionesComplementarias.get(0)
+							.getCatEstatusDispersion().getIdEstatusDispersion();
+					if (idEstatusDispersionComplementaria == Constantes.ID_ESTATUS_DISPERSION_EN_PROCESO
+							|| idEstatusDispersionComplementaria == Constantes.ID_ESTATUS_DISPERSION_PROCESANDO) {
+						PrimeFaces.current().executeScript("PF('dlgValidacion').show();");
+					} else if (idEstatusDispersionComplementaria == Constantes.ID_ESTATUS_DISPERSION_CONCLUIDO) {
+						mensajeTipoValidacion = Constantes.TIPO_VALIDACION_COMPLEMENTARIA;
+						PrimeFaces.current().executeScript("PF('dlgConfirmacion').show();");
+					}
+
+				}
 			}
 		}
 	}
 
-//	private boolean existeDispersion(Long idCicloEscolar, Long idPeriodoEscolar, Long idTipoDispersion,
-//			Long idEstatusDispersion) {
-//
-//		return dispersionesResultado.size() != Constantes.SIZE_ARRAY_EMPTY;
-//	}
-
 	public void insertarDispersion() {
 		if (mensajeTipoValidacion.equals(Constantes.TIPO_VALIDACION_ORDINARIA)) {
 			insertarDispersionOrdinaria();
+			consultarDispersiones();
+			PrimeFaces.current().executeScript("PF('dlgConfirmacion').hide();");
+		} else if (mensajeTipoValidacion.equals(Constantes.TIPO_VALIDACION_COMPLEMENTARIA)) {
+			insertarDispersionComplementaria();
 			consultarDispersiones();
 			PrimeFaces.current().executeScript("PF('dlgConfirmacion').hide();");
 		}

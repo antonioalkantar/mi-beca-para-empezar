@@ -78,7 +78,8 @@ import javax.persistence.TemporalType;
 			+ "JOIN d.catEstatusDispersion ced "
 			+ "WHERE cce.idCicloEscolar = :idCicloEscolar "
 			+ "AND cpe.idPeriodoEscolar = :idPeriodoEscolar "
-			+ "AND ctd.idTipoDispersion = :idTipoDispersion ")
+			+ "AND ctd.idTipoDispersion = :idTipoDispersion "
+			+ "ORDER by d.fechaEjecucion DESC")
 })
 public class Dispersion implements java.io.Serializable {
 	
