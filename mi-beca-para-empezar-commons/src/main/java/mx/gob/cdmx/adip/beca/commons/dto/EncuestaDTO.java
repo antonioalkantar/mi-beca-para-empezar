@@ -22,6 +22,7 @@ public class EncuestaDTO implements Serializable {
 	private Boolean otro;
 	private String especificaOtro;
 	private String otroGrupo;
+	private CatCicloEscolarDTO catCicloEscolarDTO;
 
 	public EncuestaDTO() {
 		catGrupoPerteneceDTO = new CatGrupoPerteneceDTO();
@@ -29,6 +30,7 @@ public class EncuestaDTO implements Serializable {
 		catMaterialesDomicilioDTO = new CatMaterialesDomicilioDTO();
 		catTipoDomicilioDTO = new CatTipoDomicilioDTO();
 		solicitudDTO = new SolicitudDTO();
+		catCicloEscolarDTO = new CatCicloEscolarDTO();
 	}
 
 	public EncuestaDTO(int idEncuesta) {
@@ -194,6 +196,14 @@ public class EncuestaDTO implements Serializable {
 	}
 	public void setOtroGrupo(String otroGrupo) {
 		this.otroGrupo = otroGrupo;
+	}
+
+	public CatCicloEscolarDTO getCatCicloEscolarDTO() {
+		return catCicloEscolarDTO;
+	}
+
+	public void setCatCicloEscolarDTO(CatCicloEscolarDTO catCicloEscolarDTO) {
+		this.catCicloEscolarDTO = catCicloEscolarDTO;
 	}
 
 }

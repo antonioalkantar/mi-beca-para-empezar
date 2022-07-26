@@ -79,19 +79,28 @@ public class OAuth2CdmxClient {
 				datosUsuario = null;
 			} else {
 				JSONObject jsonObj =  new JSONObject(respuesta);
-				datosUsuario.setIdUsuarioLlaveCdmx(Long.parseLong(jsonObj.get("idUsuario").toString()));				
+				datosUsuario.setIdUsuarioLlaveCdmx(Long.parseLong(jsonObj.get("idUsuario").toString()));
 				datosUsuario.setNombre(jsonObj.get("nombre").toString());
 				datosUsuario.setPrimerApellido(jsonObj.get("primerApellido").toString());
-				datosUsuario.setSegundoApellido(jsonObj.get("segundoApellido").toString().equalsIgnoreCase("null") ? null : jsonObj.get("segundoApellido").toString());
-				datosUsuario.setCurp(jsonObj.get("curp").toString().equalsIgnoreCase("null") ? null :jsonObj.get("curp").toString());
+				datosUsuario
+						.setSegundoApellido(jsonObj.get("segundoApellido").toString().equalsIgnoreCase("null") ? null
+								: jsonObj.get("segundoApellido").toString());
+				datosUsuario.setCurp(jsonObj.get("curp").toString().equalsIgnoreCase("null") ? null
+						: jsonObj.get("curp").toString());
 				datosUsuario.setCorreo(jsonObj.get("login").toString());
-				datosUsuario.setEsExtranjero((Boolean)jsonObj.get("esExtranjero"));
-				datosUsuario.setLada(jsonObj.get("ladaExtranjero").toString().equalsIgnoreCase("null") ? null  :jsonObj.get("ladaExtranjero").toString());
-				datosUsuario.setTelefono(datosUsuario.getLada() != null && datosUsuario.getLada().equals(Constantes.LADA_NACIONAL) ?
-						jsonObj.get("telVigente").toString().equalsIgnoreCase("null") ? null : jsonObj.get("telVigente").toString()
-								:jsonObj.get("telefonoExtranjero").toString().equalsIgnoreCase("null") ? null : jsonObj.get("telefonoExtranjero").toString());
-				datosUsuario.setSexo(jsonObj.get("sexo").toString().equalsIgnoreCase("null") ? null  :jsonObj.get("sexo").toString());
-				datosUsuario.setFechaNacimiento(jsonObj.get("fechaNacimiento").toString().equalsIgnoreCase("null") ? null  :jsonObj.get("fechaNacimiento").toString());
+				datosUsuario.setEsExtranjero((Boolean) jsonObj.get("esExtranjero"));
+				datosUsuario.setLada(jsonObj.get("ladaExtranjero").toString().equalsIgnoreCase("null") ? null
+						: jsonObj.get("ladaExtranjero").toString());
+				datosUsuario
+						.setTelefono(jsonObj.get("telVigente").toString().equalsIgnoreCase("null")
+								? jsonObj.get("telefonoExtranjero").toString().equalsIgnoreCase("null") ? null
+										: jsonObj.get("telefonoExtranjero").toString()
+								: jsonObj.get("telVigente").toString());
+				datosUsuario.setSexo(jsonObj.get("sexo").toString().equalsIgnoreCase("null") ? null
+						: jsonObj.get("sexo").toString());
+				datosUsuario
+						.setFechaNacimiento(jsonObj.get("fechaNacimiento").toString().equalsIgnoreCase("null") ? null
+								: jsonObj.get("fechaNacimiento").toString());
 			}
 		} catch(URISyntaxException e) {
 			LOGGER.error("No fue posible conectarse al servicio para obtener los datos del usuario por el Token porque la URI no es correcta:",e);

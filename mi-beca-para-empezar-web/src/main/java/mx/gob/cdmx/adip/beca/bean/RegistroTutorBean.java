@@ -4,8 +4,6 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -19,13 +17,10 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletResponse;
-
-import com.google.gson.JsonParseException;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
@@ -62,13 +57,12 @@ import mx.gob.cdmx.adip.beca.commons.dto.TutorDTO;
 import mx.gob.cdmx.adip.beca.commons.dto.TutorExtranjeroDTO;
 import mx.gob.cdmx.adip.ine.dto.IneDTO;
 import mx.gob.cdmx.adip.beca.util.BeanUtils;
+import mx.gob.cdmx.adip.beca.util.Mensajes;
 import mx.gob.cdmx.adip.beca.util.WebResources;
 
 /**
- *
  * @author Gabriel Moreno <gabriemos0309@gmail.com>
  */
-
 @Named
 @SessionScoped
 public class RegistroTutorBean implements Serializable {
@@ -76,7 +70,51 @@ public class RegistroTutorBean implements Serializable {
 	private static final long serialVersionUID = 2198197462917339642L;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RegistroTutorBean.class);
+	
+	@Inject
+	private TutorFacade tutorFacade;
+	
+	@Inject
+	private CatIdentificacionOficialDAO catIdentificacionOficialDAO;
+	
+	@Inject
+	private CatComprobanteDomicilioDAO catComprobanteDomicilioDAO;
+	
+	@Inject
+	private CatCodigosPostalesDAO catCodigosPostalesDAO;
+	
+	@Inject
+	private TutorExtranjeroDAO tutorExtranjeroDAO;
+	
+	@Inject
+	private TutorDAO tutorDAO;
+	
+	@Inject 
+	private AuthenticatorBean authenticatorBean;
+	
+	@Inject
+	private BandejaTutorBean bandejaTutorBean;
+	
+	@Inject
+	private IneRESTClient ineClient; //Borrar inyección, debe ser variable local no global
 
+	private List<CatIdentificacionOficialDTO> lstIdentificacionOficial;
+	private List<CatComprobanteDomicilioDTO> lstCatComprobanteDomicilioDTO;
+	private List<CatAsentamientosDTO> listColonia;
+	
+	private TutorDTO tutorDTO;
+
+	private UploadedFile file;
+	private StreamedContent scFile;
+	private Integer ID_IDENTIFICACION_OFICIAL = Constantes.ID_IDENTIFICACION_OFICIAL;
+	private Integer ID_ESTATUS_ACLARACION_POR_CIRCUNSTANCIA = Constantes.ID_ESTATUS_ACLARACION_POR_CIRCUNSTANCIA;
+	private Integer ID_ESTATUS_CORRECCION_POR_PARTE_CIUDADANO = Constantes.ID_ESTATUS_CORRECCION_POR_PARTE_CIUDADANO;
+	private Integer ID_ESTATUS_EN_PROCESO = Constantes.ID_ESTATUS_EN_PROCESO;
+	private Integer ID_ESTATUS_APROBADA = Constantes.ID_ESTATUS_APROBADA;
+	private Integer ID_ESTATUS_CORREGIDA_POR_PARTE_CIUDADANO = Constantes.ID_ESTATUS_CORREGIDA_POR_PARTE_CIUDADANO;
+	private Integer ID_ESTATUS_PENDIENTE_VALIDACION = Constantes.ID_ESTATUS_PENDIENTE_VALIDACION;
+	private Integer ID_ESTATUS_SUSPENDIDAS = Constantes.ID_ESTATUS_SUSPENDIDAS;
+	
 	private boolean validarRegistro;
 	private boolean viewDocIdentifica;
 	private boolean viewDocDomicilio;
@@ -91,45 +129,7 @@ public class RegistroTutorBean implements Serializable {
 	private int modeloINE;
 	private int idEstatus;
 	private Long idSolicitud;
-
-	private TutorDTO tutorDTO;
-	private List<CatIdentificacionOficialDTO> lstIdentificacionOficial;
-	private List<CatComprobanteDomicilioDTO> lstCatComprobanteDomicilioDTO;
-	private List<CatAsentamientosDTO> listColonia;
-
-	private UploadedFile file;
-	private StreamedContent scFile;
-	private Integer ID_IDENTIFICACION_OFICIAL = Constantes.ID_IDENTIFICACION_OFICIAL;
-	private Integer ID_ESTATUS_ACLARACION_POR_CIRCUNSTANCIA = Constantes.ID_ESTATUS_ACLARACION_POR_CIRCUNSTANCIA;
-	private Integer ID_ESTATUS_CORRECCION_POR_PARTE_CIUDADANO = Constantes.ID_ESTATUS_CORRECCION_POR_PARTE_CIUDADANO;
-	private Integer ID_ESTATUS_EN_PROCESO = Constantes.ID_ESTATUS_EN_PROCESO;
-	private Integer ID_ESTATUS_APROBADA = Constantes.ID_ESTATUS_APROBADA;
-	private Integer ID_ESTATUS_CORREGIDA_POR_PARTE_CIUDADANO = Constantes.ID_ESTATUS_CORREGIDA_POR_PARTE_CIUDADANO;
-	private Integer ID_ESTATUS_PENDIENTE_VALIDACION = Constantes.ID_ESTATUS_PENDIENTE_VALIDACION;
-	private Integer ID_ESTATUS_SUSPENDIDAS = Constantes.ID_ESTATUS_SUSPENDIDAS;
-
-	@Inject
-	private CatIdentificacionOficialDAO catIdentificacionOficialDAO;
-	@Inject
-	private CatComprobanteDomicilioDAO catComprobanteDomicilioDAO;
-	@Inject
-	private CatCodigosPostalesDAO catCodigosPostalesDAO;
-	@Inject
-	private IneRESTClient ineClient;
-	@Inject
-	private BandejaTutorBean bandejaTutorBean;
-	@Inject
-	private TutorFacade tutorFacade;
-	@Inject
-	private TutorDAO tutorDAO;
-	@Inject 
-	private AuthenticatorBean authenticatorBean;
-	@Inject
-	private TutorExtranjeroDAO tutorExtranjeroDAO;
-
-	public RegistroTutorBean() {
-	}
-
+	
 	/**
 	 * Método que inicializa la pantalla para el registro del tutor desde bandeja de
 	 * tutor
@@ -286,36 +286,20 @@ public class RegistroTutorBean implements Serializable {
 				ine = ineClient.obtenerDatosINE(tutorDTO.getCic(), tutorDTO.getClaveElector(),
 						tutorDTO.getNumeroEmision(), tutorDTO.getOcr(), modeloINE);
 				if (ine != null && ine.getTipoSituacionRegistral().equalsIgnoreCase(Constantes.ESTATUS_VIGENTE_INE)) {
-					// TODO:asignar modelo ine a objeto dinamico
 					tutorDTO.setCatTipoIneDTO(new CatTipoIneDTO(modeloINE));
 					PrimeFaces.current().executeScript("PF('dialogINE').hide();");
 					PrimeFaces.current().executeScript("PF('dialogDatosCorrectos').show();");
 					PrimeFaces.current().executeScript("rcDatosCorrectos()");
 				} else {
-					FacesContext.getCurrentInstance().addMessage(
-							FacesContext.getCurrentInstance().getViewRoot().findComponent("formINE:pgMsgDialogINE")
-									.getClientId(),
-							new FacesMessage(FacesMessage.SEVERITY_ERROR, null,
-									WebResources.getBundleMsg("msj_datos_incorrectos_ine")));
-					PrimeFaces.current().ajax().update("formINE:pgMsgDialogINE");
+					WebResources.addErrorMessage("msj_datos_incorrectos_ine", "formINE:pgMsgDialogINE", false);
 				}
 
 			} catch (URISyntaxException | ConnectException | JSONException e) {
-				LOGGER.info("Error Servicio INE: ", e);
-				FacesContext.getCurrentInstance().addMessage(
-						FacesContext.getCurrentInstance().getViewRoot().findComponent("formINE:pgMsgDialogINE")
-								.getClientId(),
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, null,
-								WebResources.getBundleMsg("msj_consulta_ine")));
-				PrimeFaces.current().ajax().update("formINE:pgMsgDialogINE");
+				LOGGER.error("Error Servicio INE: ", e);
+				WebResources.addErrorMessage("msj_consulta_ine", "formINE:pgMsgDialogINE", false);
 			}
 		} else {
-			FacesContext.getCurrentInstance().addMessage(
-					FacesContext.getCurrentInstance().getViewRoot().findComponent("formINE:pgMsgDialogINE")
-							.getClientId(),
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, null,
-							WebResources.getBundleMsg("msj_seleccionar_ine")));
-			PrimeFaces.current().ajax().update("formINE:pgMsgDialogINE");
+			WebResources.addErrorMessage("msj_seleccionar_ine", "formINE:pgMsgDialogINE", false);
 		}
 	}
 
@@ -353,10 +337,7 @@ public class RegistroTutorBean implements Serializable {
 				tutorDTO.setCodigoPostal(null);
 				tutorDTO.setCatAsentamientosDTO(new CatAsentamientosDTO());
 				tutorDTO.setCatMunicipiosDTO(new CatMunicipiosDTO());
-				FacesContext.getCurrentInstance().addMessage(
-						FacesContext.getCurrentInstance().getViewRoot().findComponent("form:txtCP").getClientId(),
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, null,
-								WebResources.getBundleMsg("msg_no_existe_cp")));
+				WebResources.addErrorMessage("msg_no_existe_cp", "form:txtCP", false);
 			} else {
 				listado.forEach(cp -> {
 					Optional<CatAsentamientosDTO> optColonia = listColonia.stream()
@@ -368,7 +349,19 @@ public class RegistroTutorBean implements Serializable {
 				});
 				if (listColonia.size() == 1) {
 					tutorDTO.setCatAsentamientosDTO(listColonia.get(0));
+				} else {
+					if (tutorDTO.getCatAsentamientosDTO() != null
+							&& tutorDTO.getCatAsentamientosDTO().getIdAsentamiento() != null) {
+						Optional<CatAsentamientosDTO> optCatAsentamiento = listColonia.stream()
+								.filter(asentamiento -> asentamiento.getIdAsentamiento().compareTo(
+										tutorDTO.getCatAsentamientosDTO().getIdAsentamiento().intValue()) == 0)
+								.findFirst();
+						if (optCatAsentamiento.isPresent()) {
+							tutorDTO.setCatAsentamientosDTO(optCatAsentamiento.get());
+						}
+					}
 				}
+				
 				tutorDTO.setCatMunicipiosDTO(
 						listado.size() > 0 ? listado.get(0).getCatMunicipiosDTO() : new CatMunicipiosDTO());
 			}
@@ -376,10 +369,7 @@ public class RegistroTutorBean implements Serializable {
 			tutorDTO.setCodigoPostal(null);
 			tutorDTO.setCatAsentamientosDTO(new CatAsentamientosDTO());
 			tutorDTO.setCatMunicipiosDTO(new CatMunicipiosDTO());
-			FacesContext.getCurrentInstance().addMessage(
-					FacesContext.getCurrentInstance().getViewRoot().findComponent("form:txtCP").getClientId(),
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, null,
-							WebResources.getBundleMsg("msg_cp_incorrecto")));
+			WebResources.addErrorMessage("msg_cp_incorrecto", "form:txtCP", false);
 		}
 	}
 
@@ -413,26 +403,14 @@ public class RegistroTutorBean implements Serializable {
 					tutorDTO.setDocumentoLlave(false);
 					tutorDTO.setIdDocumentoLlave(null);
 				} else {
-					FacesContext.getCurrentInstance().addMessage(
-							FacesContext.getCurrentInstance().getViewRoot().findComponent("form:uploadIdenOf")
-									.getClientId(),
-							new FacesMessage(FacesMessage.SEVERITY_ERROR, null,
-									WebResources.getBundleMsg("msj_documento_oversize")));
+					WebResources.addErrorMessage("msj_documento_oversize", "form:uploadIdenOf", false);
 				}
 			} else {
-				FacesContext.getCurrentInstance().addMessage(
-						FacesContext.getCurrentInstance().getViewRoot().findComponent("form:uploadIdenOf")
-								.getClientId(),
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, null,
-								WebResources.getBundleMsg("msg_error_carga_archivo")));
+				WebResources.addErrorMessage("msg_error_carga_archivo", "form:uploadIdenOf", false);
 			}
 		} catch (IOException e) {
 			LOGGER.error("Ocurrió un error al asignarIdentificacionOficial:", e);
-			FacesContext.getCurrentInstance().addMessage(
-					FacesContext.getCurrentInstance().getViewRoot().findComponent("form:uploadIdenOf")
-							.getClientId(),
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, null,
-							WebResources.getBundleMsg("msg_error_carga_archivo")));
+			WebResources.addErrorMessage("msg_error_carga_archivo", "form:uploadIdenOf", false);
 		}
 		file = null;
 	}
@@ -455,26 +433,14 @@ public class RegistroTutorBean implements Serializable {
 					tutorDTO.setFileComprobanteDom(file.getInputStream());
 					tutorDTO.setContentFileComprobanteDom(file.getContent());
 				} else {
-					FacesContext.getCurrentInstance().addMessage(
-							FacesContext.getCurrentInstance().getViewRoot().findComponent("form:uploadComprobanteDom")
-									.getClientId(),
-							new FacesMessage(FacesMessage.SEVERITY_ERROR, null,
-									WebResources.getBundleMsg("msj_documento_oversize")));
+					WebResources.addErrorMessage("msj_documento_oversize", "form:uploadComprobanteDom", false);
 				}
 			} else {
-				FacesContext.getCurrentInstance().addMessage(
-						FacesContext.getCurrentInstance().getViewRoot().findComponent("form:uploadComprobanteDom")
-								.getClientId(),
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, null,
-								WebResources.getBundleMsg("msg_error_carga_archivo")));
+				WebResources.addErrorMessage("msg_error_carga_archivo", "form:uploadComprobanteDom", false);
 			}
 		} catch (IOException e) {
 			LOGGER.error("Ocurrió un error al asignarComprobanteDomicilio", e);
-			FacesContext.getCurrentInstance().addMessage(
-					FacesContext.getCurrentInstance().getViewRoot().findComponent("form:uploadComprobanteDom")
-							.getClientId(),
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, null,
-							WebResources.getBundleMsg("msg_error_carga_archivo")));
+			WebResources.addErrorMessage("msg_error_carga_archivo", "form:uploadComprobanteDom", false);
 		}
 		file = null;
 	}
@@ -485,22 +451,12 @@ public class RegistroTutorBean implements Serializable {
 	public String guardarTutor() {
 		
 		if(tutorDTO.getArchivoComprobanteDomicilio() == null) {
-			FacesContext.getCurrentInstance().addMessage(
-					FacesContext.getCurrentInstance().getViewRoot().findComponent("form:uploadComprobanteDom")
-							.getClientId(),
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, null,
-							WebResources.getBundleMsg("msj_campo_requerido")));
-			
+			WebResources.addErrorMessage(Mensajes.MSJ_CAMPO_OBLIGATORIO, "form:uploadComprobanteDom", false);
 			return null;
 		}
 		
 		if(tutorDTO.getArchivoIdentificacion() == null) {
-			FacesContext.getCurrentInstance().addMessage(
-					FacesContext.getCurrentInstance().getViewRoot().findComponent("form:uploadIdenOf")
-							.getClientId(),
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, null,
-							WebResources.getBundleMsg("msj_campo_requerido")));
-			
+			WebResources.addErrorMessage(Mensajes.MSJ_CAMPO_OBLIGATORIO, "form:uploadIdenOf", false);
 			return null;
 		}
 		
@@ -510,7 +466,6 @@ public class RegistroTutorBean implements Serializable {
 		} catch (Exception ex) {
 			LOGGER.error("ERROR AL GUARDAR TUTOR: ", ex);
 			WebResources.validationMessage("msj_error_registro", false);
-			PrimeFaces.current().ajax().update("messages");
 			return null;
 		}
 		return bandejaTutorBean.init();
@@ -530,7 +485,6 @@ public class RegistroTutorBean implements Serializable {
 			LOGGER.error("ERROR AL GUARDAR TUTOR: ", ex);
 		}
 		WebResources.validationMessage("msj_error_registro", false);
-		PrimeFaces.current().ajax().update("messages");
 		return null;
 	}
 
@@ -570,14 +524,10 @@ public class RegistroTutorBean implements Serializable {
 			tutorFacade.envioCorreccionTutor(tutorDTO,  authenticatorBean.getUsuarioLogueado().getIdUsuarioLlaveCdmx()); 
 				
 			PrimeFaces.current().executeScript("PF('dialogTutorAprobado').show();");
-			PrimeFaces.current().executeScript("rcBandejaTutor()");	
+			PrimeFaces.current().executeScript("rcBandejaTutor()");
 		} catch (IOException e) {
 			LOGGER.error("Ocurrió un error en guardaValidaTutor:", e);
-			
-			FacesContext.getCurrentInstance().addMessage(
-					FacesContext.getCurrentInstance().getViewRoot().findComponent("frmMenuUsuario").getClientId(),
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, null,
-							WebResources.getBundleMsg("msj_error_valida_tutor")));
+			WebResources.addErrorMessage("msj_error_valida_tutor", "frmMenuUsuario", false);
 		} 
 	}
 	
@@ -599,11 +549,7 @@ public class RegistroTutorBean implements Serializable {
 			PrimeFaces.current().executeScript("rcRechazoDatosCorrectos()");
 		} catch (IOException e) {
 			LOGGER.error("Ocurrió un error IOException", e);
-			FacesContext.getCurrentInstance().addMessage(
-					FacesContext.getCurrentInstance().getViewRoot().findComponent("frmMenuUsuario").getClientId(),
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, null,
-							WebResources.getBundleMsg("msj_error_valida_tutor")));
-			PrimeFaces.current().ajax().update("messages");
+			WebResources.addErrorMessage("msj_error_valida_tutor", "frmMenuUsuario", false);
 		}
 	}
 	
@@ -620,8 +566,6 @@ public class RegistroTutorBean implements Serializable {
 		tutorDTO.setNombreCasaHogar(null);
 	}
 	
-	
-	
 	/**
 	 * Método para guardar/actualizar mediante la validación del tutor
 	 */
@@ -634,14 +578,10 @@ public class RegistroTutorBean implements Serializable {
 			tutorFacade.envioCorreccionTutor(tutorDTO , authenticatorBean.getUsuarioLogueado().getIdUsuarioLlaveCdmx());
 			
 			PrimeFaces.current().executeScript("PF('dialogTutorRechazado').show();");
-			PrimeFaces.current().executeScript("rcRechazoDatosCorrectos()");
+			PrimeFaces.current().executeScript("rcRechazoDatosCorrectos()"); 
 		} catch (IOException e) {
 			LOGGER.error("Ocurrió un error en envioCorreccion", e);
-			FacesContext.getCurrentInstance().addMessage(
-					FacesContext.getCurrentInstance().getViewRoot().findComponent("frmMenuUsuario").getClientId(),
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, null,
-							WebResources.getBundleMsg("msj_error_valida_tutor")));
-			PrimeFaces.current().ajax().update("messages");
+			WebResources.addErrorMessage("msj_error_valida_tutor", "frmMenuUsuario", false);
 		}
 	}
 	
@@ -666,19 +606,14 @@ public class RegistroTutorBean implements Serializable {
 
 				switch (codeResponse) {
 					case 201:
-						LOGGER.info("La validación del documento se realizó correctamente");
+						//LOGGER.info("La validación del documento se realizó correctamente");
 						break;
 					case 408:
-						LOGGER.info("El documento ya se encuentra validado. Solo se pueden validar documentos que aún no hayan sido validados.");
+						//LOGGER.info("El documento ya se encuentra validado. Solo se pueden validar documentos que aún no hayan sido validados.");
 						break;
 					default:
 						pasoCorrecto = false;
-						FacesContext.getCurrentInstance().addMessage(
-								FacesContext.getCurrentInstance().getViewRoot().findComponent("frmMenuUsuario")
-										.getClientId(),
-								new FacesMessage(FacesMessage.SEVERITY_ERROR, null,
-										WebResources.getBundleMsg("msj_error_valida_identificacion_tutor")));
-						PrimeFaces.current().ajax().update("messages");
+						WebResources.addErrorMessage("msj_error_valida_identificacion_tutor", "frmMenuUsuario", false);
 						break;
 				}
 
@@ -691,7 +626,6 @@ public class RegistroTutorBean implements Serializable {
 	}
 
 	public void actualizaEstatusRechazo(Integer estatus) {
-
 		if ((tutorDTO.getInformacionGeneralObservaciones() != null
 				&& !tutorDTO.getInformacionGeneralObservaciones().isEmpty())
 				|| (tutorDTO.getDomicilioObservaciones() != null && !tutorDTO.getDomicilioObservaciones().isEmpty())) {
@@ -702,35 +636,22 @@ public class RegistroTutorBean implements Serializable {
 		}
 		if (tutorDTO.getInformacionGralCorrecto() == false && (tutorDTO.getInformacionGeneralObservaciones() == null
 				|| BeanUtils.isEmpty(tutorDTO.getInformacionGeneralObservaciones()))) {
-			FacesContext.getCurrentInstance().addMessage(
-					FacesContext.getCurrentInstance().getViewRoot().findComponent("form:pgValidaDatosG")
-							.getClientId(),
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, null,
-							WebResources.getBundleMsg("msj_campo_requerido")));
+			WebResources.addErrorMessage(Mensajes.MSJ_CAMPO_OBLIGATORIO, "form:pgValidaDatosG", false);
 		}
 		if (tutorDTO.getDomicilioCorrecto() == false 
 				&& (tutorDTO.getDomicilioObservaciones() == null 
 				|| BeanUtils.isEmpty(tutorDTO.getDomicilioObservaciones()))) {
-			FacesContext.getCurrentInstance().addMessage(
-					FacesContext.getCurrentInstance().getViewRoot().findComponent("form:pgValidaDomicilio")
-							.getClientId(),
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, null,
-							WebResources.getBundleMsg("msj_campo_requerido")));
+			WebResources.addErrorMessage(Mensajes.MSJ_CAMPO_OBLIGATORIO, "form:pgValidaDomicilio", false);
 		}
-		
-		PrimeFaces.current().ajax().update("form:pgValidaDatosG","form:pgValidaDomicilio");
-		
 	}
 	
-	/*
+	/**
 	 * Método que permite ver el documento en nueva pestaña
 	 * 
 	 * @param archivo
 	 * @param nombreDocumento
 	 */
 	public void verDocumento(byte[] archivo) {
-
-		PrimeFaces.current().ajax().update(":form");
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
 				.getResponse();
@@ -752,12 +673,8 @@ public class RegistroTutorBean implements Serializable {
 			PrimeFaces.current().ajax().update("form");
 		} catch (IOException e) {
 			LOGGER.error("Error al leer el documento", e);
-
 		}
 	}
-	
-	
-	
 	
 	public void verificaCURP() {
 		if (tutorDTO != null && tutorDTO.isEsExtranjero() && tutorDTO.getCurp() == null) {
@@ -771,9 +688,7 @@ public class RegistroTutorBean implements Serializable {
             curpExtranjero = curpExtranjero == null || !curpExtranjero ? true : null;
             return;
         }
-        
         curpExtranjero = curpExtranjero == null || curpExtranjero ? false : null;
-            
     }
     
     public void validaCURPExtranjero() {
@@ -796,26 +711,12 @@ public class RegistroTutorBean implements Serializable {
 					PrimeFaces.current().ajax().update("form");
 					return;
 				}
-				FacesContext.getCurrentInstance().addMessage(
-						FacesContext.getCurrentInstance().getViewRoot().findComponent("form:txtCampoCURP")
-								.getClientId(),
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, null,
-								WebResources.getBundleMsg("msg_error_curp_no_encontrada")));
-               
+				WebResources.addErrorMessage("msg_error_curp_no_encontrada", "form:txtCampoCURP", false);
             } else {
-                FacesContext.getCurrentInstance().addMessage(
-                        FacesContext.getCurrentInstance().getViewRoot().findComponent("form:txtCampoCURP")
-                                .getClientId(),
-                        new FacesMessage(FacesMessage.SEVERITY_ERROR, null,
-                                WebResources.getBundleMsg("msg_error_valida_curp")));
+            	WebResources.addErrorMessage("msg_error_valida_curp", "form:txtCampoCURP", false);
             }
         }
-
-        FacesContext.getCurrentInstance().addMessage(
-                FacesContext.getCurrentInstance().getViewRoot().findComponent("form:txtCampoCURP").getClientId(),
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, null,
-                        WebResources.getBundleMsg("msg_error_valida_curp")));
-
+        WebResources.addErrorMessage("msg_error_valida_curp", "form:txtCampoCURP", false);
     }    
     
 	public DocumentoExtranjeroDTO consultaDocumentoLlave() {
@@ -839,7 +740,6 @@ public class RegistroTutorBean implements Serializable {
 		}
 		return documento;
 	}
-	
 	
 	public void asignaDocumentoDesdeLlave() {
 		DocumentoExtranjeroDTO documento = null;
@@ -870,17 +770,14 @@ public class RegistroTutorBean implements Serializable {
 				tutorDTO.setDocumentoLlave(true);
 				tutorDTO.setIdDocumentoLlave(documento.getIdDocumento());
 			} catch (Exception e) {
-				LOGGER.warn("ERROR al asignar archivo desde lave", e);
+				LOGGER.error("ERROR al asignar archivo desde llave", e);
 			} finally {
 				if (is != null) { try { is.close(); } catch (Exception e) { LOGGER.warn("ERROR al cerrar documento ", e); } }
 			}
 		}
 	}
 	
-	
-	
 	public void generarCURP() {
-
 		try {
 			String nombre = removeDiacriticalMarks(tutorDTO.getNombre());
 			String primerAp = removeDiacriticalMarks(tutorDTO.getPrimerApellido());
@@ -1020,11 +917,7 @@ public class RegistroTutorBean implements Serializable {
 			}
 
 			if (listado.contains(String.valueOf(curp))) {
-				FacesContext.getCurrentInstance().addMessage(
-						FacesContext.getCurrentInstance().getViewRoot().findComponent("form:mensajeCURP").getClientId(),
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, null,
-								WebResources.getBundleMsg("msg_error_genera_curp")));
-				PrimeFaces.current().ajax().update("form:mensajeCURP");
+				WebResources.addErrorMessage("msg_error_genera_curp", "form:mensajeCURP", false);
 				return;
 			}
 
@@ -1035,11 +928,7 @@ public class RegistroTutorBean implements Serializable {
 
 		} catch (Exception ex) {
 			LOGGER.error("Ocurrió un error en generar CURP:", ex);
-			FacesContext.getCurrentInstance().addMessage(
-					FacesContext.getCurrentInstance().getViewRoot().findComponent("form:mensajeCURP").getClientId(),
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, null,
-							WebResources.getBundleMsg("msg_error_genera_curp")));
-			PrimeFaces.current().ajax().update("form:mensajeCURP");
+			WebResources.addErrorMessage("msg_error_genera_curp", "form:mensajeCURP", false);
 		}
 	}
 
@@ -1139,7 +1028,7 @@ public class RegistroTutorBean implements Serializable {
 		try {
 			arreglo = FileUtils.readFileToByteArray(new File(ruta));
 		} catch (IOException e) {
-			LOGGER.warn("Error al construir array", e);
+			LOGGER.error("Error al construir array", e);
 		}
 		return arreglo;
 	}
@@ -1351,5 +1240,4 @@ public class RegistroTutorBean implements Serializable {
 	public void setIdEstatus(int idEstatus) {
 		this.idEstatus = idEstatus;
 	}
-
 }

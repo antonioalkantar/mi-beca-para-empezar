@@ -25,15 +25,14 @@ public class BeneficiarioDAO extends IBaseDAO<BeneficiarioDTO, Long> {
 				.setParameter("curpBeneficiario", curp).getResultList();
 		return listado != null && !listado.isEmpty() ? listado.get(0) : null;
 	}
-
-	public long countBeneficiarios() {
-		return em.createNamedQuery("Beneficiario.countBeneficiarios", Long.class).getSingleResult().longValue();
-	}
-
 	@Override
 	public List<BeneficiarioDTO> buscarTodos() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public long countBeneficiarios() {
+		return em.createNamedQuery("Beneficiario.countBeneficiarios", Long.class).getSingleResult().longValue();
 	}
 
 	@Override
@@ -52,14 +51,11 @@ public class BeneficiarioDAO extends IBaseDAO<BeneficiarioDTO, Long> {
 
 	@Override
 	public void guardar(BeneficiarioDTO e) {
-		Beneficiario beneficiario = new Beneficiario();
+		Beneficiario beneficiario =  new Beneficiario();
 		beneficiario.setCurpBeneficiario(e.getCurpBeneficiario());
 		beneficiario.setNombresBeneficiario(e.getNombresBeneficiario());
 		beneficiario.setPrimerApellidoBeneficiario(e.getPrimerApellidoBeneficiario());
-		beneficiario.setSegundoApellidoBeneficiario(
-				e.getSegundoApellidoBeneficiario() != null && !e.getSegundoApellidoBeneficiario().isEmpty()
-						? e.getSegundoApellidoBeneficiario()
-						: null);
+		beneficiario.setSegundoApellidoBeneficiario(e.getSegundoApellidoBeneficiario() != null && !e.getSegundoApellidoBeneficiario().isEmpty()? e.getSegundoApellidoBeneficiario():null);
 		beneficiario.setFechaNacimientoBeneficiario(e.getFechaNacimientoBeneficiario());
 		beneficiario.setEsTutor(e.getEsTutor() != null ? e.getEsTutor() : false);
 		beneficiario.setNacionalidad(e.getNacionalidad());
@@ -70,5 +66,5 @@ public class BeneficiarioDAO extends IBaseDAO<BeneficiarioDTO, Long> {
 		em.flush();
 		e.setIdBeneficiario(beneficiario.getIdBeneficiario());
 	}
-
+	
 }

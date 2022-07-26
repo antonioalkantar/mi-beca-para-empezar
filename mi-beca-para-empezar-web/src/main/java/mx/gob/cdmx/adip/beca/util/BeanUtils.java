@@ -1,12 +1,8 @@
 package mx.gob.cdmx.adip.beca.util;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
 import mx.gob.cdmx.adip.beca.commons.utils.Constantes;
@@ -138,84 +134,4 @@ public final class BeanUtils {
 			return valueFalse;
 		}
 	}
-
-	/**
-	 * Funci\u00f3n que convierte un Date a String con formato dd/MM/yyyy
-	 *
-	 */
-
-	public static String convertirDateString(final Date fecha) throws ParseException {
-		final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-		return sdf.format(fecha);
-	}
-
-	/**
-	 * Funci\u00f3n que convierte un Date a String con formato yyyy-MM-dd
-	 *
-	 */
-
-	public static String convertirDateStringAnioMesDia(final Date fecha) {
-		final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-		return sdf.format(fecha);
-	}
-	
-	 /**
-     * Funcion para convertir un String en fecha (Date).
-     * @param fecha Cadena de fecha yyyy-MM-dd HH:mm:ss.SSS
-     * @return Objeto Date
-     */
-    public static Date convertirStringDate(String fecha){
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-        Date fechaDate = null;
-        try {
-            fechaDate = formato.parse(fecha);
-        } 
-        catch (ParseException ex){
-            System.out.println(ex);
-        }
-        return fechaDate;
-    }
-    
-    /**
-     * Funcion para convertir una fecha (Date).
-     * @param fecha Cadena de fecha EEEE d 'de' MMMM 'de' yyyy
-     * @return Objeto Date
-     */
-    public static String convertirStringDateMx(final Date fecha){
-        final SimpleDateFormat formatoEsMX = new SimpleDateFormat(
-              "EEEE d 'de' MMMM 'de' yyyy", new Locale("ES", "MX"));       
-        return formatoEsMX.format(fecha);
-    }
-    
-
-    /**
-     * Funcion para convertir un Date a Calendar 
-     * @param date
-     * @return
-     */
-  	public static Calendar convertirDateCalendar(Date date) {
-  		Calendar calendar = Calendar.getInstance();
-  		calendar.setTime(date);
-  		return calendar;
-  	}
-  	
-  	
-	/**
-	 * Funci\u00f3n que convierte un Date a String con formato dd-MM-yyyy
-	 *
-	 */
-	public static String convertirDateStringDiaMesAnio(final Date fecha) {
-		final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-		return sdf.format(fecha);
-	}
-	
-	public static Date sumarAniosFecha(Date fecha, int anios) {
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(fecha);
-		calendar.add(Calendar.YEAR, anios);
-		return calendar.getTime();
-	}
-	
-	
-
 }

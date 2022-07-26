@@ -84,7 +84,7 @@
 						style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px">
 						<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
 							<span class="ui-messages-warn-detail adip-output-campos-orange">Tu solicitud requiere aclaraciones. Es necesario agendar una cita para acudir a las oficinas de
-								FIDEGAR.</span>
+								FIBIEN.</span>
 
 							<span style="display: flex;"> <span class="ui-messages-warn-detail adip-output-campos-orange">Da clic</span> <span
 								class="ui-messages-warn-detail adip-output-campos-orange"> <span class="ui-messages-warn-summary" style="margin-left: 0px;"> <a
@@ -97,17 +97,25 @@
 				</p:panel>
 				<p:panel header="Beneficiario" styleClass="adip-panel mt-2">
 
-					<div class="ui-messages-error ui-corner-all" style="padding: 2% 2%;" jsf:rendered="#{bandejaTutorBean.tutorDTO.idUsuarioLlaveCdmx eq null}">
-						<p:panelGrid columns="1" columnClasses="ui-grid-col-12 adip-as-center center" layout="grid" styleClass="ui-panel-sin-pading">
-							<span class="ui-messages-error-icon"></span>
-							<span class="ui-messages-error-detail adip-output-campos-red pl-2">Para poder registrar beneficiarios, primero debes realizar tu registro como tutor.</span>
+					<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid ui-messages-error ui-corner-all"
+						rendered="#{bandejaTutorBean.tutorDTO.idUsuarioLlaveCdmx eq null}">
+						<p:panelGrid columns="2" columnClasses="ui-g-1 center adip-as-center adip-item-center, ui-g-11 center adip-as-center" layout="grid"
+							styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid">
+							<p:panelGrid columns="1" columnClasses="ui-grid-col-12 adip-item-center" layout="grid" styleClass="ui-panel-sin-pading adip-item-center">
+								<p:graphicImage width="220px" name="ic_error.svg" library="img" style="width: 45px; height: 45px;" />
+							</p:panelGrid>
+							<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+								<span class="ui-messages-error-detail adip-output-campos-red pl-2">Para poder registrar beneficiarios, primero debes realizar tu registro como tutor. </span>
+								<span class="ui-messages-error-detail adip-output-campos-red pl-2">Deberás adjuntar una fotografía o escaneo de una identificación oficial vigente y de un
+									comprobante de domicilio con una antigüedad no mayor a 3 meses.</span>
+							</p:panelGrid>
 						</p:panelGrid>
-					</div>
-					
+					</p:panelGrid>
+
 					<div class="ui-messages-warn ui-corner-all" jsf:rendered="#{bandejaTutorBean.lstCrcBeneficiarioSolicitud.size() == 3 and bandejaTutorBean.tutorDTO.esMayorTresBeneficiarios eq false}"
 						style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px">
 						<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
-							<span class="ui-messages-warn-detail adip-output-campos-orange">Si necesitas registrar a otro beneficiario es necesario que acudas a las oficinas de FIDEGAR.</span>
+							<span class="ui-messages-warn-detail adip-output-campos-orange">Si necesitas registrar a otro beneficiario es necesario que acudas a las oficinas de FIBIEN.</span>
 
 							<span style="display: flex;"> <span class="ui-messages-warn-detail adip-output-campos-orange">Da clic</span> <span
 								class="ui-messages-warn-detail adip-output-campos-orange"> <span class="ui-messages-warn-summary" style="margin-left: 0px;"> <a
@@ -160,9 +168,10 @@
 										<span class="tootip-label" style="font-weight: 700 !important;">económico.</span>
 										<br />
 										<br />
-<!-- 										<span class="tootip-label">Para consultar más información, da clic en </span> -->
-<!--										<span class="tootip-label" style="font-weight: 700 !important;">Solicitar revalidación.</span> -->
-<!-- 										<br /> -->
+ 										<span class="tootip-label">Para consultar más información, da clic en </span>
+										<span class="tootip-label" style="font-weight: 700 !important;">Solicitar revalidación.</span>
+ 										<br />
+ 										<span class="tootip-label"> </span>
 									</p:tooltip>
 									<br />									
 									<p:commandLink value="Solicitar revalidación" action="#{bandejaTutorBean.consultaRevalidacion(crcBenef.solicitudDTO.idSolicitud, crcBenef.encuestaDTO.idEncuesta)}" 
@@ -214,11 +223,12 @@
 	font-style: normal;
 	font-weight: 700;
 	font-size: 20px;
-	line-height: 24px;
-	display: flex;
+	line-height: 30px;
+	display: block;
 	align-items: center;
 	letter-spacing: -0.5px;
 	color: #9F2241;
+	margin: 0px !important;
 }
 
 .ui-tooltip {

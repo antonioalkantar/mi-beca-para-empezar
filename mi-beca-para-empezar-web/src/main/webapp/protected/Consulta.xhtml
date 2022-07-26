@@ -233,7 +233,7 @@ body .ui-selectonemenu-panel .ui-selectonemenu-items .ui-selectonemenu-item.ui-s
 				</p:panelGrid>
 				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
 					<p:commandButton value="Aceptar" style="    width: inherit !important; max-width:133px !important;" styleClass="adip-btn-green" process="@this"
-						oncomplete="PF('dialogCambioEstatus').hide();" actionListener="#{consultaBean.cambiarEstatusSolicitud()}"  update="form"/>
+						oncomplete="PF('dialogCambioEstatus').hide();" actionListener="#{consultaBean.actualizaEstatus()}"  update="form"/>
 				</p:panelGrid>
 			</p:panelGrid>
 		</p:panelGrid>

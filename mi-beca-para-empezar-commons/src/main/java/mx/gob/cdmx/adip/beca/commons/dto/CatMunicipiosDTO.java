@@ -154,7 +154,8 @@ public class CatMunicipiosDTO implements Serializable{
 				id  = 17;
 			      break;
 			default:
-				throw new IllegalArgumentException("El ID ALCALDIA: " + idAlcaldiaAEFCM + " no existe. Revise la lógica de programación");
+				id  = 18;
+			      break;
 		}
 		return id;
 	}

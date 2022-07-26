@@ -27,13 +27,13 @@ public class IneRESTClient implements Serializable {
 		ClientResponse response = null;
 		switch (tipoINE) {
 		case 3:
-			urlQuery.append("ocr");
+			urlQuery.append("ocr=");
 			urlQuery.append(OCR);
 			urlQuery.append("&");
-			urlQuery.append("claveElector");
+			urlQuery.append("claveElector=");
 			urlQuery.append(claveElector);
 			urlQuery.append("&");
-			urlQuery.append("numeroEmisionCredencial");
+			urlQuery.append("numeroEmisionCredencial=");
 			urlQuery.append(emision);
 			break;
 		default:
@@ -62,23 +62,29 @@ public class IneRESTClient implements Serializable {
 		try {
 			response = webResource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
 			respuesta = response.getEntity(String.class);
-			JSONObject jsonINE = new JSONObject(respuesta);
-			ineResp = new IneDTO();
-			if (jsonINE.getJSONObject("respuestaSituacionRegistral") != null) {
-				ineResp.setTipoSituacionRegistral(
-						jsonINE.getJSONObject("respuestaSituacionRegistral").get("tipoSituacionRegistral").toString());
+			if (response.getStatus() == 200) {
+				JSONObject jsonINE = new JSONObject(respuesta);
+				ineResp = new IneDTO();
+				if (jsonINE.getJSONObject("respuestaSituacionRegistral") != null) {
+					ineResp.setTipoSituacionRegistral(jsonINE.getJSONObject("respuestaSituacionRegistral")
+							.get("tipoSituacionRegistral").toString());
+				} else {
+					throw new JSONException(
+							"No fue posible obtener los datos de la INE del JSON de respuesta - Respuesta del servicio web: ");
+				}
 			} else {
-				throw new JSONException(
-						"No fue posible obtener los datos de la INE del JSON de respuesta - Respuesta del servicio web: ");
+				throw new JSONException("ERROR: Respuesta del servico INE : " + respuesta + " " + response.getStatus());
 			}
 
-			LOGGER.debug("Respuesta del servico INE : " + respuesta + " " + response.getStatus());
+			
 		} catch (ClientHandlerException ex) {
 			LOGGER.error("Error al realizar la conexión con el servicio WEB:", ex);
 			throw new ConnectException("No fue posible realizar la conexión con el servicio web de INE");
+		}catch (JSONException e) {
+			LOGGER.error("ERROR al convertir JSON", e);
 		}
 		 finally {
-			 if(response != null) {response.close();}
+			 if(response != null) {try{response.close();}catch(Exception e) {LOGGER.warn("No es posible cerrar el objeto response",e);}}
 		}
 
 		return ineResp;

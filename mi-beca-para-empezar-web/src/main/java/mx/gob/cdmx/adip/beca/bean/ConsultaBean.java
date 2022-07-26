@@ -2,6 +2,7 @@ package mx.gob.cdmx.adip.beca.bean;
 
 import java.io.Serializable;
 import java.net.ProtocolException;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -11,10 +12,13 @@ import javax.inject.Named;
 
 import org.primefaces.PrimeFaces;
 
+import mx.gob.cdmx.adip.beca.acceso.bean.AuthenticatorBean;
 import mx.gob.cdmx.adip.beca.commons.dto.BitacoraCambiosTutorDTO;
+import mx.gob.cdmx.adip.beca.commons.dto.BitacoraTutorDTO;
 import mx.gob.cdmx.adip.beca.commons.dto.CatEstatusDTO;
 import mx.gob.cdmx.adip.beca.commons.utils.Constantes;
 import mx.gob.cdmx.adip.beca.dao.BitacoraCambiosTutorDAO;
+import mx.gob.cdmx.adip.beca.dao.BitacoraTutorDAO;
 import mx.gob.cdmx.adip.beca.dao.CatEstatusDAO;
 import mx.gob.cdmx.adip.beca.dao.TutorDAO;
 
@@ -41,6 +45,12 @@ public class ConsultaBean implements Serializable {
 	
 	@Inject
 	private TutorDAO tutorDAO;
+	
+	@Inject 
+	private AuthenticatorBean authenticatorBean;
+	
+	@Inject 
+	private BitacoraTutorDAO bitacoraTutorDAO;
 	
 	private List<BitacoraCambiosTutorDTO> lstBitacora;
 	private List<CatEstatusDTO> lstEstatus;
@@ -108,7 +118,20 @@ public class ConsultaBean implements Serializable {
 				estiloSelectOneMenu = "background-color: #ED9511 !important; color: #fff !important; border-radius: 5px; text-align: center;";
 			      break;
 		}
+//		tutorDAO.actualizaEstatusTutor(registroTutorBean.getTutorDTO());
+//		registroBeneficiarioBean.consulta(registroBeneficiarioBean.getCrcBeneficiarioSolicitudDTO().getSolicitudDTO().getIdSolicitud());
+	}
+	
+	
+	public void actualizaEstatus() {
 		tutorDAO.actualizaEstatusTutor(registroTutorBean.getTutorDTO());
+		BitacoraTutorDTO bitacoraTutorDTO = new BitacoraTutorDTO();
+		bitacoraTutorDTO.setTutorDTO(registroTutorBean.getTutorDTO());
+		bitacoraTutorDTO.setIdUsuarioFidegar(authenticatorBean.getUsuarioLogueado().getIdUsuarioLlaveCdmx());
+		bitacoraTutorDTO.setFechaCaptura(new Date());
+		bitacoraTutorDTO.setCatEstatusDTO(registroTutorBean.getTutorDTO().getCatEstatusDTO());		
+		bitacoraTutorDAO.guardar(bitacoraTutorDTO);	
+		cambiarEstatusSolicitud();
 		registroBeneficiarioBean.consulta(registroBeneficiarioBean.getCrcBeneficiarioSolicitudDTO().getSolicitudDTO().getIdSolicitud());
 	}
 	

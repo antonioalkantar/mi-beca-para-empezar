@@ -52,15 +52,15 @@ public class BandejaFuncionarioBean implements Serializable {
 	//Filtros
 	private String txtCurpTutor;
 	private String txtCurpBeneficiario;
-	private String txtFolioDeSolicitud;
-	private String txtNumeroTarjeta;
+	private String txtFolioDeSolicitud;	
 	private String txtCct;
-	private Integer filtroEstatusBeneficiario;
+	private Integer filtroEstatusTutor;
 	private Integer filtroAlcaldias;
 	private Integer filtroNivelEducativo;
 	private Date filtroFechaInicio;
 	private Date filtroFechaFin;
 	private Date maxDate;
+	private Boolean esNuevoRegistro;
 	
 	//Colores de los Estatus de solicitud
 	private String enProceso = "#54B0BC";
@@ -102,14 +102,14 @@ public class BandejaFuncionarioBean implements Serializable {
 	public void limpiarFiltro() {
 		txtCurpTutor = "";
 		txtCurpBeneficiario = "";
-		txtFolioDeSolicitud = "";
-		txtNumeroTarjeta = "";
+		txtFolioDeSolicitud = "";	
 		txtCct = "";
-		filtroEstatusBeneficiario = null;
+		filtroEstatusTutor = null;
 		filtroAlcaldias = null;
 		filtroNivelEducativo = null;
 		filtroFechaInicio = null;
 		filtroFechaFin = null;
+		esNuevoRegistro = null;
 		maxDate = new Date();
 		lstCatEstatusTutor = new ArrayList<CatEstatusDTO>();
 		lstCatMunicipios = new ArrayList<CatMunicipiosDTO>();
@@ -129,14 +129,13 @@ public class BandejaFuncionarioBean implements Serializable {
 		criterios.getTutorDTO().setCurp(txtCurpTutor);
 		criterios.getBeneficiarioDTO().setCurpBeneficiario(txtCurpBeneficiario);
 		criterios.setFolioSolicitud(txtFolioDeSolicitud);
-		//criterios.getTarjetaDTO().setNumeroTarjeta(txtNumeroTarjeta);
 		criterios.setCct(txtCct);
-		criterios.getCatEstatusDTO().setIdEstatus(filtroEstatusBeneficiario);
+		criterios.getCatEstatusDTO().setIdEstatus(filtroEstatusTutor);
 		criterios.getCatMunicipiosDTO().setIdMunicipio(filtroAlcaldias);
 		criterios.setFechaInicio(filtroFechaInicio);
 		criterios.setFechaFin(filtroFechaFin);
 		criterios.setCatNivelEducativoDTO(new CatNivelEducativoDTO(filtroNivelEducativo, "", false));
-		
+		criterios.setEsNuevoRegistro(esNuevoRegistro);
 		lstSolicitudes = solicitudDAO.buscarPorCriterios(criterios, pagina);	
 		//PrimeFaces.current().scrollTo("messages");
 	}
@@ -185,14 +184,6 @@ public class BandejaFuncionarioBean implements Serializable {
 		this.txtFolioDeSolicitud = txtFolioDeSolicitud;
 	}
 
-	public String getTxtNumeroTarjeta() {
-		return txtNumeroTarjeta;
-	}
-
-	public void setTxtNumeroTarjeta(String txtNumeroTarjeta) {
-		this.txtNumeroTarjeta = txtNumeroTarjeta;
-	}
-
 	public String getTxtCct() {
 		return txtCct;
 	}
@@ -217,12 +208,12 @@ public class BandejaFuncionarioBean implements Serializable {
 		this.lstCatMunicipios = lstCatMunicipios;
 	}
 
-	public Integer getFiltroEstatusBeneficiario() {
-		return filtroEstatusBeneficiario;
+	public Integer getFiltroEstatusTutor() {
+		return filtroEstatusTutor;
 	}
 
-	public void setFiltroEstatusBeneficiario(Integer filtroEstatusBeneficiario) {
-		this.filtroEstatusBeneficiario = filtroEstatusBeneficiario;
+	public void setFiltroEstatusTutor(Integer filtroEstatusTutor) {
+		this.filtroEstatusTutor = filtroEstatusTutor;
 	}
 
 	public Integer getFiltroAlcaldias() {
@@ -272,6 +263,7 @@ public class BandejaFuncionarioBean implements Serializable {
 	public String getCorreccionParteCiudadano() {
 		return correccionParteCiudadano;
 	}
+
 	public String getCorregidaPorCiudadano() {
 		return corregidaPorCiudadano;
 	}
@@ -331,4 +323,15 @@ public class BandejaFuncionarioBean implements Serializable {
 	public void setAclaracionCircunstancia(String aclaracionCircunstancia) {
 		this.aclaracionCircunstancia = aclaracionCircunstancia;
 	}
+
+	public Boolean getEsNuevoRegistro() {
+		return esNuevoRegistro;
+	}
+
+	public void setEsNuevoRegistro(Boolean esNuevoRegistro) {
+		this.esNuevoRegistro = esNuevoRegistro;
+	}
+
+	
+
 }

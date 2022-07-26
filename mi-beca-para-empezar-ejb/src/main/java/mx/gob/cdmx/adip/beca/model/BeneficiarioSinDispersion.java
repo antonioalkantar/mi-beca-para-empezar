@@ -79,6 +79,26 @@ public class BeneficiarioSinDispersion implements java.io.Serializable {
 		return this.beneficiario;
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public void setBeneficiario(Beneficiario beneficiario) {
 		this.beneficiario = beneficiario;
 	}

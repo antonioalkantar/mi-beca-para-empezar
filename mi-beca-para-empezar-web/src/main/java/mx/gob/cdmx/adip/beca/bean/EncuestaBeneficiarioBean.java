@@ -14,6 +14,7 @@ import mx.gob.cdmx.adip.beca.dao.CatMaterialesDomicilioDAO;
 import mx.gob.cdmx.adip.beca.dao.CatTipoDomicilioDAO;
 import mx.gob.cdmx.adip.beca.dao.EncuestaDAO;
 import mx.gob.cdmx.adip.beca.facade.BeneficiarioFacade;
+import mx.gob.cdmx.adip.beca.dao.CatCicloEscolarDAO;
 import mx.gob.cdmx.adip.beca.commons.dto.CatGrupoPerteneceDTO;
 import mx.gob.cdmx.adip.beca.commons.dto.CatIngresosFamiliaDTO;
 import mx.gob.cdmx.adip.beca.commons.dto.CatMaterialesDomicilioDTO;
@@ -28,15 +29,14 @@ public class EncuestaBeneficiarioBean implements Serializable {
 	private static final long serialVersionUID = 4245265798123283958L;
 
 	@Inject private BeneficiarioFacade beneficiarioFacade;
-
 	@Inject private EncuestaDAO encuestaDAO;
 	@Inject private CatTipoDomicilioDAO catTipoDomicilioDAO;
 	@Inject private CatMaterialesDomicilioDAO catMaterialesDomicilioDAO;
 	@Inject private CatGrupoPerteneceDAO catGrupoPerteneceDAO;
 	@Inject private CatIngresosFamiliaDAO catIngresosFamiliaDAO;
-	
 	@Inject private RegistroBeneficiarioBean registroBeneficiarioBean;
 	@Inject private RegistroCompletadoBean registroCompletadoBean;
+	@Inject	private CatCicloEscolarDAO catCicloEscolarDAO;
 
 	private List<CatTipoDomicilioDTO> lstCatTipoDomicilio;
 	private List<CatMaterialesDomicilioDTO> lstCatMaterialesDomicilio;
@@ -68,7 +68,6 @@ public class EncuestaBeneficiarioBean implements Serializable {
 		msgNumeroP = null;
 		msgNumeroP = null;
 		lstDatos = new String[6];
-		//TODO no se estan limpiando los check del final
 		if (encuestaDTO == null) {
 			encuestaDTO = new EncuestaDTO();
 			encuestaDTO.getSolicitudDTO().setIdSolicitud(registroBeneficiarioBean.getCrcBeneficiarioSolicitudDTO().getSolicitudDTO().getIdSolicitud());
@@ -96,18 +95,9 @@ public class EncuestaBeneficiarioBean implements Serializable {
 		} else {
 			msgNumeroT = null;
 		}
-/*		if (encuestaDTO.getHabitantesTrabajadores() == 0) {
-			msgNumeroT = Constantes.MENSAJE_ENCUESTA_ERROR_VALIDACION;
-			return null;
-		} else {
-			msgNumeroT = null;
-		}
-*/
-
 		
 		if (lstDatos != null && lstDatos.length > 0) {
 			for (int i = 0; i < lstDatos.length; i++) {
-		//		LOGGER.info(lstDatos[i]);
 				if (lstDatos[i].compareTo(Constantes.UTILES_ESCOLARES) == 0)
 					encuestaDTO.setUtilesEscolares(true);
 				if (lstDatos[i].compareTo(Constantes.ROPA) == 0)
@@ -122,8 +112,13 @@ public class EncuestaBeneficiarioBean implements Serializable {
 					encuestaDTO.setOtro(true);
 			}
 		}
+		encuestaDTO.getCatCicloEscolarDTO().setIdCicloEscolar(catCicloEscolarDAO.buscarCicloVigente().getIdCicloEscolar());
 		registroBeneficiarioBean.getCrcBeneficiarioSolicitudDTO().setEncuestaDTO(encuestaDTO);
-		beneficiarioFacade.registraEncuesta(registroBeneficiarioBean.getCrcBeneficiarioSolicitudDTO());		
+		if (registroBeneficiarioBean.isValidador()) {
+			beneficiarioFacade.registrBeneficiarioCompleto(registroBeneficiarioBean.getCrcBeneficiarioSolicitudDTO());
+		}else {
+			beneficiarioFacade.registraEncuesta(registroBeneficiarioBean.getCrcBeneficiarioSolicitudDTO());	
+		}			
 		registroCompletadoBean.setSolicitud(registroBeneficiarioBean.getCrcBeneficiarioSolicitudDTO());
 		return registroCompletadoBean.inicializar();
 	}

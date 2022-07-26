@@ -8,8 +8,6 @@ import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +23,8 @@ import mx.gob.cdmx.adip.beca.common.infra.Environment;
 import mx.gob.cdmx.adip.beca.commons.dto.BeneficiarioDTO;
 import mx.gob.cdmx.adip.beca.commons.dto.RespuestaDTO;
 import mx.gob.cdmx.adip.beca.commons.dto.TutorDTO;
+import mx.gob.cdmx.adip.beca.commons.utils.DateUtils;
+import mx.gob.cdmx.adip.beca.commons.utils.DateUtils.DateFormatStyle;
 
 public class ObtenMasRegistrarTutor implements Serializable{
 	
@@ -67,10 +67,7 @@ public class ObtenMasRegistrarTutor implements Serializable{
 					str.append("\"lastName\": \""+lstBeneficiario.get(i).getPrimerApellidoBeneficiario()+"\" ,");
 					str.append("\"motherLastName\": \""+lstBeneficiario.get(i).getSegundoApellidoBeneficiario()+"\" ,");
 					
-					DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
-					String strDate = dateFormat.format(lstBeneficiario.get(i).getFechaNacimientoBeneficiario());  
-					
-					str.append("\"birthday\": \""+strDate+"\" ,");
+					str.append("\"birthday\": \""+DateUtils.convertDateToString(lstBeneficiario.get(i).getFechaNacimientoBeneficiario(), DateFormatStyle.YMD_WITH_DASH )+"\" ,");
 					//str.append("\"gender\": \""+lstBeneficiario.get(i).get+"\" ,");
 					str.append("\"isForeign\": "+lstBeneficiario.get(i).getEsExtranjero()+" ");
 				}
@@ -123,13 +120,12 @@ public class ObtenMasRegistrarTutor implements Serializable{
 			LOGGER.error("Error to RespuestaDTO --> JSONException",e);
 		} 
 		finally {
-			
 			if (br != null) {try {br.close();} catch (Exception e) {LOGGER.error("Error al cerrar Buffer ",e);}}
 			if (ist != null) {try {ist.close();} catch (Exception e) {LOGGER.error("Error al cerrar InputStreamReadar ",e);}}			
 			if (stream != null) {try {stream.close();} catch (Exception e) {LOGGER.error("Error al cerrar stream ",e);}}
 			if (http != null) {try {http.disconnect();} catch (Exception e) {LOGGER.error("Error al cerrar Buffer ",e);}}
 		}
-	return respuesta;
+		return respuesta;
 	}	
 
 }

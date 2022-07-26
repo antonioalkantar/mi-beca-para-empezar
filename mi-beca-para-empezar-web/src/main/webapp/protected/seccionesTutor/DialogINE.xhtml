@@ -32,7 +32,7 @@
 					</p:panelGrid>
 					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" rendered="#{registroTutorBean.modeloINE eq 1}">
 						<p:outputLabel for="txtCIC1" value="#{msg.lbl_codigo_identificacion.concat(':')}" styleClass="adip-output-campos" />
-						<p:inputText id="txtCIC1" placeholder="#{msg.lbl_codigo_identificacion_ph}" value="#{registroTutorBean.tutorDTO.cic}" styleClass="campos-captura adip-upperText"
+						<p:inputText id="txtCIC1" onblur="value=value.toUpperCase()" placeholder="#{msg.lbl_codigo_identificacion_ph}" value="#{registroTutorBean.tutorDTO.cic}" styleClass="campos-captura adip-upperText"
 							required="true" requiredMessage="#{msg.msj_campo_requerido}" maxlength="9">
 							<p:keyFilter regEx="/^[0-9]\d*$/" />
 						</p:inputText>
@@ -57,7 +57,7 @@
 					</p:panelGrid>
 					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" rendered="#{registroTutorBean.modeloINE eq 2}">
 						<p:outputLabel for="txtCIC2" value="#{msg.lbl_codigo_identificacion.concat(':')}" styleClass="adip-output-campos" />
-						<p:inputText id="txtCIC2" placeholder="#{msg.lbl_codigo_identificacion_ph}" value="#{registroTutorBean.tutorDTO.cic}" styleClass="campos-captura adip-upperText"
+						<p:inputText id="txtCIC2" onblur="value=value.toUpperCase()" placeholder="#{msg.lbl_codigo_identificacion_ph}" value="#{registroTutorBean.tutorDTO.cic}" styleClass="campos-captura adip-upperText"
 							required="true" requiredMessage="#{msg.msj_campo_requerido}" maxlength="9">
 							<p:keyFilter regEx="/^[0-9]\d*$/" />
 						</p:inputText>
@@ -82,21 +82,21 @@
 					</p:panelGrid>
 					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" rendered="#{registroTutorBean.modeloINE eq 3}">
 						<p:outputLabel for="txtClaveE" value="#{msg.lbl_clave_elector.concat(':')}" styleClass="adip-output-campos" />
-						<p:inputText id="txtClaveE" placeholder="#{msg.lbl_clave_elector_ph}" value="#{registroTutorBean.tutorDTO.claveElector}" maxlength="18"
+						<p:inputText id="txtClaveE" onblur="value=value.toUpperCase()" placeholder="#{msg.lbl_clave_elector_ph}" value="#{registroTutorBean.tutorDTO.claveElector}" maxlength="18"
 							styleClass="campos-captura adip-upperText" required="true" requiredMessage="#{msg.msj_campo_requerido}">
 							<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\s]+$/" />
 						</p:inputText>
 						<p:message for="txtClaveE" display="text" />
 
 						<p:outputLabel for="txtNumeroE" value="#{msg.lbl_numero_emision.concat(':')}" styleClass="adip-output-campos" />
-						<p:inputText id="txtNumeroE" placeholder="#{msg.lbl_numero_emision_ph}" value="#{registroTutorBean.tutorDTO.numeroEmision}" maxlength="2"
+						<p:inputText id="txtNumeroE" onblur="value=value.toUpperCase()" placeholder="#{msg.lbl_numero_emision_ph}" value="#{registroTutorBean.tutorDTO.numeroEmision}" maxlength="2"
 							styleClass="campos-captura adip-upperText" required="true" requiredMessage="#{msg.msj_campo_requerido}">
 							<p:keyFilter regEx="/^[0-9]\d*$/" />
 						</p:inputText>
 						<p:message for="txtNumeroE" display="text" />
 
 						<p:outputLabel for="txtOCR" value="#{msg.lbl_ocr.concat(':')}" styleClass="adip-output-campos" />
-						<p:inputText id="txtOCR" placeholder="#{msg.lbl_ocr_ph}" value="#{registroTutorBean.tutorDTO.ocr}" maxlength="13" styleClass="campos-captura adip-upperText" required="true"
+						<p:inputText id="txtOCR" onblur="value=value.toUpperCase()" placeholder="#{msg.lbl_ocr_ph}" value="#{registroTutorBean.tutorDTO.ocr}" maxlength="13" styleClass="campos-captura adip-upperText" required="true"
 							requiredMessage="#{msg.msj_campo_requerido}">
 							<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\s]+$/" />
 						</p:inputText>
@@ -165,8 +165,8 @@ body .ui-messages .ui-messages-warn {
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
 	.adip-dialog {
-		max-width: 30rem;
-		min-width: 30rem !important;
+		max-width: 45rem;
+		min-width: 40rem !important;
 	}
 }
 

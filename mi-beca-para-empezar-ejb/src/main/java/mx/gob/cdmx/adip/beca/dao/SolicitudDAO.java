@@ -77,7 +77,7 @@ public class SolicitudDAO extends IBaseDAO<SolicitudDTO, Long> {
 								  "     and s.folioSolicitud like :folio ", "folio", e.getFolioSolicitud().toUpperCase()+"%");
 		
 		jpqlQueryFromWhere.append(e.getCct() != null && !e.getCct().isEmpty(),
-				                  "     and s.cct like :cct ", "cct", e.getCct().toUpperCase() + "%");
+				                  "     and s.cct like :cct ", "cct", e.getCct().toUpperCase() + "%");		
 
 		jpqlQueryFromWhere.append(e.getCatEstatusDTO() != null && e.getCatEstatusDTO().getIdEstatus() !=  null,
                                   "     and ce.idEstatus = :idEstatus ", "idEstatus", e.getCatEstatusDTO().getIdEstatus());
@@ -93,6 +93,9 @@ public class SolicitudDAO extends IBaseDAO<SolicitudDTO, Long> {
 		
 		jpqlQueryFromWhere.append(e.getFechaFin() !=  null,
 				  				  "     and s.fechaSolicitud <=  :fechaFin ", "fechaFin", e.getFechaFin());
+		
+		jpqlQueryFromWhere.append(e.getEsNuevoRegistro() !=  null,
+								  " 	and s.esNuevoRegistro  = :esNuevoRegistro ", "esNuevoRegistro", e.getEsNuevoRegistro());
 		
 		jpqlQueryOrderby.append("   ORDER BY s.idSolicitud ASC ");
 		

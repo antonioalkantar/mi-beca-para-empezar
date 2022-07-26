@@ -5,12 +5,12 @@ import java.util.Date;
 
 public class CatCicloEscolarDTO implements Serializable{
 
-	private static final long serialVersionUID = -5374250326058518436L;
+	private static final long serialVersionUID = -1778445119011049078L;
 	private Integer idCicloEscolar;
 	private String descripcion;
 	private Date fechaInicio;
 	private Date fechaFin;
-	private boolean estatus;
+	private Boolean estatus;
 	private Date fechaRegistro;
 
 	public CatCicloEscolarDTO() {
@@ -18,7 +18,7 @@ public class CatCicloEscolarDTO implements Serializable{
 	}
 
 	public CatCicloEscolarDTO(Integer idCicloEscolar, String descripcion, Date fechaInicio, Date fechaFin,
-			boolean estatus, Date fechaRegistro) {
+			Boolean estatus, Date fechaRegistro) {
 		this.idCicloEscolar = idCicloEscolar;
 		this.descripcion = descripcion;
 		this.fechaInicio = fechaInicio;
@@ -26,6 +26,12 @@ public class CatCicloEscolarDTO implements Serializable{
 		this.estatus = estatus;
 		this.fechaRegistro = fechaRegistro;
 	}
+	
+	public CatCicloEscolarDTO(Integer idCicloEscolar, String descripcion) {
+		this.idCicloEscolar = idCicloEscolar;
+		this.descripcion = descripcion;
+	}
+	
 
 	public Integer getIdCicloEscolar() {
 		return idCicloEscolar;
@@ -59,11 +65,11 @@ public class CatCicloEscolarDTO implements Serializable{
 		this.fechaFin = fechaFin;
 	}
 
-	public boolean isEstatus() {
+	public Boolean getEstatus() {
 		return estatus;
 	}
 
-	public void setEstatus(boolean estatus) {
+	public void setEstatus(Boolean estatus) {
 		this.estatus = estatus;
 	}
 

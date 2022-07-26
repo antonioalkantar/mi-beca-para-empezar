@@ -26,4 +26,5 @@ public final class Mensajes {
     public static final String SELECCIONE_UN_REGISTRO_TABLA = "msj_seleccione_registro_tabla";
     public static final String NO_REGISTRO_MODIFICACION = "msj_no_registro_modificar";
     
+    public static final String MSJ_CAMPO_OBLIGATORIO = "msj_campo_requerido";
 }

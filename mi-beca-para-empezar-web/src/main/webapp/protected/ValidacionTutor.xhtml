@@ -57,10 +57,8 @@
 								<p:commandButton value="Guardar" styleClass="adip-btn-gold"
 												 process="@this form" update="messages form"
 												 actionListener="#{registroTutorBean.actualizarMasTresBeneficiarios()}"
-												 rendered="#{registroTutorBean.tutorDTO.catEstatusDTO.idEstatus == registroTutorBean.ID_ESTATUS_APROBADA }"
+												 rendered="#{registroTutorBean.tutorDTO.catEstatusDTO.idEstatus == registroTutorBean.ID_ESTATUS_APROBADA and registroTutorBean.tutorDTO.informacionGralCorrecto eq true and registroTutorBean.tutorDTO.domicilioCorrecto eq true}"
 												 />							
-							
-					
 								<p:commandButton value="Aprobar solicitud" styleClass="adip-btn-gold" process="@this form" update="form" 
 												 actionListener="#{registroTutorBean.actualizaEstatusAprobado(registroTutorBean.ID_ESTATUS_APROBADA)}"												
 									     		 rendered="#{registroTutorBean.tutorDTO.informacionGralCorrecto eq true and registroTutorBean.tutorDTO.domicilioCorrecto eq true

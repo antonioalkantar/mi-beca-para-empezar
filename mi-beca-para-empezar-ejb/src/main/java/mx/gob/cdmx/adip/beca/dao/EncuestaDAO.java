@@ -1,5 +1,6 @@
 package mx.gob.cdmx.adip.beca.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -7,6 +8,7 @@ import javax.ejb.Stateless;
 
 import mx.gob.cdmx.adip.beca.commons.dao.IBaseDAO;
 import mx.gob.cdmx.adip.beca.commons.dto.EncuestaDTO;
+import mx.gob.cdmx.adip.beca.model.CatCicloEscolar;
 import mx.gob.cdmx.adip.beca.model.CatGrupoPertenece;
 import mx.gob.cdmx.adip.beca.model.CatIngresosFamilia;
 import mx.gob.cdmx.adip.beca.model.CatMaterialesDomicilio;
@@ -59,6 +61,8 @@ public class EncuestaDAO extends IBaseDAO<EncuestaDTO, Long> {
 		encuesta.setEspecificaOtro(e.getEspecificaOtro());
 		encuesta.setSolicitud(em.getReference(Solicitud.class, e.getSolicitudDTO().getIdSolicitud()));
 		encuesta.setOtroGrupo(e.getOtroGrupo());
+		encuesta.setFechaCreacion(new Date());
+		encuesta.setCatCicloEscolar(em.getReference(CatCicloEscolar.class, e.getCatCicloEscolarDTO().getIdCicloEscolar()));
 		em.persist(encuesta);
 		em.flush();
 	}

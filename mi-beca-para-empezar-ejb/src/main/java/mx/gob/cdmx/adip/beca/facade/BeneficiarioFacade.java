@@ -60,4 +60,22 @@ public class BeneficiarioFacade {
 		beneficiarioDAO.actualizar(crcBeneficiarioSolicitudDTO.getBeneficiarioDTO());
 		solicitudDAO.actualizarParentescoSolicitud(crcBeneficiarioSolicitudDTO.getSolicitudDTO());
 	}
+	
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	public void registrBeneficiarioCompleto(CrcBeneficiarioSolicitudDTO crcBeneficiarioSolicitudDTO) {
+		beneficiarioDAO.guardar(crcBeneficiarioSolicitudDTO.getBeneficiarioDTO());
+		solicitudDAO.guardar(crcBeneficiarioSolicitudDTO.getSolicitudDTO());
+		solicitudDAO.actualizarFolio(crcBeneficiarioSolicitudDTO.getSolicitudDTO());
+		
+		crcBeneficiarioSolicitudDTO.getBeneficiarioDTO().setIdBeneficiario(crcBeneficiarioSolicitudDTO.getBeneficiarioDTO().getIdBeneficiario());
+		crcBeneficiarioSolicitudDTO.getSolicitudDTO().setIdSolicitud(crcBeneficiarioSolicitudDTO.getSolicitudDTO().getIdSolicitud());
+		crcBeneficiarioSolicitudDAO.guardar(crcBeneficiarioSolicitudDTO);
+		crcBeneficiarioSolicitudDTO.getEncuestaDTO().setSolicitudDTO(crcBeneficiarioSolicitudDTO.getSolicitudDTO());
+		encuestaDAO.guardar(crcBeneficiarioSolicitudDTO.getEncuestaDTO());
+		//si el estatus del tutor es el primer beneficiario debemos actualizar el estatus del tutor para que sea mostrado en bandeja fidegar
+		if (crcBeneficiarioSolicitudDTO.getSolicitudDTO().getTutorDTO().getCatEstatusDTO().getIdEstatus()==Constantes.ID_ESTATUS_EN_PROCESO) {
+			crcBeneficiarioSolicitudDTO.getSolicitudDTO().getTutorDTO().getCatEstatusDTO().setIdEstatus(Constantes.ID_ESTATUS_PENDIENTE_VALIDACION);
+	        tutorDAO.actualizaEstatusTutor(crcBeneficiarioSolicitudDTO.getSolicitudDTO().getTutorDTO());
+		}
+	}
 }

@@ -16,6 +16,13 @@ public class CatNivelEducativoDTO implements Serializable {
 	public CatNivelEducativoDTO(Integer idNivel) {
 		this.idNivel = idNivel;
 	}
+	
+	public CatNivelEducativoDTO(Integer idNivel, String descripcion) {
+		this.idNivel = idNivel;
+		this.descripcion = descripcion;
+	}
+
+	
 	public CatNivelEducativoDTO(Integer idNivel, String descripcion, Boolean estatus) {
 		this.idNivel = idNivel;
 		this.descripcion = descripcion;
@@ -45,5 +52,6 @@ public class CatNivelEducativoDTO implements Serializable {
 	public void setEstatus(Boolean estatus) {
 		this.estatus = estatus;
 	}
+	
 
 }

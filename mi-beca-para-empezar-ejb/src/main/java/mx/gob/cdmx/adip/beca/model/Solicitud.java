@@ -73,6 +73,7 @@ public class Solicitud implements java.io.Serializable {
 	private CatNivelEducativo catNivelEducativo;
 	private String gradoEscolar;
 	private boolean envioExitoso;
+	private boolean esNuevoRegistro;
 	private Set<Encuesta> encuestas = new HashSet<Encuesta>(0);
 
 	public Solicitud() {
@@ -301,6 +302,16 @@ public class Solicitud implements java.io.Serializable {
 
 	public void setEnvioExitoso(boolean envioExitoso) {
 		this.envioExitoso = envioExitoso;
+	}
+	
+	
+	@Column(name = "es_nuevo_registro", nullable = false)
+	public boolean isEsNuevoRegistro() {
+		return this.esNuevoRegistro;
+	}
+
+	public void setEsNuevoRegistro(boolean esNuevoRegistro) {
+		this.esNuevoRegistro = esNuevoRegistro;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "solicitud")

@@ -106,12 +106,12 @@
 		                                        
 		                                        <li class="StepProgress-item current">
 		                                        	<p:outputLabel styleClass="font-texto-medio" value="#{msg.lbl_home_step_2}" style="font-size: 18px; line-height: 27px; color: #475058 !important; font-weight: bold;" /> <br />										
-		                                        	<p:outputLabel value="#{msg.lbl_home_substep_2}"  style="font-size: 15.5px; font-weight: normal; color: #475058" />		
+		                                        	<p:outputLabel value="Niñas, niños y adolescentes inscritos en el ciclo escolar #{homeBean.cicloEscolar} en el nivel básico de escuelas públicas y Centros de Atención Múltiple de la Ciudad de México."  style="font-size: 15.5px; font-weight: normal; color: #475058" />		
 		                                  		</li>
 		                                  		
 		                                  		 <li class="StepProgress-item current">
 		                                        	<p:outputLabel styleClass="font-texto-medio" value="#{msg.lbl_home_step_3}" style="font-size: 18px; line-height: 27px; color: #475058 !important; font-weight: bold;" /> <br />
-		                                        	<p:outputLabel value="#{msg.lbl_home_substep_3}"  style="font-size: 15.5px; font-weight: normal; color: #475058" />												
+		                                        	<p:outputLabel value="#{homeBean.cicloEscolar}"  style="font-size: 15.5px; font-weight: normal; color: #475058" />												
 		                                  		</li>
 		                                  		
 		                                        <li class="StepProgress-item last">   
@@ -147,9 +147,9 @@
 										style="font-size: 20px; font-weight: 700; color: #4C5566; line-height: 27px;" />
 										<p:outputLabel value="#{msg.lbl_home_txt2}"  style="font-size: 16px; font-weight: normal; color: #475058" />
 									<ul style="list-style-type: disc; font-size: 15px;">
-										<li>#{msg.lbl_home_txt3}</li>
-										<li>#{msg.lbl_home_txt4}</li>
-										<li>#{msg.lbl_home_txt5}</li>										
+										<li>#{homeBean.preescolar.montoMXN} #{msg.lbl_home_txt3}</li>
+										<li>#{homeBean.primaria.montoMXN} #{msg.lbl_home_txt4}</li>
+										<li>#{homeBean.centroAtencionMultiple.montoMXN} #{msg.lbl_home_txt5}</li>										
 									</ul>
 									<br />
 

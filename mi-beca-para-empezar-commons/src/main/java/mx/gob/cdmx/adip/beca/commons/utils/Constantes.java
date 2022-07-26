@@ -44,12 +44,9 @@ public final class Constantes {
     public static final String RETURN_VALIDACION_TUTOR = "/protected/ValidacionTutor.xhtml";
     public static final String RETURN_REVALIDACION_ESTATUS_BENEFICIARIO_PAGE = "/protected/RevalidacionEstatusBeneficiario.xhtml";
     
-    
     //Rutas bandeja validacion
     public static final String RETURN_BANDEJA_VALIDACION = "/protected/BandejaValidacion.xhtml.xhtml";
-    
-    
-    
+	
     //Rutas seccion solicitud
     public static final String RETURN_SOLICITUD_TUTOR = "/protected/seccionesTutor/InformacionTutor.xhtml"; 
     public static final String RETURN_SOLICITUD_BENEFICIARIO = "/protected/seccionesBeneficiario/InformacionBeneficiario.xhtml"; 
@@ -106,7 +103,7 @@ public final class Constantes {
     
     public static final int ID_ESTATUS_BENEFICIARIO = 7;
     public static final int ID_ESTATUS_PENDIENTE_VALIDACION = 2;
-    public static final String ID_CLAVE_FOLIO_SOLICITUD = "FIDEGAR_BB";
+    public static final String ID_CLAVE_FOLIO_SOLICITUD = "FIBIEN_BB";
     public static final String SEPARADOR_FOLIO = "_";
     public static final String BENEFICIARIO_ACTIVO = "Activo";
     public static final String BENEFICIARIO_ESCUELA_PRIVADA = "privada";
@@ -125,8 +122,8 @@ public final class Constantes {
     public static final String DESCRIPCION_ESTATUS_BENEFICIARIO_OTRO = "OTRO";
     
     public static final String MENSAJE_BENEFICIARIO="El beneficiario con CURP ";
-    public static final String MENSAJE_VALIDA_CURP_BENEFICIARIO = " ya tiene un registro activo. Por favor, verifica la información ingresada. Para realizar una aclaración o cambio de tutor, agenda una cita para acudir a las oficinas de FIDEGAR <a href=\"https://citas.cdmx.gob.mx/\" target=\"_blank\"\r\n"
-    		+ "									style=\"color: #007bff\"> aquí</a>.";
+    public static final String MENSAJE_VALIDA_CURP_BENEFICIARIO = " ya tiene un registro activo. Por favor, verifica la información ingresada. Para realizar una aclaración o cambio de tutor deberás agenda una cita para acudir a las oficinas de FIBIEN. Da clic <a href=\"https://citas.cdmx.gob.mx/\" target=\"_blank\"\r\n"
+    		+ "									style=\"color: #007bff\"> aquí</a> para agendarla.";
     public static final String MENSAJE_CAPTURA_DATOS_BENEFICIARIO = "Antes de continuar con la encuesta es necesario capturar los datos del beneficiario.";
     public static final String MENSAJE_BENEFICIARIO_NO_LOCALIZADO = "No es posible dar de alta al beneficiario ingresado porque no fue localizado en una institución educativa";
     public static final String MENSAJE_BENEFICIARIO_SUSPENDIDO = "No es posible dar de alta al beneficiario ingresado porque se encuentra suspendido.";
@@ -154,9 +151,9 @@ public final class Constantes {
 	public static final String DESC_PRIMARIA_ADULTOS = "PRIMARIA PARA ADULTOS";
 	public static final int ID_SECUNDARIA_ADULTOS = 5;
 	public static final String DESC_SECUNDARIA_ADULTOS = "SECUNDARIA PARA ADULTOS";
-	public static final int ID_CAM_PRIMARIA = 6;
+	public static final int ID_CAM_PREESCOLAR = 6;
 	public static final String DESC_CAM_PREESCOLAR = "CENTRO DE ATENCIÓN MÚLTIPLE PREESCOLAR";
-	public static final int ID_CAM_PREESCOLAR = 7;
+	public static final int ID_CAM_PRIMARIA = 7;
 	public static final String DESC_CAM_PRIMARIA = "CENTRO DE ATENCIÓN MÚLTIPLE PRIMARIA";
 	public static final int ID_CAM_SECUNDARIA = 8;
 	public static final String DESC_CAM_SECUNDARIA = "CENTRO DE ATENCIÓN MÚLTIPLE SECUNDARIA";

@@ -4,20 +4,17 @@ import java.io.Serializable;
 import java.net.ConnectException;
 import java.net.URISyntaxException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.codehaus.jettison.json.JSONException;
-import org.primefaces.PrimeFaces;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,12 +34,14 @@ import mx.gob.cdmx.adip.beca.commons.dto.CurpDTO;
 import mx.gob.cdmx.adip.beca.commons.dto.TutorDTO;
 import mx.gob.cdmx.adip.beca.commons.utils.Constantes;
 import mx.gob.cdmx.adip.beca.commons.utils.DateUtils;
+import mx.gob.cdmx.adip.beca.commons.utils.DateUtils.DateFormatStyle;
 import mx.gob.cdmx.adip.beca.dao.BeneficiarioDAO;
 import mx.gob.cdmx.adip.beca.dao.CatEstatusBeneficiarioDAO;
 import mx.gob.cdmx.adip.beca.dao.CatParentescoDAO;
 import mx.gob.cdmx.adip.beca.dao.CrcBeneficiarioSolicitudDAO;
 import mx.gob.cdmx.adip.beca.dao.SolicitudDAO;
 import mx.gob.cdmx.adip.beca.dao.TutorDAO;
+import mx.gob.cdmx.adip.beca.util.Mensajes;
 import mx.gob.cdmx.adip.beca.util.WebResources;
 import mx.gob.cdmx.adip.beca.facade.BeneficiarioFacade;
 import mx.gob.cdmx.adip.beca.soap.client.aefcm.MciResponse;
@@ -140,34 +139,18 @@ public class RegistroBeneficiarioBean implements Serializable {
 	}
 
 	public String consulta(Long idSolicitud) {
-		
-		crcBeneficiarioSolicitudDTO = new CrcBeneficiarioSolicitudDTO();
-		crcBeneficiarioSolicitudDTO = crcBeneficiarioSolicitudDAO.consultaSolicitudesByFolioSolicitud(idSolicitud);
-		if (crcBeneficiarioSolicitudDTO != null) {
-			lstCatCodigosPostalesDTO = new ArrayList<CatCodigosPostalesDTO>();
-			lstCatCodigosPostalesDTO = catCodigosPostalesDAO.buscarPorCodigoPostal(crcBeneficiarioSolicitudDTO.getSolicitudDTO().getCodigopostal());
-			if (lstCatCodigosPostalesDTO != null && lstCatCodigosPostalesDTO.size() > 0)
-				crcBeneficiarioSolicitudDTO.getSolicitudDTO().setEntidad(lstCatCodigosPostalesDTO.get(0).getCatMunicipiosDTO().getCatEstadosDTO().getDescripcion());
-			else
-				crcBeneficiarioSolicitudDTO.getSolicitudDTO().setEntidad(Constantes.ENTIDAD_FORANEO);
-		}
-		tutor=tutorDAO.buscarPorId(authenticatorBean.getUsuarioLogueado().getIdUsuarioLlaveCdmx());
-		crcBeneficiarioSolicitudDTO.getSolicitudDTO().setTutorDTO(tutor);
-		lstParentesco = new ArrayList<CatParentescoDTO>();
-		lstParentesco = catParentescoDAO.buscarTodos();
-		actualizacion = true;
-    	infoBeneficiario = true;
-    	infoEncuesta = false;
-    	soloLectura=true;
-    	manifiesto=false;
-    	msjSeccionDos=null; 
-    	msjSeccionTres=null;
-    	encuestaBeneficiarioBean.consulta(idSolicitud);
-    	crcBeneficiarioSolicitudDTO.getBeneficiarioDTO().setEdad(DateUtils.getEdadByFechaNacimiento(crcBeneficiarioSolicitudDTO.getBeneficiarioDTO().getFechaNacimientoBeneficiario()));
+		initConsulta(idSolicitud);
 		return Constantes.RETURN_REGISTRO_BENEFICIARIO_PAGE + Constantes.JSF_REDIRECT;
 	}
 	
 	public String consultaRevalidacion(Long idSolicitud) {
+		initConsulta(idSolicitud);
+		cargaCatalogos();
+		revalidacion = true;
+		return Constantes.RETURN_REVALIDACION_ESTATUS_BENEFICIARIO_PAGE + Constantes.JSF_REDIRECT;
+	}
+	
+	public void initConsulta(Long idSolicitud) {
 		
 		crcBeneficiarioSolicitudDTO = new CrcBeneficiarioSolicitudDTO();
 		crcBeneficiarioSolicitudDTO = crcBeneficiarioSolicitudDAO.consultaSolicitudesByFolioSolicitud(idSolicitud);
@@ -179,7 +162,6 @@ public class RegistroBeneficiarioBean implements Serializable {
 			else
 				crcBeneficiarioSolicitudDTO.getSolicitudDTO().setEntidad(Constantes.ENTIDAD_FORANEO);
 		}
-		cargaCatalogos();
 		tutor=tutorDAO.buscarPorId(authenticatorBean.getUsuarioLogueado().getIdUsuarioLlaveCdmx());
 		crcBeneficiarioSolicitudDTO.getSolicitudDTO().setTutorDTO(tutor);
 		lstParentesco = new ArrayList<CatParentescoDTO>();
@@ -191,20 +173,15 @@ public class RegistroBeneficiarioBean implements Serializable {
     	manifiesto=false;
     	msjSeccionDos=null; 
     	msjSeccionTres=null;
-    	revalidacion =true;
     	encuestaBeneficiarioBean.consulta(idSolicitud);
     	crcBeneficiarioSolicitudDTO.getBeneficiarioDTO().setEdad(DateUtils.getEdadByFechaNacimiento(crcBeneficiarioSolicitudDTO.getBeneficiarioDTO().getFechaNacimientoBeneficiario()));
-		return Constantes.RETURN_REVALIDACION_ESTATUS_BENEFICIARIO_PAGE + Constantes.JSF_REDIRECT;
-	}
-	
-	
+	}	
 	public String initFidegar(Long idTutor) {
 		isValidador = true;
 		soloLectura=false;
 		crcBeneficiarioSolicitudDTO = new CrcBeneficiarioSolicitudDTO();
 		tutor=tutorDAO.buscarPorId(idTutor);
 		crcBeneficiarioSolicitudDTO.getSolicitudDTO().setTutorDTO(tutor);
-		//TODO avisar si no encuentra tutor		
 		actualizaSeccion(1);	
 		actualizacion = false;
 		manifiesto=false;
@@ -232,7 +209,7 @@ public class RegistroBeneficiarioBean implements Serializable {
     public void actualizaSeccion(int seccion) {
         switch (seccion) {
         case 2:
-        	if (crcBeneficiarioSolicitudDTO.getSolicitudDTO().getIdSolicitud() == null) {
+        	if ((crcBeneficiarioSolicitudDTO.getSolicitudDTO().getIdSolicitud() == null && !isValidador) || !validaCampos()) {
 				msjSeccionDos =Constantes.MENSAJE_CAPTURA_DATOS_BENEFICIARIO ;
         		break;
         	}
@@ -326,6 +303,7 @@ public class RegistroBeneficiarioBean implements Serializable {
 					 crcBeneficiarioSolicitudDTO.getBeneficiarioDTO().getEsTutor())) {	
 					 solicitudDAO.actualizarEstatusBeneficiario(crcBeneficiarioSolicitudDTO.getSolicitudDTO());
 			}
+			crcBeneficiarioSolicitudDTO.getBeneficiarioDTO().setFechaNacimientoBeneficiario(fnacimiento);
 			crcBeneficiarioSolicitudDTO.getBeneficiarioDTO().setEdad(DateUtils.getEdadByFechaNacimiento(fnacimiento));
    
 	}
@@ -336,8 +314,7 @@ public class RegistroBeneficiarioBean implements Serializable {
     	crcBeneficiarioSolicitudDTO.setBeneficiarioDTO(new BeneficiarioDTO());
     	crcBeneficiarioSolicitudDTO.getBeneficiarioDTO().setEsTutor(esTutor);	
     	if (curpBusqueda.length()<18) {
-			FacesContext.getCurrentInstance().addMessage(FacesContext.getCurrentInstance().getViewRoot().findComponent("form:curpBenef").getClientId(), 
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, null, WebResources.getBundleMsg("msg_curp_validador")));
+    		WebResources.addErrorMessage("msg_curp_validador", "form:curpBenef", false);
 			return false;
 		}
 		else if (beneficiarioDAO.buscarPorCurp(curpBusqueda) != null && revalidacion != true) {//Se valida la curp	no tenga algun registro
@@ -377,7 +354,7 @@ public class RegistroBeneficiarioBean implements Serializable {
 	    		crcBeneficiarioSolicitudDTO.getSolicitudDTO().setNombre(mciEntidadEducativaResponse.getNombreCCT());
 	    		crcBeneficiarioSolicitudDTO.getSolicitudDTO().setCalle(mciEntidadEducativaResponse.getCalle());
 	    		crcBeneficiarioSolicitudDTO.getSolicitudDTO().setColonia(mciEntidadEducativaResponse.getColonia());
-	    		crcBeneficiarioSolicitudDTO.getSolicitudDTO().getCatMunicipiosDTO().setIdMunicipio(CatMunicipiosDTO.getIdMunicipioByIdAlcaldiaAEFCM(mciEntidadEducativaResponse.getAlcaldiaId()));
+	    		crcBeneficiarioSolicitudDTO.getSolicitudDTO().setCatMunicipiosDTO(new CatMunicipiosDTO(CatMunicipiosDTO.getIdMunicipioByIdAlcaldiaAEFCM(mciEntidadEducativaResponse.getAlcaldiaId())));
 	    		crcBeneficiarioSolicitudDTO.getSolicitudDTO().setAlcaldia(mciEntidadEducativaResponse.getAlcaldia());
 	    		crcBeneficiarioSolicitudDTO.getSolicitudDTO().setCodigopostal(mciEntidadEducativaResponse.getCodigoPostal());
 	    		crcBeneficiarioSolicitudDTO.getSolicitudDTO().setTurno(mciEntidadEducativaResponse.getTurno());
@@ -451,7 +428,7 @@ public class RegistroBeneficiarioBean implements Serializable {
 		crcBeneficiarioSolicitudDTO.getBeneficiarioDTO().setPrimerApellidoBeneficiario(curpDTO.getPrimerApellido());
 		crcBeneficiarioSolicitudDTO.getBeneficiarioDTO().setSegundoApellidoBeneficiario(curpDTO.getSegundoApellido());
 		crcBeneficiarioSolicitudDTO.getBeneficiarioDTO().setNacionalidad(curpDTO.getNacionalidad());						
-		crcBeneficiarioSolicitudDTO.getBeneficiarioDTO().setFechaNacimientoBeneficiario(new SimpleDateFormat("dd/MM/yyyy").parse(curpDTO.getFechaNacimiento()));
+		crcBeneficiarioSolicitudDTO.getBeneficiarioDTO().setFechaNacimientoBeneficiario( DateUtils.convertStringToDate(curpDTO.getFechaNacimiento(), DateFormatStyle.DMY_WITH_SLASH) );
 		crcBeneficiarioSolicitudDTO.getBeneficiarioDTO().setEsTutor(esTutor);			
 		crcBeneficiarioSolicitudDTO.getBeneficiarioDTO().setEdad(DateUtils.getEdadByFechaNacimiento(crcBeneficiarioSolicitudDTO.getBeneficiarioDTO().getFechaNacimientoBeneficiario()));
 		lstParentesco = new ArrayList<CatParentescoDTO>();
@@ -460,9 +437,9 @@ public class RegistroBeneficiarioBean implements Serializable {
     
     public String guardarBeneficiario() {
 		if (validaCampos()) {
-			if (!actualizacion) {
+			if (!actualizacion && !isValidador) {
 
-				LOGGER.info("Entra a guardar");
+//				LOGGER.info("Entra a guardar");
 				crcBeneficiarioSolicitudDTO.getBeneficiarioDTO()
 						.setIdUsuarioLlaveCdmx(authenticatorBean.getUsuarioLogueado().getIdUsuarioLlaveCdmx());
 
@@ -476,8 +453,18 @@ public class RegistroBeneficiarioBean implements Serializable {
 				crcBeneficiarioSolicitudDTO.getSolicitudDTO().setEnvioExitoso(false);
 				beneficiarioFacade.registrNuevoBeneficiario(crcBeneficiarioSolicitudDTO);				
 
-			} else {
-				LOGGER.info("Entra a actualizar");
+			} 
+			else if(!actualizacion && isValidador) {
+				crcBeneficiarioSolicitudDTO.getBeneficiarioDTO()
+						.setIdUsuarioLlaveCdmx(authenticatorBean.getUsuarioLogueado().getIdUsuarioLlaveCdmx());
+				crcBeneficiarioSolicitudDTO.getSolicitudDTO().getTutorDTO()
+						.setIdUsuarioLlaveCdmx( crcBeneficiarioSolicitudDTO.getSolicitudDTO().getTutorDTO().getIdUsuarioLlaveCdmx());
+				crcBeneficiarioSolicitudDTO.getSolicitudDTO().setFolioSolicitud(Constantes.ID_CLAVE_FOLIO_SOLICITUD);
+				crcBeneficiarioSolicitudDTO.getSolicitudDTO().setEnvioExitoso(false);
+				//beneficiarioFacade.registrNuevoBeneficiario(crcBeneficiarioSolicitudDTO);
+			}
+			else {
+//				LOGGER.info("Entra a actualizar");
 				beneficiarioFacade.actualizaBeneficiario(crcBeneficiarioSolicitudDTO);
 
 			}
@@ -492,24 +479,17 @@ public class RegistroBeneficiarioBean implements Serializable {
 	public boolean validaCampos() {
 		boolean resultado= true;
 		if(crcBeneficiarioSolicitudDTO.getBeneficiarioDTO().getCurpBeneficiario()==null || crcBeneficiarioSolicitudDTO.getBeneficiarioDTO().getCurpBeneficiario()==null) {
-			FacesContext.getCurrentInstance().addMessage(FacesContext.getCurrentInstance().getViewRoot().findComponent("form:curpBenef").getClientId(), 
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, null, WebResources.getBundleMsg("msj_campo_requerido")));
+			WebResources.addErrorMessage(Mensajes.MSJ_CAMPO_OBLIGATORIO, "form:curpBenef", false);
 			resultado = false;
-		}
-		else if(crcBeneficiarioSolicitudDTO.getBeneficiarioDTO().getFechaNacimientoBeneficiario()==null) {
-			FacesContext.getCurrentInstance().addMessage(FacesContext.getCurrentInstance().getViewRoot().findComponent("form:txtFechaNac").getClientId(), 
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, null, WebResources.getBundleMsg("msj_campo_requerido")));
-			PrimeFaces.current().scrollTo("form:txtFechaNac");
-			msjSeccionDos=Constantes.MENSAJE_CAPTURA_DATOS_BENEFICIARIO;
+		} else if(crcBeneficiarioSolicitudDTO.getBeneficiarioDTO().getFechaNacimientoBeneficiario()==null) {
+			WebResources.addErrorMessage(Mensajes.MSJ_CAMPO_OBLIGATORIO, "form:txtFechaNac", true);
+			msjSeccionDos = Constantes.MENSAJE_CAPTURA_DATOS_BENEFICIARIO;
 			resultado = false;
-		}
-		else if (crcBeneficiarioSolicitudDTO.getSolicitudDTO().getCatParentescoDTO().getIdParentesco() == 0) {
-			FacesContext.getCurrentInstance().addMessage(FacesContext.getCurrentInstance().getViewRoot().findComponent("form:soParentesco").getClientId(), 
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, null, WebResources.getBundleMsg("msj_campo_requerido")));
+		} else if (crcBeneficiarioSolicitudDTO.getSolicitudDTO().getCatParentescoDTO().getIdParentesco() == 0) {
+			WebResources.addErrorMessage(Mensajes.MSJ_CAMPO_OBLIGATORIO, "form:soParentesco", false);
 			resultado = false;
-		}
-		else if (beneficiarioDAO.buscarPorCurp(crcBeneficiarioSolicitudDTO.getBeneficiarioDTO().getCurpBeneficiario()) != null) {//Se valida la curp	no tenga algun registro
-			msjSeccionDos=Constantes.MENSAJE_BENEFICIARIO+crcBeneficiarioSolicitudDTO.getBeneficiarioDTO().getCurpBeneficiario()+Constantes.MENSAJE_VALIDA_CURP_BENEFICIARIO;
+		} else if (beneficiarioDAO.buscarPorCurp(crcBeneficiarioSolicitudDTO.getBeneficiarioDTO().getCurpBeneficiario()) != null && !soloLectura) {//Se valida la curp	no tenga algun registro
+			msjSeccionDos = Constantes.MENSAJE_BENEFICIARIO + crcBeneficiarioSolicitudDTO.getBeneficiarioDTO().getCurpBeneficiario() + Constantes.MENSAJE_VALIDA_CURP_BENEFICIARIO;
 			resultado = false;
 		}
 		return resultado;
@@ -520,26 +500,20 @@ public class RegistroBeneficiarioBean implements Serializable {
 	}
 	
 	/**
-	    *Metodo para redireccionar dependiendo del origen de la vista 
-	    */
-	   
-		public void redirect() {
-			try {
-				
-				if(authenticatorBean.getRolTutor()) {
-					FacesContext.getCurrentInstance().getExternalContext()
-					.redirect(bandejaTutorBean.init());					
-				}
-				else {
-					FacesContext.getCurrentInstance().getExternalContext()
-					.redirect(bandejaFuncionarioBean.init());
-				}	
-				FacesContext.getCurrentInstance().responseComplete();
-			} catch (Exception e) {
-				LOGGER.error(WebResources.getBundleMsg("msj_error_rerireccionar"), e);
-			}
+    *Metodo para redireccionar dependiendo del origen de la vista 
+    */
+	public void redirect() {
+		try {
+			if(authenticatorBean.getRolTutor()) {
+				FacesContext.getCurrentInstance().getExternalContext().redirect(bandejaTutorBean.init());					
+			} else {
+				FacesContext.getCurrentInstance().getExternalContext().redirect(bandejaFuncionarioBean.init());
+			}	
+			FacesContext.getCurrentInstance().responseComplete();
+		} catch (Exception e) {
+			LOGGER.error(WebResources.getBundleMsg("msj_error_rerireccionar"), e);
 		}
-		
+	}
     
     /**
      * Getters and Setters

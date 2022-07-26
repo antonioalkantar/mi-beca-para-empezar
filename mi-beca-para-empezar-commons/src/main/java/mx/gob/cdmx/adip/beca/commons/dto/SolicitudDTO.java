@@ -37,6 +37,7 @@ public class SolicitudDTO implements Serializable {
 	private boolean envioExitoso;
 	private String nombreCompletoTutor;
 	private String nombreCompletoBeneficiario;
+	private Boolean esNuevoRegistro;
 
 	public SolicitudDTO() {
 		catParentescoDTO = new CatParentescoDTO();
@@ -218,7 +219,7 @@ public class SolicitudDTO implements Serializable {
 	public void setTurno(String turno) {
 		this.turno = turno;
 	}
-	
+
 	public CatNivelEducativoDTO getCatNivelEducativoDTO() {
 		return catNivelEducativoDTO;
 	}
@@ -354,6 +355,13 @@ public class SolicitudDTO implements Serializable {
 	public void setCatEstatusBeneficiarioDTO(CatEstatusBeneficiarioDTO catEstatusBeneficiarioDTO) {
 		this.catEstatusBeneficiarioDTO = catEstatusBeneficiarioDTO;
 	}
-	
+
+	public Boolean getEsNuevoRegistro() {
+		return esNuevoRegistro;
+	}
+
+	public void setEsNuevoRegistro(Boolean esNuevoRegistro) {
+		this.esNuevoRegistro = esNuevoRegistro;
+	}
 
 }

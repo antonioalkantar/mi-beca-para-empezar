@@ -146,105 +146,63 @@
 
 	<!-- Se agrega un header volador (On Scroll Header), es decir, cuando se haga scroll en la pagina el header permanece en la parte superior
 		Para hacer este header, se define un div, el cual tiene el style 'header' en la hoja de estilos y por ultimo necesita el javascript onScrollHeader.js -->
-	
-			<div class="header" id="header" >
-<!-- 			<div> -->
-<!-- 			 <h:graphicImage width="220px" onclick="location.href='#{authenticatorBean.incializarHome()}'" value="/resources/img/Logo_CDMX.png"  -->
-<!-- 			 	style="float: left; padding-right: 10px;" /> -->
-<!-- 			 <p:panelGrid> -->
-<!-- 				<p:outputLabel value="PLATAFORMA PARA PERMISO" style="font-size: 13px; color: #9F2241 !important" /> <br/> -->
-<!-- 				<p:outputLabel value="RENOVABLE PARA RESIDENTES" style="font-size: 13px; color: #9F2241 !important" /> -->
-<!-- 			 </p:panelGrid>	 -->
-<!-- 			</div> -->
-				<div id="logueado" class ="logueado" style="text-align:right;" >
-							<div>
-			 <h:graphicImage width="220px" value="/resources/img/Group 2247.svg" 
-			 	style="float: left; padding-right: 10px;" rendered="#{authenticatorBean.usuarioLogueado.idUsuarioLlaveCdmx == null}" />
-			 <h:graphicImage width="220px" onclick="location.href='#{bandejaTutorBean.init()}'" value="/resources/img/Group 2247.svg" 
-			 	style="float: left; padding-right: 10px;" rendered="#{authenticatorBean.usuarioLogueado.idUsuarioLlaveCdmx != null and authenticatorBean.rolTutor == true}" />	
-			<h:graphicImage width="220px" onclick="location.href='#{bandejaFuncionarioBean.init()}'" value="/resources/img/Group 2247.svg" 
-			 	style="float: left; padding-right: 10px;" rendered="#{authenticatorBean.usuarioLogueado.idUsuarioLlaveCdmx != null and authenticatorBean.rolTutor == false}" />	
-			</div>
-			
-			<ui:include src="menubarHeader.xhtml"  />
- 			
- 			<div  >
-<!-- 						<h:form id="frmLogin" rendered="#{authenticatorBean.usuarioLogueado.idUsuarioLlaveCdmx == 0 }"> -->
-<!-- 							<div id="login" class="ui-fluid" style="color: #4a5568 !important; text-align: left !important;" > -->
-<!-- 								<p:commandButton id="btnIniciaSesionLlave" value="Inicia sesión #{msg.lbl_cuenta_llave}" action="#{authenticatorBean.redirectUrlLoginCDMX()}"  -->
-<!-- 								immediate="true" style="color: #4a5568 !important; font-size: 14px !important; line-height: 1.2 !important;"  -->
-<!-- 								styleClass="boton-continuar-llave-home" escape="false" update="messages, frmLogin"/> -->
-<!-- 							</div> -->
-<!-- 						</h:form> -->
+
+		<div class="header" id="header">
+			<div id="logueado" class="logueado" style="text-align: right;">
+				<div>
+					<p:graphicImage width="220px" name="Group 2247.svg" library="img" style="display:block; padding-right: 10px;"
+						rendered="#{authenticatorBean.usuarioLogueado.idUsuarioLlaveCdmx == null}" />
+					<p:commandLink action="#{bandejaTutorBean.init()}" immediate="true">
+						<p:graphicImage width="220px" name="Group 2247.svg" library="img" style="float: left; padding-right: 10px;"
+							rendered="#{authenticatorBean.usuarioLogueado.idUsuarioLlaveCdmx != null and authenticatorBean.rolTutor == true}" />
+					</p:commandLink>
+					<p:commandLink action="#{bandejaFuncionarioBean.init()}" immediate="true">
+						<p:graphicImage width="220px" name="Group 2247.svg" library="img" style="float: left; padding-right: 10px;"
+							rendered="#{authenticatorBean.usuarioLogueado.idUsuarioLlaveCdmx != null and authenticatorBean.rolTutor == false}" />
+					</p:commandLink>
+				</div>
+
+				<ui:include src="menubarHeader.xhtml" />
+
+				<div>
+					<h:form id="frmLogin" rendered="#{authenticatorBean.usuarioLogueado.idUsuarioLlaveCdmx == 0 }">
+						<div id="login" class="ui-fluid" style="color: #4a5568 !important; text-align: left !important;">
+							<p:commandButton id="btnIniciaSesionLlave" value="Inicia sesión #{msg.lbl_home_btn_llave}" action="#{authenticatorBean.redirectUrlLoginCDMX()}" immediate="true"
+								style="color: #4a5568 !important; font-size: 14px !important; line-height: 1.2 !important;" styleClass="boton-continuar-llave-home" escape="false"
+								update="messages, frmLogin" rendered="#{authenticatorBean.ingresaDesdeLlave}" />
+						</div>
+					</h:form>
 
 					<h:form id="frmMenuUsuario" rendered="#{authenticatorBean.usuarioLogueado.idUsuarioLlaveCdmx > 0}" style="text-align: right;">
-                        <div class="parquimetro-login">
+						<div class="parquimetro-login">
 							<p:outputPanel style="display: inline-flex;">
-	                            <p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid ui-panel-sin-pading-border" 
-					      			style="padding-top: 0px; padding-right: 8px;">
-					      			<p:outputLabel value="Mi cuenta Llave CDMX" style="color:#BC955C!important;font-size:12px;font-weight:bold;text-align:right;line-height:10px;margin:2px auto;"/>
-									<p:outputLabel id="lblLogueado" value="#{authenticatorBean.usuarioLogueado.nombre} #{authenticatorBean.usuarioLogueado.primerApellido} #{authenticatorBean.usuarioLogueado.segundoApellido}" 
-									styleClass="etiqueta-logueo" style="font-size: 12px !important; padding-top: 0px !important; padding-bottom: 0px !important;"  />
-								</p:panelGrid>	
-	                            <p:graphicImage library="img" name="Silueta.svg" styleClass="icono-login" style="padding-left: 10px; width: 40px !important;" />
-	                            <p:menuButton styleClass="menu-button-loguin">
-	                           			<p:menuitem id="bandejaSolicitud" styleClass="ui-menu-item-personalizado" value = "Bandeja de solicitudes" action="#{bandejaFuncionarioBean.init()}" update="messages" immediate="true" 
-	                           						 rendered="#{authenticatorBean.rolAdministrador or authenticatorBean.rolValidador or authenticatorBean.rolConsulta}"/>
-	                           			<p:menuitem id="bandejaTutor" styleClass="ui-menu-item-personalizado" value = "Bandeja de Tutor" action="#{bandejaTutorBean.init()}" update="messages" immediate="true" 
-	                           						rendered="#{authenticatorBean.usuarioLogueado.idUsuarioLlaveCdmx != null and authenticatorBean.rolTutor == true}"/>	                           			
-										<p:menuitem id="cerrarSesion" styleClass="ui-menu-item-personalizado" value = "#{msg.cerrar_session}" action="#{authenticatorBean.cerrarSesionUsuario}" update="messages" icon="fa fa-sign-out"/>
+								<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid ui-panel-sin-pading-border"
+									style="padding-top: 0px; padding-right: 8px;">
+									<p:outputLabel value="Mi cuenta Llave CDMX" style="color:#BC955C!important;font-size:12px;font-weight:bold;text-align:right;line-height:10px;margin:2px auto;" />
+									<p:outputLabel id="lblLogueado"
+										value="#{authenticatorBean.usuarioLogueado.nombre} #{authenticatorBean.usuarioLogueado.primerApellido} #{authenticatorBean.usuarioLogueado.segundoApellido}"
+										styleClass="etiqueta-logueo" style="font-size: 12px !important; padding-top: 0px !important; padding-bottom: 0px !important;" />
+								</p:panelGrid>
+								<p:graphicImage library="img" name="Silueta.svg" styleClass="icono-login" style="padding-left: 10px; width: 40px !important;" />
+								<p:menuButton styleClass="menu-button-loguin">
+									<p:menuitem id="bandejaSolicitud" styleClass="ui-menu-item-personalizado" value="Bandeja de solicitudes" action="#{bandejaFuncionarioBean.init()}" update="messages"
+										immediate="true" rendered="#{authenticatorBean.rolAdministrador or authenticatorBean.rolValidador or authenticatorBean.rolConsulta}" />
+									<p:menuitem id="bandejaTutor" styleClass="ui-menu-item-personalizado" value="Bandeja de Tutor" action="#{bandejaTutorBean.init()}" update="messages" immediate="true"
+										rendered="#{authenticatorBean.usuarioLogueado.idUsuarioLlaveCdmx != null and authenticatorBean.rolTutor == true}" />
+									<p:menuitem id="cerrarSesion" styleClass="ui-menu-item-personalizado" value="#{msg.cerrar_session}" action="#{authenticatorBean.cerrarSesionUsuario}" update="messages"
+										icon="fa fa-sign-out" />
 								</p:menuButton>
-                            </p:outputPanel>
-                        </div>
-                    </h:form>
- 				</div>		
+							</p:outputPanel>
+						</div>
+					</h:form>
+				</div>
+			</div>
 		</div>
-	</div>
-
-	
-<!-- 	<div class="header" id="header" > -->
-<!-- 		<div style="padding: 15px 0;"> -->
-<!-- 			<h:graphicImage class="img-header" value="/resources/img/adip-header.svg" style="float: left;"/> -->
-<!-- 			<div class="line"></div> -->
-<!-- 				<p class="header-sedeco" style="float: left;">ACRONIMO_DEPENDENCIA</p> -->
-<!-- 			<div class="line"></div> -->
-<!-- 			<p class="header-siapem" style="float: left;">NOMBRE_DE_MI_PORTAL<br />PARTE_DOS</p> -->
-<!-- 		</div> -->
-<!-- 		<div id="logueado" class ="logueado" style="text-align:right;" > -->
-<!-- 			<div class="ui-logueo-componentes"> -->
-				
-<!-- 			<h:form id="frmLogin" rendered="#{authenticatorBean.usuarioLogueado.idPersona == 0}"> -->
-<!-- 			<div id="login" class="ui-fluid" > -->
-<!-- 				<p:commandLink id="btnInicio" action="#{authenticatorBean.redirectUrlLoginCDMX()}"> -->
-<!-- 					<p:graphicImage value="/resources/img/accesoLlave.png"></p:graphicImage>						 -->
-<!-- 		      	</p:commandLink> -->
-<!-- 			</div> -->
-<!-- 			</h:form> -->
-					 
-<!-- 	      		<h:form id="frmMenuUsuario" rendered="#{authenticatorBean.usuarioLogueado.idPersona > 0}" >  -->
-<!-- 					<p:graphicImage library="img" name="logueo.png" styleClass="icono-login"/> -->
-<!-- 					<p:outputLabel id="lblLogueado" value="#{authenticatorBean.usuarioLogueado.nombre} #{authenticatorBean.usuarioLogueado.primerApellido} #{authenticatorBean.usuarioLogueado.segundoApellido}" styleClass="etiqueta-logueo" /> -->
-<!-- 					<p:menuButton  > -->
-<!-- 						<p:menuitem id="cerrarSesion" styleClass="ui-menu-item-personalizado" value = "#{msg.cerrar_session}" action="#{authenticatorBean.cerrarSesionUsuario()}" update="messages" icon="fa fa-sign-out"/> -->
-<!-- 					</p:menuButton> -->
-<!-- 				</h:form>				 -->
-<!-- 			</div>		  -->
-<!-- 		</div> -->
-<!-- 	</div> -->
-
-	<!-- 	<div class="divicion" id="divicion" style="width: 100%; height: 32px;"  >
-			<ui:insert name="menu"  >
-				<ui:include src="menu.xhtml"></ui:include>
-				 <ui:include src="menuResponsive.xhtml"></ui:include> 
-			</ui:insert>
-		</div> -->
-
 
 		<div id="container" class="content" style="width: 100%;height: 90%; background-color: #F0F1F6 !important;">
 		
 		<div id="messages_div" style="text-align:left;" >
 			<p:messages id="messages" showDetail="true" closable="true" globalOnly="false" >
-<!-- 				<p:autoUpdate /> -->
 			</p:messages>
 		</div>
 		<div id="content" class="contenido" style="width: 100%; height: 90%;">

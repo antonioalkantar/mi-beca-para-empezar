@@ -28,7 +28,7 @@
 		</p:panelGrid>
 
 		<!--<h:form id="formBandeja" rendered="#{not empty header['referer']}"> -->
-		<h:form id="formBandeja" rendered="true">			
+		<h:form id="formBandeja" rendered="true" onkeydown="if (event.keyCode == 13) { document.getElementById('formBandeja:btnBuscar').click(); return false; }">			
 		
 <!-- 			<p:defaultCommand target="dummy" /> -->
 <!-- 			<p:commandButton id="dummy" process="@none" global="false" style="display:none;" /> -->
@@ -53,34 +53,31 @@
 							<p:outputLabel value="#{msg.lbl_curp_tutor.concat(':')}" styleClass="adip-output-campos negrita" />
 							<p:inputText id="txtBuscarCurpTutor" value="#{bandejaFuncionarioBean.txtCurpTutor}" placeholder="#{msg.lbl_ingresa_curp_ph}" styleClass="campos-captura  filtros" 
 										 maxlength="18"
-										 onkeyup="$(this).val($(this).val().replace(/[^A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\s-_]/g, ''));" >
-								<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\-\.\,\s]+$/" />
-							</p:inputText>
-							
+										 onkeyup="$(this).val($(this).val().replace(/[^.0-9-A-Za-z@/_]/g, ''));" />								
 							<p:outputLabel value="#{msg.lbl_curp_beneficiario.concat(':')}" styleClass="adip-output-campos negrita" />
 							<p:inputText id="txtBuscarCurpBeneficiario" value="#{bandejaFuncionarioBean.txtCurpBeneficiario}" placeholder="#{msg.lbl_ingresa_curp_ph}" styleClass="campos-captura adip-upperText filtros"
 										 maxlength="18"
-										 onkeyup="$(this).val($(this).val().replace(/[^A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\s-_]/g, ''));" >
-								<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\-\.\,\s]+$/" />
-							</p:inputText>
+										 onkeyup="$(this).val($(this).val().replace(/[^.0-9-A-Za-z@/_]/g, ''));" />
 
 							<p:outputLabel value="#{msg.lbl_folio.concat(':')}" styleClass="adip-output-campos negrita" />
-							<p:inputText id="tstFolioSolicitud" value="#{bandejaFuncionarioBean.txtFolioDeSolicitud}" placeholder="#{msg.lbl_ingresa_folio_ph}" styleClass="campos-captura filtros">
-								<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\-\.\,\s]+$/" />
-							</p:inputText>
-
-							<p:outputLabel value="#{msg.lbl_numero_tarjeta.concat(':')}" styleClass="adip-output-campos negrita" />
-							<p:inputText id="txtNumTarjeta" value="#{bandejaFuncionarioBean.txtNumeroTarjeta}" placeholder="#{msg.lbl_ingresa_numero_ph}" styleClass="campos-captura adip-upperText filtros">
-								<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\-\.\,\s]+$/" />
-							</p:inputText>
-
+							<p:inputText id="tstFolioSolicitud" value="#{bandejaFuncionarioBean.txtFolioDeSolicitud}" placeholder="#{msg.lbl_ingresa_folio_ph}" styleClass="campos-captura filtros"
+										 maxlength="20" 
+										 />							
+							
 							<p:outputLabel value="#{msg.lbl_cct.concat(':')}" styleClass="adip-output-campos negrita" />
 							<p:inputText id="txtCCT" value="#{bandejaFuncionarioBean.txtCct}" placeholder="#{msg.lbl_ingresa_clave_ph}" styleClass="campos-captura  filtros">
 								<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\-\.\,\s]+$/" />
 							</p:inputText>
-
+							
+							<p:outputLabel value="#{msg.lbl_tipo_de_solicitud}" styleClass="adip-output-campos negrita" />
+							<p:selectOneMenu id="slOneTipoSolicitud" value="#{bandejaFuncionarioBean.esNuevoRegistro}" class="adip-selectonemenu" panelStyleClass="adip-selectonemenu-panel filtros">								
+								<f:selectItem itemLabel="#{msg.lbl_elige_uno}" noSelectionOption="true" />
+								<f:selectItem itemLabel="Nuevo registro" itemValue="true" />
+   								<f:selectItem itemLabel="Continuidad" itemValue="false" />
+							</p:selectOneMenu>	
+							
 							<p:outputLabel value="#{msg.lbl_estatus_tutor}" styleClass="adip-output-campos negrita" />
-							<p:selectOneMenu id="slOneEstatusSolicitud" value="#{bandejaFuncionarioBean.filtroEstatusBeneficiario}" class="adip-selectonemenu" panelStyleClass="adip-selectonemenu-panel filtros">
+							<p:selectOneMenu id="slOneEstatusSolicitud" value="#{bandejaFuncionarioBean.filtroEstatusTutor}" class="adip-selectonemenu" panelStyleClass="adip-selectonemenu-panel filtros">
 								<f:selectItem itemLabel="#{msg.lbl_elige_uno}" noSelectionOption="true" />
 								<f:selectItems  value="#{bandejaFuncionarioBean.lstCatEstatusTutor}" var="lstEstatus" itemValue="#{lstEstatus.idEstatus}" itemLabel="#{lstEstatus.descripcion}" />
 							</p:selectOneMenu>	
@@ -121,15 +118,17 @@
 									<p:commandButton value="#{msg.lbl_limpiar}" 
 													 action="#{bandejaFuncionarioBean.limpiarFiltro()}"
 													 partialSubmit="true"
-													 process="@this txtBuscarCurpTutor txtBuscarCurpBeneficiario tstFolioSolicitud txtNumTarjeta txtCCT slOneEstatusSolicitud slOneAlcaldias txtEventoFechaInicio txtEventoFechaFin slOneNivelEducativo"
+													 process="@this txtBuscarCurpTutor txtBuscarCurpBeneficiario tstFolioSolicitud txtCCT slOneTipoSolicitud slOneEstatusSolicitud slOneAlcaldias txtEventoFechaInicio txtEventoFechaFin slOneNivelEducativo"
 													 update="pnlFiltros pnlBandejaSolicitudes"
 													 styleClass="adip-btn-gris" />
-									<p:commandButton value="#{msg.buscar}" 
+									<p:commandButton id="btnBuscar"
+													 value="#{msg.buscar}" 
 													 action="#{bandejaFuncionarioBean.buscarSolicitudes(0)}"
 													 partialSubmit="true"
-													 process="@this txtBuscarCurpTutor txtBuscarCurpBeneficiario tstFolioSolicitud txtNumTarjeta txtCCT slOneEstatusSolicitud slOneAlcaldias txtEventoFechaInicio txtEventoFechaFin slOneNivelEducativo"
+													 process="@this txtBuscarCurpTutor txtBuscarCurpBeneficiario tstFolioSolicitud  txtCCT slOneTipoSolicitud slOneEstatusSolicitud slOneAlcaldias txtEventoFechaInicio txtEventoFechaFin slOneNivelEducativo"
 													 update="pnlBandejaSolicitudes"
-													 styleClass="adip-btn-green" />
+													 styleClass="adip-btn-green" 													 
+													 />
 								</p:panelGrid>
 
 							</p:panelGrid>
@@ -226,34 +225,30 @@
 			<p:outputLabel value="#{msg.lbl_curp_tutor.concat(':')}" styleClass="adip-output-campos negrita" />
 			<p:inputText id="txtBuscarCurpTutorM" value="#{bandejaFuncionarioBean.txtCurpTutor}" placeholder="#{msg.lbl_ingresa_curp_ph}" styleClass="campos-captura  filtros" 
 						 maxlength="18"
-						 onkeyup="$(this).val($(this).val().replace(/[^A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\s-_]/g, ''));" >
-				<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\-\.\,\s]+$/" />
-			</p:inputText>
+						 onkeyup="$(this).val($(this).val().replace(/[^.0-9-A-Za-z@/_]/g, ''));" />	
 			
 			<p:outputLabel value="#{msg.lbl_curp_beneficiario.concat(':')}" styleClass="adip-output-campos negrita" />
 			<p:inputText id="txtBuscarCurpBeneficiarioM" value="#{bandejaFuncionarioBean.txtCurpBeneficiario}" placeholder="#{msg.lbl_ingresa_curp_ph}" styleClass="campos-captura adip-upperText filtros"
-						 maxlength="18"
-						 onkeyup="$(this).val($(this).val().replace(/[^A-Za-z0-9ñÑáéíóúÁÉÍÓÚ\s-_]/g, ''));" >
-				<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\-\.\,\s]+$/" />
-			</p:inputText>
+						  maxlength="18"
+						  onkeyup="$(this).val($(this).val().replace(/[^.0-9-A-Za-z@/_]/g, ''));" />			
 
 			<p:outputLabel value="#{msg.lbl_folio.concat(':')}" styleClass="adip-output-campos negrita" />
-			<p:inputText id="tstFolioSolicitudM" value="#{bandejaFuncionarioBean.txtFolioDeSolicitud}" placeholder="#{msg.lbl_ingresa_folio_ph}" styleClass="campos-captura filtros">
-				<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\-\.\,\s]+$/" />
-			</p:inputText>
-
-			<p:outputLabel value="#{msg.lbl_numero_tarjeta.concat(':')}" styleClass="adip-output-campos negrita" />
-			<p:inputText id="txtNumTarjetaM" value="#{bandejaFuncionarioBean.txtNumeroTarjeta}" placeholder="#{msg.lbl_ingresa_numero_ph}" styleClass="campos-captura adip-upperText filtros">
-				<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\-\.\,\s]+$/" />
-			</p:inputText>
+			<p:inputText id="tstFolioSolicitudM" value="#{bandejaFuncionarioBean.txtFolioDeSolicitud}" placeholder="#{msg.lbl_ingresa_folio_ph}" styleClass="campos-captura filtros"
+						 maxlength="20" /> 		
 
 			<p:outputLabel value="#{msg.lbl_cct.concat(':')}" styleClass="adip-output-campos negrita" />
 			<p:inputText id="txtCCTM" value="#{bandejaFuncionarioBean.txtCct}" placeholder="#{msg.lbl_ingresa_clave_ph}" styleClass="campos-captura  filtros">
 				<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\-\.\,\s]+$/" />
 			</p:inputText>
+			
+			<p:outputLabel value="#{msg.lbl_tipo_de_solicitud}" styleClass="adip-output-campos negrita" />
+			<p:selectOneMenu id="slOneTipoSolicitudM" value="#{bandejaFuncionarioBean.esNuevoRegistro}" class="adip-selectonemenu" panelStyleClass="adip-selectonemenu-panel filtros">								
+				<f:selectItem itemLabel="Nuevo registro" itemValue="true" />
+   				<f:selectItem itemLabel="Continuidad" itemValue="false" />
+			</p:selectOneMenu>	
 
 			<p:outputLabel value="#{msg.lbl_estatus_tutor}" styleClass="adip-output-campos negrita" />
-			<p:selectOneMenu id="slOneEstatusSolicitudM" value="#{bandejaFuncionarioBean.filtroEstatusBeneficiario}" class="adip-selectonemenu" panelStyleClass="adip-selectonemenu-panel filtros">
+			<p:selectOneMenu id="slOneEstatusSolicitudM" value="#{bandejaFuncionarioBean.filtroEstatusTutor}" class="adip-selectonemenu" panelStyleClass="adip-selectonemenu-panel filtros">
 				<f:selectItem itemLabel="#{msg.lbl_elige_uno}" noSelectionOption="true" />
 				<f:selectItems  value="#{bandejaFuncionarioBean.lstCatEstatusTutor}" var="lstEstatus" itemValue="#{lstEstatus.idEstatus}" itemLabel="#{lstEstatus.descripcion}" />
 			</p:selectOneMenu>	
@@ -298,13 +293,13 @@
 					<p:commandButton value="#{msg.lbl_limpiar}" 
 									 action="#{bandejaFuncionarioBean.limpiarFiltro()}"
 									 partialSubmit="true"
-									 process="@this txtBuscarCurpTutorM txtBuscarCurpBeneficiarioM tstFolioSolicitudM txtNumTarjetaM txtCCTM slOneEstatusSolicitudM slOneAlcaldiasM txtEventoFechaInicioM txtEventoFechaFinM slOneNivelEducativoM"
+									 process="@this txtBuscarCurpTutorM txtBuscarCurpBeneficiarioM tstFolioSolicitudM  txtCCTM slOneTipoSolicitudM slOneEstatusSolicitudM slOneAlcaldiasM txtEventoFechaInicioM txtEventoFechaFinM slOneNivelEducativoM"
 									 update="pnlFiltrosMobile"
 									 styleClass="adip-btn-gris" />
 					<p:commandButton value="#{msg.buscar}" 
 									 action="#{bandejaFuncionarioBean.buscarSolicitudes(0)}"
 									 partialSubmit="true"
-									 process="@this txtBuscarCurpTutorM txtBuscarCurpBeneficiarioM tstFolioSolicitudM txtNumTarjetaM txtCCTM slOneEstatusSolicitudM slOneAlcaldiasM txtEventoFechaInicioM txtEventoFechaFinM slOneNivelEducativoM"
+									 process="@this txtBuscarCurpTutorM txtBuscarCurpBeneficiarioM tstFolioSolicitudM  txtCCTM slOneTipoSolicitudM slOneEstatusSolicitudM slOneAlcaldiasM txtEventoFechaInicioM txtEventoFechaFinM slOneNivelEducativoM"
 									 update="pnlFiltrosMobile"
 									 styleClass="adip-btn-green" />
 				</p:panelGrid>
