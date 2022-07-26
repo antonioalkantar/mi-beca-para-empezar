@@ -4093,6 +4093,23 @@ li::marker {
 	align-items:center;
 }
 
+#formBandejaValidacion .ui-datatable-even{
+	background-color:#F7FAFC !important;
+	border:none !important;
+}
+
+#formBandejaValidacion .ui-datatable-odd{
+	border:none !important;
+}
+
+#formBandejaValidacion .ui-datatable-even .ui-outputlabel{
+	font-weight: normal;
+}
+
+#formBandejaValidacion .ui-datatable-odd .ui-outputlabel{
+	font-weight: normal;
+}
+
 #formBandejaValidacion .btn-green{
 	background: #235B4E;
 	border-radius: 5px;

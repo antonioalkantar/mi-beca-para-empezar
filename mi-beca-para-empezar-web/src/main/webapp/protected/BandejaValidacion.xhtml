@@ -212,7 +212,7 @@
 										<p:commandLink action="#{bandejaValidacionBean.descargarReporte()}" process="@this">
 											<p:graphicImage value="/resources/img/icon-download.png" />	
 										</p:commandLink>
-										<p:commandLink process="@this" update="@form" action="#{bandejaValidacionBean.ejecutarValidacionComplementaria()}">
+										<p:commandLink styleClass="ml-2" process="@this" update="@form" action="#{bandejaValidacionBean.ejecutarValidacionComplementaria()}">
 											<p:graphicImage value="/resources/img/icon-process.png" />
 											<f:setPropertyActionListener value="#{dispersion}" target="#{bandejaValidacionBean.dispersionSel}" />	
 										</p:commandLink>
