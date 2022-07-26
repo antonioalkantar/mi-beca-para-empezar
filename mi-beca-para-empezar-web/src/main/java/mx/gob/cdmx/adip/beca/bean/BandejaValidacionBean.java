@@ -83,6 +83,8 @@ public class BandejaValidacionBean implements Serializable {
 
 	private Long idEstatusSel;
 
+	private DispersionDTO dispersionSel;
+
 	// TODO Eliminar anotacion PostConstruct y descomentar return cuando se sepa a
 	// traves de cual boton se accedera
 	@PostConstruct
@@ -113,6 +115,10 @@ public class BandejaValidacionBean implements Serializable {
 		Long cantidadBeneficiarios = beneficiarioDAO.countBeneficiarios();
 		String cantidadBeneficiariosConComma = NumberFormat.getNumberInstance(Locale.US).format(cantidadBeneficiarios);
 		return cantidadBeneficiariosConComma;
+	}
+
+	public String obtenerFormatoNumero(long cantidad) {
+		return NumberFormat.getNumberInstance(Locale.US).format(cantidad);
 	}
 
 	private void establecerCicloConPeriodoPorDefecto() {
@@ -189,6 +195,34 @@ public class BandejaValidacionBean implements Serializable {
 				}
 			}
 		}
+	}
+
+	public void ejecutarValidacionComplementaria() {
+
+		List<DispersionDTO> dispersionesComplementarias = dispersionDAO.buscarPorCicloPeriodoAndTipo(
+				dispersionSel.getCatCicloEscolar().getIdCicloEscolar(),
+				dispersionSel.getCatPeriodoEscolar().getIdPeriodoEscolar(),
+				Constantes.ID_TIPO_DISPERSION_COMPLEMENTARIA);
+		if (dispersionesComplementarias.size() == Constantes.SIZE_ARRAY_EMPTY) {
+			mensajeTipoValidacion = Constantes.TIPO_VALIDACION_COMPLEMENTARIA;
+			PrimeFaces.current().executeScript("PF('dlgConfirmacion').show();");
+		} else {
+			Long idEstatusDispersionComplementaria = dispersionesComplementarias.get(0).getCatEstatusDispersion()
+					.getIdEstatusDispersion();
+			if (idEstatusDispersionComplementaria == Constantes.ID_ESTATUS_DISPERSION_EN_PROCESO
+					|| idEstatusDispersionComplementaria == Constantes.ID_ESTATUS_DISPERSION_PROCESANDO) {
+				PrimeFaces.current().executeScript("PF('dlgValidacion').show();");
+			} else if (idEstatusDispersionComplementaria == Constantes.ID_ESTATUS_DISPERSION_CONCLUIDO) {
+				mensajeTipoValidacion = Constantes.TIPO_VALIDACION_COMPLEMENTARIA;
+				PrimeFaces.current().executeScript("PF('dlgConfirmacion').show();");
+			}
+
+		}
+
+	}
+
+	public void descargarReporte() {
+		LOGGER.info("Se descarga reporte.");
 	}
 
 	public void insertarDispersion() {
@@ -349,4 +383,11 @@ public class BandejaValidacionBean implements Serializable {
 		this.idEstatusSel = idEstatusSel;
 	}
 
+	public DispersionDTO getDispersionSel() {
+		return dispersionSel;
+	}
+
+	public void setDispersionSel(DispersionDTO dispersionSel) {
+		this.dispersionSel = dispersionSel;
+	}
 }

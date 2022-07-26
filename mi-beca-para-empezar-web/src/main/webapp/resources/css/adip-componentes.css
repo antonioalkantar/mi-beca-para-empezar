@@ -3953,7 +3953,7 @@ li::marker {
 }
 
 #formBandejaValidacion .custom-container{
-	max-width: 1327px;
+	max-width: 1352px;
     margin: auto;
 }
 
@@ -3975,7 +3975,7 @@ li::marker {
 	background: #FFFFFF;
 	border-bottom-right-radius: 8px;
 	border-bottom-left-radius: 8px;
-	padding: 33px 45px;
+	padding: 33px 26px;
 }
 
 #formBandejaValidacion .panel-title {
