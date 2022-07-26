@@ -93,7 +93,9 @@
 											style="text-align:center !important; padding-left: 0px !important;">
 											<p:outputLabel value="Ciclo escolar"
 												styleClass="label-filtro" />
-											<p:selectOneMenu>
+											<p:selectOneMenu
+												value="#{bandejaValidacionBean.idCicloEscolarSel}">
+												<f:selectItem itemLabel="Seleccionar" itemValue="0" />
 												<f:selectItems
 													value="#{bandejaValidacionBean.lstCatCicloEscolarDTO}"
 													var="cicloEscolar" itemLabel="#{cicloEscolar.descripcion}"
@@ -105,7 +107,9 @@
 											styleClass="ui-panelgrid-blank ui-fluid"
 											style="text-align:center !important; padding-left: 0px !important;">
 											<p:outputLabel value="Periodo" styleClass="label-filtro" />
-											<p:selectOneMenu>
+											<p:selectOneMenu
+												value="#{bandejaValidacionBean.idPeriodoSel}">
+												<f:selectItem itemLabel="Seleccionar" itemValue="0" />
 												<f:selectItems
 													value="#{bandejaValidacionBean.lstCatPeriodoEscolarDTO}"
 													var="periodoEscolar"
@@ -118,7 +122,8 @@
 											styleClass="ui-panelgrid-blank ui-fluid"
 											style="text-align:center !important; padding-left: 0px !important;">
 											<p:outputLabel value="Tipo" styleClass="label-filtro" />
-											<p:selectOneMenu>
+											<p:selectOneMenu value="#{bandejaValidacionBean.idTipoSel}">
+												<f:selectItem itemLabel="Seleccionar" itemValue="0" />
 												<f:selectItems
 													value="#{bandejaValidacionBean.lstCatTipoDispersionDTO}"
 													var="tipoDispersion"
@@ -130,7 +135,9 @@
 											columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
 											styleClass="ui-panelgrid-blank ui-fluid">
 											<p:outputLabel value="Estatus" styleClass="label-filtro" />
-											<p:selectOneMenu>
+											<p:selectOneMenu
+												value="#{bandejaValidacionBean.idEstatusSel}">
+												<f:selectItem itemLabel="Seleccionar" itemValue="0" />
 												<f:selectItems
 													value="#{bandejaValidacionBean.lstCatEstatusDispersionDTO}"
 													var="estatusDispersion"
@@ -142,10 +149,12 @@
 									<p:outputPanel
 										styleClass="pnl-btn flex justify-content-end align-items-center h-full ml-4">
 										<p:commandButton style="margin:0 !important" value="Buscar"
-											styleClass="adip-btn-green" immediate="true" />
+											process="@form" update="@form" styleClass="adip-btn-green"
+											action="#{bandejaValidacionBean.filtrarDispersiones()}" />
 										<p:commandButton style="margin:0 0 0 20px !important"
-											value="Limpiar" styleClass="adip-btn-white-2"
-											immediate="true" />
+											process="@this" value="Limpiar" styleClass="adip-btn-white-2"
+											update="@form" immediate="true"
+											action="#{bandejaValidacionBean.limpiarFiltro()}" />
 									</p:outputPanel>
 								</p:panelGrid>
 
@@ -235,14 +244,12 @@
 				</p:outputPanel>
 			</p:dialog>
 
-			<p:dialog widgetVar="dlgValidacion"
-				header="¡Validación en proceso!" modal="true"
-				width="500px" responsive="true" resizable="false"
+			<p:dialog widgetVar="dlgValidacion" header="¡Validación en proceso!"
+				modal="true" width="500px" responsive="true" resizable="false"
 				styleClass="dlg-confirmacion" closable="false">
 				<p:outputPanel>
-					<p class="text-center">
-						Existe una validación en curso, por lo que no es posible ejecutar una nueva validación.
-					</p>
+					<p class="text-center">Existe una validación en curso, por lo
+						que no es posible ejecutar una nueva validación.</p>
 				</p:outputPanel>
 				<p:outputPanel
 					styleClass="flex justify-content-center align-items-center mt-3">

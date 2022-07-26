@@ -75,6 +75,14 @@ public class BandejaValidacionBean implements Serializable {
 
 	private String mensajeTipoValidacion;
 
+	private Long idCicloEscolarSel;
+
+	private Long idPeriodoSel;
+
+	private Long idTipoSel;
+
+	private Long idEstatusSel;
+
 	// TODO Eliminar anotacion PostConstruct y descomentar return cuando se sepa a
 	// traves de cual boton se accedera
 	@PostConstruct
@@ -220,6 +228,23 @@ public class BandejaValidacionBean implements Serializable {
 		dispersionDAO.guardar(dispersion);
 	}
 
+	public void filtrarDispersiones() {
+		DispersionDTO dispersionFiltro = new DispersionDTO();
+		dispersionFiltro.setCatCicloEscolar(idCicloEscolarSel == 0l ? null : new CatCicloEscolarDTO(idCicloEscolarSel));
+		dispersionFiltro.setCatPeriodoEscolar(idPeriodoSel == 0l ? null : new CatPeriodoEscolarDTO(idPeriodoSel));
+		dispersionFiltro.setCatTipoDispersion(idTipoSel == 0l ? null : new CatTipoDispersionDTO(idTipoSel));
+		dispersionFiltro.setCatEstatusDispersion(idEstatusSel == 0l ? null : new CatEstatusDispersionDTO(idEstatusSel));
+		dispersiones = dispersionDAO.buscarPorCriterios(dispersionFiltro);
+	}
+
+	public void limpiarFiltro() {
+		idCicloEscolarSel = 0l;
+		idPeriodoSel = 0l;
+		idTipoSel = 0l;
+		idEstatusSel = 0l;
+		consultarDispersiones();
+	}
+
 	public List<CatCicloEscolarDTO> getLstCatCicloEscolarDTO() {
 		return lstCatCicloEscolarDTO;
 	}
@@ -291,4 +316,37 @@ public class BandejaValidacionBean implements Serializable {
 	public void setMensajeTipoValidacion(String mensajeTipoValidacion) {
 		this.mensajeTipoValidacion = mensajeTipoValidacion;
 	}
+
+	public Long getIdCicloEscolarSel() {
+		return idCicloEscolarSel;
+	}
+
+	public void setIdCicloEscolarSel(Long idCicloEscolarSel) {
+		this.idCicloEscolarSel = idCicloEscolarSel;
+	}
+
+	public Long getIdPeriodoSel() {
+		return idPeriodoSel;
+	}
+
+	public void setIdPeriodoSel(Long idPeriodoSel) {
+		this.idPeriodoSel = idPeriodoSel;
+	}
+
+	public Long getIdTipoSel() {
+		return idTipoSel;
+	}
+
+	public void setIdTipoSel(Long idTipoSel) {
+		this.idTipoSel = idTipoSel;
+	}
+
+	public Long getIdEstatusSel() {
+		return idEstatusSel;
+	}
+
+	public void setIdEstatusSel(Long idEstatusSel) {
+		this.idEstatusSel = idEstatusSel;
+	}
+
 }

@@ -4,7 +4,9 @@ import java.util.List;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 
+import mx.gob.cdmx.adip.beca.common.util.BeanUtils;
 import mx.gob.cdmx.adip.beca.commons.dao.IBaseDAO;
 import mx.gob.cdmx.adip.beca.commons.dto.DispersionDTO;
 import mx.gob.cdmx.adip.beca.model.CatCicloEscolar;
@@ -36,12 +38,82 @@ public class DispersionDAO extends IBaseDAO<DispersionDTO, Long>{
 				.getResultList();
 	}
 	
-
-	
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<DispersionDTO> buscarPorCriterios(DispersionDTO e) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<DispersionDTO> buscarPorCriterios(DispersionDTO dispersion) {
+		final StringBuilder strQuery = new StringBuilder();
+		
+		strQuery.append("SELECT NEW mx.gob.cdmx.adip.beca.commons.dto.DispersionDTO ");
+		strQuery.append("( ");
+		strQuery.append("d.idDispersion, ");
+		strQuery.append("cce.idCicloEscolar, ");
+		strQuery.append("cce.descripcion, ");
+		strQuery.append("cpe.idPeriodoEscolar, ");
+		strQuery.append("cpe.descripcion, ");
+		strQuery.append("ctd.idTipoDispersion, ");
+		strQuery.append("ctd.descripcion, ");
+		strQuery.append("d.numBeneficiarios, ");
+		strQuery.append("d.fechaEjecucion, ");
+		strQuery.append("d.idUsuarioEjecucion, ");
+		strQuery.append("d.fechaConclusion, ");
+		strQuery.append("ced.idEstatusDispersion, ");
+		strQuery.append("ced.descripcion, ");
+		strQuery.append("d.aplicaDispersionPorcentaje, ");
+		strQuery.append("d.aplicaDispersionNumero, ");
+		strQuery.append("d.noAplicaDispersionPorcentaje, ");
+		strQuery.append("d.noAplicaDispersionNumero, ");
+		strQuery.append("d.fechaDescarga ");
+		strQuery.append(") ");
+		strQuery.append("FROM Dispersion d ");
+		strQuery.append("JOIN d.catCicloEscolar cce ");
+		strQuery.append("JOIN d.catPeriodoEscolar cpe ");
+		strQuery.append("JOIN d.catTipoDispersion ctd ");
+		strQuery.append("JOIN d.catEstatusDispersion ced ");
+		strQuery.append("WHERE 1 = 1 ");
+
+		if (dispersion != null) {
+			if (!BeanUtils.isNull(dispersion.getCatCicloEscolar())
+					&& !BeanUtils.isNull(dispersion.getCatCicloEscolar().getIdCicloEscolar())) {
+				strQuery.append(" AND cce.idCicloEscolar =:idCicloEscolar ");
+			}
+			if (!BeanUtils.isNull(dispersion.getCatPeriodoEscolar())
+					&& !BeanUtils.isNull(dispersion.getCatPeriodoEscolar().getIdPeriodoEscolar())) {
+				strQuery.append(" AND cpe.idPeriodoEscolar =:idPeriodoEscolar ");
+			}
+			if (!BeanUtils.isNull(dispersion.getCatTipoDispersion())
+					&& !BeanUtils.isNull(dispersion.getCatTipoDispersion().getIdTipoDispersion())) {
+				strQuery.append(" AND ctd.idTipoDispersion =:idTipoDispersion ");
+			}
+			if (!BeanUtils.isNull(dispersion.getCatEstatusDispersion())
+					&& !BeanUtils.isNull(dispersion.getCatEstatusDispersion().getIdEstatusDispersion())) {
+				strQuery.append(" AND ced.idEstatusDispersion =:idEstatusDispersion ");
+			}
+			strQuery.append(" ORDER by d.fechaEjecucion DESC ");
+		}
+
+		Query query = em.createQuery(strQuery.toString(), DispersionDTO.class);
+
+		if (dispersion != null) {
+
+			if (!BeanUtils.isNull(dispersion.getCatCicloEscolar())
+					&& !BeanUtils.isNull(dispersion.getCatCicloEscolar().getIdCicloEscolar())) {
+				query.setParameter("idCicloEscolar", dispersion.getCatCicloEscolar().getIdCicloEscolar());
+			}
+			if (!BeanUtils.isNull(dispersion.getCatPeriodoEscolar())
+					&& !BeanUtils.isNull(dispersion.getCatPeriodoEscolar().getIdPeriodoEscolar())) {
+				query.setParameter("idPeriodoEscolar", dispersion.getCatPeriodoEscolar().getIdPeriodoEscolar());
+			}
+			if (!BeanUtils.isNull(dispersion.getCatTipoDispersion())
+					&& !BeanUtils.isNull(dispersion.getCatTipoDispersion().getIdTipoDispersion())) {
+				query.setParameter("idTipoDispersion", dispersion.getCatTipoDispersion().getIdTipoDispersion());
+			}
+			if (!BeanUtils.isNull(dispersion.getCatEstatusDispersion())
+					&& !BeanUtils.isNull(dispersion.getCatEstatusDispersion().getIdEstatusDispersion())) {
+				query.setParameter("idEstatusDispersion", dispersion.getCatEstatusDispersion().getIdEstatusDispersion());
+			}
+		}
+
+		return query.getResultList();
 	}
 
 	@Override
