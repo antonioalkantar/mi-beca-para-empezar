@@ -49,7 +49,7 @@ import javax.persistence.TemporalType;
 					+ "JOIN d.catPeriodoEscolar cpe "
 					+ "JOIN d.catTipoDispersion ctd "
 					+ "JOIN d.catEstatusDispersion ced"),
-	@NamedQuery(name="Dispersion.findByCicloPeriodoAndTipoDispersion"
+	@NamedQuery(name="Dispersion.findByCicloPeriodoAndTipo"
 	, query="SELECT NEW mx.gob.cdmx.adip.beca.commons.dto.DispersionDTO "
 			+ "( "
 			+ "d.idDispersion, "
@@ -78,7 +78,7 @@ import javax.persistence.TemporalType;
 			+ "JOIN d.catEstatusDispersion ced "
 			+ "WHERE cce.idCicloEscolar = :idCicloEscolar "
 			+ "AND cpe.idPeriodoEscolar = :idPeriodoEscolar "
-			+ "AND ctd.idTipoDispersion = :idTipoDispersion")
+			+ "AND ctd.idTipoDispersion = :idTipoDispersion ")
 })
 public class Dispersion implements java.io.Serializable {
 	

@@ -72,7 +72,7 @@ public class BandejaValidacionBean implements Serializable {
 	private Long idCicloEscolar;
 
 	private Long idPeriodoEscolar;
-	
+
 	private String mensajeTipoValidacion;
 
 	// TODO Eliminar anotacion PostConstruct y descomentar return cuando se sepa a
@@ -151,39 +151,57 @@ public class BandejaValidacionBean implements Serializable {
 	}
 
 	public void ejecutarValidacion() {
-		boolean existeDispersionOrdinaria = existeDispersion(idCicloEscolar,idPeriodoEscolar,(long) (Constantes.ID_TIPO_DISPERSION_ORDINARIA));
-		if(!existeDispersionOrdinaria) {
+		List<DispersionDTO> dispersionesEncontradas =  dispersionDAO.buscarPorCicloPeriodoAndTipo(idCicloEscolar,
+				idPeriodoEscolar, Constantes.ID_TIPO_DISPERSION_ORDINARIA);
+		if (dispersionesEncontradas.size() == Constantes.SIZE_ARRAY_EMPTY) {
 			mensajeTipoValidacion = Constantes.TIPO_VALIDACION_ORDINARIA;
 			PrimeFaces.current().executeScript("PF('dlgConfirmacion').show();");
+		} else {
+			Long idEstatusDispersion = dispersionesEncontradas.get(0).getCatEstatusDispersion().getIdEstatusDispersion();
+			if(idEstatusDispersion == Constantes.ID_ESTATUS_DISPERSION_EN_PROCESO) {
+				PrimeFaces.current().executeScript("PF('dlgValidacion').show();");
+			}
 		}
 	}
-	
+
+//	private boolean existeDispersion(Long idCicloEscolar, Long idPeriodoEscolar, Long idTipoDispersion,
+//			Long idEstatusDispersion) {
+//
+//		return dispersionesResultado.size() != Constantes.SIZE_ARRAY_EMPTY;
+//	}
+
 	public void insertarDispersion() {
-		if(mensajeTipoValidacion.equals(Constantes.TIPO_VALIDACION_ORDINARIA)) {
+		if (mensajeTipoValidacion.equals(Constantes.TIPO_VALIDACION_ORDINARIA)) {
 			insertarDispersionOrdinaria();
 			consultarDispersiones();
 			PrimeFaces.current().executeScript("PF('dlgConfirmacion').hide();");
 		}
 	}
-	
-	public void insertarDispersionOrdinaria(){
+
+	public void insertarDispersionOrdinaria() {
 		DispersionDTO dispersion = new DispersionDTO();
 		dispersion.setCatCicloEscolar(new CatCicloEscolarDTO(idCicloEscolar));
 		dispersion.setCatPeriodoEscolar(new CatPeriodoEscolarDTO(idPeriodoEscolar));
-		dispersion.setCatTipoDispersion(new CatTipoDispersionDTO((long)Constantes.ID_TIPO_DISPERSION_ORDINARIA));
-		dispersion.setCatEstatusDispersion(new CatEstatusDispersionDTO((long)Constantes.ID_ESTATUS_DISPERSION_EN_PROCESO));
+		dispersion.setCatTipoDispersion(new CatTipoDispersionDTO((long) Constantes.ID_TIPO_DISPERSION_ORDINARIA));
+		dispersion.setCatEstatusDispersion(
+				new CatEstatusDispersionDTO((long) Constantes.ID_ESTATUS_DISPERSION_EN_PROCESO));
 		dispersion.setNumBeneficiarios(beneficiarioDAO.countBeneficiarios());
 		dispersion.setFechaEjecucion(new Date());
 		dispersion.setIdUsuarioEjecucion(233l);
 		dispersionDAO.guardar(dispersion);
 	}
 
-	private boolean existeDispersion(Long idCicloEscolar, Long idPeriodoEscolar, Long idTipoDispersion) {
-		List<DispersionDTO> dispersionesResultado = dispersionDAO.buscarPorCicloPeriodoAndTipoDispersion(idCicloEscolar,
-				idPeriodoEscolar, idTipoDispersion);
-		return dispersionesResultado.size() != Constantes.SIZE_ARRAY_EMPTY;
+	public void insertarDispersionComplementaria() {
+		DispersionDTO dispersion = new DispersionDTO();
+		dispersion.setCatCicloEscolar(new CatCicloEscolarDTO(idCicloEscolar));
+		dispersion.setCatPeriodoEscolar(new CatPeriodoEscolarDTO(idPeriodoEscolar));
+		dispersion.setCatTipoDispersion(new CatTipoDispersionDTO(Constantes.ID_TIPO_DISPERSION_COMPLEMENTARIA));
+		dispersion.setCatEstatusDispersion(new CatEstatusDispersionDTO(Constantes.ID_ESTATUS_DISPERSION_EN_PROCESO));
+		dispersion.setNumBeneficiarios(beneficiarioDAO.countBeneficiarios());
+		dispersion.setFechaEjecucion(new Date());
+		dispersion.setIdUsuarioEjecucion(233l);
+		dispersionDAO.guardar(dispersion);
 	}
-	
 
 	public List<CatCicloEscolarDTO> getLstCatCicloEscolarDTO() {
 		return lstCatCicloEscolarDTO;

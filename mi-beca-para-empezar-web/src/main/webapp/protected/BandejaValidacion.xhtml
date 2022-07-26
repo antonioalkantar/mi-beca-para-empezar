@@ -130,7 +130,7 @@
 											columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
 											styleClass="ui-panelgrid-blank ui-fluid">
 											<p:outputLabel value="Estatus" styleClass="label-filtro" />
-												<p:selectOneMenu>
+											<p:selectOneMenu>
 												<f:selectItems
 													value="#{bandejaValidacionBean.lstCatEstatusDispersionDTO}"
 													var="estatusDispersion"
@@ -149,23 +149,25 @@
 									</p:outputPanel>
 								</p:panelGrid>
 
-								<p:dataTable styleClass="dt-tramites" reflow="true"
-									rows="10" paginator="true" paginatorPosition="bottom"
-									value="#{bandejaValidacionBean.dispersiones}"
-									var="dispersion"
+								<p:dataTable styleClass="dt-tramites" reflow="true" rows="10"
+									paginator="true" paginatorPosition="bottom"
+									value="#{bandejaValidacionBean.dispersiones}" var="dispersion"
 									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 									currentPageReportTemplate="Mostrados {startRecord}-{endRecord} de {totalRecords} resultados">
 									<p:column headerText="Ciclo escolar" width="20%"
 										style="vertical-align: middle;">
-										<p:outputLabel value="#{dispersion.catCicloEscolar.descripcion}" />
+										<p:outputLabel
+											value="#{dispersion.catCicloEscolar.descripcion}" />
 									</p:column>
 									<p:column headerText="Periodo" width="20%"
 										style="vertical-align: middle;">
-										<p:outputLabel value="#{dispersion.catPeriodoEscolar.descripcion}" />
+										<p:outputLabel
+											value="#{dispersion.catPeriodoEscolar.descripcion}" />
 									</p:column>
 									<p:column headerText="Tipo" width="20%"
 										style="vertical-align: middle;">
-											<p:outputLabel value="#{dispersion.catTipoDispersion.descripcion}" />
+										<p:outputLabel
+											value="#{dispersion.catTipoDispersion.descripcion}" />
 									</p:column>
 									<p:column headerText="No. de beneficiarios" width="20%"
 										style="vertical-align: middle;">
@@ -173,7 +175,8 @@
 									</p:column>
 									<p:column headerText="Estatus" width="20%"
 										style="vertical-align: middle;">
-										<p:outputLabel value="#{dispersion.catEstatusDispersion.descripcion}" />
+										<p:outputLabel
+											value="#{dispersion.catEstatusDispersion.descripcion}" />
 									</p:column>
 									<p:column headerText="Fecha de ejecución" width="20%"
 										style="vertical-align: middle;">
@@ -185,11 +188,13 @@
 									</p:column>
 									<p:column headerText="Aplica la dispersión (%)" width="20%"
 										style="vertical-align: middle;">
-										<p:outputLabel value="#{dispersion.aplicaDispersionPorcentaje}" />
+										<p:outputLabel
+											value="#{dispersion.aplicaDispersionPorcentaje}" />
 									</p:column>
 									<p:column headerText="No aplica la dispersión (%)" width="20%"
 										style="vertical-align: middle;">
-										<p:outputLabel value="#{dispersion.noAplicaDispersionPorcentaje}" />
+										<p:outputLabel
+											value="#{dispersion.noAplicaDispersionPorcentaje}" />
 									</p:column>
 									<p:column headerText="Acciones" width="20%"
 										style="vertical-align: middle;">
@@ -205,14 +210,15 @@
 				</div>
 			</div>
 
-			<!-- Inicio modal validacion -->
+
 			<p:dialog widgetVar="dlgConfirmacion"
 				header="Confirmar validación complementaria" modal="true"
 				width="500px" responsive="true" resizable="false"
 				styleClass="dlg-confirmacion" closable="false">
 				<p:outputPanel>
 					<p class="text-center">
-						Será realizada la validación <b>#{bandejaValidacionBean.mensajeTipoValidacion}</b> para el periodo de <b>#{bandejaValidacionBean.obtenerDescripcionPeriodo()}</b>
+						Será realizada la validación <b>#{bandejaValidacionBean.mensajeTipoValidacion}</b>
+						para el periodo de <b>#{bandejaValidacionBean.obtenerDescripcionPeriodo()}</b>
 						del ciclo escolar <b>#{bandejaValidacionBean.obtenerDescripcionCiclo()}</b>
 					</p>
 					<p class="my-4 text-center">¿Deseas confirmar la acción?</p>
@@ -228,7 +234,24 @@
 						styleClass="adip-btn-white-2" immediate="true" />
 				</p:outputPanel>
 			</p:dialog>
-			<!-- Fin modal validacion -->
+
+			<p:dialog widgetVar="dlgValidacion"
+				header="¡Validación en proceso!" modal="true"
+				width="500px" responsive="true" resizable="false"
+				styleClass="dlg-confirmacion" closable="false">
+				<p:outputPanel>
+					<p class="text-center">
+						Existe una validación en curso, por lo que no es posible ejecutar una nueva validación.
+					</p>
+				</p:outputPanel>
+				<p:outputPanel
+					styleClass="flex justify-content-center align-items-center mt-3">
+					<p:commandButton style="margin:0 0 0 20px !important"
+						onclick="PF('dlgValidacion').hide();" value="Entendido"
+						styleClass="adip-btn-white-2" immediate="true" />
+				</p:outputPanel>
+			</p:dialog>
+
 		</h:form>
 	</ui:define>
 </ui:composition>

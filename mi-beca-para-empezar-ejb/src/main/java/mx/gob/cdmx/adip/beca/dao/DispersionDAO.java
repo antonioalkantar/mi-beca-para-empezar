@@ -28,11 +28,12 @@ public class DispersionDAO extends IBaseDAO<DispersionDTO, Long>{
 		return em.createNamedQuery("Dispersion.findAll", DispersionDTO.class).getResultList();
 	}
 
-	public List<DispersionDTO> buscarPorCicloPeriodoAndTipoDispersion(Long idCicloEscolar, Long idPeriodoEscolar, Long idTipoDispersion) {
-		return em.createNamedQuery("Dispersion.findByCicloPeriodoAndTipoDispersion", DispersionDTO.class)
+	public List<DispersionDTO> buscarPorCicloPeriodoAndTipo(Long idCicloEscolar, Long idPeriodoEscolar, Long idTipoDispersion) {
+		return em.createNamedQuery("Dispersion.findByCicloPeriodoAndTipo", DispersionDTO.class)
 				.setParameter("idCicloEscolar", idCicloEscolar)
 				.setParameter("idPeriodoEscolar", idPeriodoEscolar)
-				.setParameter("idTipoDispersion", idTipoDispersion).getResultList();
+				.setParameter("idTipoDispersion", idTipoDispersion)		
+				.getResultList();
 	}
 	
 
