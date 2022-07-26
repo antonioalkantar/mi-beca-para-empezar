@@ -192,7 +192,7 @@ public class Dispersion implements java.io.Serializable {
 	}
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "fecha_conclusion", nullable = false)
+	@Column(name = "fecha_conclusion", nullable = true)
 	public Date getFechaConclusion() {
 		return this.fechaConclusion;
 	}
@@ -211,7 +211,7 @@ public class Dispersion implements java.io.Serializable {
 		this.catEstatusDispersion = catEstatusDispersion;
 	}
 	
-	@Column(name = "aplica_dispersion_porcentaje", nullable = false)
+	@Column(name = "aplica_dispersion_porcentaje", nullable = true)
 	public Double getAplicaDispersionPorcentaje() {
 		return this.aplicaDispersionPorcentaje;
 	}
@@ -220,7 +220,7 @@ public class Dispersion implements java.io.Serializable {
 		this.aplicaDispersionPorcentaje = aplicaDispersionPorcentaje;
 	}
 	
-	@Column(name = "aplica_dispersion_numero", nullable = false)
+	@Column(name = "aplica_dispersion_numero", nullable = true)
 	public Long getAplicaDispersionNumero() {
 		return this.aplicaDispersionNumero;
 	}
@@ -229,7 +229,7 @@ public class Dispersion implements java.io.Serializable {
 		this.aplicaDispersionNumero = aplicaDispersionNumero;
 	}
 	
-	@Column(name = "no_aplica_dispersion_porcentaje", nullable = false)
+	@Column(name = "no_aplica_dispersion_porcentaje", nullable = true)
 	public Double getNoAplicaDispersionPorcentaje() {
 		return this.noAplicaDispersionPorcentaje;
 	}
@@ -238,7 +238,7 @@ public class Dispersion implements java.io.Serializable {
 		this.noAplicaDispersionPorcentaje = noAplicaDispersionPorcentaje;
 	}
 	
-	@Column(name = "no_aplica_dispersion_numero", nullable = false)
+	@Column(name = "no_aplica_dispersion_numero", nullable = true)
 	public Long getNoAplicaDispersionNumero() {
 		return this.noAplicaDispersionNumero;
 	}
@@ -248,7 +248,7 @@ public class Dispersion implements java.io.Serializable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "fecha_descarga", nullable = false)
+	@Column(name = "fecha_descarga", nullable = true)
 	public Date getFechaDescarga() {
 		return this.fechaDescarga;
 	}
