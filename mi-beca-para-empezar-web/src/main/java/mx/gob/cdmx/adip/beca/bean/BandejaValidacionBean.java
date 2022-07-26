@@ -17,6 +17,7 @@ import org.primefaces.PrimeFaces;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import mx.gob.cdmx.adip.beca.acceso.bean.AuthenticatorBean;
 import mx.gob.cdmx.adip.beca.commons.dto.CatCicloEscolarDTO;
 import mx.gob.cdmx.adip.beca.commons.dto.CatEstatusDispersionDTO;
 import mx.gob.cdmx.adip.beca.commons.dto.CatPeriodoEscolarDTO;
@@ -39,6 +40,9 @@ public class BandejaValidacionBean implements Serializable {
 	private static final long serialVersionUID = -4549482679007839050L;
 	private static final Logger LOGGER = LoggerFactory.getLogger(BandejaValidacionBean.class);
 
+	@Inject 
+	private AuthenticatorBean authenticatorBean;
+	
 	@Inject
 	private CatCicloEscolarDAO catCicloEscolarDAO;
 
@@ -246,7 +250,7 @@ public class BandejaValidacionBean implements Serializable {
 				new CatEstatusDispersionDTO((long) Constantes.ID_ESTATUS_DISPERSION_EN_PROCESO));
 		dispersion.setNumBeneficiarios(beneficiarioDAO.countBeneficiarios());
 		dispersion.setFechaEjecucion(new Date());
-		dispersion.setIdUsuarioEjecucion(233l);
+		dispersion.setIdUsuarioEjecucion(authenticatorBean.getUsuarioLogueado().getIdUsuarioLlaveCdmx());
 		dispersionDAO.guardar(dispersion);
 	}
 
@@ -258,7 +262,7 @@ public class BandejaValidacionBean implements Serializable {
 		dispersion.setCatEstatusDispersion(new CatEstatusDispersionDTO(Constantes.ID_ESTATUS_DISPERSION_EN_PROCESO));
 		dispersion.setNumBeneficiarios(beneficiarioDAO.countBeneficiarios());
 		dispersion.setFechaEjecucion(new Date());
-		dispersion.setIdUsuarioEjecucion(233l);
+		dispersion.setIdUsuarioEjecucion(authenticatorBean.getUsuarioLogueado().getIdUsuarioLlaveCdmx());
 		dispersionDAO.guardar(dispersion);
 	}
 
