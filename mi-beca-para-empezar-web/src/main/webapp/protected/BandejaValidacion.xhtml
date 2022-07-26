@@ -67,8 +67,8 @@
 								<p:panelGrid columns="1" columnClasses="ui-grid-col-12"
 									layout="grid"
 									styleClass="ui-panelgrid-blank ui-fluid mb-5 text-center">
-									<p:commandButton value="Ejecutar Validación"
-										onclick="PF('dlgConfirmacion').show();"
+									<p:commandButton value="Ejecutar Validación" process="@form"
+										update="@form"
 										action="#{bandejaValidacionBean.ejecutarValidacion()}"
 										styleClass="adip-btn-green" />
 								</p:panelGrid>
@@ -94,7 +94,10 @@
 											<p:outputLabel value="Ciclo escolar"
 												styleClass="label-filtro" />
 											<p:selectOneMenu>
-												<f:selectItem itemLabel="Seleccionar" />
+												<f:selectItems
+													value="#{bandejaValidacionBean.lstCatCicloEscolarDTO}"
+													var="cicloEscolar" itemLabel="#{cicloEscolar.descripcion}"
+													itemValue="#{cicloEscolar.idCicloEscolar}"></f:selectItems>
 											</p:selectOneMenu>
 										</p:panelGrid>
 										<p:panelGrid columns="2"
@@ -103,7 +106,11 @@
 											style="text-align:center !important; padding-left: 0px !important;">
 											<p:outputLabel value="Periodo" styleClass="label-filtro" />
 											<p:selectOneMenu>
-												<f:selectItem itemLabel="Seleccionar" />
+												<f:selectItems
+													value="#{bandejaValidacionBean.lstCatPeriodoEscolarDTO}"
+													var="periodoEscolar"
+													itemLabel="#{periodoEscolar.descripcion}"
+													itemValue="#{periodoEscolar.idPeriodoEscolar}"></f:selectItems>
 											</p:selectOneMenu>
 										</p:panelGrid>
 										<p:panelGrid columns="2"
@@ -181,12 +188,16 @@
 				width="500px" responsive="true" resizable="false"
 				styleClass="dlg-confirmacion" closable="false">
 				<p:outputPanel>
-					<p class="text-center">Será realizada la validación complementaria para el periodo
-						de <b>Septiembre</b> del ciclo escolar <b>2022-2023</b></p>
+					<p class="text-center">
+						Será realizada la validación complementaria para el periodo de <b>#{bandejaValidacionBean.obtenerDescripcionPeriodo()}</b>
+						del ciclo escolar <b>#{bandejaValidacionBean.obtenerDescripcionCiclo()}</b>
+					</p>
 					<p class="my-4 text-center">¿Deseas confirmar la acción?</p>
 				</p:outputPanel>
-				<p:outputPanel styleClass="flex justify-content-center align-items-center mt-3">
-					<p:commandButton style="margin:0 !important" value="Confirmar" onclick="PF('dlgConfirmacion').hide();"
+				<p:outputPanel
+					styleClass="flex justify-content-center align-items-center mt-3">
+					<p:commandButton style="margin:0 !important" value="Confirmar"
+						onclick="PF('dlgConfirmacion').hide();"
 						styleClass="adip-btn-green" immediate="true" />
 					<p:commandButton style="margin:0 0 0 20px !important"
 						onclick="PF('dlgConfirmacion').hide();" value="Cancelar"

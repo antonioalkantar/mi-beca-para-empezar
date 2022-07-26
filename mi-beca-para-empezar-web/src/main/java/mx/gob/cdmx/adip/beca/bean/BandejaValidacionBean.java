@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.joda.time.LocalDate;
+import org.primefaces.PrimeFaces;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,7 +57,7 @@ public class BandejaValidacionBean implements Serializable {
 		establecerCicloPeriodoPorDefecto();
 		cantidadBeneficiarios = obtenerCantidadBeneficiarios();
 	}
-	
+
 	private String obtenerCantidadBeneficiarios() {
 		Long cantidadBeneficiarios = beneficiarioDAO.countBeneficiarios();
 		String cantidadBeneficiariosConComma = NumberFormat.getNumberInstance(Locale.US).format(cantidadBeneficiarios);
@@ -64,22 +65,19 @@ public class BandejaValidacionBean implements Serializable {
 	}
 
 	private void establecerCicloPeriodoPorDefecto() {
-		
 		String periodoActual = obtenerPeriodoActual();
 		Optional<CatCicloEscolarDTO> optCiclo = lstCatCicloEscolarDTO.stream()
-		.filter(ciclo -> ciclo.getDescripcion().equals(periodoActual))
-		.findFirst();
-		
-		if(optCiclo.isPresent()) {
+				.filter(ciclo -> ciclo.getDescripcion().equals(periodoActual)).findFirst();
+
+		if (optCiclo.isPresent()) {
 			idCicloEscolar = optCiclo.get().getIdCicloEscolar();
 		}
-		
+
 		String mesActual = obtenerMesActual();
 		Optional<CatPeriodoEscolarDTO> optPeriodo = lstCatPeriodoEscolarDTO.stream()
-		.filter(periodo -> periodo.getDescripcion().equals(mesActual))
-		.findFirst();
-		
-		if(optPeriodo.isPresent()) {
+				.filter(periodo -> periodo.getDescripcion().equals(mesActual)).findFirst();
+
+		if (optPeriodo.isPresent()) {
 			idPeriodoEscolar = optPeriodo.get().getIdPeriodoEscolar();
 		}
 	}
@@ -87,16 +85,26 @@ public class BandejaValidacionBean implements Serializable {
 	private String obtenerPeriodoActual() {
 		LocalDate fechaActual = LocalDate.now();
 		String periodoActual = String.valueOf(fechaActual.getYear()) + "-" + String.valueOf(fechaActual.getYear() + 1);
-		LOGGER.info("Periodo Actual: ", periodoActual);
 		return periodoActual;
 	}
 
 	private String obtenerMesActual() {
 		String[] meses = { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre",
 				"Octubre", "Noviembre", "Diciembre" };
-		String mesActual = meses[LocalDate.now().getMonthOfYear()-1];
-		LOGGER.info("Mes Actual: ", mesActual);
+		String mesActual = meses[LocalDate.now().getMonthOfYear() - 1];
 		return mesActual;
+	}
+
+	public String obtenerDescripcionPeriodo() {
+		Optional<CatPeriodoEscolarDTO> optPeriodo = lstCatPeriodoEscolarDTO.stream()
+				.filter(periodo -> periodo.getIdPeriodoEscolar().equals(idPeriodoEscolar)).findFirst();
+		return optPeriodo.isPresent() ? optPeriodo.get().getDescripcion() : "";
+	}
+
+	public String obtenerDescripcionCiclo() {
+		Optional<CatCicloEscolarDTO> optCiclo = lstCatCicloEscolarDTO.stream()
+				.filter(ciclo -> ciclo.getIdCicloEscolar().equals(idCicloEscolar)).findFirst();
+		return optCiclo.isPresent() ? optCiclo.get().getDescripcion() : "";
 	}
 
 //	public String init() {
@@ -117,8 +125,10 @@ public class BandejaValidacionBean implements Serializable {
 	 * Ejecuta la validacion del ciclo y periodo escolar
 	 */
 	public void ejecutarValidacion() {
-		LOGGER.info("ID CICLO ESCOLAR: "+ idCicloEscolar);
-		LOGGER.info("ID PERIODO ESCOLAR: "+ idPeriodoEscolar);
+		LOGGER.info("ID CICLO ESCOLAR: " + idCicloEscolar);
+		LOGGER.info("ID PERIODO ESCOLAR: " + idPeriodoEscolar);
+		PrimeFaces current = PrimeFaces.current();
+		current.executeScript("PF('dlgConfirmacion').show();");
 	}
 
 	public List<CatCicloEscolarDTO> getLstCatCicloEscolarDTO() {
