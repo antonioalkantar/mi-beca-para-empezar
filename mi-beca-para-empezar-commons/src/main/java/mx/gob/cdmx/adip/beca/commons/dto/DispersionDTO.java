@@ -18,6 +18,8 @@ public class DispersionDTO {
 	private Double noAplicaDispersionPorcentaje;
 	private Long noAplicaDispersionNumero;
 	private Date fechaDescarga;
+	
+	private Boolean permiteEjecucion;
 
 	public DispersionDTO() {
 		catCicloEscolar = new CatCicloEscolarDTO();
@@ -30,7 +32,7 @@ public class DispersionDTO {
 			String descripcionPeriodo, Long idTipoDispersion, String descripcionTipoDispersion, Long numBeneficiarios,
 			Date fechaEjecucion, Long idUsuarioEjecucion, Date fechaConclusion, Long idEstatusDispersion,
 			String descripcionEstatusDispersion, Double aplicaDispersionPorcentaje, Long aplicaDispersionNumero,
-			Double noAplicaDispersionPorcentaje, Long noAplicaDispersionNumero, Date fechaDescarga) {
+			Double noAplicaDispersionPorcentaje, Long noAplicaDispersionNumero, Date fechaDescarga, Boolean permiteEjecucion) {
 		this.idDispersion = idDispersion;
 		this.catPeriodoEscolar = new CatPeriodoEscolarDTO(idPeriodoEscolar, descripcionPeriodo);
 		this.catCicloEscolar = new CatCicloEscolarDTO(idCicloEscolar, descripcionCicloEscolar);
@@ -45,6 +47,7 @@ public class DispersionDTO {
 		this.noAplicaDispersionPorcentaje = noAplicaDispersionPorcentaje;
 		this.noAplicaDispersionNumero = noAplicaDispersionNumero;
 		this.fechaDescarga = fechaDescarga;
+		this.permiteEjecucion = permiteEjecucion;
 	}
 
 	public Long getIdDispersion() {
@@ -158,4 +161,13 @@ public class DispersionDTO {
 	public void setFechaDescarga(Date fechaDescarga) {
 		this.fechaDescarga = fechaDescarga;
 	}
+
+	public Boolean getPermiteEjecucion() {
+		return permiteEjecucion;
+	}
+
+	public void setPermiteEjecucion(Boolean permiteEjecucion) {
+		this.permiteEjecucion = permiteEjecucion;
+	}
+
 }

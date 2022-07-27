@@ -42,13 +42,15 @@ import javax.persistence.TemporalType;
 					+ "d.aplicaDispersionNumero, "
 					+ "d.noAplicaDispersionPorcentaje, "
 					+ "d.noAplicaDispersionNumero, "
-					+ "d.fechaDescarga "
+					+ "d.fechaDescarga, "
+					+ "d.permiteEjecucion "
 					+ ") "
 					+ "FROM Dispersion d "
 					+ "JOIN d.catCicloEscolar cce "
 					+ "JOIN d.catPeriodoEscolar cpe "
 					+ "JOIN d.catTipoDispersion ctd "
-					+ "JOIN d.catEstatusDispersion ced"),
+					+ "JOIN d.catEstatusDispersion ced "
+					+ "ORDER by d.fechaEjecucion DESC, cpe.idPeriodoEscolar DESC, ced.idEstatusDispersion DESC"),
 	@NamedQuery(name="Dispersion.findByCicloPeriodoAndTipo"
 	, query="SELECT NEW mx.gob.cdmx.adip.beca.commons.dto.DispersionDTO "
 			+ "( "
@@ -69,7 +71,8 @@ import javax.persistence.TemporalType;
 			+ "d.aplicaDispersionNumero, "
 			+ "d.noAplicaDispersionPorcentaje, "
 			+ "d.noAplicaDispersionNumero, "
-			+ "d.fechaDescarga "
+			+ "d.fechaDescarga, "
+			+ "d.permiteEjecucion "
 			+ ") "
 			+ "FROM Dispersion d "
 			+ "JOIN d.catCicloEscolar cce "
@@ -77,9 +80,9 @@ import javax.persistence.TemporalType;
 			+ "JOIN d.catTipoDispersion ctd "
 			+ "JOIN d.catEstatusDispersion ced "
 			+ "WHERE cce.idCicloEscolar = :idCicloEscolar "
-			+ "AND cpe.idPeriodoEscolar = :idPeriodoEscolar "
+			//+ "AND cpe.idPeriodoEscolar = :idPeriodoEscolar "
 			+ "AND ctd.idTipoDispersion = :idTipoDispersion "
-			+ "ORDER by d.fechaEjecucion DESC")
+			+ "ORDER by d.fechaEjecucion DESC, cpe.idPeriodoEscolar DESC, ced.idEstatusDispersion DESC")
 })
 public class Dispersion implements java.io.Serializable {
 	
@@ -98,6 +101,7 @@ public class Dispersion implements java.io.Serializable {
 	private Double noAplicaDispersionPorcentaje;
 	private Long noAplicaDispersionNumero;
 	private Date fechaDescarga;
+	private Boolean permiteEjecucion;
 
 	public Dispersion() {
 	}
@@ -258,4 +262,13 @@ public class Dispersion implements java.io.Serializable {
 		this.fechaDescarga = fechaDescarga;
 	}
 
+	@Column(name = "permite_ejecucion", nullable = true)
+	public Boolean getPermiteEjecucion() {
+		return permiteEjecucion;
+	}
+
+	public void setPermiteEjecucion(Boolean permiteEjecucion) {
+		this.permiteEjecucion = permiteEjecucion;
+	}
+	
 }

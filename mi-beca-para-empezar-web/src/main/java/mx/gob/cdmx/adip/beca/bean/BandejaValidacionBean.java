@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -40,9 +42,9 @@ public class BandejaValidacionBean implements Serializable {
 	private static final long serialVersionUID = -4549482679007839050L;
 	private static final Logger LOGGER = LoggerFactory.getLogger(BandejaValidacionBean.class);
 
-	@Inject 
+	@Inject
 	private AuthenticatorBean authenticatorBean;
-	
+
 	@Inject
 	private CatCicloEscolarDAO catCicloEscolarDAO;
 
@@ -251,6 +253,7 @@ public class BandejaValidacionBean implements Serializable {
 		dispersion.setNumBeneficiarios(beneficiarioDAO.countBeneficiarios());
 		dispersion.setFechaEjecucion(new Date());
 		dispersion.setIdUsuarioEjecucion(authenticatorBean.getUsuarioLogueado().getIdUsuarioLlaveCdmx());
+		dispersion.setPermiteEjecucion(true);
 		dispersionDAO.guardar(dispersion);
 	}
 
@@ -263,6 +266,7 @@ public class BandejaValidacionBean implements Serializable {
 		dispersion.setNumBeneficiarios(beneficiarioDAO.countBeneficiarios());
 		dispersion.setFechaEjecucion(new Date());
 		dispersion.setIdUsuarioEjecucion(authenticatorBean.getUsuarioLogueado().getIdUsuarioLlaveCdmx());
+		dispersion.setPermiteEjecucion(true);
 		dispersionDAO.guardar(dispersion);
 	}
 

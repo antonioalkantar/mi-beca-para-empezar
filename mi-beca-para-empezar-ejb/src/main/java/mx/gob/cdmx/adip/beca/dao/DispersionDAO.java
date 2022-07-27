@@ -33,7 +33,7 @@ public class DispersionDAO extends IBaseDAO<DispersionDTO, Long>{
 	public List<DispersionDTO> buscarPorCicloPeriodoAndTipo(Long idCicloEscolar, Long idPeriodoEscolar, Long idTipoDispersion) {
 		return em.createNamedQuery("Dispersion.findByCicloPeriodoAndTipo", DispersionDTO.class)
 				.setParameter("idCicloEscolar", idCicloEscolar)
-				.setParameter("idPeriodoEscolar", idPeriodoEscolar)
+				//.setParameter("idPeriodoEscolar", idPeriodoEscolar)
 				.setParameter("idTipoDispersion", idTipoDispersion)		
 				.getResultList();
 	}
@@ -62,7 +62,8 @@ public class DispersionDAO extends IBaseDAO<DispersionDTO, Long>{
 		strQuery.append("d.aplicaDispersionNumero, ");
 		strQuery.append("d.noAplicaDispersionPorcentaje, ");
 		strQuery.append("d.noAplicaDispersionNumero, ");
-		strQuery.append("d.fechaDescarga ");
+		strQuery.append("d.fechaDescarga, ");
+		strQuery.append("d.permiteEjecucion ");
 		strQuery.append(") ");
 		strQuery.append("FROM Dispersion d ");
 		strQuery.append("JOIN d.catCicloEscolar cce ");
@@ -139,6 +140,7 @@ public class DispersionDAO extends IBaseDAO<DispersionDTO, Long>{
 		dispersion.setNoAplicaDispersionPorcentaje(e.getNoAplicaDispersionPorcentaje());
 		dispersion.setNoAplicaDispersionNumero(e.getNoAplicaDispersionNumero());
 		dispersion.setFechaDescarga(e.getFechaDescarga());
+		dispersion.setPermiteEjecucion(e.getPermiteEjecucion());
 
 		em.persist(dispersion);
 		em.flush();
