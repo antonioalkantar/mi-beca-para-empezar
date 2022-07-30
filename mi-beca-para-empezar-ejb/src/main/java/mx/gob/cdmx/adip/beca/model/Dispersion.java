@@ -43,7 +43,11 @@ import javax.persistence.TemporalType;
 					+ "d.noAplicaDispersionPorcentaje, "
 					+ "d.noAplicaDispersionNumero, "
 					+ "d.fechaDescarga, "
-					+ "d.permiteEjecucion "
+					+ "d.permiteEjecucion, "
+					+ "d.rutaArchivoPreescolar, "
+					+ "d.rutaArchivoPrimaria, "
+					+ "d.rutaArchivoSecundaria, "
+					+ "d.rutaArchivoLaboral "
 					+ ") "
 					+ "FROM Dispersion d "
 					+ "JOIN d.catCicloEscolar cce "
@@ -72,7 +76,11 @@ import javax.persistence.TemporalType;
 			+ "d.noAplicaDispersionPorcentaje, "
 			+ "d.noAplicaDispersionNumero, "
 			+ "d.fechaDescarga, "
-			+ "d.permiteEjecucion "
+			+ "d.permiteEjecucion, "
+			+ "d.rutaArchivoPreescolar, "
+			+ "d.rutaArchivoPrimaria, "
+			+ "d.rutaArchivoSecundaria, "
+			+ "d.rutaArchivoLaboral "
 			+ ") "
 			+ "FROM Dispersion d "
 			+ "JOIN d.catCicloEscolar cce "
@@ -102,6 +110,11 @@ public class Dispersion implements java.io.Serializable {
 	private Long noAplicaDispersionNumero;
 	private Date fechaDescarga;
 	private Boolean permiteEjecucion;
+	private String rutaArchivoPreescolar;
+	private String rutaArchivoPrimaria;
+	private String rutaArchivoSecundaria;
+	private String rutaArchivoLaboral;
+	
 
 	public Dispersion() {
 	}
@@ -269,6 +282,42 @@ public class Dispersion implements java.io.Serializable {
 
 	public void setPermiteEjecucion(Boolean permiteEjecucion) {
 		this.permiteEjecucion = permiteEjecucion;
+	}
+
+	@Column(name = "ruta_archivo_preescolar", nullable = true)
+	public String getRutaArchivoPreescolar() {
+		return rutaArchivoPreescolar;
+	}
+
+	public void setRutaArchivoPreescolar(String rutaArchivoPreescolar) {
+		this.rutaArchivoPreescolar = rutaArchivoPreescolar;
+	}
+
+	@Column(name = "ruta_archivo_primaria", nullable = true)
+	public String getRutaArchivoPrimaria() {
+		return rutaArchivoPrimaria;
+	}
+
+	public void setRutaArchivoPrimaria(String rutaArchivoPrimaria) {
+		this.rutaArchivoPrimaria = rutaArchivoPrimaria;
+	}
+
+	@Column(name = "ruta_archivo_secundaria", nullable = true)
+	public String getRutaArchivoSecundaria() {
+		return rutaArchivoSecundaria;
+	}
+
+	public void setRutaArchivoSecundaria(String rutaArchivoSecundaria) {
+		this.rutaArchivoSecundaria = rutaArchivoSecundaria;
+	}
+
+	@Column(name = "ruta_archivo_laboral", nullable = true)
+	public String getRutaArchivoLaboral() {
+		return rutaArchivoLaboral;
+	}
+
+	public void setRutaArchivoLaboral(String rutaArchivoLaboral) {
+		this.rutaArchivoLaboral = rutaArchivoLaboral;
 	}
 	
 }

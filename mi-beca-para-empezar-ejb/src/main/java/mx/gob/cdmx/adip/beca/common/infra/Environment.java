@@ -130,6 +130,11 @@ public final class Environment {
      * url para enviar validación de documentos a llave
      */
     private static String urlServicioCDMXValidaDocumento = "";
+    
+    /**
+     * Url que especifica la ruta donde estan almacenados los archivos de dispersion
+     */
+    private static String rutaArchivosDispersiones = "";
 
 	/**
      * Inicializacion de variables utilizando como entrada el archivo
@@ -246,6 +251,9 @@ public final class Environment {
             /*Ruta Documentos*/
             pathDocumentos = properties.getProperty("beca.pathDocumentos");
             LOGGER.info("ENV [beca.pathDocumentos:\t\t{}]", pathDocumentos);
+            
+            rutaArchivosDispersiones = properties.getProperty("beca.pathDispersiones");
+            LOGGER.info("ENV [beca.pathDispersiones:\t\t{}]", rutaArchivosDispersiones);
             
             /**/
             urlServicioCDMXDocumento = properties.getProperty("services.cdmx.documentos.url");
@@ -423,5 +431,9 @@ public final class Environment {
 	public static String getUrlServicioCDMXValidaDocumento() {
 		return urlServicioCDMXValidaDocumento;
 	}
+
+	public static String getRutaArchivosDispersiones() {
+		return rutaArchivosDispersiones;
+	}	
 
 }

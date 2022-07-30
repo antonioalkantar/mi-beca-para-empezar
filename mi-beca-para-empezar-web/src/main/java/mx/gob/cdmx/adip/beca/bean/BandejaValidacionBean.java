@@ -2,12 +2,11 @@ package mx.gob.cdmx.adip.beca.bean;
 
 import java.io.Serializable;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -16,10 +15,15 @@ import javax.inject.Named;
 
 import org.joda.time.LocalDate;
 import org.primefaces.PrimeFaces;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import mx.gob.cdmx.adip.beca.acceso.bean.AuthenticatorBean;
+import mx.gob.cdmx.adip.beca.common.infra.Environment;
+import mx.gob.cdmx.adip.beca.common.util.BeanUtils;
+import mx.gob.cdmx.adip.beca.common.util.FileUtils;
 import mx.gob.cdmx.adip.beca.commons.dto.CatCicloEscolarDTO;
 import mx.gob.cdmx.adip.beca.commons.dto.CatEstatusDispersionDTO;
 import mx.gob.cdmx.adip.beca.commons.dto.CatPeriodoEscolarDTO;
@@ -90,6 +94,8 @@ public class BandejaValidacionBean implements Serializable {
 	private Long idEstatusSel;
 
 	private DispersionDTO dispersionSel;
+
+
 
 	// TODO Eliminar anotacion PostConstruct y descomentar return cuando se sepa a
 	// traves de cual boton se accedera
@@ -227,8 +233,35 @@ public class BandejaValidacionBean implements Serializable {
 
 	}
 
-	public void descargarReporte() {
+	public StreamedContent descargarReporte() {
 		LOGGER.info("Se descarga reporte.");
+		List<String> rutas = obtenerRutasArchivos(dispersionSel);
+		String nombreArchivo = dispersionSel.getCatCicloEscolar().getDescripcion() + "_"
+				+ dispersionSel.getCatPeriodoEscolar().getDescripcion() + "_"
+				+ dispersionSel.getCatTipoDispersion().getDescripcion() + "_" + Constantes.NOMBRE_ARCHIVO_REPORTE
+				+ Constantes.EXTENSION_ZIP;
+		StreamedContent archivoReporte = DefaultStreamedContent.builder().name(nombreArchivo).contentType(Constantes.CONTENT_TYPE_ZIP)
+				.stream(() -> FileUtils.obtenerZipInputStream(rutas)).build();
+		return archivoReporte;
+		
+	}
+
+	private List<String> obtenerRutasArchivos(DispersionDTO dispersion) {
+		List<String> rutas = new ArrayList<>();
+		String rutaArchivosDispersiones = Environment.getRutaArchivosDispersiones();
+		if (BeanUtils.isNotNull(dispersion.getRutaArchivoPreescolar())) {
+			rutas.add(rutaArchivosDispersiones + dispersion.getRutaArchivoPreescolar());
+		}
+		if (BeanUtils.isNotNull(dispersion.getRutaArchivoPrimaria())) {
+			rutas.add(rutaArchivosDispersiones + dispersion.getRutaArchivoPrimaria());
+		}
+		if (BeanUtils.isNotNull(dispersion.getRutaArchivoSecundaria())) {
+			rutas.add(rutaArchivosDispersiones + dispersion.getRutaArchivoSecundaria());
+		}
+		if (BeanUtils.isNotNull(dispersion.getRutaArchivoLaboral())) {
+			rutas.add(rutaArchivosDispersiones + dispersion.getRutaArchivoLaboral());
+		}
+		return rutas;
 	}
 
 	public void insertarDispersion() {

@@ -255,6 +255,8 @@
 
 				<beca.pathDocumentos>/home/mibeca/documentos/</beca.pathDocumentos>
 				
+				<beca.pathDispersiones>C:\becas\</beca.pathDispersiones>
+				
 				<services.cdmx.documentos.url>https://llave-dev.cdmx.gob.mx/rest/consulta/documentoUsuario</services.cdmx.documentos.url>
 				
 				<service.aefcm.user>mci_fidegar_adip</service.aefcm.user>
@@ -312,6 +314,8 @@
 				
 				<beca.pathDocumentos>/home/usrmibecadev/documentos/</beca.pathDocumentos>
 				
+				<beca.pathDispersiones>C:\becas\</beca.pathDispersiones>
+				
 				<services.cdmx.documentos.url>https://llave-dev.cdmx.gob.mx/rest/consulta/documentoUsuario</services.cdmx.documentos.url>
 				<service.aefcm.user>mci_fidegar_adip</service.aefcm.user>
 				<service.aefcm.password>3AL7R0LD39UO</service.aefcm.password>
@@ -368,6 +372,8 @@
 				
 				<beca.pathDocumentos>/home/usrmibecadev/documentos/</beca.pathDocumentos>
 				
+				<beca.pathDispersiones>C:\becas\</beca.pathDispersiones>
+				
 				<services.cdmx.documentos.url>https://llave-dev.cdmx.gob.mx/rest/consulta/documentoUsuario</services.cdmx.documentos.url>
 
 				<service.aefcm.user>mci_fidegar_adip</service.aefcm.user>
@@ -423,6 +429,7 @@
 				<services.cdmx.curp.passwordCurpBasicAuth>M1_b3c4EMpez44rXkWs!</services.cdmx.curp.passwordCurpBasicAuth>
 								
 				<beca.pathDocumentos>/home/wwwmibeca/documentos/</beca.pathDocumentos>
+				<beca.pathDispersiones>C:\becas\</beca.pathDispersiones>
 				
 				<services.cdmx.documentos.url>https://llave.cdmx.gob.mx/rest/consulta/documentoUsuario</services.cdmx.documentos.url>
 				<service.aefcm.user>mci_fidegar_adip</service.aefcm.user>

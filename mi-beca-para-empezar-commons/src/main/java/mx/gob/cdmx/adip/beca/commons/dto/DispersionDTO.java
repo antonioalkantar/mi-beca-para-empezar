@@ -18,8 +18,11 @@ public class DispersionDTO {
 	private Double noAplicaDispersionPorcentaje;
 	private Long noAplicaDispersionNumero;
 	private Date fechaDescarga;
-	
 	private Boolean permiteEjecucion;
+	private String rutaArchivoPreescolar;
+	private String rutaArchivoPrimaria;
+	private String rutaArchivoSecundaria;
+	private String rutaArchivoLaboral;
 
 	public DispersionDTO() {
 		catCicloEscolar = new CatCicloEscolarDTO();
@@ -32,7 +35,9 @@ public class DispersionDTO {
 			String descripcionPeriodo, Long idTipoDispersion, String descripcionTipoDispersion, Long numBeneficiarios,
 			Date fechaEjecucion, Long idUsuarioEjecucion, Date fechaConclusion, Long idEstatusDispersion,
 			String descripcionEstatusDispersion, Double aplicaDispersionPorcentaje, Long aplicaDispersionNumero,
-			Double noAplicaDispersionPorcentaje, Long noAplicaDispersionNumero, Date fechaDescarga, Boolean permiteEjecucion) {
+			Double noAplicaDispersionPorcentaje, Long noAplicaDispersionNumero, Date fechaDescarga,
+			Boolean permiteEjecucion, String rutaArchivoPreescolar, String rutaArchivoPrimaria,
+			String rutaArchivoSecundaria, String rutaArchivoLaboral) {
 		this.idDispersion = idDispersion;
 		this.catPeriodoEscolar = new CatPeriodoEscolarDTO(idPeriodoEscolar, descripcionPeriodo);
 		this.catCicloEscolar = new CatCicloEscolarDTO(idCicloEscolar, descripcionCicloEscolar);
@@ -48,6 +53,10 @@ public class DispersionDTO {
 		this.noAplicaDispersionNumero = noAplicaDispersionNumero;
 		this.fechaDescarga = fechaDescarga;
 		this.permiteEjecucion = permiteEjecucion;
+		this.rutaArchivoPreescolar = rutaArchivoPreescolar;
+		this.rutaArchivoPrimaria = rutaArchivoPrimaria;
+		this.rutaArchivoSecundaria = rutaArchivoSecundaria;
+		this.rutaArchivoLaboral = rutaArchivoLaboral; 
 	}
 
 	public Long getIdDispersion() {
@@ -170,4 +179,35 @@ public class DispersionDTO {
 		this.permiteEjecucion = permiteEjecucion;
 	}
 
+	public String getRutaArchivoPreescolar() {
+		return rutaArchivoPreescolar;
+	}
+
+	public void setRutaArchivoPreescolar(String rutaArchivoPreescolar) {
+		this.rutaArchivoPreescolar = rutaArchivoPreescolar;
+	}
+
+	public String getRutaArchivoPrimaria() {
+		return rutaArchivoPrimaria;
+	}
+
+	public void setRutaArchivoPrimaria(String rutaArchivoPrimaria) {
+		this.rutaArchivoPrimaria = rutaArchivoPrimaria;
+	}
+
+	public String getRutaArchivoSecundaria() {
+		return rutaArchivoSecundaria;
+	}
+
+	public void setRutaArchivoSecundaria(String rutaArchivoSecundaria) {
+		this.rutaArchivoSecundaria = rutaArchivoSecundaria;
+	}
+
+	public String getRutaArchivoLaboral() {
+		return rutaArchivoLaboral;
+	}
+
+	public void setRutaArchivoLaboral(String rutaArchivoLaboral) {
+		this.rutaArchivoLaboral = rutaArchivoLaboral;
+	}
 }

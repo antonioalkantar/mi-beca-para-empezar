@@ -189,42 +189,55 @@
 									</p:column>
 									<p:column headerText="Fecha de ejecución" width="20%"
 										style="vertical-align: middle;">
-										<p:outputLabel value="#{dispersion.fechaEjecucion}" >
-											 <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+										<p:outputLabel value="#{dispersion.fechaEjecucion}">
+											<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
 										</p:outputLabel>
 									</p:column>
 									<p:column headerText="Fecha de conclusión" width="20%"
 										style="vertical-align: middle;">
-										<p:outputLabel value="#{dispersion.fechaConclusion}" >
-											 <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+										<p:outputLabel value="#{dispersion.fechaConclusion}">
+											<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
 										</p:outputLabel>
 									</p:column>
 									<p:column headerText="Aplica la dispersión (%)" width="20%"
 										style="vertical-align: middle;">
-										<p:outputLabel value="#{bandejaValidacionBean.obtenerFormatoNumero(dispersion.aplicaDispersionNumero)}" />
+										<p:outputLabel
+											value="#{bandejaValidacionBean.obtenerFormatoNumero(dispersion.aplicaDispersionNumero)}" />
 										<p:outputLabel
 											value=" (#{dispersion.aplicaDispersionPorcentaje}%)" />
 									</p:column>
 									<p:column headerText="No aplica la dispersión (%)" width="20%"
 										style="vertical-align: middle;">
-										<p:outputLabel value="#{bandejaValidacionBean.obtenerFormatoNumero(dispersion.noAplicaDispersionNumero)}" />
+										<p:outputLabel
+											value="#{bandejaValidacionBean.obtenerFormatoNumero(dispersion.noAplicaDispersionNumero)}" />
 										<p:outputLabel
 											value=" (#{dispersion.noAplicaDispersionPorcentaje}%)" />
 									</p:column>
 									<p:column headerText="Acciones" width="20%"
 										style="vertical-align: middle;">
-										<p:commandLink action="#{bandejaValidacionBean.descargarReporte()}" process="@this">
-											<p:graphicImage value="/resources/img/icon-download.png" />	
+										<p:commandLink
+											
+											ajax="false" process="@this">
+											<f:setPropertyActionListener value="#{dispersion}"
+												target="#{bandejaValidacionBean.dispersionSel}" />
+											<p:graphicImage value="/resources/img/icon-download.png" />
+											<p:fileDownload
+												value="#{bandejaValidacionBean.descargarReporte()}" />
+
 										</p:commandLink>
-										<p:commandLink rendered="#{dispersion.permiteEjecucion and dispersion.catEstatusDispersion.idEstatusDispersion == 3}" styleClass="ml-2" process="@this" update="@form" action="#{bandejaValidacionBean.ejecutarValidacionComplementaria()}">
+										<p:commandLink
+											rendered="#{dispersion.permiteEjecucion and dispersion.catEstatusDispersion.idEstatusDispersion == 3}"
+											styleClass="ml-2" process="@this" update="@form"
+											action="#{bandejaValidacionBean.ejecutarValidacionComplementaria()}">
 											<p:graphicImage value="/resources/img/icon-process.png" />
-											<f:setPropertyActionListener value="#{dispersion}" target="#{bandejaValidacionBean.dispersionSel}" />	
+											<f:setPropertyActionListener value="#{dispersion}"
+												target="#{bandejaValidacionBean.dispersionSel}" />
 										</p:commandLink>
 									</p:column>
 									<p:column headerText="Fecha de descarga" width="20%"
 										style="vertical-align: middle;">
-										<p:outputLabel value="#{dispersion.fechaDescarga}" >
-										 	<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+										<p:outputLabel value="#{dispersion.fechaDescarga}">
+											<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
 										</p:outputLabel>
 									</p:column>
 								</p:dataTable>
@@ -274,6 +287,10 @@
 				</p:outputPanel>
 			</p:dialog>
 
+
+
 		</h:form>
+
+
 	</ui:define>
 </ui:composition>
