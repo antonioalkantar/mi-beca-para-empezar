@@ -63,7 +63,11 @@ public class DispersionDAO extends IBaseDAO<DispersionDTO, Long>{
 		strQuery.append("d.noAplicaDispersionPorcentaje, ");
 		strQuery.append("d.noAplicaDispersionNumero, ");
 		strQuery.append("d.fechaDescarga, ");
-		strQuery.append("d.permiteEjecucion ");
+		strQuery.append("d.permiteEjecucion, ");
+		strQuery.append("d.rutaArchivoPreescolar, ");
+		strQuery.append("d.rutaArchivoPrimaria, ");
+		strQuery.append("d.rutaArchivoSecundaria, ");
+		strQuery.append("d.rutaArchivoLaboral ");
 		strQuery.append(") ");
 		strQuery.append("FROM Dispersion d ");
 		strQuery.append("JOIN d.catCicloEscolar cce ");
@@ -141,6 +145,10 @@ public class DispersionDAO extends IBaseDAO<DispersionDTO, Long>{
 		dispersion.setNoAplicaDispersionNumero(e.getNoAplicaDispersionNumero());
 		dispersion.setFechaDescarga(e.getFechaDescarga());
 		dispersion.setPermiteEjecucion(e.getPermiteEjecucion());
+		dispersion.setRutaArchivoPreescolar(e.getRutaArchivoPreescolar());
+		dispersion.setRutaArchivoPrimaria(e.getRutaArchivoPrimaria());
+		dispersion.setRutaArchivoSecundaria(e.getRutaArchivoSecundaria());
+		dispersion.setRutaArchivoLaboral(e.getRutaArchivoLaboral());
 
 		em.persist(dispersion);
 		em.flush();
