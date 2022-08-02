@@ -185,6 +185,8 @@
 								</p:panelGrid>
 								<p:graphicImage library="img" name="Silueta.svg" styleClass="icono-login" style="padding-left: 10px; width: 40px !important;" />
 								<p:menuButton styleClass="menu-button-loguin">
+									<p:menuitem id="bandejaValidacion" styleClass="ui-menu-item-personalizado" value="Bandeja de validaciones" action="#{bandejaValidacionBean.init()}" update="messages"
+										immediate="true" rendered="#{authenticatorBean.rolAdministrador}" />
 									<p:menuitem id="bandejaSolicitud" styleClass="ui-menu-item-personalizado" value="Bandeja de solicitudes" action="#{bandejaFuncionarioBean.init()}" update="messages"
 										immediate="true" rendered="#{authenticatorBean.rolAdministrador or authenticatorBean.rolValidador or authenticatorBean.rolConsulta}" />
 									<p:menuitem id="bandejaTutor" styleClass="ui-menu-item-personalizado" value="Bandeja de Tutor" action="#{bandejaTutorBean.init()}" update="messages" immediate="true"

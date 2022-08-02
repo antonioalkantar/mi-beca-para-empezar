@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 
 import mx.gob.cdmx.adip.beca.bean.BandejaFuncionarioBean;
 import mx.gob.cdmx.adip.beca.bean.BandejaTutorBean;
+import mx.gob.cdmx.adip.beca.bean.BandejaValidacionBean;
 import mx.gob.cdmx.adip.beca.client.OAuth2CdmxClient;
 import mx.gob.cdmx.adip.beca.common.infra.Environment;
 import mx.gob.cdmx.adip.beca.common.util.BeanUtils;
@@ -51,6 +52,9 @@ public class AuthenticatorBean implements Serializable {
 	
 	@Inject
 	private HttpServletRequest request;
+	
+	@Inject
+	private BandejaValidacionBean bandejaValidacionBean;
 	
 	@Inject
 	private BandejaTutorBean bandejaTutorBean;
@@ -149,9 +153,12 @@ public class AuthenticatorBean implements Serializable {
 							LOGGER.debug("Usuario recibido de Llave:" + usuarioLogueado.getNombre());
 							LOGGER.debug("usuario id: " + usuarioLogueado.getIdUsuarioLlaveCdmx());
 							esExtranjero = usuarioLogueado.getEsExtranjero();
-							if (rolTutor) {
+							if (rolAdministrador) {
+								facesContext.getExternalContext().redirect(facesContext.getExternalContext().getRequestContextPath() + bandejaValidacionBean.init());
+							}
+							else if (rolTutor) {
 								facesContext.getExternalContext().redirect(facesContext.getExternalContext().getRequestContextPath() + bandejaTutorBean.init());
-							} else {
+							} else if (rolConsulta) {
 								facesContext.getExternalContext().redirect(facesContext.getExternalContext().getRequestContextPath() + bandejaFuncionarioBean.init());								
 							}
 						}

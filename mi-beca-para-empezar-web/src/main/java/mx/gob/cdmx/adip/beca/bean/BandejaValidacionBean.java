@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -45,6 +46,9 @@ public class BandejaValidacionBean implements Serializable {
 	 */
 	private static final long serialVersionUID = -4549482679007839050L;
 	private static final Logger LOGGER = LoggerFactory.getLogger(BandejaValidacionBean.class);
+
+	@Inject
+	private FacesContext facesContext;
 
 	@Inject
 	private AuthenticatorBean authenticatorBean;
@@ -95,17 +99,28 @@ public class BandejaValidacionBean implements Serializable {
 
 	private DispersionDTO dispersionSel;
 
-
-
-	// TODO Eliminar anotacion PostConstruct y descomentar return cuando se sepa a
-	// traves de cual boton se accedera
 	@PostConstruct
-	public void init() {
+	public void inicializar() {
+		try {
+			if (authenticatorBean.getRolAdministrador()) {
+				consultarCatalogos();
+				establecerCicloConPeriodoPorDefecto();
+				consultarCantBeneficiarios();
+				consultarDispersiones();
+			} else {
+				facesContext.getExternalContext().redirect(facesContext.getExternalContext().getRequestContextPath() + Constantes.RETURN_INDEX_PAGE + Constantes.JSF_REDIRECT);
+			}
+		} catch (Exception e) {
+			LOGGER.error("Error al inicializar.");
+		}
+	}
+
+	public String init() {
 		consultarCatalogos();
 		establecerCicloConPeriodoPorDefecto();
 		consultarCantBeneficiarios();
 		consultarDispersiones();
-//		return Constantes.RETURN_BANDEJA_VALIDACION + Constantes.JSF_REDIRECT;
+		return Constantes.RETURN_BANDEJA_VALIDACION + Constantes.JSF_REDIRECT;
 	}
 
 	private void consultarCatalogos() {
@@ -240,10 +255,10 @@ public class BandejaValidacionBean implements Serializable {
 				+ dispersionSel.getCatPeriodoEscolar().getDescripcion() + "_"
 				+ dispersionSel.getCatTipoDispersion().getDescripcion() + "_" + Constantes.NOMBRE_ARCHIVO_REPORTE
 				+ Constantes.EXTENSION_ZIP;
-		StreamedContent archivoReporte = DefaultStreamedContent.builder().name(nombreArchivo).contentType(Constantes.CONTENT_TYPE_ZIP)
-				.stream(() -> FileUtils.obtenerZipInputStream(rutas)).build();
+		StreamedContent archivoReporte = DefaultStreamedContent.builder().name(nombreArchivo)
+				.contentType(Constantes.CONTENT_TYPE_ZIP).stream(() -> FileUtils.obtenerZipInputStream(rutas)).build();
 		return archivoReporte;
-		
+
 	}
 
 	private List<String> obtenerRutasArchivos(DispersionDTO dispersion) {
