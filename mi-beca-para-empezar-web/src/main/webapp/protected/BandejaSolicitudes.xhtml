@@ -24,9 +24,49 @@
 
 			<p:defaultCommand target="dummy" />
 			<p:commandButton id="dummy" process="@none" global="false" style="display:none;" />
+		<!-- ENCUESTA -->
+			<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12, ui-g-12 ui-md-12 ui-lg-12" layout="grid" style="padding: 0% 0 2% 0; max-width: 1024px; margin: auto;"
+				styleClass="ui-panelgrid-blank ui-fluid" rendered="#{bandejaTutorBean.habilitaEncuesta}">
+				<p:panel header="#{msg.lbl_informacion_beneficiario}" styleClass="adip-panel">
+
+					<!--INFORMACIÓN DEL BENEFICIARIO -->
+				<p:panelGrid id="vistaBack" columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" >
+
+					<p:panelGrid id="pgInfo" columns="2" columnClasses="ui-g-12 ui-md-12 ui-lg-6, ui-g-12 ui-md-12 ui-lg-6" layout="grid"
+						styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid">
+						<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+							<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+								<p:outputLabel value="#{msg.lbl_nombre}" styleClass="adip-output-campos" />
+								<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.nombresBeneficiario} #{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.primerApellidoBeneficiario} #{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.segundoApellidoBeneficiario}" styleClass="adip-output-bold-campos" />
+							</p:panelGrid>
+						</p:panelGrid>
+						<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+							<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+								<p:outputLabel value="#{msg.lbl_curp}" styleClass="adip-output-campos" />
+								<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.beneficiarioDTO.curpBeneficiario}" styleClass="adip-output-bold-campos" />
+							</p:panelGrid>
+						</p:panelGrid>
+					</p:panelGrid>
+				</p:panelGrid>
+				</p:panel>
+
+					<!--ENCUESTA -->
+				<p:panel header="Encuesta" styleClass="adip-panel">
+					<ui:include src="/protected/seccionesBeneficiario/Encuesta.xhtml" />
+
+					<p:outputPanel id="pnlBtns" styleClass="adip-footer-content"  style="padding-bottom: 4% !important; padding-top: 0px !important; padding-left: 0px  !important; padding-right: 0px !important;">
+						<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+							<p:commandButton value="#{msg.lbl_guardar_enviar}" styleClass="adip-btn-gold" rendered="true" 
+								process="@this formTramite" update="formTramite" oncomplete="document.getElementById('formTramite').scrollIntoView();" action="#{encuestaBeneficiarioBean.guardar()}"/>
+						</p:panelGrid>
+					</p:outputPanel>
+				</p:panel>
+			</p:panelGrid>
+
+		<!-- BANDEJA DEL TUTOR -->
 
 			<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" style="padding: 2% 0 2% 0; max-width: 1024px; margin: auto;"
-				styleClass="ui-panelgrid-blank ui-fluid" rendered="true">
+				styleClass="ui-panelgrid-blank ui-fluid" rendered="#{!bandejaTutorBean.habilitaEncuesta}">
 
 				<p:panel header="Tutor" styleClass="adip-panel">
 
@@ -61,7 +101,7 @@
 								<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" rendered="#{bandejaTutorBean.tutorDTO.idUsuarioLlaveCdmx eq null}">
 									<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" style="text-align: center;">
 										<p:graphicImage styleClass="img-header" value="/resources/img/tutor.png" style="max-width: 134px; padding-top: 10px;" />
-										<p:commandButton value="Realizar registro" action="#{registroTutorBean.initBandejaTutor(authenticatorBean.usuarioLogueado.idUsuarioLlaveCdmx)}"
+										<p:commandButton widgetVar="btnNuevoTutor" value="Realizar registro" action="#{registroTutorBean.initBandejaTutor(authenticatorBean.usuarioLogueado.idUsuarioLlaveCdmx)}" onclick="PF('btnNuevoTutor').disable();" delay="500" 
 											styleClass="adip-btn-green" process="@this formTramite" update="formTramite" />
 									</p:panelGrid>
 								</p:panelGrid>
@@ -188,7 +228,63 @@
 					</p:outputPanel>
 				</p:panel>
 			</p:panelGrid>
+			
+	<p:dialog id="dialogEsNuevoCiclo" widgetVar="dialogEsNuevoCiclo" modal="true" closable="false" responsive="true" styleClass="adip-dialog"  visible="#{bandejaTutorBean.mostrarDialog}"
+		style="overflow-y:hidden !important; width:10% !important; height:min-content !important;">
+		
+		<p:panel header="Actualización de datos: Ciclo escolar #{encuestaBeneficiarioBean.encuestaDTO.catCicloEscolarDTO.descripcion}" styleClass="adip-panel mt-2">
+		
+		<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading center">
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading p-4">
+				
+				<div class="adip-output-campos-dialog" style="font-weight: 400 !important;">
+					Para hacer uso de la plataforma en este nuevo ciclo escolar <b>#{encuestaBeneficiarioBean.encuestaDTO.catCicloEscolarDTO.descripcion}</b>, deberás actualizar 
+									  la información de la encuesta relacionada a cada uno de los beneficiarios asociados a tu cuenta.
+				</div>
+				
+					<p:column/>
+				<div class="adip-output-campos-dialog" style="font-weight: 400 !important;">
+					Da clic en <b>Entendido</b> para actualizar los registros pendientes.
+				</div>
+			</p:panelGrid>
+				<p:commandButton value="Entendido" oncomplete="PF('dialogEsNuevoCiclo').hide();" style="width: inherit !important; max-width:133px !important;"
+								 styleClass="adip-btn-gris"  actionListener="#{bandejaTutorBean.deshabilitaDialog()}" immediate="true"/>			
+		</p:panelGrid>
+		</p:panel>
+	</p:dialog>
+			
 			<style>
+			
+
+#dialogEsNuevoCiclo{
+	width: 30% !important;
+}
+
+.adip-dialog {
+    max-height: 100% !important;
+    width: 55% !important;
+    overflow-y: overlay !important;
+}
+
+element.style {
+    overflow-y: hidden !important;
+    width: 863.838px;
+    height: 295px;
+    visibility: visible;
+    left: 327.581px;
+    top: 56px;
+    z-index: 1004;
+    display: block;
+    position: fixed;
+}
+body .ui-dialog {
+    padding: 0;
+    box-shadow: none;
+    border: 0 none !important;
+    border-radius: 4px;
+    width: max-content;
+}			
+			
 .ui-messages-warn, .ui-messages-error {
 	padding: 0px 0px 0px 2%;
 	margin: 0px;
@@ -292,6 +388,10 @@
 .dt-tramites .ui-datatable-odd {
 	background: #FFFFFF !important;
 }
+
+body .ui-dialog .ui-dialog-content {
+    background: transparent !important;
+}    
 
 @media ( min-width : 800px) {
 	.dt-alineacion {

@@ -123,6 +123,7 @@ public class TutorExtranjero implements Serializable {
 		this.numExt = numExt;
 	}
 
+	@Column(name = "cp")
 	public String getCp() {
 		return cp;
 	}
@@ -130,7 +131,7 @@ public class TutorExtranjero implements Serializable {
 	public void setCp(String cp) {
 		this.cp = cp;
 	}
-
+	@Column(name = "correo")
 	public String getCorreo() {
 		return correo;
 	}
@@ -138,7 +139,7 @@ public class TutorExtranjero implements Serializable {
 	public void setCorreo(String correo) {
 		this.correo = correo;
 	}
-
+	@Column(name = "telefono")
 	public String getTelefono() {
 		return telefono;
 	}

@@ -59,7 +59,6 @@ public class BeneficiarioDAO extends IBaseDAO<BeneficiarioDTO, Long> {
 		beneficiario.setFechaNacimientoBeneficiario(e.getFechaNacimientoBeneficiario());
 		beneficiario.setEsTutor(e.getEsTutor() != null ? e.getEsTutor() : false);
 		beneficiario.setNacionalidad(e.getNacionalidad());
-		beneficiario.setCurpValidada(e.getCurpValidada() != null ? e.getCurpValidada() : false);
 		beneficiario.setIdUsuarioLlaveCdmx(e.getIdUsuarioLlaveCdmx());
 		beneficiario.setFechaRegistro(new Date());
 		em.persist(beneficiario);

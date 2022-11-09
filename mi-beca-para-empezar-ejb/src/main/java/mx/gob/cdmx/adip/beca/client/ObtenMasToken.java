@@ -25,7 +25,9 @@ public class ObtenMasToken implements Serializable{
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ObtenMasToken.class);
 
-	static String content = "client_id=ApiPRE&client_secret=186f50f4-fea5-4288-9455-9ba5fe4ff002&scope=ApiPRE&grant_type=client_credentials";
+	static String content = "client_id=" +  Environment.getClientId() 
+						  + "&client_secret=" + Environment.getClientSecret() 
+						  + "&scope=ApiPRE&grant_type=client_credentials";
 	static String strUrl = Environment.getUrlObtenMas()+Environment.getUrlObtenMasRequestToken();
 
 	public String obtenerToken(){

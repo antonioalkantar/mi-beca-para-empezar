@@ -56,15 +56,16 @@
 
 					<p:outputPanel id="pnlBtns" styleClass="adip-footer-content" style="padding:0px  !important;">
 						<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
-							<p:commandButton value="#{msg.lbl_guardar_registro}" styleClass="adip-btn-gold" process="@this form" update="form"
-								rendered="#{registroTutorBean.tutorDTO.informacionGralCorrecto eq null and registroTutorBean.tutorDTO.domicilioCorrecto eq null and registroTutorBean.capturaTutor}" 
-								disabled="#{!registroTutorBean.avisoPrivacidad}"
-								oncomplete="document.getElementById('frmMenuUsuario').scrollIntoView();" action="#{registroTutorBean.guardarTutor()}" />
+							<p:commandButton widgetVar="btnGuardarTutor" value="#{msg.lbl_guardar_registro}" styleClass="adip-btn-gold" process="@this form" update="form"
+								rendered="#{registroTutorBean.tutorDTO.informacionGralCorrecto eq null and registroTutorBean.tutorDTO.domicilioCorrecto eq null and registroTutorBean.capturaTutor}"
+								disabled="#{!registroTutorBean.avisoPrivacidad}" delay="500" onclick="PF('btnGuardarTutor').disable();"
+								oncomplete="PF('btnGuardarTutor').enable(); document.getElementById('frmMenuUsuario').scrollIntoView();" action="#{registroTutorBean.guardarTutor()}" />
 
-							<p:commandButton value="Enviar correcciones" styleClass="adip-btn-gold" process="@this form" update="form"
+							<p:commandButton widgetVar="btnGuardarCorrecciones" value="Enviar correcciones" styleClass="adip-btn-gold" process="@this form" update="form"
 								rendered="#{registroTutorBean.tutorDTO.catEstatusDTO.idEstatus eq registroTutorBean.ID_ESTATUS_CORRECCION_POR_PARTE_CIUDADANO and 
 								(registroTutorBean.disableInformacionGeneral eq false or registroTutorBean.disableInformacionDireccion eq false)}"
-								oncomplete="document.getElementById('frmMenuUsuario').scrollIntoView();" action="#{registroTutorBean.envioCorreccionTutor()}" />
+								action="#{registroTutorBean.envioCorreccionTutor()}"
+								onclick="PF('btnGuardarCorrecciones').disable();" oncomplete="PF('btnGuardarCorrecciones').enable(); document.getElementById('frmMenuUsuario').scrollIntoView();" />
 						</p:panelGrid>
 					</p:outputPanel>
 				</p:panel>

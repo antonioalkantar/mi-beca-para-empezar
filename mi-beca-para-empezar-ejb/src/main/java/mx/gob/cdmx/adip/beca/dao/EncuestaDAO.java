@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 
 import mx.gob.cdmx.adip.beca.commons.dao.IBaseDAO;
 import mx.gob.cdmx.adip.beca.commons.dto.EncuestaDTO;
+import mx.gob.cdmx.adip.beca.commons.dto.SolicitudDTO;
 import mx.gob.cdmx.adip.beca.model.CatCicloEscolar;
 import mx.gob.cdmx.adip.beca.model.CatGrupoPertenece;
 import mx.gob.cdmx.adip.beca.model.CatIngresosFamilia;
@@ -43,6 +44,16 @@ public class EncuestaDAO extends IBaseDAO<EncuestaDTO, Long> {
 		// TODO Auto-generated method stub
 	}
 
+	public List<EncuestaDTO> buscarTodosPorIdSOlicitud(Long idSolicitud) {
+		return em.createNamedQuery("Encuesta.findAllByIdSolicitud", EncuestaDTO.class)
+				.setParameter("idSolicitud", idSolicitud).getResultList();
+	}
+
+	public List<EncuestaDTO> buscarCicloPorIdSolicitud(Long idSolicitud) {
+		return em.createNamedQuery("Encuesta.findCicloByIdSolicitud", EncuestaDTO.class)
+				.setParameter("idSolicitud", idSolicitud).getResultList();
+	}
+
 	@Override
 	public void guardar(EncuestaDTO e) {
 		Encuesta encuesta = new Encuesta();
@@ -73,5 +84,9 @@ public class EncuestaDAO extends IBaseDAO<EncuestaDTO, Long> {
 		return listado != null && !listado.isEmpty() ? listado.get(0) : null;
 	}
 
+	public List<EncuestaDTO> buscarEncuestasPorIdSolicitud(Long id) {
+		 return em.createNamedQuery("Encuesta.allByIdSolicitud", EncuestaDTO.class)
+				.setParameter("idSolicitud", id).getResultList();
+	}
 }
 

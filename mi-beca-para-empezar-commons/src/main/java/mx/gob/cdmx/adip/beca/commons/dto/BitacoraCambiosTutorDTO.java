@@ -3,6 +3,8 @@ package mx.gob.cdmx.adip.beca.commons.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+import mx.gob.cdmx.adip.beca.commons.utils.Constantes;
+
 public class BitacoraCambiosTutorDTO implements Serializable {
 
 	private static final long serialVersionUID = -6658921046983528215L;
@@ -14,6 +16,11 @@ public class BitacoraCambiosTutorDTO implements Serializable {
 	private Date fecha;
 	private Long idUsuario;
 	private String observaciones;
+	private String soporteDocDescripcion;
+	private String rutaDocto;
+	
+	// Auxiliares documentos
+	private byte[] contentFileSoporteDoc;
 
 	public BitacoraCambiosTutorDTO() {
 	}
@@ -22,7 +29,7 @@ public class BitacoraCambiosTutorDTO implements Serializable {
 			Long idSolicitud, 
 			String nombreTutorAnterior, String primerApellidoTutorAnterior, String segundoApellidoTutorAnterior,
 			String nombreTutorNuevo, String primerApellidoTutorNuevo, String segundoApellidoTutorNuevo,
-			Long idUsuario, String observaciones) {
+			Long idUsuario, String observaciones, String soporteDocDescripcion, String rutaDocto) {
 		this.idCambioTutor = idCambioTutor;
 		this.solicitudDTO = new SolicitudDTO(idSolicitud);
 		this.tutorByIdTutorNuevoDTO = new TutorDTO(nombreTutorNuevo, primerApellidoTutorNuevo, segundoApellidoTutorNuevo);
@@ -30,6 +37,8 @@ public class BitacoraCambiosTutorDTO implements Serializable {
 		this.fecha = fecha;
 		this.idUsuario = idUsuario;
 		this.observaciones = observaciones;
+		this.soporteDocDescripcion = soporteDocDescripcion;
+		this.rutaDocto = rutaDocto;
 	}
 
 	public int getIdCambioTutor() {
@@ -86,6 +95,38 @@ public class BitacoraCambiosTutorDTO implements Serializable {
 
 	public void setObservaciones(String observaciones) {
 		this.observaciones = observaciones;
+	}	
+
+	public byte[] getContentFileSoporteDoc() {
+		return contentFileSoporteDoc;
 	}
 
+	public void setContentFileSoporteDoc(byte[] contentFileSoporteDoc) {
+		this.contentFileSoporteDoc = contentFileSoporteDoc;
+	}
+
+	public String getSoporteDocDescripcion() {
+		return soporteDocDescripcion;
+	}
+
+	public void setSoporteDocDescripcion(String soporteDocDescripcion) {
+		this.soporteDocDescripcion = soporteDocDescripcion;
+	}
+
+	public String getRutaDocto() {
+		return rutaDocto;
+	}
+
+	public void setRutaDocto(String rutaDocto) {
+		this.rutaDocto = rutaDocto;
+	}
+
+	public String getNombreArchivoCorto() {
+		return rutaDocto == null ? ""
+				: rutaDocto.contains(Constantes.SEPARADOR_RUTA)
+						? rutaDocto
+								.substring(rutaDocto.lastIndexOf(Constantes.SEPARADOR_RUTA) + 1)
+						: rutaDocto;
+	}
 }
+

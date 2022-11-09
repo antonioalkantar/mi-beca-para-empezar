@@ -241,11 +241,14 @@
 				<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\-\.\,\s]+$/" />
 			</p:inputText>
 			
-			<p:outputLabel value="#{msg.lbl_tipo_de_solicitud}" styleClass="adip-output-campos negrita" />
+			<p:outputLabel value="#{msg.lbl_tipo_de_solicitud}" styleClass="adip-output-campos negrita" />				
 			<p:selectOneMenu id="slOneTipoSolicitudM" value="#{bandejaFuncionarioBean.esNuevoRegistro}" class="adip-selectonemenu" panelStyleClass="adip-selectonemenu-panel filtros">								
+				<f:selectItem itemLabel="#{msg.lbl_elige_uno}" noSelectionOption="true" />
 				<f:selectItem itemLabel="Nuevo registro" itemValue="true" />
    				<f:selectItem itemLabel="Continuidad" itemValue="false" />
-			</p:selectOneMenu>	
+			</p:selectOneMenu>		
+			
+			
 
 			<p:outputLabel value="#{msg.lbl_estatus_tutor}" styleClass="adip-output-campos negrita" />
 			<p:selectOneMenu id="slOneEstatusSolicitudM" value="#{bandejaFuncionarioBean.filtroEstatusTutor}" class="adip-selectonemenu" panelStyleClass="adip-selectonemenu-panel filtros">

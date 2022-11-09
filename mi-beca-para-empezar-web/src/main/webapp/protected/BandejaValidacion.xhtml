@@ -57,7 +57,7 @@
 									<p:panelGrid columns="2"
 										columnClasses="ui-grid-col-8, ui-grid-col-4" layout="grid"
 										styleClass="ui-panelgrid-blank ui-fluid total-beneficiarios ml-5">
-										<p:outputLabel value="TOTAL DE BENEFICIARIOS A VALIDAR:" />
+										<p:outputLabel value="TOTAL DE BENEFICIARIOS INSCRITOS:" />
 										<p:outputLabel
 											value="#{bandejaValidacionBean.cantidadBeneficiarios}"
 											styleClass="w-full flex total-beneficiarios-cant" />
@@ -215,9 +215,7 @@
 									</p:column>
 									<p:column headerText="Acciones" width="20%"
 										style="vertical-align: middle;">
-										<p:commandLink
-											
-											ajax="false" process="@this">
+										<p:commandLink ajax="false" process="@this" rendered="#{not empty dispersion.fechaConclusion or dispersion.aplicaDispersionNumero > 0}">
 											<f:setPropertyActionListener value="#{dispersion}"
 												target="#{bandejaValidacionBean.dispersionSel}" />
 											<p:graphicImage value="/resources/img/icon-download.png" />

@@ -88,7 +88,7 @@ import javax.persistence.TemporalType;
 			+ "JOIN d.catTipoDispersion ctd "
 			+ "JOIN d.catEstatusDispersion ced "
 			+ "WHERE cce.idCicloEscolar = :idCicloEscolar "
-			//+ "AND cpe.idPeriodoEscolar = :idPeriodoEscolar "
+			+ "AND cpe.idPeriodoEscolar = :idPeriodoEscolar "
 			+ "AND ctd.idTipoDispersion = :idTipoDispersion "
 			+ "ORDER by d.fechaEjecucion DESC, cpe.idPeriodoEscolar DESC, ced.idEstatusDispersion DESC")
 })

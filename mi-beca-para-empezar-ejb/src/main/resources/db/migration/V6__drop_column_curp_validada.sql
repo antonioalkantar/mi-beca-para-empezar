@@ -1,0 +1,1 @@
+ALTER TABLE mibecaparaempezar.beneficiario DROP COLUMN curp_validada;

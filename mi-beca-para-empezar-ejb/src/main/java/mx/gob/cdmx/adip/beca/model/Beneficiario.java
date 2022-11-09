@@ -3,11 +3,14 @@ package mx.gob.cdmx.adip.beca.model;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -23,7 +26,12 @@ import javax.persistence.TemporalType;
 			+ "FROM Beneficiario b "
 			+ "WHERE b.curpBeneficiario = :curpBeneficiario"),
 @NamedQuery(name = "Beneficiario.countBeneficiarios",
-			query = "SELECT COUNT(b) FROM Beneficiario b")
+			query = "SELECT COUNT(b) from Beneficiario b " + 
+					"JOIN b.detCuentaBeneficiario dcb " + 
+					"JOIN b.crcBeneficiarioSolicitud cbs " + 
+					"JOIN cbs.solicitud s " + 
+					"JOIN s.tutor t " + 
+					"WHERE s.catEstatusBeneficiario.idEstatusBeneficiario = 1 ")
 })
 public class Beneficiario implements java.io.Serializable {
 
@@ -36,28 +44,27 @@ public class Beneficiario implements java.io.Serializable {
 	private Date fechaNacimientoBeneficiario;
 	private Boolean esTutor;
 	private String nacionalidad;
-	private Boolean curpValidada;
 	private Long idUsuarioLlaveCdmx;
 	private Date fechaRegistro;
+	private DetCuentaBeneficiario detCuentaBeneficiario;
+	private CrcBeneficiarioSolicitud crcBeneficiarioSolicitud;
 
 	public Beneficiario() {
 	}
 
 	public Beneficiario(Long idBeneficiario, String curpBeneficiario, String nombresBeneficiario,
-			String primerApellidoBeneficiario, Date fechaNacimientoBeneficiario, String nacionalidad, int edad,
-			Boolean curpValidada) {
+			String primerApellidoBeneficiario, Date fechaNacimientoBeneficiario, String nacionalidad, int edad) {
 		this.idBeneficiario = idBeneficiario;
 		this.curpBeneficiario = curpBeneficiario;
 		this.nombresBeneficiario = nombresBeneficiario;
 		this.primerApellidoBeneficiario = primerApellidoBeneficiario;
 		this.fechaNacimientoBeneficiario = fechaNacimientoBeneficiario;
 		this.nacionalidad = nacionalidad;
-		this.curpValidada = curpValidada;
 	}
 
 	public Beneficiario(Long idBeneficiario, String curpBeneficiario, String nombresBeneficiario,
 			String primerApellidoBeneficiario, String segundoApellidoBeneficiario, Date fechaNacimientoBeneficiario,
-			Boolean esTutor, String nacionalidad, int edad, Boolean curpValidada) {
+			Boolean esTutor, String nacionalidad, int edad) {
 		this.idBeneficiario = idBeneficiario;
 		this.curpBeneficiario = curpBeneficiario;
 		this.nombresBeneficiario = nombresBeneficiario;
@@ -66,7 +73,6 @@ public class Beneficiario implements java.io.Serializable {
 		this.fechaNacimientoBeneficiario = fechaNacimientoBeneficiario;
 		this.esTutor = esTutor;
 		this.nacionalidad = nacionalidad;
-		this.curpValidada = curpValidada;
 	}
 
 	@Id
@@ -144,15 +150,6 @@ public class Beneficiario implements java.io.Serializable {
 		this.nacionalidad = nacionalidad;
 	}
 
-	@Column(name = "curp_validada", nullable = false)
-	public boolean getCurpValidada() {
-		return this.curpValidada;
-	}
-
-	public void setCurpValidada(Boolean curpValidada) {
-		this.curpValidada = curpValidada;
-	}
-
 	@Column(name = "id_usuario_llave_cdmx", nullable = false)
 	public Long getIdUsuarioLlaveCdmx() {
 		return idUsuarioLlaveCdmx;
@@ -171,5 +168,25 @@ public class Beneficiario implements java.io.Serializable {
 	public void setFechaRegistro(Date fechaRegistro) {
 		this.fechaRegistro = fechaRegistro;
 	}
+
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "beneficiario")
+	public DetCuentaBeneficiario getDetCuentaBeneficiario() {
+		return detCuentaBeneficiario;
+	}
+
+	public void setDetCuentaBeneficiario(DetCuentaBeneficiario detCuentaBeneficiario) {
+		this.detCuentaBeneficiario = detCuentaBeneficiario;
+	}
+
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "beneficiario")
+	public CrcBeneficiarioSolicitud getCrcBeneficiarioSolicitud() {
+		return crcBeneficiarioSolicitud;
+	}
+
+	public void setCrcBeneficiarioSolicitud(CrcBeneficiarioSolicitud crcBeneficiarioSolicitud) {
+		this.crcBeneficiarioSolicitud = crcBeneficiarioSolicitud;
+	}
+	
+	
 
 }

@@ -54,12 +54,12 @@
 						
 					<p:panelGrid columns="3" columnClasses="ui-g-12 ui-md-12 ui-lg-4, ui-g-12 ui-md-12 ui-lg-4, ui-g-12 ui-md-12 ui-lg-4" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" rendered="true">
 								 
-								<p:commandButton value="Guardar" styleClass="adip-btn-gold"
+								<p:commandButton value="Guardar" styleClass="adip-btn-gold" delay="500"
 												 process="@this form" update="messages form"
 												 actionListener="#{registroTutorBean.actualizarMasTresBeneficiarios()}"
 												 rendered="#{registroTutorBean.tutorDTO.catEstatusDTO.idEstatus == registroTutorBean.ID_ESTATUS_APROBADA and registroTutorBean.tutorDTO.informacionGralCorrecto eq true and registroTutorBean.tutorDTO.domicilioCorrecto eq true}"
 												 />							
-								<p:commandButton value="Aprobar solicitud" styleClass="adip-btn-gold" process="@this form" update="form" 
+								<p:commandButton value="Aprobar solicitud" styleClass="adip-btn-gold" process="@this form" update="form" delay="500"
 												 actionListener="#{registroTutorBean.actualizaEstatusAprobado(registroTutorBean.ID_ESTATUS_APROBADA)}"												
 									     		 rendered="#{registroTutorBean.tutorDTO.informacionGralCorrecto eq true and registroTutorBean.tutorDTO.domicilioCorrecto eq true
 									     		 		and(registroTutorBean.tutorDTO.catEstatusDTO.idEstatus eq registroTutorBean.ID_ESTATUS_CORRECCION_POR_PARTE_CIUDADANO 
@@ -71,11 +71,11 @@
 									     		 			}"/>
 													
 								<p:commandButton value="Enviar corrección por parte del ciudadano" 
-												styleClass="adip-btn-gold" process="@this form" update="form"
+												styleClass="adip-btn-gold" process="@this form" update="form" delay="500"
 												actionListener="#{registroTutorBean.actualizaEstatusRechazo(registroTutorBean.ID_ESTATUS_CORRECCION_POR_PARTE_CIUDADANO)}"
 												rendered="#{registroTutorBean.tutorDTO.informacionGralCorrecto eq false or registroTutorBean.tutorDTO.domicilioCorrecto eq false}"/>
 
-								<p:commandButton value="Aclaración por circunstancia" styleClass="adip-btn-gold"
+								<p:commandButton value="Aclaración por circunstancia" styleClass="adip-btn-gold" delay="500"
 									process="@this form" update="form" actionListener="#{registroTutorBean.actualizaEstatusRechazo(registroTutorBean.ID_ESTATUS_ACLARACION_POR_CIRCUNSTANCIA)}"
 									rendered="#{registroTutorBean.tutorDTO.informacionGralCorrecto eq false or registroTutorBean.tutorDTO.domicilioCorrecto eq false}" />
 						

@@ -65,11 +65,11 @@
 
 					<p:outputPanel id="pnlBtns" styleClass="adip-footer-content"  style="padding-bottom: 4% !important; padding-top: 0px !important; padding-left: 0px  !important; padding-right: 0px !important;">
 						<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
-							<p:commandButton value="#{msg.lbl_guardar_continuar}" styleClass="adip-btn-gold" rendered="#{registroBeneficiarioBean.infoBeneficiario and !registroBeneficiarioBean.soloLectura}"
-								process="@this pgCurp" update="form" oncomplete="document.getElementById('form').scrollIntoView();" actionListener="#{registroBeneficiarioBean.guardarBeneficiario()}"
-								disabled="#{!registroBeneficiarioBean.manifiesto}"/>
-							<p:commandButton value="#{msg.lbl_guardar_enviar}" styleClass="adip-btn-gold" rendered="#{registroBeneficiarioBean.infoEncuesta and !encuestaBeneficiarioBean.soloLectura}" 
-								process="@this form" update="form" oncomplete="document.getElementById('form').scrollIntoView();" action="#{encuestaBeneficiarioBean.guardar()}"/>
+							<p:commandButton widgetVar="btnGuardarBeneficiario" value="#{msg.lbl_guardar_continuar}" styleClass="adip-btn-gold" rendered="#{registroBeneficiarioBean.infoBeneficiario and !registroBeneficiarioBean.soloLectura}"
+								process="@this pgCurp" update="form" actionListener="#{registroBeneficiarioBean.guardarBeneficiario()}"
+								disabled="#{!registroBeneficiarioBean.manifiesto}" delay="500" oncomplete="document.getElementById('form').scrollIntoView();"/>
+							<p:commandButton widgetVar="btnEncuesta" value="#{msg.lbl_guardar_enviar}" styleClass="adip-btn-gold" rendered="#{registroBeneficiarioBean.infoEncuesta and !encuestaBeneficiarioBean.soloLectura}" 
+								process="@this form" update="form" action="#{encuestaBeneficiarioBean.guardar()}" delay="500" onclick="PF('btnEncuesta').disable();" oncomplete="document.getElementById('form').scrollIntoView();" />
 						</p:panelGrid>
 					</p:outputPanel>
 				</p:panel>

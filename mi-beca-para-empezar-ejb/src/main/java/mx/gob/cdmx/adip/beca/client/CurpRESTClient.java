@@ -20,12 +20,10 @@ import mx.gob.cdmx.adip.beca.common.infra.Environment;
 import mx.gob.cdmx.adip.beca.common.util.JerseyUtil;
 import mx.gob.cdmx.adip.beca.commons.dto.CurpDTO;
 
-public class CurpRESTClient implements Serializable{
-	/**
-	 * 
-	 */
+public class CurpRestClient implements Serializable{
+
 	private static final long serialVersionUID = -138083616509843364L;
-	private static final Logger LOGGER = LoggerFactory.getLogger(CurpRESTClient.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CurpRestClient.class);
 
 	public CurpDTO obtenerDatosCurp(String curp) throws URISyntaxException, ConnectException, JSONException {
 		CurpDTO curpDTO = null;
@@ -92,7 +90,7 @@ public class CurpRESTClient implements Serializable{
 	}
 
 //	public static void main(String args[]) {
-//		CurpRESTClient curpClient = new CurpRESTClient();
+//	CurpRestClient curpClient = new CurpRestClient();
 //		try {
 //			CurpDTO curpDTO = curpClient.obtenerDatosCurp("AUCA801124HTLGRN07");
 //			if(curpDTO != null)

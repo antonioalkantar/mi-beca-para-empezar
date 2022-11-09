@@ -37,6 +37,11 @@ public class EncuestaDTO implements Serializable {
 		this.idEncuesta = idEncuesta;
 	}
 	
+	public EncuestaDTO(int idEncuesta, Integer idCicloEscolar, String descripcionCicloEscolar) {
+		this.idEncuesta = idEncuesta;
+		this.catCicloEscolarDTO = new CatCicloEscolarDTO(idCicloEscolar, descripcionCicloEscolar);
+	}
+	// constructor para Encuesta.findByIdSolicitud
 	public EncuestaDTO(int idEncuesta,
 	int cgpIdGrupoPertenece, Boolean cgpEstatus, String cgpDescripcion, 
 	int cifIdIngresosFamilia,Boolean cifEstatus, String cifDescripcion, 
@@ -70,6 +75,45 @@ public class EncuestaDTO implements Serializable {
 		this.otro = otro;
 		this.especificaOtro = especificaOtro;
 		this.otroGrupo = otroGrupo;
+	}
+
+	// constructor para Encuesta.allByIdSolicitud
+	public EncuestaDTO(int idEncuesta,
+	int cgpIdGrupoPertenece, Boolean cgpEstatus, String cgpDescripcion, 
+	int cifIdIngresosFamilia,Boolean cifEstatus, String cifDescripcion, 
+	int cmdIdMaterialesDomicilio, Boolean cmdEstatus, String cmdDescripcion, 
+	int ctdIdTipoDomicilio,Boolean ctdEstatus, String ctdDescripcion, 
+	Long idSolicitud,
+	int numeroHabitantes,
+	int habitantesTrabajadores,
+	Boolean utilesEscolares,
+	Boolean ropa,
+	Boolean zapatos,
+	Boolean comida,
+	Boolean juguetes,
+	Boolean otro,
+	String especificaOtro,
+	String otroGrupo,
+	Integer idCicloEscolar,
+	String descCicloEscolar
+	) {
+		this.idEncuesta = idEncuesta;
+		catGrupoPerteneceDTO = new CatGrupoPerteneceDTO(cgpIdGrupoPertenece, cgpDescripcion, cgpEstatus);
+		catIngresosFamiliaDTO = new CatIngresosFamiliaDTO(cifIdIngresosFamilia, cifDescripcion, cifEstatus);
+		catMaterialesDomicilioDTO = new CatMaterialesDomicilioDTO(cmdIdMaterialesDomicilio, cmdDescripcion, cmdEstatus);
+		catTipoDomicilioDTO = new CatTipoDomicilioDTO(ctdIdTipoDomicilio, ctdDescripcion, ctdEstatus);
+		solicitudDTO = new SolicitudDTO(idSolicitud);
+		this.numeroHabitantes = numeroHabitantes;
+		this.habitantesTrabajadores = habitantesTrabajadores;
+		this.utilesEscolares = utilesEscolares;
+		this.ropa = ropa;
+		this.zapatos = zapatos;
+		this.comida = comida;
+		this.juguetes = juguetes;
+		this.otro = otro;
+		this.especificaOtro = especificaOtro;
+		this.otroGrupo = otroGrupo;
+		this.catCicloEscolarDTO = new CatCicloEscolarDTO(idCicloEscolar, descCicloEscolar);
 	}
 
 	public int getIdEncuesta() {

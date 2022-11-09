@@ -28,8 +28,10 @@ import mx.gob.cdmx.adip.beca.bean.BandejaValidacionBean;
 import mx.gob.cdmx.adip.beca.client.OAuth2CdmxClient;
 import mx.gob.cdmx.adip.beca.common.infra.Environment;
 import mx.gob.cdmx.adip.beca.common.util.BeanUtils;
+import mx.gob.cdmx.adip.beca.commons.dto.UserDTO;
 import mx.gob.cdmx.adip.beca.commons.utils.Constantes;
 import mx.gob.cdmx.adip.beca.commons.utils.StringUtils;
+import mx.gob.cdmx.adip.beca.dao.UsuarioDAO;
 import mx.gob.cdmx.adip.beca.oauth.dto.RequestRolesDTO;
 import mx.gob.cdmx.adip.beca.oauth.dto.RequestTokenDTO;
 import mx.gob.cdmx.adip.beca.oauth.dto.RolesUsuarioDTO;
@@ -61,6 +63,9 @@ public class AuthenticatorBean implements Serializable {
 
 	@Inject
 	private BandejaFuncionarioBean bandejaFuncionarioBean;
+	
+	@Inject
+	private UsuarioDAO usuarioDAO;
 
 	private String urlInicio = Environment.getUrlRedirectLoginCdmx();
 	private String stateOauth2 = Constantes.EMPTY_STRING;
@@ -68,6 +73,7 @@ public class AuthenticatorBean implements Serializable {
 	private String tokenOauth;
 	private String etiquetaLogueo;
 	private UsuarioDTO usuarioLogueado;
+	private UserDTO userDTO;
 	
 	private boolean ingresaDesdeLlave;
 	private boolean mostrarNotificacion = true;
@@ -147,6 +153,7 @@ public class AuthenticatorBean implements Serializable {
 					if (tokenOauth != null && !codeOauth.isEmpty()) {
 						usuarioLogueado = cambiarTokenPorDatosUsuario(tokenOauth);
 						if(usuarioLogueado != null) {	
+							insertaDatosUsuario(usuarioLogueado);
 							ingresaDesdeLlave = false;
 							obtenerRolesUsuario(usuarioLogueado.getIdUsuarioLlaveCdmx(), Long.parseLong(Environment.getAppId()), tokenOauth);
 							crearSesionUsuario(tokenOauth);
@@ -158,7 +165,7 @@ public class AuthenticatorBean implements Serializable {
 							}
 							else if (rolTutor) {
 								facesContext.getExternalContext().redirect(facesContext.getExternalContext().getRequestContextPath() + bandejaTutorBean.init());
-							} else if (rolConsulta) {
+							} else if (rolValidador||rolConsulta) {
 								facesContext.getExternalContext().redirect(facesContext.getExternalContext().getRequestContextPath() + bandejaFuncionarioBean.init());								
 							}
 						}
@@ -213,7 +220,7 @@ public class AuthenticatorBean implements Serializable {
 		requestToken.setCode(code);
 		requestToken.setGrantType(Constantes.GRANT_TYPE_AUTHORIZATION_CODE);
 		requestToken.setRedirectUri(Environment.getUrlRedirectLoginCdmx());
-		LOGGER.info("Request Token:"+requestToken);
+//		LOGGER.info("Request Token:"+requestToken);
 		
 		OAuth2CdmxClient oautCdmxClient = new OAuth2CdmxClient();
 		String token = oautCdmxClient.obtenerToken(requestToken);
@@ -227,18 +234,8 @@ public class AuthenticatorBean implements Serializable {
 	 * @return
 	 */
 	private UsuarioDTO cambiarTokenPorDatosUsuario(final String token) {
-		String strToken = "";
-		if(token != null) {
-			try {
-				JSONObject tokenObj = new JSONObject(token);
-				strToken = tokenObj.get("accessToken").toString();
-			} catch (JSONException e) {
-				LOGGER.error("Error al crear el json del token");
-			}
-		}
 		OAuth2CdmxClient oauthCdmxClient = new OAuth2CdmxClient();
-		
-		return oauthCdmxClient.obtenerDatosUsuarioPorToken(strToken);
+		return oauthCdmxClient.obtenerDatosUsuarioPorToken( getAccessToken() );
 	}
 
 	private void obtenerRolesUsuario(long idPersona, long idSistema, String token) {
@@ -262,8 +259,8 @@ public class AuthenticatorBean implements Serializable {
 		if(BeanUtils.isNotNull(lstRolesUsuario)) {
 			verificarRoles(lstRolesUsuario);
 			usuarioLogueado.setLstRoles(lstRolesUsuario);
-			LOGGER.info("Roles: " + usuarioLogueado.getLstRoles().get(0).getRol());
-			LOGGER.info("Roles Id: " + usuarioLogueado.getLstRoles().get(0).getIdRol());
+			//LOGGER.info("Roles: " + usuarioLogueado.getLstRoles().get(0).getRol());
+			//LOGGER.info("Roles Id: " + usuarioLogueado.getLstRoles().get(0).getIdRol());
 		} else {
 			rolTutor = true;
 		}
@@ -321,7 +318,7 @@ public class AuthenticatorBean implements Serializable {
 	public String cerrarSesionUsuario() {
 		OAuth2CdmxClient clienteOAuth2Cdmx = new OAuth2CdmxClient();
 		try {
-			LOGGER.info("Token: " + tokenOauth);
+			//LOGGER.info("Token: " + tokenOauth);
 			if(tokenOauth != null) {
 				JSONObject tokenObj = new JSONObject(tokenOauth);
 				String strToken = tokenObj.get("accessToken").toString();
@@ -370,8 +367,44 @@ public class AuthenticatorBean implements Serializable {
 		return Environment.getAppProfile().compareTo("local") == 0;
 	}
 	
-	public String consultaToken() {
-		return tokenOauth;
+	/*
+	 * Método para Inserar/actualizar datos del usuario que inicia sesión 
+	 */
+	public void insertaDatosUsuario(UsuarioDTO usuario) {
+		userDTO = usuarioDAO.buscarPorId(usuario.getIdUsuarioLlaveCdmx());
+		
+		if (userDTO.getIdUsuarioLlaveCdmx() == null) {
+			userDTO.setIdUsuarioLlaveCdmx(usuario.getIdUsuarioLlaveCdmx());
+			userDTO.setNombre(usuario.getNombre());
+			userDTO.setPrimerApellido(usuario.getPrimerApellido());
+			userDTO.setSegundoApellido(usuario.getSegundoApellido());
+			userDTO.setCurp(usuario.getCurp());
+			userDTO.setTelefono(usuario.getTelefono());
+			userDTO.setCorreo(usuario.getCorreo());
+			userDTO.setFechaNacimiento(usuario.getFechaNacimiento());
+			userDTO.setSexo(usuario.getSexo());
+			usuarioDAO.guardar(userDTO);
+		} else {
+			userDTO.setNombre(usuario.getNombre());
+			userDTO.setPrimerApellido(usuario.getPrimerApellido());
+			userDTO.setSegundoApellido(usuario.getSegundoApellido());
+			userDTO.setCurp(usuario.getCurp());
+			userDTO.setTelefono(usuario.getTelefono());
+			userDTO.setCorreo(usuario.getCorreo());
+			userDTO.setFechaNacimiento(usuario.getFechaNacimiento());
+			userDTO.setSexo(usuario.getSexo());
+			usuarioDAO.actualizar(userDTO);
+		}
+	}
+	
+	public String getAccessToken() {
+		String accessToken = null;
+		try {
+			accessToken = new JSONObject( getTokenOauth() ).getString("accessToken");
+		} catch (JSONException e) {
+			LOGGER.error("No se pudo obtener el accessToken del token obtenido de Llave", e);
+		}
+		return accessToken;
 	}
 	
 	/**
@@ -464,7 +497,15 @@ public class AuthenticatorBean implements Serializable {
 	}
 	public void setRolTutor(Boolean rolTutor) {
 		this.rolTutor = rolTutor;
-	}	
-	
+	}
+	public UserDTO getUserDTO() {
+		return userDTO;
+	}
+	public void setUserDTO(UserDTO userDTO) {
+		this.userDTO = userDTO;
+	}
+	public String getTokenOauth() {
+		return tokenOauth;
+	}
 	
 }

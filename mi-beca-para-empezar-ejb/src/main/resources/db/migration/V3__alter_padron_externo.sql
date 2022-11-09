@@ -1,0 +1,1 @@
+ALTER TABLE mibecaparaempezar.padron_externo ALTER COLUMN turno DROP NOT NULL;

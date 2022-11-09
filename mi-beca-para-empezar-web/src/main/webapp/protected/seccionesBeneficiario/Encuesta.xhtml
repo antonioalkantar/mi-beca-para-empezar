@@ -144,7 +144,21 @@
 	<p:panelGrid id="pgInfoConsulta" columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12, ui-g-12 ui-md-12 ui-lg-12" layout="grid"
 				styleClass="ui-panelgrid-blank ui-fluid" rendered="#{consultaBean.consulta}" >
 				<p:outputPanel style="padding: 2% 4%; background: #FFF; border-radius: 10px 10px 0 0;" >
-				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+			<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid">
+
+				<p:panelGrid columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid" styleClass="ui-panel-sin-pading ui-panelgrid-blank ui-fluid" style="text-align: center;">
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" style="padding-top: 3% !important;">
+						<p:outputLabel value="Ciclo escolar" styleClass="adip-output-bold-campos"/>
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+						<p:selectOneMenu class="adip-selectonemenu" panelStyleClass="adip-selectonemenu-panel"
+							value="#{encuestaBeneficiarioBean.idCicloEscolar}">
+							<f:selectItems value="#{encuestaBeneficiarioBean.lstEncuestaDTO}" var="ciclo" itemLabel="#{ciclo.catCicloEscolarDTO.descripcion}" itemValue="#{ciclo.catCicloEscolarDTO.idCicloEscolar}" />
+							<p:ajax listener="#{encuestaBeneficiarioBean.seleccionaCicliEscolar}" update="pgInfoConsulta" />
+						</p:selectOneMenu>
+					</p:panelGrid>
+				</p:panelGrid>
+					
 					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
 						<p:outputLabel value="#{msg.lbl_pregunta_1}" styleClass="adip-output-campos" />
 						<p:outputLabel value="#{encuestaBeneficiarioBean.encuestaDTO.catTipoDomicilioDTO.descripcion}" styleClass="adip-output-bold-campos" />
@@ -208,7 +222,14 @@
 				</p:panelGrid>
 				</p:outputPanel>
 			</p:panelGrid>
-	<style>
+<style>
+	body .ui-selectonemenu .ui-selectonemenu-label {
+		color: #4A5568 !important;	
+	 }
+	body .ui-selectonemenu-panel .ui-selectonemenu-items .ui-selectonemenu-item.ui-state-highlight {
+	    color: #4A5568 !important;
+	}
+
 </style>
 </ui:composition>
 

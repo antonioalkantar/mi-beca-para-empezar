@@ -1,6 +1,7 @@
 package mx.gob.cdmx.adip.beca.dao;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -86,6 +87,10 @@ public class TutorDAO extends IBaseDAO<TutorDTO, Long> {
 		tutor.setDocumentoLlave(t.isDocumentoLlave());
 		tutor.setIdDocumentoLlave(t.getIdDocumentoLlave());
 		tutor.setLada(t.getLada());
+		tutor.setEnviadoAPagatodo(t.isEnviadoAPagatodo());
+		tutor.setSexo(t.getSexo());
+		tutor.setFechaNacimiento(t.getFechaNacimiento());
+		tutor.setFechaEnvioAPagatodo(t.getFechaEnvioAPagatodo());
 		em.persist(tutor);
 		em.flush();
 	}
@@ -159,21 +164,6 @@ public class TutorDAO extends IBaseDAO<TutorDTO, Long> {
 		em.merge(tutor);
 		em.flush();
 	}
-/**
- * Update utilizado para actualizar el estatus desde la solictud y validar al tutor desde carga Beneficiario
- * */
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public boolean envioCorreccionTutor(TutorDTO tutor) {
-		em.createNamedQuery("Tutor.updateEstatusCorreccion")
-			.setParameter("infoGralCorrecto", tutor.getInformacionGralCorrecto())
-			.setParameter("infoGralObservaciones", tutor.getInformacionGeneralObservaciones())
-			.setParameter("domicilioCorrecto", tutor.getDomicilioCorrecto())
-			.setParameter("domicilioObservaciones", tutor.getDomicilioObservaciones())
-			.setParameter("idEstatus", tutor.getCatEstatusDTO().getIdEstatus())
-			.setParameter("idUsuarioLlaveCdmx", tutor.getIdUsuarioLlaveCdmx())
-			.executeUpdate();
-		return true;
-	}
 	
 	//Metodo para actualizar si el tutor desea registrar mas de tres beneficiarios
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
@@ -215,4 +205,39 @@ public class TutorDAO extends IBaseDAO<TutorDTO, Long> {
 		em.flush();
 		
 	}
+	
+	/*
+	 * Método para actualizar correo y teléfono
+	 */
+	public void actualizaCorreoTelefono(TutorDTO tutor) {
+		em.createNamedQuery("Tutor.updateCorreoTelefono")
+		.setParameter("correo", tutor.getCorreo())
+		.setParameter("telefono", tutor.getTelefono())
+		.setParameter("fecha", new Date())
+		.setParameter("idUsuarioLlaveCdmx", tutor.getIdUsuarioLlaveCdmx())
+		.executeUpdate();
+	}
+	
+	/*
+	 * Metodo para consultar tutores no enviados a pagatodo
+	 */
+	public List<TutorDTO> consultaTutoresNoEnviados() {
+		List<TutorDTO> listado = em.createNamedQuery("Tutor.findNoEnviados", TutorDTO.class).getResultList();
+		return listado;
+	}
+
+	/*
+	 * Metodo para Actualizar el campo enviado_a_pagatodo de tutor
+	 * 
+	 * @Parameter TutorDTO
+	 * 
+	 * @return true = exitoso
+	 */
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	public void actualizaEnviadoAPagatodo(TutorDTO tutor) {
+		em.createNamedQuery("Tutor.actualizaEnviadoAPagatodo")
+		.setParameter("fecha", tutor.getFechaEnvioAPagatodo())
+				.setParameter("idUsuarioLlaveCdmx", tutor.getIdUsuarioLlaveCdmx()).executeUpdate();
+	}
+	
 }

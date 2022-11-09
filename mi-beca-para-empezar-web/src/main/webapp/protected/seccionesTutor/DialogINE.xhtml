@@ -32,8 +32,10 @@
 					</p:panelGrid>
 					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" rendered="#{registroTutorBean.modeloINE eq 1}">
 						<p:outputLabel for="txtCIC1" value="#{msg.lbl_codigo_identificacion.concat(':')}" styleClass="adip-output-campos" />
-						<p:inputText id="txtCIC1" onblur="value=value.toUpperCase()" placeholder="#{msg.lbl_codigo_identificacion_ph}" value="#{registroTutorBean.tutorDTO.cic}" styleClass="campos-captura adip-upperText"
-							required="true" requiredMessage="#{msg.msj_campo_requerido}" maxlength="9">
+						<p:inputText id="txtCIC1" onblur="value=value.toUpperCase()" placeholder="#{msg.lbl_codigo_identificacion_ph}" value="#{registroTutorBean.tutorDTO.cic}"
+							onkeyup="$(this).val($(this).val().replace(/[^0-9]/g, ''));" styleClass="campos-captura adip-upperText" required="true" requiredMessage="#{msg.msj_campo_requerido}"
+							maxlength="9" validator="#{registroTutorBean.numeroValido}">
+							<f:validateLength minimum="9"></f:validateLength>
 							<p:keyFilter regEx="/^[0-9]\d*$/" />
 						</p:inputText>
 						<p:message for="txtCIC1" display="text" />
@@ -57,8 +59,9 @@
 					</p:panelGrid>
 					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" rendered="#{registroTutorBean.modeloINE eq 2}">
 						<p:outputLabel for="txtCIC2" value="#{msg.lbl_codigo_identificacion.concat(':')}" styleClass="adip-output-campos" />
-						<p:inputText id="txtCIC2" onblur="value=value.toUpperCase()" placeholder="#{msg.lbl_codigo_identificacion_ph}" value="#{registroTutorBean.tutorDTO.cic}" styleClass="campos-captura adip-upperText"
-							required="true" requiredMessage="#{msg.msj_campo_requerido}" maxlength="9">
+						<p:inputText id="txtCIC2" onblur="value=value.toUpperCase()" placeholder="#{msg.lbl_codigo_identificacion_ph}" onkeyup="$(this).val($(this).val().replace(/[^0-9]/g, ''));"
+							value="#{registroTutorBean.tutorDTO.cic}" validator="#{registroTutorBean.numeroValido}" styleClass="campos-captura adip-upperText" required="true" requiredMessage="#{msg.msj_campo_requerido}" maxlength="9">
+							<f:validateLength minimum="9"></f:validateLength>
 							<p:keyFilter regEx="/^[0-9]\d*$/" />
 						</p:inputText>
 						<p:message for="txtCIC2" display="text" />
@@ -82,23 +85,27 @@
 					</p:panelGrid>
 					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" rendered="#{registroTutorBean.modeloINE eq 3}">
 						<p:outputLabel for="txtClaveE" value="#{msg.lbl_clave_elector.concat(':')}" styleClass="adip-output-campos" />
-						<p:inputText id="txtClaveE" onblur="value=value.toUpperCase()" placeholder="#{msg.lbl_clave_elector_ph}" value="#{registroTutorBean.tutorDTO.claveElector}" maxlength="18"
+						<p:inputText id="txtClaveE" onblur="value=value.toUpperCase()"  placeholder="#{msg.lbl_clave_elector_ph}" value="#{registroTutorBean.tutorDTO.claveElector}" maxlength="18"
+							onkeyup="$(this).val($(this).val().replace(/[^a-zA-Z0-9\u00C0-\u017F]/g, ''));" validator="#{registroTutorBean.cadenaNumeroValida}" 
 							styleClass="campos-captura adip-upperText" required="true" requiredMessage="#{msg.msj_campo_requerido}">
-							<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\s]+$/" />
+							<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F]+$/" />
+							<f:validateLength minimum="18"></f:validateLength>
 						</p:inputText>
 						<p:message for="txtClaveE" display="text" />
 
 						<p:outputLabel for="txtNumeroE" value="#{msg.lbl_numero_emision.concat(':')}" styleClass="adip-output-campos" />
 						<p:inputText id="txtNumeroE" onblur="value=value.toUpperCase()" placeholder="#{msg.lbl_numero_emision_ph}" value="#{registroTutorBean.tutorDTO.numeroEmision}" maxlength="2"
-							styleClass="campos-captura adip-upperText" required="true" requiredMessage="#{msg.msj_campo_requerido}">
+							onkeyup="$(this).val($(this).val().replace(/[^0-9]/g, ''));" validator="#{registroTutorBean.numeroValido}" styleClass="campos-captura adip-upperText" required="true" requiredMessage="#{msg.msj_campo_requerido}">
 							<p:keyFilter regEx="/^[0-9]\d*$/" />
+							<f:validateLength minimum="2"></f:validateLength>
 						</p:inputText>
 						<p:message for="txtNumeroE" display="text" />
 
 						<p:outputLabel for="txtOCR" value="#{msg.lbl_ocr.concat(':')}" styleClass="adip-output-campos" />
-						<p:inputText id="txtOCR" onblur="value=value.toUpperCase()" placeholder="#{msg.lbl_ocr_ph}" value="#{registroTutorBean.tutorDTO.ocr}" maxlength="13" styleClass="campos-captura adip-upperText" required="true"
-							requiredMessage="#{msg.msj_campo_requerido}">
-							<p:keyFilter regEx="/^[a-zA-Z0-9\u00C0-\u017F\s]+$/" />
+						<p:inputText id="txtOCR" onblur="value=value.toUpperCase()" placeholder="#{msg.lbl_ocr_ph}" value="#{registroTutorBean.tutorDTO.ocr}" maxlength="13"
+							onkeyup="$(this).val($(this).val().replace(/[^0-9]/g, ''));" validator="#{registroTutorBean.numeroValido}" styleClass="campos-captura adip-upperText" required="true" requiredMessage="#{msg.msj_campo_requerido}">
+							<p:keyFilter regEx="/^[0-9]+$/" />
+							<f:validateLength minimum="13"></f:validateLength>
 						</p:inputText>
 						<p:message for="txtOCR" display="text" />
 					</p:panelGrid>
@@ -106,7 +113,7 @@
 				<p:panelGrid columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid center"
 					rendered="#{!authenticatorBean.esDesarrollo() and registroTutorBean.tutorDTO.catIdentificacionOficialDTO.idIdentificacion eq registroTutorBean.ID_IDENTIFICACION_OFICIAL}">
 					<p:panelGrid columns="1" columnClasses="ui-grid-col-12 center adip-as-center" layout="grid" styleClass="ui-panel-sin-pading">
-						<p:captcha id="captcha" label="Captcha" requiredMessage="Debe marcar la casilla del captcha" language="es"/>
+						<p:captcha id="captcha" label="Captcha" requiredMessage="Debe marcar la casilla del captcha" language="es" />
 						<p:message for="captcha" styleClass="adip-messages" display="text" />
 					</p:panelGrid>
 				</p:panelGrid>
@@ -116,7 +123,7 @@
 							actionListener="#{registroTutorBean.cancelarDialogINE()}" update=":form:soIdentifica" />
 					</p:panelGrid>
 					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
-						<p:commandButton value="#{msg.lbl_validar}" styleClass="adip-btn-guinda" process="@this pgDialogINE" update="pgDialogINE" style="width: 8.5rem !important;"
+						<p:commandButton value="#{msg.lbl_validar}" styleClass="adip-btn-guinda" process="@this pgDialogINE" update="pgDialogINE pgMsgDialogINE" style="width: 8.5rem !important;"
 							actionListener="#{registroTutorBean.validaINE()}" oncomplete="document.getElementById('formINE:pgMsgDialogINE').scrollIntoView();" />
 					</p:panelGrid>
 				</p:panelGrid>
@@ -127,7 +134,13 @@
 	</h:form>
 
 	<style>
-body .ui-messages .ui-messages-warn {
+
+/* body .ui-messages .ui-messages-warn { */
+/* 	background: #E1F6FF; */
+/* 	border-width: 0px; */
+/* 	color: #0043A7; */
+/* } */
+.adip-warn {
 	background: #E1F6FF;
 	border-width: 0px;
 	color: #0043A7;

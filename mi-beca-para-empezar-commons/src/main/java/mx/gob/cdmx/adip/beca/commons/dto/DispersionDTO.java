@@ -31,9 +31,9 @@ public class DispersionDTO {
 		catEstatusDispersion = new CatEstatusDispersionDTO();
 	}
 
-	public DispersionDTO(Long idDispersion, Long idCicloEscolar, String descripcionCicloEscolar, Long idPeriodoEscolar,
-			String descripcionPeriodo, Long idTipoDispersion, String descripcionTipoDispersion, Long numBeneficiarios,
-			Date fechaEjecucion, Long idUsuarioEjecucion, Date fechaConclusion, Long idEstatusDispersion,
+	public DispersionDTO(Long idDispersion, Integer idCicloEscolar, String descripcionCicloEscolar, Integer idPeriodoEscolar,
+			String descripcionPeriodo, Integer idTipoDispersion, String descripcionTipoDispersion, Long numBeneficiarios,
+			Date fechaEjecucion, Long idUsuarioEjecucion, Date fechaConclusion, Integer idEstatusDispersion,
 			String descripcionEstatusDispersion, Double aplicaDispersionPorcentaje, Long aplicaDispersionNumero,
 			Double noAplicaDispersionPorcentaje, Long noAplicaDispersionNumero, Date fechaDescarga,
 			Boolean permiteEjecucion, String rutaArchivoPreescolar, String rutaArchivoPrimaria,

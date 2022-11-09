@@ -42,6 +42,7 @@ public class EncuestaBeneficiarioBean implements Serializable {
 	private List<CatMaterialesDomicilioDTO> lstCatMaterialesDomicilio;
 	private List<CatGrupoPerteneceDTO> lstCatGrupoPertenece;
 	private List<CatIngresosFamiliaDTO> lstCatIngresoFamiliar;
+	private List<EncuestaDTO> lstEncuestaDTO;
 	private String[] lstDatos;
 	private List<String> lstDatosFront;
 	private EncuestaDTO encuestaDTO;
@@ -50,6 +51,7 @@ public class EncuestaBeneficiarioBean implements Serializable {
 	private boolean soloLectura;
 	private String msgNumeroP;
 	private String msgNumeroT;
+	private Integer idCicloEscolar;
 	
 	public void init() {
 		encuestaDTO = new EncuestaDTO();
@@ -71,6 +73,8 @@ public class EncuestaBeneficiarioBean implements Serializable {
 		if (encuestaDTO == null) {
 			encuestaDTO = new EncuestaDTO();
 			encuestaDTO.getSolicitudDTO().setIdSolicitud(registroBeneficiarioBean.getCrcBeneficiarioSolicitudDTO().getSolicitudDTO().getIdSolicitud());
+			encuestaDTO.getCatCicloEscolarDTO().setIdCicloEscolar(catCicloEscolarDAO.buscarCicloVigente().getIdCicloEscolar());
+			encuestaDTO.getCatCicloEscolarDTO().setDescripcion(catCicloEscolarDAO.buscarCicloVigente().getDescripcion());
 			soloLectura=false;
 		} else { 
 			encuestaDTO.getSolicitudDTO().setIdSolicitud(registroBeneficiarioBean.getCrcBeneficiarioSolicitudDTO().getSolicitudDTO().getIdSolicitud());
@@ -114,13 +118,23 @@ public class EncuestaBeneficiarioBean implements Serializable {
 		}
 		encuestaDTO.getCatCicloEscolarDTO().setIdCicloEscolar(catCicloEscolarDAO.buscarCicloVigente().getIdCicloEscolar());
 		registroBeneficiarioBean.getCrcBeneficiarioSolicitudDTO().setEncuestaDTO(encuestaDTO);
+		
 		if (registroBeneficiarioBean.isValidador()) {
-			beneficiarioFacade.registrBeneficiarioCompleto(registroBeneficiarioBean.getCrcBeneficiarioSolicitudDTO());
+			if (registroBeneficiarioBean.enviaDatosPagatodo()) {
+				beneficiarioFacade.registrBeneficiarioCompleto(registroBeneficiarioBean.getCrcBeneficiarioSolicitudDTO());
+				registroCompletadoBean.setSolicitud(registroBeneficiarioBean.getCrcBeneficiarioSolicitudDTO());
+				return registroCompletadoBean.inicializar();
+			}
+			else {
+				registroBeneficiarioBean.actualizaSeccion(1);
+				return null;
+			}
 		}else {
-			beneficiarioFacade.registraEncuesta(registroBeneficiarioBean.getCrcBeneficiarioSolicitudDTO());	
+			beneficiarioFacade.registraEncuesta(registroBeneficiarioBean.getCrcBeneficiarioSolicitudDTO());
+			registroCompletadoBean.setSolicitud(registroBeneficiarioBean.getCrcBeneficiarioSolicitudDTO());
+			return registroCompletadoBean.inicializar();
 		}			
-		registroCompletadoBean.setSolicitud(registroBeneficiarioBean.getCrcBeneficiarioSolicitudDTO());
-		return registroCompletadoBean.inicializar();
+		
 	}
 
 	public void llenaOpciones() {
@@ -178,6 +192,25 @@ public class EncuestaBeneficiarioBean implements Serializable {
 		encuestaDTO = new EncuestaDTO();
 		encuestaDTO = encuestaDAO.buscarPorIdSolicitud(idSolicitud);
 		soloLectura=true;
+	}
+
+	public void consultaPorCiclo(Long idSolicitud) {
+		encuestaDTO = new EncuestaDTO();
+		lstEncuestaDTO = encuestaDAO.buscarEncuestasPorIdSolicitud(idSolicitud);
+		encuestaDTO = lstEncuestaDTO.get(lstEncuestaDTO.size()-1);
+		idCicloEscolar = lstEncuestaDTO.get(lstEncuestaDTO.size()-1).getCatCicloEscolarDTO().getIdCicloEscolar();
+		soloLectura=true;
+	}
+
+	public void seleccionaCicliEscolar() {
+		if (lstEncuestaDTO != null && lstEncuestaDTO.size() > 0) {
+			for (EncuestaDTO dato:lstEncuestaDTO) {
+				if ( dato.getCatCicloEscolarDTO().getIdCicloEscolar() == idCicloEscolar) {
+					encuestaDTO = dato;
+					return;
+				}
+			}
+		}
 	}
 	
 	public List<CatTipoDomicilioDTO> getLstCatTipoDomicilio() {
@@ -274,5 +307,21 @@ public class EncuestaBeneficiarioBean implements Serializable {
 
 	public void setMsgNumeroT(String msgNumeroT) {
 		this.msgNumeroT = msgNumeroT;
+	}
+
+	public List<EncuestaDTO> getLstEncuestaDTO() {
+		return lstEncuestaDTO;
+	}
+
+	public void setLstEncuestaDTO(List<EncuestaDTO> lstEncuestaDTO) {
+		this.lstEncuestaDTO = lstEncuestaDTO;
+	}
+
+	public Integer getIdCicloEscolar() {
+		return idCicloEscolar;
+	}
+
+	public void setIdCicloEscolar(Integer idCicloEscolar) {
+		this.idCicloEscolar = idCicloEscolar;
 	}
 }

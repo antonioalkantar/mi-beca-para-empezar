@@ -45,28 +45,18 @@
 			</p:panelGrid>
 		</p:panelGrid>
 
-		<p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-12 ui-lg-6, ui-g-12 ui-md-12 ui-lg-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+		<p:panelGrid columns="1" columnClasses="ui-g-12  pt-0 pb-0" layout="grid" styleClass="ui-panelgrid-blank ui-fluid ta-r  pt-0 pb-0" rendered="#{!registroTutorBean.capturaTutor}">
+			<p:commandButton value="" icon="adip-icon-reload" styleClass="adip-btn-reload" actionListener="#{registroTutorBean.revisaInformacionContacto()}"/>
+		</p:panelGrid>
+		<p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-12 ui-lg-6  pt-0 pb-0, ui-g-12 ui-md-12 ui-lg-6  pt-0 pb-0" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
 			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
 				<p:outputLabel for="txtTelefono" value="#{msg.lbl_telefono.concat(':')}" styleClass="adip-output-campos" />
-				<p:inputMask id="txtTelefono" value="#{registroTutorBean.tutorDTO.telefono}" placeholder="#{msg.lbl_telefono_ph}" styleClass="campos-captura adip-upperText" required="true"
-				disabled="#{registroTutorBean.disableInformacionGeneral and registroTutorBean.tutorDTO.telefono ne null and registroTutorBean.tutorDTO.catEstatusDTO ne nul}" 
-					requiredMessage="#{msg.msj_campo_requerido}" maxlength="14" 
-					mask="99 99 99 99 99">
-					<p:keyFilter regEx="/^[0-9]\d*$/" />
-				</p:inputMask>
-				<p:message for="txtTelefono" styleClass="adip-messages" display="text" />
+				<p:outputLabel id="txtTelefono" value="#{registroTutorBean.tutorDTO.telefono}" styleClass="adip-output-bold-campos"/>
 			</p:panelGrid>
 			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" rendered="#{registroTutorBean.tutorDTO.correo ne null or !registroTutorBean.tutorDTO.correo.isEmpty()}" layout="grid"
 				styleClass="ui-panel-sin-pading">
-				<p:outputLabel value="#{msg.lbl_correo.concat(':')}" styleClass="adip-output-campos" />
-				<p:outputLabel value="#{registroTutorBean.tutorDTO.correo}" styleClass="adip-output-bold-campos" style="overflow-wrap: break-word !important;"/>
-			</p:panelGrid>
-			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" rendered="#{registroTutorBean.tutorDTO.correo eq null or registroTutorBean.tutorDTO.correo.isEmpty()}" layout="grid"
-				styleClass="ui-panel-sin-pading">
 				<p:outputLabel for="txtCorreo" value="#{msg.lbl_correo.concat(':')}" styleClass="adip-output-campos" />
-				<p:inputText id="txtCorreo" value="#{registroTutorBean.tutorDTO.correo}" placeholder="#{msg.lbl_correo_ph}" styleClass="campos-captura adip-upperText" required="true"
-					requiredMessage="#{msg.msj_campo_requerido}" />
-				<p:message for="txtCorreo" styleClass="adip-messages" display="text" />
+				<p:outputLabel id="txtCorreo" value="#{registroTutorBean.tutorDTO.correo}" styleClass="adip-output-bold-campos" style="overflow-wrap: break-word !important;"/>
 			</p:panelGrid>
 
 		</p:panelGrid>
@@ -75,7 +65,7 @@
 	<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" rendered="#{authenticatorBean.rolTutor eq true}">
 		<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
 			<div id="mesajeAlerta" class="ui-messages">
-				<div class="ui-messages-warn ui-corner-all">
+				<div class="adip-warn">
 
 					<ul>
 						<li><span class="ui-messages-warn-detail"> #{msg.msj_alert_azul_1} <span class="ui-messages-warn-summary"> <a href="https://llave.cdmx.gob.mx/" target="_blank"
@@ -104,7 +94,7 @@
 
 			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" rendered="#{registroTutorBean.tutorDTO.archivoIdentificacion ne null}">
 				<p:commandLink id="clDocGeneral" target="_blank" value="#{msg.lbl_ver_documento}" ajax="false" immediate="true" styleClass="adip-link"
-					action="#{registroTutorBean.verDocumento(registroTutorBean.tutorDTO.contentFileIdentifica)}">
+					action="#{descargaBean.descargar(registroTutorBean.tutorDTO.archivoIdentificacion, false)}">
 				</p:commandLink>
 			</p:panelGrid>
 		</p:panelGrid>
@@ -123,9 +113,9 @@
 			and registroTutorBean.tutorDTO.informacionGralCorrecto eq false)}">
 			<p:panelGrid id="pgIdentificaOf" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="adip-pg-gris pt-2 pb-2">
 				<p:outputLabel for="uploadIdenOf" value="#{registroTutorBean.tutorDTO.esExtranjero ? msg.lbl_identificacion_iden : msg.lbl_identificacion_of}" styleClass="adip-output-campos ml-2" />
-				<p:fileUpload id="uploadIdenOf" listener="#{registroTutorBean.agregaDocumento}" styleClass="adip-file-upload" accept=".pdf,.jpg,.png,.jpeg" label="#{msg.lbl_cargar_archivo}" mode="advanced"
+				<p:fileUpload id="uploadIdenOf" listener="#{registroTutorBean.agregaIdentificacionOficial}" styleClass="adip-file-upload" accept=".pdf,.jpg,.png,.jpeg" label="#{msg.lbl_cargar_archivo}" mode="advanced"
 					messageTemplate=" " auto="true" required="true" process="@this uploadIdenOf soIdentifica" update="pgIdentifica pgIdentificaDoc" immediate="true"
-					valueChangeListener="#{registroTutorBean.asignaIdentificacionOficial()}" sizeLimit="4194304" invalidSizeMessage="#{msg.msj_documento_oversize}"
+					 sizeLimit="4194304" invalidSizeMessage="#{msg.msj_documento_oversize}"
 					invalidFileMessage="#{msg.msj_formato_permitido}" allowTypes="/(\.|\/)(jpe?g|png|pdf)$/" />
 				<p:message for="uploadIdenOf" display="text" styleClass="adip-messages" />
 				<p:outputLabel id="lblfileIdenOf" value="#{msg.lbl_max_file_size.concat('.')}" styleClass="adip-observacion-file" />
@@ -280,7 +270,7 @@
 			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading"
 				rendered="#{registroTutorBean.tutorDTO.archivoComprobanteDomicilio ne null}">
 				<p:commandLink id="clDocDomicilio" target="_blank" value="#{msg.lbl_ver_documento}" ajax="false" immediate="true" styleClass="adip-link"
-					action="#{registroTutorBean.verDocumento(registroTutorBean.tutorDTO.contentFileComprobanteDom)}">
+					action="#{descargaBean.descargar(registroTutorBean.tutorDTO.archivoComprobanteDomicilio, false)}">
 				</p:commandLink>
 			</p:panelGrid>
 		</p:panelGrid>
@@ -292,7 +282,7 @@
 			and registroTutorBean.tutorDTO.domicilioCorrecto eq false)}">
 			<p:panelGrid id="pgComprobante" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="adip-pg-gris pt-2 pb-2">
 				<p:outputLabel id="lblComprobanteDom" for="uploadComprobanteDom" value="#{msg.lbl_comprobante_dom}" styleClass="adip-output-campos" />
-				<p:fileUpload id="uploadComprobanteDom" listener="#{registroTutorBean.agregaDocumento}" valueChangeListener="#{registroTutorBean.asignaComprobanteDomicilio()}"
+				<p:fileUpload id="uploadComprobanteDom" listener="#{registroTutorBean.agregaComprobanteDomicilio}"
 					styleClass="adip-file-upload" accept=".pdf,.jpg,.png,.jpeg" label="#{msg.lbl_cargar_archivo}" mode="advanced" messageTemplate=" " auto="true" required="true"
 					process="@this uploadComprobanteDom soComprobanteDom" immediate="true" sizeLimit="4194304" update="pgComprobante pgComprobanteDocs"
 					invalidSizeMessage="#{msg.msj_documento_oversize}" invalidFileMessage="#{msg.msj_formato_permitido}" allowTypes="/(\.|\/)(jpe?g|png|pdf)$/" />
@@ -549,22 +539,70 @@
 
 		</p:panelGrid>
 	</p:dialog>
+	
+	<!-- 	DIALOG PARA ACTUALIZAR DATOS DE CONTACTO -->
+	<p:dialog id="dialogConsultaDatosContacto" widgetVar="dialogConsultaDatosContacto" modal="true" closable="false" responsive="true" styleClass="adip-dialog-titulo-guinda" resizable="false">
+		<f:facet name="header">
+			<p:outputLabel value="Actualizacion de datos de contacto" styleClass="adip-dialog-titulo-white" />
+		</f:facet>
+
+		<p:panelGrid id="pgDatosContacto" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading pt-2 pl-4 pr-4">
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12 center pt-2" layout="grid" styleClass="ui-panel-sin-pading pl-4 pr-4">
+				<p:outputLabel value="#{msg.lbl_actualizar_datos_contactos}" styleClass="adip-output-bold-campos" />
+			</p:panelGrid>
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12 center pt-2" layout="grid" styleClass="ui-panel-sin-pading pl-4 pr-4">
+				<p:outputLabel value="#{msg.lbl_desea_continuar}" styleClass="adip-output-bold-campos" />
+			</p:panelGrid>
+
+			<p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-6 ui-lg-6, ui-g-12 ui-md-6 ui-lg-6" layout="grid" styleClass="ui-panel-sin-pading center">
+				<p:commandButton value="Aceptar" styleClass="adip-btn-guinda" style="width:90% !important" process="@this" actionListener="#{registroTutorBean.actualizaDatosContacto()}"/>
+
+				<p:commandButton value="Cancelar" styleClass="adip-btn-gris" style="width:90% !important" process="@this" oncomplete="PF('dialogConsultaDatosContacto').hide()" />
+			</p:panelGrid>
+
+		</p:panelGrid>
+	</p:dialog>
+
+	<!-- 	DIALOG PARA PASOS DATOS DE CONTACTO -->
+	<p:dialog id="dialogPasosDatosContacto" widgetVar="dialogPasosDatosContacto" modal="true" closable="true" responsive="true" styleClass="adip-dialog-titulo-guinda" resizable="false">
+		<f:facet name="header">
+			<p:outputLabel value="#{msg.lbl_pasos_datos_contacto}" styleClass="adip-dialog-titulo-white" />
+		</f:facet>
+
+		<p:panelGrid id="pgPasosDatosContacto" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading pl-4 pr-4 pb-4">
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading pt-2 pl-4 pr-4">
+				<p:outputLabel value="#{msg.lbl_pasos_datos_contacto_0}" styleClass="adip-output-bold-campos" />
+			</p:panelGrid>
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading pt-2 pl-4 pr-4">
+				<span class="adip-output-bold-campos"> 1.- <span> <a
+						style="color: #007bff !important; font-style: normal; font-weight: bold; font-size: 20px !important; line-height: 22px;" href="https://llave.cdmx.gob.mx/" target="_blank">
+							#{msg.lbl_pasos_datos_contacto_1} </a>
+				</span></span>
+				<p:outputLabel value="#{'2.- '.concat(msg.lbl_pasos_datos_contacto_2)}" styleClass="adip-output-bold-campos" />
+				<p:outputLabel value="#{'3.- '.concat(msg.lbl_pasos_datos_contacto_3)}" styleClass="adip-output-bold-campos" />
+				<p:outputLabel value="#{'4.- '.concat(msg.lbl_pasos_datos_contacto_4)}" styleClass="adip-output-bold-campos" />
+			</p:panelGrid>
+
+		</p:panelGrid>
+	</p:dialog>
 
 	<p:remoteCommand name="rcBandejaTutor" delay="3000" action="#{bandejaFuncionarioBean.init()}" immediate="true"/>
 
-	<p:remoteCommand name="rcRechazoDatosCorrectos" action="#{bandejaFuncionarioBean.init()}" delay="3000" />
+	<p:remoteCommand name="rcRechazoDatosCorrectos" action="#{bandejaFuncionarioBean.init()}" delay="3000" immediate="true" />
 	
 
 	<style>
+/*
 body .ui-messages .ui-messages-warn {
 	background: #E1F6FF;
 	border-width: 0px;
 	color: #0043A7;
 }
-
+*/
 .adip-dialog {
 	max-height: 80%;
 	overflow-y: overlay;
+	overflow-y: scroll;
 }
 
 .adip-dialog-CURP {
@@ -578,6 +616,9 @@ body .ui-messages .ui-messages-warn {
 	.adip-dialog {
 		max-width: 100%;
 	}
+	.adip-dialog-titulo-guinda {
+		max-width: 100%;
+	}
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
@@ -589,6 +630,9 @@ body .ui-messages .ui-messages-warn {
 	.adip-dialog {
 		max-width: 55%;
 	}
+	.adip-dialog-titulo-guinda {
+		max-width: 70%;
+	}
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
@@ -596,6 +640,10 @@ body .ui-messages .ui-messages-warn {
 	.adip-dialog {
 		max-width: 30rem;
 		min-width: 30rem !important;
+	}
+	.adip-dialog-titulo-guinda {
+		max-width: 33rem;
+    	min-width: 33rem !important;
 	}
 }
 
@@ -608,13 +656,64 @@ body .ui-messages .ui-messages-warn {
 }
 
 .adip-link {
-    font-style: normal;
-    font-weight: 500;
-    font-size: 20px !important;
-    line-height: 24px !important;
-    text-decoration-line: underline !important;
-    color: #007BFF !important;
-    margin-right: 12px;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 20px !important;
+	line-height: 24px !important;
+	text-decoration-line: underline !important;
+	color: #007BFF !important;
+	margin-right: 12px;
 }
+
+.adip-btn-reload {
+	background: none !important;
+	width: auto !important;
+	height: 44px !important;
+	border: none !important;
+}
+
+.adip-btn-transparent .ui-button-text {
+	font-style: normal !important;
+	font-weight: 600 !important;
+	font-size: 17px !important;
+	line-height: 21px !important;
+	text-align: center !important;
+	letter-spacing: -0.03em !important;
+	padding: 0px 3px !important;
+	color: #BC955C;
+}
+
+.adip-btn-reload.ui-button.ui-state-focus {
+	box-shadow: none !important;
+}
+
+.adip-icon-reload {
+	background-image: url(/resources/img/ic_reload.svg) !important;
+	width: 25px !important;
+	height: 25px !important;
+	background-size: cover;
+}
+
+.adip-dialog-titulo-guinda {
+	max-height: 80%;
+}
+
+.adip-dialog-titulo-guinda .ui-dialog-titlebar {
+	padding: 1rem 1rem 1rem 1rem !important;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    background: #8B1232 !important;
+}
+
+.adip-dialog-titulo-white {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px !important;
+    line-height: 29px;
+    align-items: center;
+    letter-spacing: -0.5px;
+    color: #FFF;
+}
+
 </style>
 </ui:composition>

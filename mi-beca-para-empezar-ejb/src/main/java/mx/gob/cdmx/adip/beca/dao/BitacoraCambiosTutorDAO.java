@@ -52,14 +52,17 @@ public class BitacoraCambiosTutorDAO extends IBaseDAO<BitacoraCambiosTutorDTO, L
 		em.flush();
 	}
 	
-	public void guardarBitacora(BitacoraCambiosTutorDTO e, String observaciones) {
+	public void guardarBitacora(BitacoraCambiosTutorDTO e) {
 		BitacoraCambiosTutor bitacora = new BitacoraCambiosTutor();
 		bitacora.setTutorByIdTutorAnterior(em.getReference(Tutor.class, e.getTutorByIdTutorAnteriorDTO().getIdUsuarioLlaveCdmx()));
 		bitacora.setTutorByIdTutorNuevo(em.getReference(Tutor.class, e.getTutorByIdTutorNuevoDTO().getIdUsuarioLlaveCdmx()));
 		bitacora.setFecha(e.getFecha());
 		bitacora.setSolicitud(em.getReference(Solicitud.class, e.getSolicitudDTO().getIdSolicitud()));
 		bitacora.setIdUsuario(e.getIdUsuario());
-		bitacora.setObservaciones(observaciones);
+		bitacora.setObservaciones(e.getObservaciones());
+		bitacora.setSoporteDocDescripcion(e.getSoporteDocDescripcion());
+		bitacora.setRutaDocto(e.getRutaDocto());
+		
 		em.persist(bitacora);
 		em.flush();
 	}

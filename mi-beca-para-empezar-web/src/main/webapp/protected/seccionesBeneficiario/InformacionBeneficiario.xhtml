@@ -45,7 +45,7 @@
 					      	<p:message for="Captcha" display="text"/>
 				</p:panelGrid>
 				<p:panelGrid columns="1" columnClasses="ui-grid-col-12"	layout="grid" styleClass="ui-panel-sin-pading">
-					<p:commandButton process="@this curpBenef Captcha"	actionListener="#{registroBeneficiarioBean.validarCurp}" 
+					<p:commandButton process="@this curpBenef Captcha"	actionListener="#{registroBeneficiarioBean.validarCurp}"  delay="500"
 						value="Consultar CURP" 
 						styleClass="adip-btn-green"	
 						update="form"
@@ -216,7 +216,7 @@
 					</p:panelGrid>
 					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
 						<p:outputLabel value="#{msg.lbl_alcaldia}" styleClass="adip-output-campos" />
-						<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.solicitudDTO.alcaldia}" styleClass="adip-output-bold-campos" />
+						<p:outputLabel value="#{registroBeneficiarioBean.crcBeneficiarioSolicitudDTO.solicitudDTO.catMunicipiosDTO.descripcion}" styleClass="adip-output-bold-campos" />
 					</p:panelGrid>
 					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
 						<p:outputLabel value="#{msg.lbl_entidad}" styleClass="adip-output-campos" />

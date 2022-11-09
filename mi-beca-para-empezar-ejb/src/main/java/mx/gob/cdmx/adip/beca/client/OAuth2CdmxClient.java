@@ -38,7 +38,7 @@ public class OAuth2CdmxClient {
 	public String obtenerToken(RequestTokenDTO requestToken) {
 		String token = null;
 		try {
-			LOGGER.info("Environment.getUrlServiceGetToken()"+Environment.getUrlServiceGetToken());
+//			LOGGER.info("Environment.getUrlServiceGetToken()"+Environment.getUrlServiceGetToken());
 			URI uri = new URI(Environment.getUrlServiceGetToken());
 			WebResource webResource = JerseyUtil.getInstance().getClientSDKCdmxWithAuth().resource(uri.toString());
 			ClientResponse response = webResource.accept(MediaType.APPLICATION_JSON)
@@ -143,9 +143,9 @@ public class OAuth2CdmxClient {
 					rolesDTO.setRol(jsonObj.get("rol").toString());
 					lstRoles.add(rolesDTO);
 				}
-				for (RolesUsuarioDTO rolesUsuarioDTO : lstRoles) {
+				/*for (RolesUsuarioDTO rolesUsuarioDTO : lstRoles) {
 					LOGGER.info("List tamanio: " + lstRoles.size());
-				}
+				}*/
 			}
 		} catch (URISyntaxException e) {
 			LOGGER.error("No fue posible conectarse al servicio para obtener los rolesdel usuario porque la URI no es correcta:", e);
@@ -160,7 +160,7 @@ public class OAuth2CdmxClient {
 	public boolean cerrarSesionConLlaveCDMX(String token) throws URISyntaxException, NoSuchAlgorithmException {
 		boolean logoutSucces = true;
 		try {
-			LOGGER.info("Token: " + token);
+			//LOGGER.info("Token: " + token);
 			URI uri = new URI(Environment.getUrlServiceLogout());
 			WebResource webResource = JerseyUtil.getInstance().getClientSDKCdmxWithAuth().resource(uri.toString());
 			ClientResponse response = webResource

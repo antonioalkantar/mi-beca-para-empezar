@@ -43,12 +43,12 @@ public class JerseyUtil {
 		
 		clientSDKCdmxWithAuth = Client.create(clientConfig);
 		clientSDKCdmxWithAuth.setConnectTimeout(3000); // Establecer a 3 segundos
-		clientSDKCdmxWithAuth.setReadTimeout(5000); //Establece tiempo de lectura 5 segundos;
+		clientSDKCdmxWithAuth.setReadTimeout(10000); //Establece tiempo de lectura 5 segundos;
 		clientSDKCdmxWithAuth.addFilter(new HTTPBasicAuthFilter(Environment.getUserHttpBasicAuth(), Environment.getPasswordHttpBasicAuth()));
 		
 		clientINEWithAuth = Client.create(clientConfig);
 		clientINEWithAuth.setConnectTimeout(3000); // Establecer a 3 segundos
-		clientINEWithAuth.setReadTimeout(5000); //Establece tiempo de lectura 5 segundos;
+		clientINEWithAuth.setReadTimeout(10000); //Establece tiempo de lectura 5 segundos;
 		clientINEWithAuth.addFilter(new HTTPBasicAuthFilter(Environment.getUserHttpBasicAuthINE(), Environment.getPasswordHttpBasicAuthINE()));
 		
 		clientCURPWithAuth = Client.create(clientConfig);

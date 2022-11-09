@@ -1,49 +1,44 @@
 package mx.gob.cdmx.adip.beca.bean;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
-import java.net.ConnectException;
-import java.net.URISyntaxException;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.StreamedContent;
-import org.primefaces.model.file.UploadedFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import mx.gob.cdmx.adip.beca.acceso.bean.AuthenticatorBean;
 import mx.gob.cdmx.adip.beca.catalogos.dao.CatCodigosPostalesDAO;
-import mx.gob.cdmx.adip.beca.client.DocumentRESTClient;
-import mx.gob.cdmx.adip.beca.client.IneRESTClient;
-import mx.gob.cdmx.adip.beca.client.ValidaDocumentoRESTClient;
+import mx.gob.cdmx.adip.beca.client.DocumentoLlaveRestClient;
+import mx.gob.cdmx.adip.beca.client.IneRestClient;
+import mx.gob.cdmx.adip.beca.client.IneRestClient.IneException;
 import mx.gob.cdmx.adip.beca.common.infra.Environment;
 import mx.gob.cdmx.adip.beca.commons.utils.Constantes;
 import mx.gob.cdmx.adip.beca.dao.CatComprobanteDomicilioDAO;
 import mx.gob.cdmx.adip.beca.dao.CatIdentificacionOficialDAO;
 import mx.gob.cdmx.adip.beca.dao.TutorDAO;
 import mx.gob.cdmx.adip.beca.dao.TutorExtranjeroDAO;
+import mx.gob.cdmx.adip.beca.dao.UsuarioDAO;
 import mx.gob.cdmx.adip.beca.facade.TutorFacade;
 import mx.gob.cdmx.adip.beca.commons.dto.CatAsentamientosDTO;
 import mx.gob.cdmx.adip.beca.commons.dto.CatCodigosPostalesDTO;
@@ -52,9 +47,10 @@ import mx.gob.cdmx.adip.beca.commons.dto.CatEstatusDTO;
 import mx.gob.cdmx.adip.beca.commons.dto.CatIdentificacionOficialDTO;
 import mx.gob.cdmx.adip.beca.commons.dto.CatMunicipiosDTO;
 import mx.gob.cdmx.adip.beca.commons.dto.CatTipoIneDTO;
-import mx.gob.cdmx.adip.beca.commons.dto.DocumentoExtranjeroDTO;
+import mx.gob.cdmx.adip.beca.commons.dto.DocumentoLlaveDTO;
 import mx.gob.cdmx.adip.beca.commons.dto.TutorDTO;
 import mx.gob.cdmx.adip.beca.commons.dto.TutorExtranjeroDTO;
+import mx.gob.cdmx.adip.beca.commons.dto.UserDTO;
 import mx.gob.cdmx.adip.ine.dto.IneDTO;
 import mx.gob.cdmx.adip.beca.util.BeanUtils;
 import mx.gob.cdmx.adip.beca.util.Mensajes;
@@ -96,7 +92,8 @@ public class RegistroTutorBean implements Serializable {
 	private BandejaTutorBean bandejaTutorBean;
 	
 	@Inject
-	private IneRESTClient ineClient; //Borrar inyección, debe ser variable local no global
+	private UsuarioDAO usuarioDAO;
+		
 
 	private List<CatIdentificacionOficialDTO> lstIdentificacionOficial;
 	private List<CatComprobanteDomicilioDTO> lstCatComprobanteDomicilioDTO;
@@ -104,8 +101,6 @@ public class RegistroTutorBean implements Serializable {
 	
 	private TutorDTO tutorDTO;
 
-	private UploadedFile file;
-	private StreamedContent scFile;
 	private Integer ID_IDENTIFICACION_OFICIAL = Constantes.ID_IDENTIFICACION_OFICIAL;
 	private Integer ID_ESTATUS_ACLARACION_POR_CIRCUNSTANCIA = Constantes.ID_ESTATUS_ACLARACION_POR_CIRCUNSTANCIA;
 	private Integer ID_ESTATUS_CORRECCION_POR_PARTE_CIUDADANO = Constantes.ID_ESTATUS_CORRECCION_POR_PARTE_CIUDADANO;
@@ -129,6 +124,7 @@ public class RegistroTutorBean implements Serializable {
 	private int modeloINE;
 	private int idEstatus;
 	private Long idSolicitud;
+	private UserDTO userDTO;
 	
 	/**
 	 * Método que inicializa la pantalla para el registro del tutor desde bandeja de
@@ -182,10 +178,6 @@ public class RegistroTutorBean implements Serializable {
 			viewDocIdentifica = !disableInformacionGeneral;
 			viewDocDomicilio = !disableInformacionDireccion;
 		}
-		
-		tutorDTO.setContentFileIdentifica(construyeDocumento(tutorDTO.getArchivoIdentificacion()));
-		tutorDTO.setContentFileComprobanteDom(construyeDocumento(tutorDTO.getArchivoComprobanteDomicilio()));
-		
 		avisoPrivacidad = true;
 		viewAvisoPrivacidad = false;
 		idEstatus = 0;
@@ -210,9 +202,6 @@ public class RegistroTutorBean implements Serializable {
 		avisoPrivacidad = true;
 		viewAvisoPrivacidad = false;
 		idEstatus = 0;
-		tutorDTO.setContentFileIdentifica(construyeDocumento(tutorDTO.getArchivoIdentificacion()));
-		tutorDTO.setContentFileComprobanteDom(construyeDocumento(tutorDTO.getArchivoComprobanteDomicilio()));
-		//return Constantes.RETURN_HOME_BACKOFFICE_PAGE_ADMIN_CONSULTA + Constantes.JSF_REDIRECT;
 	}
 	
 
@@ -232,17 +221,9 @@ public class RegistroTutorBean implements Serializable {
 		tutorDTO = tutorDAO.buscarPorId(idUsuarioLaveCdmx);
 		consultaCatalogos();
 		consultaCodigosPostales();
-//		if(tutorDTO.getCatEstatusDTO().getIdEstatus() == ID_ESTATUS_ACLARACION_POR_CIRCUNSTANCIA) {
-//			disableInformacionGeneral = tutorDTO.getInformacionGralCorrecto() != null && tutorDTO.getInformacionGralCorrecto() == true;
-//			disableInformacionDireccion = tutorDTO.getDomicilioCorrecto() != null && tutorDTO.getDomicilioCorrecto() == true;
-//			viewDocIdentifica = !disableInformacionGeneral;
-//			viewDocDomicilio = !disableInformacionDireccion;
-//		}
 		avisoPrivacidad = true;
 		viewAvisoPrivacidad = false;
 		idEstatus = 0;
-		tutorDTO.setContentFileIdentifica(construyeDocumento(tutorDTO.getArchivoIdentificacion()));
-		tutorDTO.setContentFileComprobanteDom(construyeDocumento(tutorDTO.getArchivoComprobanteDomicilio()));
 		return Constantes.RETURN_VALIDACION_TUTOR + Constantes.JSF_REDIRECT;
 	}
 
@@ -271,21 +252,31 @@ public class RegistroTutorBean implements Serializable {
 	 */
 	public void validaINE() {
 		if (modeloINE != 0) {
-			switch (modeloINE) {
-				case 3:
-					tutorDTO.setCic(null);
-					break;
-				default:
-					tutorDTO.setClaveElector(null);
-					tutorDTO.setNumeroEmision(null);
-					tutorDTO.setOcr(null);
-					break;
+			if (modeloINE == 3) {
+				if(tutorDTO.getClaveElector().length() < 18) {
+					WebResources.addErrorMessage("msj_erro_ce_size", "formINE:pgMsgDialogINE", false);
+					return;
+				}else if(tutorDTO.getNumeroEmision().length() < 2) {
+					WebResources.addErrorMessage("msj_erro_cne_size", "formINE:pgMsgDialogINE", false);
+					return;
+				}else if(tutorDTO.getOcr() == null ) {
+					WebResources.addErrorMessage("msj_erro_ocr_size", "formINE:pgMsgDialogINE", false);
+					return;
+				}
+				tutorDTO.setCic(null);
+			} else {
+				tutorDTO.setClaveElector(null);
+				tutorDTO.setNumeroEmision(null);
+				tutorDTO.setOcr(null);
 			}
 			IneDTO ine = null;
 			try {
+				IneRestClient ineClient = new IneRestClient();
 				ine = ineClient.obtenerDatosINE(tutorDTO.getCic(), tutorDTO.getClaveElector(),
-						tutorDTO.getNumeroEmision(), tutorDTO.getOcr(), modeloINE);
-				if (ine != null && ine.getTipoSituacionRegistral().equalsIgnoreCase(Constantes.ESTATUS_VIGENTE_INE)) {
+						tutorDTO.getNumeroEmision(), tutorDTO.getOcr(), modeloINE, tutorDTO.getCurp());
+				if (ine != null && ine.getTipoSituacionRegistral() != null
+						&& ine.getTipoSituacionRegistral().equalsIgnoreCase(Constantes.ESTATUS_VIGENTE_INE)
+						&& ine.curpCorrecto() != null && ine.curpCorrecto() == true) {
 					tutorDTO.setCatTipoIneDTO(new CatTipoIneDTO(modeloINE));
 					PrimeFaces.current().executeScript("PF('dialogINE').hide();");
 					PrimeFaces.current().executeScript("PF('dialogDatosCorrectos').show();");
@@ -293,10 +284,9 @@ public class RegistroTutorBean implements Serializable {
 				} else {
 					WebResources.addErrorMessage("msj_datos_incorrectos_ine", "formINE:pgMsgDialogINE", false);
 				}
-
-			} catch (URISyntaxException | ConnectException | JSONException e) {
-				LOGGER.error("Error Servicio INE: ", e);
-				WebResources.addErrorMessage("msj_consulta_ine", "formINE:pgMsgDialogINE", false);
+			} catch (IneException e) {
+				//LOGGER.error("Ocurrió un error al consultar el servicio del INE: ", e); //No es necesario imprimir en el log porque cuando marca una IneException es por una regla de Negocio y si fue error inesperado ya lo imprimió en el log
+				WebResources.addErrorMessage(e.getMessage(), "formINE:pgMsgDialogINE", false);
 			}
 		} else {
 			WebResources.addErrorMessage("msj_seleccionar_ine", "formINE:pgMsgDialogINE", false);
@@ -374,95 +364,104 @@ public class RegistroTutorBean implements Serializable {
 	}
 
 	/**
-	 * Método auxiliar que realiza la carga del archivo seleccionado.
+	 * Método auxiliar que asigna el documento adjunto para la identificación oficial
 	 * 
-	 * @param event
+	 * Por tema de rendimiento cuando el sistema tiene miles de usuarios conectados, el archivo se baja a disco lo antes posible y se libera de la memoria
 	 */
-	public void agregaDocumento(FileUploadEvent event) {
-		file = event.getFile();
-	}
-
-	/**
-	 * Método auxiliar que asigna el documento adjunto para la identificación
-	 * oficial
-	 */
-	public void asignaIdentificacionOficial() {
-		try {
-			if (file != null) {
-				if (file.getContent().length <= Constantes.VALOR_04_MB) {
-					StringBuilder path = new StringBuilder();
-					path.append(Environment.getPathDocumentos());
-					path.append(tutorDTO.getIdUsuarioLlaveCdmx());
-					path.append(Constantes.SEPARADOR_RUTA);
-					path.append(Constantes.RUTA_IDENTIFICACION_OFICIAL);
-					path.append(Constantes.SEPARADOR_RUTA);
-					path.append(file.getFileName());
-					tutorDTO.setArchivoIdentificacion(path.toString());
-					tutorDTO.setFileIdentifica(file.getInputStream());
-					tutorDTO.setContentFileIdentifica(file.getContent());
+	public void agregaIdentificacionOficial(FileUploadEvent event) {
+		if (event.getFile() != null) {
+			if (event.getFile().getContent().length <= Constantes.VALOR_04_MB) {
+				StringBuilder path = new StringBuilder();
+				path.append(Environment.getPathDocumentosTemporales());
+				path.append(tutorDTO.getIdUsuarioLlaveCdmx());
+				path.append(Constantes.SEPARADOR_RUTA);
+				path.append(Constantes.RUTA_IDENTIFICACION_OFICIAL);
+				path.append(Constantes.SEPARADOR_RUTA);
+				path.append(event.getFile().getFileName());
+				
+				tutorDTO.setArchivoIdentificacion(path.toString());
+				tutorDTO.setDocumentoLlave(false);
+				tutorDTO.setIdDocumentoLlave(null);
+				if(!guardaArchivoSeleccionadoEnTemporales(tutorDTO.getArchivoIdentificacion(), event.getFile().getContent())) {
+					tutorDTO.setArchivoIdentificacion(null);
 					tutorDTO.setDocumentoLlave(false);
 					tutorDTO.setIdDocumentoLlave(null);
-				} else {
-					WebResources.addErrorMessage("msj_documento_oversize", "form:uploadIdenOf", false);
+					WebResources.addErrorMessage("msg_error_carga_archivo", "form:uploadIdenOf", false);
 				}
 			} else {
-				WebResources.addErrorMessage("msg_error_carga_archivo", "form:uploadIdenOf", false);
+				WebResources.addErrorMessage("msj_documento_oversize", "form:uploadIdenOf", false);
 			}
-		} catch (IOException e) {
-			LOGGER.error("Ocurrió un error al asignarIdentificacionOficial:", e);
+		} else {
 			WebResources.addErrorMessage("msg_error_carga_archivo", "form:uploadIdenOf", false);
 		}
-		file = null;
 	}
 
 	/**
-	 * Método que asigna el documento adjunto para el comprobante de comicilio
+	 * Método que asigna el documento adjunto para el comprobante de domicilio
+	 * 
+	 * Por tema de rendimiento cuando el sistema tiene miles de usuarios conectados, el archivo se baja a disco lo antes posible y se libera de la memoria
 	 */
-	public void asignaComprobanteDomicilio() {
-		try {
-			if (file != null) {
-				if (file.getContent().length <= Constantes.VALOR_04_MB) {
-					StringBuilder path = new StringBuilder();
-					path.append(Environment.getPathDocumentos());
-					path.append(tutorDTO.getIdUsuarioLlaveCdmx());
-					path.append(Constantes.SEPARADOR_RUTA);
-					path.append(Constantes.RUTA_COMPROBANTE_DOMICILIO);
-					path.append(Constantes.SEPARADOR_RUTA);
-					path.append(file.getFileName());
-					tutorDTO.setArchivoComprobanteDomicilio(path.toString());
-					tutorDTO.setFileComprobanteDom(file.getInputStream());
-					tutorDTO.setContentFileComprobanteDom(file.getContent());
-				} else {
-					WebResources.addErrorMessage("msj_documento_oversize", "form:uploadComprobanteDom", false);
+	public void agregaComprobanteDomicilio(FileUploadEvent event) {
+		if (event.getFile() != null) {
+			if (event.getFile().getContent().length <= Constantes.VALOR_04_MB) {
+				StringBuilder path = new StringBuilder();
+				path.append(Environment.getPathDocumentosTemporales());
+				path.append(tutorDTO.getIdUsuarioLlaveCdmx());
+				path.append(Constantes.SEPARADOR_RUTA);
+				path.append(Constantes.RUTA_COMPROBANTE_DOMICILIO);
+				path.append(Constantes.SEPARADOR_RUTA);
+				path.append(event.getFile().getFileName());
+				
+				tutorDTO.setArchivoComprobanteDomicilio(path.toString());
+				if(!guardaArchivoSeleccionadoEnTemporales(tutorDTO.getArchivoComprobanteDomicilio(), event.getFile().getContent())){
+					tutorDTO.setArchivoComprobanteDomicilio(null);
+					WebResources.addErrorMessage("msg_error_carga_archivo", "form:uploadComprobanteDom", false);
 				}
 			} else {
-				WebResources.addErrorMessage("msg_error_carga_archivo", "form:uploadComprobanteDom", false);
+				WebResources.addErrorMessage("msj_documento_oversize", "form:uploadComprobanteDom", false);
 			}
-		} catch (IOException e) {
-			LOGGER.error("Ocurrió un error al asignarComprobanteDomicilio", e);
+		} else {
 			WebResources.addErrorMessage("msg_error_carga_archivo", "form:uploadComprobanteDom", false);
 		}
-		file = null;
 	}
 
 	/**
 	 * Método para guardar Tutor
 	 */
 	public String guardarTutor() {
-		
+		if(tutorDTO.getCurp() == null || (BeanUtils.isEmpty(tutorDTO.getCurp()) || (tutorDTO.getCurp() != null && tutorDTO.getCurp().length() < 18))) {
+			WebResources.validationMessage("msg_error_curp_requerida", false);
+			return null;
+		}
+
 		if(tutorDTO.getArchivoComprobanteDomicilio() == null) {
 			WebResources.addErrorMessage(Mensajes.MSJ_CAMPO_OBLIGATORIO, "form:uploadComprobanteDom", false);
 			return null;
 		}
 		
-		if(tutorDTO.getArchivoIdentificacion() == null) {
+		if (tutorDTO.getArchivoIdentificacion() == null) {
 			WebResources.addErrorMessage(Mensajes.MSJ_CAMPO_OBLIGATORIO, "form:uploadIdenOf", false);
 			return null;
 		}
-		
+
 		try {
 			tutorDTO.setCatEstatusDTO(new CatEstatusDTO(Constantes.ID_ESTATUS_EN_PROCESO));
-			tutorFacade.registroNuevoTutor(tutorDTO);
+
+			int codigoRespuesta = tutorFacade.registroNuevoTutor(tutorDTO);
+			if (codigoRespuesta == Constantes.RESPUESTA_TELEFONO_ASOCIADO_A_CUENTA) {
+				WebResources.validationMessage("msg_error_pagatodo_telefono_registrado", false);
+				return null;
+			} else if (codigoRespuesta == Constantes.RESPUESTA_CORREO_ASOCIADO_A_CUENTA) {
+				WebResources.validationMessage("msg_error_pagatodo_correo_registrado", false);
+				return null;
+			} else if (codigoRespuesta == Constantes.RESPUESTA_TUTOR_MENOR_DE_EDAD) {
+				WebResources.validationMessage("msj_error_menor_edad", false);
+				return null;
+			} else if (codigoRespuesta != Constantes.RESPUESTA_PAGATODO_REGISTRO_CORRECTO) {
+				WebResources.validationMessage("msg_error_pagatodo_error_inesperado", false);
+				return null;
+			}
+			
 		} catch (Exception ex) {
 			LOGGER.error("ERROR AL GUARDAR TUTOR: ", ex);
 			WebResources.validationMessage("msj_error_registro", false);
@@ -527,7 +526,7 @@ public class RegistroTutorBean implements Serializable {
 			PrimeFaces.current().executeScript("rcBandejaTutor()");
 		} catch (IOException e) {
 			LOGGER.error("Ocurrió un error en guardaValidaTutor:", e);
-			WebResources.addErrorMessage("msj_error_valida_tutor", "frmMenuUsuario", false);
+			WebResources.addErrorMessage("msj_error_valida_tutor", "messages", false);
 		} 
 	}
 	
@@ -535,8 +534,6 @@ public class RegistroTutorBean implements Serializable {
 		idEstatus = estatus;
 		PrimeFaces.current().executeScript("PF('dialogValidaTutor').show();");		
 	}
-	
-	
 	
 	/**
 	 * Método para actualizar un tutor con mas de tres beneficiarios  mediante la validación del tutor
@@ -549,7 +546,7 @@ public class RegistroTutorBean implements Serializable {
 			PrimeFaces.current().executeScript("rcRechazoDatosCorrectos()");
 		} catch (IOException e) {
 			LOGGER.error("Ocurrió un error IOException", e);
-			WebResources.addErrorMessage("msj_error_valida_tutor", "frmMenuUsuario", false);
+			WebResources.addErrorMessage("msj_error_valida_tutor", "messages", false);
 		}
 	}
 	
@@ -581,7 +578,7 @@ public class RegistroTutorBean implements Serializable {
 			PrimeFaces.current().executeScript("rcRechazoDatosCorrectos()"); 
 		} catch (IOException e) {
 			LOGGER.error("Ocurrió un error en envioCorreccion", e);
-			WebResources.addErrorMessage("msj_error_valida_tutor", "frmMenuUsuario", false);
+			WebResources.addErrorMessage("msj_error_valida_tutor", "messages", false);
 		}
 	}
 	
@@ -590,37 +587,31 @@ public class RegistroTutorBean implements Serializable {
 		// Envío documento de identificación a Llave
 		if (tutorDTO.getInformacionGralCorrecto() != null && tutorDTO.isDocumentoLlave()
 				&& tutorDTO.getCatEstatusDTO().getIdEstatus() == ID_ESTATUS_PENDIENTE_VALIDACION) {
-			ValidaDocumentoRESTClient validaDoc = new ValidaDocumentoRESTClient();
-			String token = null;
-			JSONObject jsonDocument;
-			
-			try {
-				jsonDocument = new JSONObject(authenticatorBean.consultaToken());
+			DocumentoLlaveRestClient validaDoc = new DocumentoLlaveRestClient();
+			Integer codeResponse = validaDoc.enviaEstatusDocumento(tutorDTO.getIdUsuarioLlaveCdmx(),
+					authenticatorBean.getUsuarioLogueado().getIdUsuarioLlaveCdmx(), tutorDTO.getIdDocumentoLlave(),
+					tutorDTO.getInformacionGralCorrecto(), 99,
+					tutorDTO.getInformacionGeneralObservaciones());
 
-				token = jsonDocument.getString("accessToken");
-
-				Integer codeResponse = validaDoc.enviaEstatusDocumento(tutorDTO.getIdUsuarioLlaveCdmx(),
-						authenticatorBean.getUsuarioLogueado().getIdUsuarioLlaveCdmx(), tutorDTO.getIdDocumentoLlave(),
-						tutorDTO.getInformacionGralCorrecto(), token, 99,
-						tutorDTO.getInformacionGeneralObservaciones());
-
-				switch (codeResponse) {
-					case 201:
-						//LOGGER.info("La validación del documento se realizó correctamente");
-						break;
-					case 408:
-						//LOGGER.info("El documento ya se encuentra validado. Solo se pueden validar documentos que aún no hayan sido validados.");
-						break;
-					default:
-						pasoCorrecto = false;
-						WebResources.addErrorMessage("msj_error_valida_identificacion_tutor", "frmMenuUsuario", false);
-						break;
-				}
-
-			} catch (JSONException e) {
-				LOGGER.error("ERROR al convertir JSON", e);
+			switch (codeResponse) {
+				case 201:
+					//LOGGER.info("La validación del documento se realizó correctamente");
+					break;
+				case 408:
+					//LOGGER.info("El documento ya se encuentra validado. Solo se pueden validar documentos que aún no hayan sido validados.");
+					break;
+				case 406:
+					//LOGGER.info("El idDocumento enviado en la petición no existe o no es correcto");
+					break;
+				default:
+					pasoCorrecto = false;
+					LOGGER.error( "Servicio web documentos LLaveCDMX" + "\n" + "Usuario....... " + tutorDTO.getIdUsuarioLlaveCdmx() + "\n "
+							   + "ID Documento......." + tutorDTO.getIdDocumentoLlave() + "\n" 
+							   + "Informacion General Observaciones......." + tutorDTO.getInformacionGeneralObservaciones() + "\n" 
+							   + "Codigo de Respuesta.........." + codeResponse);
+					WebResources.addErrorMessage(Mensajes.MSJ_ERROR_SERVICIO, "messages", false);
+					break;
 			}
-
 		}
 		return pasoCorrecto;
 	}
@@ -645,36 +636,7 @@ public class RegistroTutorBean implements Serializable {
 		}
 	}
 	
-	/**
-	 * Método que permite ver el documento en nueva pestaña
-	 * 
-	 * @param archivo
-	 * @param nombreDocumento
-	 */
-	public void verDocumento(byte[] archivo) {
-		FacesContext facesContext = FacesContext.getCurrentInstance();
-		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
-				.getResponse();
-		try (BufferedInputStream input = new BufferedInputStream(new ByteArrayInputStream(archivo));
-				BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream(),
-						Constantes.TAMAÑO_BUFFER);) {
-			byte[] buffer = new byte[Constantes.TAMAÑO_BUFFER];
-			int tamaño;
-			while ((tamaño = input.read(buffer)) > Constantes.INT_VALOR_CERO) {
-				output.write(buffer, Constantes.INT_VALOR_CERO, tamaño);
-			}
-
-			input.close();
-			output.flush();
-			output.close();
-			facesContext.responseComplete();
-			facesContext.renderResponse();
-
-			PrimeFaces.current().ajax().update("form");
-		} catch (IOException e) {
-			LOGGER.error("Error al leer el documento", e);
-		}
-	}
+	
 	
 	public void verificaCURP() {
 		if (tutorDTO != null && tutorDTO.isEsExtranjero() && tutorDTO.getCurp() == null) {
@@ -718,50 +680,24 @@ public class RegistroTutorBean implements Serializable {
         }
         WebResources.addErrorMessage("msg_error_valida_curp", "form:txtCampoCURP", false);
     }    
-    
-	public DocumentoExtranjeroDTO consultaDocumentoLlave() {
-		DocumentRESTClient documentLlaveExtranjero = new DocumentRESTClient();
-		String token = null;
-		JSONObject jsonDocument = null;
-		DocumentoExtranjeroDTO documento = null;
-		List<Integer> lstIdentifica = new ArrayList<>();
-
-		lstIdentificacionOficial.forEach(identifica -> {
-			lstIdentifica.add(identifica.getIdCatLlave());
-		});
-
-		Collections.sort(lstIdentifica);
-		try {
-			jsonDocument = new JSONObject(authenticatorBean.consultaToken());
-			token = jsonDocument.getString("accessToken");
-			documento = documentLlaveExtranjero.consultaDocumento(lstIdentifica, lstIdentifica, false, token);
-		} catch (JSONException e) {
-			LOGGER.error("ERROR al Consultar documentoExtranjero: ", e);
-		}
-		return documento;
-	}
 	
-	public void asignaDocumentoDesdeLlave() {
-		DocumentoExtranjeroDTO documento = null;
-		documento = consultaDocumentoLlave();
+	/**
+	 * Por tema de rendimiento cuando el sistema tiene miles de usuarios conectados, el archivo se baja a disco lo antes posible y se libera de la memoria
+	 */
+	private void asignaDocumentoDesdeLlave() {
+		DocumentoLlaveDTO documento = consultaDocumentoIdentificacionLlave();
 		if (documento != null) {
 
-			InputStream is = null;
 			StringBuilder path = new StringBuilder();
-			path.append(Environment.getPathDocumentos());
+			path.append(Environment.getPathDocumentosTemporales());
 			path.append(tutorDTO.getIdUsuarioLlaveCdmx());
 			path.append(Constantes.SEPARADOR_RUTA);
 			path.append(Constantes.RUTA_IDENTIFICACION_OFICIAL);
 			path.append(Constantes.SEPARADOR_RUTA);
 			path.append(documento.getNombreDocumento());
 
-			try {
-				byte[] bytes = Base64.decodeBase64(documento.getDocumentoBase64());
-				is = new ByteArrayInputStream(bytes);
-				tutorDTO.setArchivoIdentificacion(path.toString());
-				tutorDTO.setFileIdentifica(is);
-				tutorDTO.setContentFileIdentifica(bytes);
-
+			tutorDTO.setArchivoIdentificacion(path.toString());
+			if(guardaArchivoSeleccionadoEnTemporales(path.toString(), Base64.decodeBase64(documento.getDocumentoBase64()))) {
 				int idCatIdentifica = documento.getIdSubtipoDocumento();
 				tutorDTO.setCatIdentificacionOficialDTO(lstIdentificacionOficial.stream()
 						.filter(identificaOf -> identificaOf.getIdCatLlave().intValue() == idCatIdentifica).findAny()
@@ -769,12 +705,28 @@ public class RegistroTutorBean implements Serializable {
 
 				tutorDTO.setDocumentoLlave(true);
 				tutorDTO.setIdDocumentoLlave(documento.getIdDocumento());
-			} catch (Exception e) {
-				LOGGER.error("ERROR al asignar archivo desde llave", e);
-			} finally {
-				if (is != null) { try { is.close(); } catch (Exception e) { LOGGER.warn("ERROR al cerrar documento ", e); } }
+
+			}else {
+				WebResources.addErrorMessage("msg_error_carga_archivo", "form:uploadIdenOf", false);
 			}
 		}
+	}
+	
+	private DocumentoLlaveDTO consultaDocumentoIdentificacionLlave() {
+		List<Integer> lstIdentifica = new ArrayList<>();
+
+		lstIdentificacionOficial.forEach(identifica -> {
+			lstIdentifica.add(identifica.getIdCatLlave());
+		});
+
+		Collections.sort(lstIdentifica);
+		
+		/*
+		 *  TODO WARN: Si ya pasó mucho tiempo entre que inició sesión el usuario y se ingresa a lapantalla para registrar el tutor,
+		 *  puede ser que el token ya haya expirado y podría marcar error al usarlo
+		 */
+		DocumentoLlaveRestClient documentoLlave = new DocumentoLlaveRestClient();
+		return documentoLlave.consultaDocumento(lstIdentifica, lstIdentifica, false, authenticatorBean.getAccessToken());
 	}
 	
 	public void generarCURP() {
@@ -1032,11 +984,73 @@ public class RegistroTutorBean implements Serializable {
 		}
 		return arreglo;
 	}
+	
+	public void revisaInformacionContacto() {
+		userDTO = authenticatorBean.getRolTutor() ? authenticatorBean.getUserDTO()
+				: usuarioDAO.buscarPorId(tutorDTO.getIdUsuarioLlaveCdmx());
+
+		if (!userDTO.getCorreo().equalsIgnoreCase(tutorDTO.getCorreo())
+				|| !userDTO.getTelefono().equalsIgnoreCase(tutorDTO.getTelefono())) {
+			PrimeFaces.current().executeScript("PF('dialogConsultaDatosContacto').show();");
+		} else {
+			PrimeFaces.current().executeScript("PF('dialogPasosDatosContacto').show();");
+		}
+	}
+	
+	public void actualizaDatosContacto() {
+
+		if (tutorFacade.actualizaContacto(tutorDTO, userDTO,
+				authenticatorBean.getRolTutor() != null && authenticatorBean.getRolTutor() ? null
+						: authenticatorBean.getUsuarioLogueado().getIdUsuarioLlaveCdmx())) {
+			PrimeFaces.current().ajax().update("form:txtTelefono");
+			PrimeFaces.current().ajax().update("form:txtCorreo");
+		} else {
+			WebResources.validationMessage("msg_error_guardar_datos_contacto", false);
+		}
+		PrimeFaces.current().executeScript("PF('dialogConsultaDatosContacto').hide();");
+	}
+	
+	/**
+	 * Por tema de optimización de la memoria, cada que un usuario cargue un archivo al sistema, lo antes posible se guarda en la 
+	 * carpeta de "temporales" del sistema, para no tenerlo en Memoria. Recordar que este sistema tiene una alta concurrencia de usuarios.
+	 * 
+	 * Una vez que el registro se mande a guardar, el archivo se moverá a la carpeta de documenos finales y se borrará de la carpeta de temporales.
+	 */
+	private boolean guardaArchivoSeleccionadoEnTemporales(String url, byte[] content) {
+		try {
+			File faFiles = new File(url.substring(0, url.lastIndexOf(Constantes.SEPARADOR_RUTA)));
+			if (faFiles.isDirectory() && faFiles.exists()) {
+				// Se elimina el directorio correspondiente
+				FileUtils.forceDelete(faFiles);
+			}
+			// Se guarda documento en ruta temporal
+			FileUtils.writeByteArrayToFile(new File(url), content);
+			return true;
+		} catch (IOException e) {
+			LOGGER.error("No es posible guardar el archivo en la carpeta de temporales", e);
+			return false;
+		}
+	}
+	
+	public void numeroValido(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
+        if (value == null   || !String.valueOf(value).matches("\\d*")) {
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, null, WebResources.getBundleMsg("msj_error_solo_numeros")));
+        }
+    }
+	public void cadenaValida(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
+		if (value == null   || !String.valueOf(value).toLowerCase().matches("[a­zA­Z]*")) {
+			throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, null, WebResources.getBundleMsg("msj_error_solo_letras")));
+		}
+	}
+	public void cadenaNumeroValida(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
+		if (value == null   || !Pattern.compile("[a-zA-Z0-9]*").matcher(String.valueOf(value)).matches()) {
+			throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, null, WebResources.getBundleMsg("msj_error_solo_letras_numeros")));
+		}
+	}
 
 	/**
 	 * Gettes and Setters
 	 */
-
 	public int getModeloINE() {
 		return modeloINE;
 	}
@@ -1091,14 +1105,6 @@ public class RegistroTutorBean implements Serializable {
 
 	public void setViewDocDomicilio(boolean viewDocDomicilio) {
 		this.viewDocDomicilio = viewDocDomicilio;
-	}
-
-	public StreamedContent getScFile() {
-		return scFile;
-	}
-
-	public void setScFile(StreamedContent scFile) {
-		this.scFile = scFile;
 	}
 
 	public List<CatAsentamientosDTO> getListColonia() {

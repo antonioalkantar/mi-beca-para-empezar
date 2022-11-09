@@ -17,6 +17,7 @@ import java.util.Locale;
 public class DateUtils {
 	
 	private static final DateFormat DATE_FORMAT_YMD_WITH_DASH = new SimpleDateFormat("yyyy-MM-dd");
+	private static final DateFormat DATE_FORMAT_DMY_WITH_DASH = new SimpleDateFormat("dd-MM-yyyy");
 	private static final DateFormat DATE_FORMAT_DMY_WITH_SLASH = new SimpleDateFormat("dd/MM/yyyy");
 	private static final DateFormat DATE_FORMAT_YMD_HMSS_WITH_DASH = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 	private static final DateFormat DATE_FORMAT_LARGE_MX = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy", new Locale("ES", "MX"));
@@ -40,7 +41,9 @@ public class DateUtils {
 	public static String convertDateToString(final Date date, final DateFormatStyle dateFormatStyle) {
 		switch (dateFormatStyle) {
 			case YMD_WITH_DASH:
-				return DATE_FORMAT_YMD_WITH_DASH.format(date); 
+				return DATE_FORMAT_YMD_WITH_DASH.format(date);
+			case DMY_WITH_DASH:
+				return DATE_FORMAT_DMY_WITH_DASH.format(date);
 			case DMY_WITH_SLASH:
 				return DATE_FORMAT_DMY_WITH_SLASH.format(date);
 			case YMD_HMSS_WITH_DASH:
@@ -55,7 +58,9 @@ public class DateUtils {
 	public static Date convertStringToDate(final String date, final DateFormatStyle dateFormatStyle) throws ParseException {
 		switch (dateFormatStyle) {
 			case YMD_WITH_DASH:
-				return DATE_FORMAT_YMD_WITH_DASH.parse(date); 
+				return DATE_FORMAT_YMD_WITH_DASH.parse(date);
+			case DMY_WITH_DASH:
+				return DATE_FORMAT_DMY_WITH_DASH.parse(date);	
 			case DMY_WITH_SLASH:
 				return DATE_FORMAT_DMY_WITH_SLASH.parse(date);
 			case YMD_HMSS_WITH_DASH:
@@ -81,7 +86,7 @@ public class DateUtils {
 	}
 	
 	public enum DateFormatStyle {
-		YMD_WITH_DASH, DMY_WITH_SLASH, YMD_HMSS_WITH_DASH, LARGE_MX
+		YMD_WITH_DASH, DMY_WITH_DASH, DMY_WITH_SLASH, YMD_HMSS_WITH_DASH, LARGE_MX
 	}
 	
 	public static void main(String[] args) throws ParseException {

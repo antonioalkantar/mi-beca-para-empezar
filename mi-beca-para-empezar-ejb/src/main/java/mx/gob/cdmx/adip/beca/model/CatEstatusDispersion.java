@@ -27,14 +27,14 @@ import javax.persistence.Table;
 public class CatEstatusDispersion implements java.io.Serializable {
 		
 	private static final long serialVersionUID = -8493803739019289554L;
-	private Long idEstatusDispersion;
+	private Integer idEstatusDispersion;
 	private String descripcion;
 	private Boolean estatus;
 
 	public CatEstatusDispersion() {
 	}
 
-	public CatEstatusDispersion(Long idEstatusDispersion, String descripcion, Boolean estatus) {
+	public CatEstatusDispersion(Integer idEstatusDispersion, String descripcion, Boolean estatus) {
 		this.idEstatusDispersion = idEstatusDispersion;
 		this.descripcion = descripcion;
 		this.estatus = estatus;
@@ -43,11 +43,11 @@ public class CatEstatusDispersion implements java.io.Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id_estatus_dispersion", unique = true, nullable = false)
-	public Long getIdEstatusDispersion() {
+	public Integer getIdEstatusDispersion() {
 		return this.idEstatusDispersion;
 	}
 
-	public void setIdEstatusDispersion(Long idEstatusDispersion) {
+	public void setIdEstatusDispersion(Integer idEstatusDispersion) {
 		this.idEstatusDispersion = idEstatusDispersion;
 	}
 

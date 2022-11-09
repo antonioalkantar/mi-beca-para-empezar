@@ -6,10 +6,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
+import javax.xml.ws.http.HTTPException;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -41,7 +41,7 @@ public class ObtenMasReasignarTutor implements Serializable{
 			http.setRequestProperty("Authorization", "Bearer " + token + "");
 			http.setRequestProperty("Content-Type", "application/json");
 			StringBuilder str = new StringBuilder();
-			str.append("{ \"tutorCurp\": \"" + curpTutor + "\", \"studentCurp\": \"" + curpBeneficiario + "\"");
+			str.append("{ \"tutorCurp\": \"" + curpTutor + "\", \"studenCurp\": \"" + curpBeneficiario + "\"");
 			str.append("}");
 
 			String data = str.toString();
@@ -65,21 +65,38 @@ public class ObtenMasReasignarTutor implements Serializable{
 				respuesta.setCode(Math.round(Integer.parseInt(jsonObj.get("code").toString())));
 				respuesta.setMensaje(dataJson.get("message").toString());
 				break;
+			case 400:
+            	if (http.getErrorStream()!= null) {
+            		inputStream = new InputStreamReader(http.getErrorStream());
+                    br = new BufferedReader(inputStream);
+                    sb = new StringBuilder();
+                    String line2;
+                    while ((line2 = br.readLine()) != null) {
+                        sb.append(line2+"\n");
+                    }                
+                    jsonObj = new JSONObject(sb.toString());
+        			respuesta.setCode(Math.round(Integer.parseInt(jsonObj.get("status").toString())));
+        			respuesta.setStatus(Math.round(Integer.parseInt(jsonObj.get("status").toString())));        			
+                    respuesta.setMensaje("La transacción no pudo realizarse");
+        		break;
+				}
 			default:
-				respuesta.setCode(1);
+				respuesta.setCode(99);
 				respuesta.setMensaje("La transacción no pudo realizarse");
 				break;
 			}
-
+		
+		} catch (HTTPException e) {
+			LOGGER.error("Error to RespuestaDTO --> HTTPException",e);
 		} catch (IOException e) {
-			LOGGER.error("Error de IOException", e);
+			LOGGER.error("Error to RespuestaDTO --> IOException", e);
 		} catch (JSONException e) {
-			LOGGER.error("Error al leer el JSON de reasignado de tutor", e);
+			LOGGER.error("Error al leer el JSON de reasignado de tutor -> JSONException", e);
 		} finally {
 				if (br != null) {try {br.close();} catch (IOException e) {LOGGER.warn("No se cerro el BufferedReader", e);}				}
 				if (inputStream != null) {try {	inputStream.close();} catch (IOException e) {LOGGER.warn("No se cerro el inputStream", e);}	}
 				if (stream != null) {try {stream.close();} catch (IOException e) {LOGGER.warn("No se cerro el stream", e);}}				
-				if (http!=null) {http.disconnect();}
+				if (http!=null) {try {http.disconnect();} catch (Exception e) {LOGGER.warn("Error al cerrar Buffer ",e);}}
 		}		
 		return respuesta;
 	}

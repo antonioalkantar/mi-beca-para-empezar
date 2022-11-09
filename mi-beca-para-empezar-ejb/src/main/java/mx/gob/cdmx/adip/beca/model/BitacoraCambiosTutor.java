@@ -21,12 +21,21 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "bitacora_cambios_tutor", schema = "mibecaparaempezar")
 @NamedQueries({
-@NamedQuery(name = "BitacoraCambiosTutor.BuscarPorIdSolicitud", query = "SELECT NEW mx.gob.cdmx.adip.beca.commons.dto.BitacoraCambiosTutorDTO("
-		+ " bct.idCambioTutor, bct.fecha,  "
-		+ " s.idSolicitud,"
-		+ " ta.nombre, ta.primerApellido, ta.segundoApellido,  "
-		+ " tn.nombre, tn.primerApellido, tn.segundoApellido,  "
-		+ " bct.idUsuario, bct.observaciones "
+	  @NamedQuery(name = "BitacoraCambiosTutor.BuscarPorIdSolicitud"
+	, query = "SELECT NEW mx.gob.cdmx.adip.beca.commons.dto.BitacoraCambiosTutorDTO("
+		+ " bct.idCambioTutor, "
+		+ " bct.fecha, "
+		+ " s.idSolicitud, "
+		+ " ta.nombre, "
+		+ " ta.primerApellido, "
+		+ " ta.segundoApellido,  "
+		+ " tn.nombre, "
+		+ " tn.primerApellido, "
+		+ " tn.segundoApellido,  "
+		+ " bct.idUsuario, "
+		+ " bct.observaciones, "
+		+ " bct.soporteDocDescripcion, "
+		+ " bct.rutaDocto "
 		+ ")"
 		+ " FROM BitacoraCambiosTutor bct "
 		+ "	LEFT JOIN bct.solicitud s "
@@ -44,6 +53,8 @@ public class BitacoraCambiosTutor implements java.io.Serializable {
 	private Date fecha;
 	private Long idUsuario;
 	private String observaciones;
+	private String soporteDocDescripcion;
+	private String rutaDocto;
 
 	public BitacoraCambiosTutor() {
 	}
@@ -125,6 +136,24 @@ public class BitacoraCambiosTutor implements java.io.Serializable {
 
 	public void setObservaciones(String observaciones) {
 		this.observaciones = observaciones;
+	}
+
+	@Column(name = "soporte_documental")
+	public String getSoporteDocDescripcion() {
+		return soporteDocDescripcion;
+	}
+
+	public void setSoporteDocDescripcion(String soporteDocDescripcion) {
+		this.soporteDocDescripcion = soporteDocDescripcion;
+	}
+
+	@Column(name = "ruta_docto")
+	public String getRutaDocto() {
+		return rutaDocto;
+	}
+
+	public void setRutaDocto(String rutaDocto) {
+		this.rutaDocto = rutaDocto;
 	}
 
 }

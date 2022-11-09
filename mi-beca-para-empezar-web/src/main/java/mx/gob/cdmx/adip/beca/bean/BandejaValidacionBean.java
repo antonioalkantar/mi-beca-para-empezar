@@ -27,9 +27,11 @@ import mx.gob.cdmx.adip.beca.common.util.BeanUtils;
 import mx.gob.cdmx.adip.beca.common.util.FileUtils;
 import mx.gob.cdmx.adip.beca.commons.dto.CatCicloEscolarDTO;
 import mx.gob.cdmx.adip.beca.commons.dto.CatEstatusDispersionDTO;
+import mx.gob.cdmx.adip.beca.commons.dto.CatNivelEducativoDTO;
 import mx.gob.cdmx.adip.beca.commons.dto.CatPeriodoEscolarDTO;
 import mx.gob.cdmx.adip.beca.commons.dto.CatTipoDispersionDTO;
 import mx.gob.cdmx.adip.beca.commons.dto.DispersionDTO;
+import mx.gob.cdmx.adip.beca.commons.dto.SolicitudDTO;
 import mx.gob.cdmx.adip.beca.commons.utils.Constantes;
 import mx.gob.cdmx.adip.beca.dao.BeneficiarioDAO;
 import mx.gob.cdmx.adip.beca.dao.CatCicloEscolarDAO;
@@ -37,6 +39,7 @@ import mx.gob.cdmx.adip.beca.dao.CatEstatusDispersionDAO;
 import mx.gob.cdmx.adip.beca.dao.CatPeriodoEscolarDAO;
 import mx.gob.cdmx.adip.beca.dao.CatTipoDispersionDAO;
 import mx.gob.cdmx.adip.beca.dao.DispersionDAO;
+import mx.gob.cdmx.adip.beca.dao.SolicitudDAO;
 
 @Named("bandejaValidacionBean")
 @SessionScoped
@@ -70,6 +73,9 @@ public class BandejaValidacionBean implements Serializable {
 
 	@Inject
 	private DispersionDAO dispersionDAO;
+	
+	@Inject
+	private SolicitudDAO solicitudDAO;
 
 	private List<CatCicloEscolarDTO> lstCatCicloEscolarDTO;
 
@@ -83,19 +89,19 @@ public class BandejaValidacionBean implements Serializable {
 
 	private String cantidadBeneficiarios;
 
-	private Long idCicloEscolar;
+	private Integer idCicloEscolar;
 
-	private Long idPeriodoEscolar;
+	private Integer idPeriodoEscolar;
 
 	private String mensajeTipoValidacion;
 
-	private Long idCicloEscolarSel;
+	private Integer idCicloEscolarSel;
 
-	private Long idPeriodoSel;
+	private Integer idPeriodoSel;
 
-	private Long idTipoSel;
+	private Integer idTipoSel;
 
-	private Long idEstatusSel;
+	private Integer idEstatusSel;
 
 	private DispersionDTO dispersionSel;
 
@@ -137,10 +143,25 @@ public class BandejaValidacionBean implements Serializable {
 	private void consultarDispersiones() {
 		dispersiones = dispersionDAO.buscarTodos();
 	}
+	
+	private Long consultarSolicitudes() {
+		SolicitudDTO criterios = new SolicitudDTO();
+		criterios.getTutorDTO().setCurp("");
+		criterios.getBeneficiarioDTO().setCurpBeneficiario("");
+		criterios.setFolioSolicitud("");
+		criterios.setCct("");
+		criterios.getCatEstatusDTO().setIdEstatus(null);
+		criterios.getCatMunicipiosDTO().setIdMunicipio(null);
+		criterios.setFechaInicio(null);
+		criterios.setFechaFin(null);
+		criterios.setCatNivelEducativoDTO(new CatNivelEducativoDTO(null, "", false));
+		criterios.setEsNuevoRegistro(null);
+		List<SolicitudDTO> lstSolicitudes = solicitudDAO.buscarPorCriterios(criterios, 0);
+		return (long) lstSolicitudes.size();
+	}
 
 	private String obtenerCantidadBeneficiarios() {
-		Long cantidadBeneficiarios = beneficiarioDAO.countBeneficiarios();
-		String cantidadBeneficiariosConComma = NumberFormat.getNumberInstance(Locale.US).format(cantidadBeneficiarios);
+		String cantidadBeneficiariosConComma = NumberFormat.getNumberInstance(Locale.US).format(consultarSolicitudes());
 		return cantidadBeneficiariosConComma;
 	}
 
@@ -192,13 +213,12 @@ public class BandejaValidacionBean implements Serializable {
 	}
 
 	public void ejecutarValidacion() {
-		List<DispersionDTO> dispersionesOrdinarias = dispersionDAO.buscarPorCicloPeriodoAndTipo(idCicloEscolar,
-				idPeriodoEscolar, Constantes.ID_TIPO_DISPERSION_ORDINARIA);
+		List<DispersionDTO> dispersionesOrdinarias = dispersionDAO.buscarPorCicloPeriodoAndTipo(idCicloEscolar,idPeriodoEscolar, Constantes.ID_TIPO_DISPERSION_ORDINARIA);
 		if (dispersionesOrdinarias.size() == Constantes.SIZE_ARRAY_EMPTY) {
 			mensajeTipoValidacion = Constantes.TIPO_VALIDACION_ORDINARIA;
 			PrimeFaces.current().executeScript("PF('dlgConfirmacion').show();");
 		} else {
-			Long idEstatusDispersion = dispersionesOrdinarias.get(0).getCatEstatusDispersion().getIdEstatusDispersion();
+			Integer idEstatusDispersion = dispersionesOrdinarias.get(0).getCatEstatusDispersion().getIdEstatusDispersion();
 			if (idEstatusDispersion == Constantes.ID_ESTATUS_DISPERSION_EN_PROCESO
 					|| idEstatusDispersion == Constantes.ID_ESTATUS_DISPERSION_PROCESANDO) {
 				PrimeFaces.current().executeScript("PF('dlgValidacion').show();");
@@ -209,7 +229,7 @@ public class BandejaValidacionBean implements Serializable {
 					mensajeTipoValidacion = Constantes.TIPO_VALIDACION_COMPLEMENTARIA;
 					PrimeFaces.current().executeScript("PF('dlgConfirmacion').show();");
 				} else {
-					Long idEstatusDispersionComplementaria = dispersionesComplementarias.get(0)
+					Integer idEstatusDispersionComplementaria = dispersionesComplementarias.get(0)
 							.getCatEstatusDispersion().getIdEstatusDispersion();
 					if (idEstatusDispersionComplementaria == Constantes.ID_ESTATUS_DISPERSION_EN_PROCESO
 							|| idEstatusDispersionComplementaria == Constantes.ID_ESTATUS_DISPERSION_PROCESANDO) {
@@ -234,7 +254,7 @@ public class BandejaValidacionBean implements Serializable {
 			mensajeTipoValidacion = Constantes.TIPO_VALIDACION_COMPLEMENTARIA;
 			PrimeFaces.current().executeScript("PF('dlgConfirmacion').show();");
 		} else {
-			Long idEstatusDispersionComplementaria = dispersionesComplementarias.get(0).getCatEstatusDispersion()
+			Integer idEstatusDispersionComplementaria = dispersionesComplementarias.get(0).getCatEstatusDispersion()
 					.getIdEstatusDispersion();
 			if (idEstatusDispersionComplementaria == Constantes.ID_ESTATUS_DISPERSION_EN_PROCESO
 					|| idEstatusDispersionComplementaria == Constantes.ID_ESTATUS_DISPERSION_PROCESANDO) {
@@ -257,6 +277,8 @@ public class BandejaValidacionBean implements Serializable {
 				+ Constantes.EXTENSION_ZIP;
 		StreamedContent archivoReporte = DefaultStreamedContent.builder().name(nombreArchivo)
 				.contentType(Constantes.CONTENT_TYPE_ZIP).stream(() -> FileUtils.obtenerZipInputStream(rutas)).build();
+		dispersionDAO.actualizar(dispersionSel);
+		FacesContext.getCurrentInstance().responseComplete();
 		return archivoReporte;
 
 	}
@@ -295,10 +317,10 @@ public class BandejaValidacionBean implements Serializable {
 		DispersionDTO dispersion = new DispersionDTO();
 		dispersion.setCatCicloEscolar(new CatCicloEscolarDTO(idCicloEscolar));
 		dispersion.setCatPeriodoEscolar(new CatPeriodoEscolarDTO(idPeriodoEscolar));
-		dispersion.setCatTipoDispersion(new CatTipoDispersionDTO((long) Constantes.ID_TIPO_DISPERSION_ORDINARIA));
+		dispersion.setCatTipoDispersion(new CatTipoDispersionDTO(Constantes.ID_TIPO_DISPERSION_ORDINARIA));
 		dispersion.setCatEstatusDispersion(
-				new CatEstatusDispersionDTO((long) Constantes.ID_ESTATUS_DISPERSION_EN_PROCESO));
-		dispersion.setNumBeneficiarios(beneficiarioDAO.countBeneficiarios());
+				new CatEstatusDispersionDTO(Constantes.ID_ESTATUS_DISPERSION_EN_PROCESO));
+		dispersion.setNumBeneficiarios(consultarSolicitudes());
 		dispersion.setFechaEjecucion(new Date());
 		dispersion.setIdUsuarioEjecucion(authenticatorBean.getUsuarioLogueado().getIdUsuarioLlaveCdmx());
 		dispersion.setPermiteEjecucion(true);
@@ -311,7 +333,7 @@ public class BandejaValidacionBean implements Serializable {
 		dispersion.setCatPeriodoEscolar(new CatPeriodoEscolarDTO(idPeriodoEscolar));
 		dispersion.setCatTipoDispersion(new CatTipoDispersionDTO(Constantes.ID_TIPO_DISPERSION_COMPLEMENTARIA));
 		dispersion.setCatEstatusDispersion(new CatEstatusDispersionDTO(Constantes.ID_ESTATUS_DISPERSION_EN_PROCESO));
-		dispersion.setNumBeneficiarios(beneficiarioDAO.countBeneficiarios());
+		dispersion.setNumBeneficiarios(consultarSolicitudes());
 		dispersion.setFechaEjecucion(new Date());
 		dispersion.setIdUsuarioEjecucion(authenticatorBean.getUsuarioLogueado().getIdUsuarioLlaveCdmx());
 		dispersion.setPermiteEjecucion(true);
@@ -328,10 +350,10 @@ public class BandejaValidacionBean implements Serializable {
 	}
 
 	public void limpiarFiltro() {
-		idCicloEscolarSel = 0l;
-		idPeriodoSel = 0l;
-		idTipoSel = 0l;
-		idEstatusSel = 0l;
+		idCicloEscolarSel = 0;
+		idPeriodoSel = 0;
+		idTipoSel = 0;
+		idEstatusSel = 0;
 		consultarDispersiones();
 	}
 
@@ -359,19 +381,19 @@ public class BandejaValidacionBean implements Serializable {
 		this.cantidadBeneficiarios = cantidadBeneficiarios;
 	}
 
-	public Long getIdCicloEscolar() {
+	public Integer getIdCicloEscolar() {
 		return idCicloEscolar;
 	}
 
-	public void setIdCicloEscolar(Long idCicloEscolar) {
+	public void setIdCicloEscolar(Integer idCicloEscolar) {
 		this.idCicloEscolar = idCicloEscolar;
 	}
 
-	public Long getIdPeriodoEscolar() {
+	public Integer getIdPeriodoEscolar() {
 		return idPeriodoEscolar;
 	}
 
-	public void setIdPeriodoEscolar(Long idPeriodoEscolar) {
+	public void setIdPeriodoEscolar(Integer idPeriodoEscolar) {
 		this.idPeriodoEscolar = idPeriodoEscolar;
 	}
 
@@ -407,35 +429,35 @@ public class BandejaValidacionBean implements Serializable {
 		this.mensajeTipoValidacion = mensajeTipoValidacion;
 	}
 
-	public Long getIdCicloEscolarSel() {
+	public Integer getIdCicloEscolarSel() {
 		return idCicloEscolarSel;
 	}
 
-	public void setIdCicloEscolarSel(Long idCicloEscolarSel) {
+	public void setIdCicloEscolarSel(Integer idCicloEscolarSel) {
 		this.idCicloEscolarSel = idCicloEscolarSel;
 	}
 
-	public Long getIdPeriodoSel() {
+	public Integer getIdPeriodoSel() {
 		return idPeriodoSel;
 	}
 
-	public void setIdPeriodoSel(Long idPeriodoSel) {
+	public void setIdPeriodoSel(Integer idPeriodoSel) {
 		this.idPeriodoSel = idPeriodoSel;
 	}
 
-	public Long getIdTipoSel() {
+	public Integer getIdTipoSel() {
 		return idTipoSel;
 	}
 
-	public void setIdTipoSel(Long idTipoSel) {
+	public void setIdTipoSel(Integer idTipoSel) {
 		this.idTipoSel = idTipoSel;
 	}
 
-	public Long getIdEstatusSel() {
+	public Integer getIdEstatusSel() {
 		return idEstatusSel;
 	}
 
-	public void setIdEstatusSel(Long idEstatusSel) {
+	public void setIdEstatusSel(Integer idEstatusSel) {
 		this.idEstatusSel = idEstatusSel;
 	}
 

@@ -9,6 +9,7 @@ import javax.ejb.TransactionAttributeType;
 
 import mx.gob.cdmx.adip.beca.commons.dao.IBaseDAO;
 import mx.gob.cdmx.adip.beca.commons.dto.CrcBeneficiarioSolicitudDTO;
+import mx.gob.cdmx.adip.beca.commons.dto.SolicitudDTO;
 import mx.gob.cdmx.adip.beca.model.Beneficiario;
 import mx.gob.cdmx.adip.beca.model.CrcBeneficiarioSolicitud;
 import mx.gob.cdmx.adip.beca.model.Solicitud;
@@ -65,5 +66,12 @@ public class CrcBeneficiarioSolicitudDAO extends IBaseDAO<CrcBeneficiarioSolicit
 				.createNamedQuery("CrcBeneficiarioSolicitud.findByFolioSolicitud", CrcBeneficiarioSolicitudDTO.class)
 				.setParameter("idSolicitud", idSolicitud).getResultList();
 		return listado != null && listado.size() > 0 ? listado.get(0) : new CrcBeneficiarioSolicitudDTO();
+	}
+	
+	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+	public  List<CrcBeneficiarioSolicitudDTO> buscarNoEnviadoPagatodo() {
+		List<CrcBeneficiarioSolicitudDTO> lista = em.createNamedQuery("CrcBeneficiarioSolicitud.findByRechazadoPagatodo", CrcBeneficiarioSolicitudDTO.class)
+				.getResultList();
+		return lista;
 	}
  }

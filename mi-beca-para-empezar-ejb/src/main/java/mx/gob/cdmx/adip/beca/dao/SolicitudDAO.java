@@ -12,12 +12,14 @@ import mx.gob.cdmx.adip.beca.common.util.JPQL;
 import mx.gob.cdmx.adip.beca.common.util.ListPaginador;
 import mx.gob.cdmx.adip.beca.commons.dao.IBaseDAO;
 import mx.gob.cdmx.adip.beca.commons.dto.SolicitudDTO;
+import mx.gob.cdmx.adip.beca.commons.utils.Constantes;
 import mx.gob.cdmx.adip.beca.model.Solicitud;
 import mx.gob.cdmx.adip.beca.model.Tutor;
 import mx.gob.cdmx.adip.beca.model.CatMunicipios;
 import mx.gob.cdmx.adip.beca.model.CatNivelEducativo;
 import mx.gob.cdmx.adip.beca.model.CatParentesco;
 import mx.gob.cdmx.adip.beca.model.CatEstatusBeneficiario;
+import mx.gob.cdmx.adip.beca.model.CatCodigosRespuestaPagatodo;
 
 @Stateless
 @LocalBean
@@ -65,7 +67,8 @@ public class SolicitudDAO extends IBaseDAO<SolicitudDTO, Long> {
 		jpqlQueryFromWhere.append("     JOIN s.catMunicipios cm  ");
 		jpqlQueryFromWhere.append("     JOIN s.encuestas e ");
 		jpqlQueryFromWhere.append("     JOIN s.catEstatusBeneficiario ceb ");
-		jpqlQueryFromWhere.append(" WHERE ce.idEstatus !=  1  ");
+		jpqlQueryFromWhere.append("     JOIN e.catCicloEscolar cce ");
+		jpqlQueryFromWhere.append(" WHERE ce.idEstatus !=  1 AND cce.estatus = true ");
 		
 		jpqlQueryFromWhere.append(e.getTutorDTO().getCurp() != null  &&  !e.getTutorDTO().getCurp().isEmpty(),
 				                  "     and t.curp like :curpTutor ", "curpTutor", e.getTutorDTO().getCurp().toUpperCase()+"%");
@@ -147,13 +150,16 @@ public class SolicitudDAO extends IBaseDAO<SolicitudDTO, Long> {
 		solicitud.setNombre(e.getNombre());
 		solicitud.setCalle(e.getCalle());
 		solicitud.setColonia(e.getColonia());
-		solicitud.setAlcaldia(e.getAlcaldia());
 		solicitud.setCodigopostal(e.getCodigopostal());
 		solicitud.setTurno(e.getTurno());
 		solicitud.setCatNivelEducativo(e.getCatNivelEducativoDTO().getIdNivel() != null ? em.getReference(CatNivelEducativo.class, e.getCatNivelEducativoDTO().getIdNivel()) : null);
 		solicitud.setGradoEscolar(e.getGradoEscolar());
 		solicitud.setCatEstatusBeneficiario(em.getReference(CatEstatusBeneficiario.class, e.getCatEstatusBeneficiarioDTO().getIdEstatusBeneficiario()));
-		solicitud.setEnvioExitoso(e.getEnvioExitoso());
+		solicitud.setPagatodoEnvioExitoso(e.isPagatodoEnvioExitoso());
+		solicitud.setPagatodoFechaEnvio(e.getPagatodoFechaEnvio());
+		solicitud.setCatCodigosRespuestaPagatodo(em.getReference(CatCodigosRespuestaPagatodo.class, e.getCatCodigosRespuestaPagatodoDTO().getIdCodigoPagatodo()!= null ? e.getCatCodigosRespuestaPagatodoDTO().getIdCodigoPagatodo() : 99));
+		solicitud.setEsNuevoRegistro(e.getEsNuevoRegistro());
+		solicitud.setExterno(e.getExterno());
 		em.persist(solicitud);
 		em.flush();
 		e.setIdSolicitud(solicitud.getIdSolicitud());
@@ -175,11 +181,37 @@ public class SolicitudDAO extends IBaseDAO<SolicitudDTO, Long> {
 	}
 	
 	//metodo Actualizar el estatus del beneficiario desde Validaciones
-		public void actualizarEstatusBeneficiario(SolicitudDTO e) {	
-			Solicitud solicitud = em.getReference(Solicitud.class, e.getIdSolicitud());
-			solicitud.setCatEstatusBeneficiario(em.getReference(CatEstatusBeneficiario.class, e.getCatEstatusBeneficiarioDTO().getIdEstatusBeneficiario()));
-			em.merge(solicitud);
-			em.flush();
-		}
-
+	public void actualizarEstatusBeneficiario(SolicitudDTO e) {	
+		Solicitud solicitud = em.getReference(Solicitud.class, e.getIdSolicitud());
+		solicitud.setCatEstatusBeneficiario(em.getReference(CatEstatusBeneficiario.class, e.getCatEstatusBeneficiarioDTO().getIdEstatusBeneficiario()));
+		em.merge(solicitud);
+		em.flush();
+	}	
+	public  List<SolicitudDTO> buscarPorIdTutor(Long idTutor) {
+		List<SolicitudDTO> lista = em.createNamedQuery("Solicitud.findByIdTutor", SolicitudDTO.class)
+				.setParameter("idTutor", idTutor)
+				.setParameter("idEstatusBeneficiario", Constantes.ESTATUS_BENEFICIARIO_ACTIVO)
+				.getResultList();
+		return lista;
+	}		
+	
+	//metodo que actualiza Envio a Servicio Pagadodo
+	public void actualizaSolicitudPagatodo(SolicitudDTO s) {
+		Solicitud solicitud = em.getReference(Solicitud.class, s.getIdSolicitud());
+		solicitud.setPagatodoEnvioExitoso(s.isPagatodoEnvioExitoso());
+		solicitud.setPagatodoFechaEnvio(s.getPagatodoFechaEnvio());
+		solicitud.setCatCodigosRespuestaPagatodo(em.getReference(CatCodigosRespuestaPagatodo.class,
+				s.getCatCodigosRespuestaPagatodoDTO().getIdCodigoPagatodo()));
+		em.merge(solicitud);
+		em.flush();
+	}
+	
+//	//Actualiza el envio exitoso a vaga todo
+//	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+//	public void actualizaObtenMasRegistrarTutor(Long idTutor) {
+//		em.createNamedQuery("Solicitud.actualizaObtenMasRegistrarTutor")
+//			.setParameter("idTutor", idTutor)
+//			.executeUpdate();		
+//	}
+	
 }

@@ -32,7 +32,10 @@
 		gtag('config', 'G-KGCSNP9C6S');
 	</script>
 
-	<title>Mi Beca para Empezar</title>
+	<title>Registro Mi Beca para Empezar</title>
+	<meta name="description" content="Registro al programa Mi Beca para Empezar cuyo objetivo es apoyar económicamente a los hogares con niñas, niños y adolescentes inscritos en el nivel básico de educación pública."/>
+	<meta name="keywords" content="Mi Beca para Empezar, Beca, CDMX, Ciudad de México, Beca Escolar, FIBIEN, FIDEGAR, registro, registrar alumno"/>
+	
 	<!-- Indica a los bots de google que se tiene que indexar el sistema dependiendo el ambiente -->
 	<meta name="robots" content="#{authenticatorBean.parametroMetaRobots()}" />
 	
@@ -55,20 +58,21 @@
 		href="#{request.contextPath}/resources/img/favicon_adip.ico" />
 		
 		<!-- Facebook Meta Tags -->
-		<meta property="og:image" content="https://www.registro.mibecaparaempezar.cdmx.gob.mx/resources/img/MiBecaParaEmpezar.jpg" />
-		<meta property="og:image:type" content="image/jpg" />
-		<meta property="og:image:width" content="762" />
-	    <meta property="og:image:height" content="900" />
-	    <meta property="og:type" content="website" />
-	    <meta property="og:title" content="Mi Beca para Empezar" />
-	    <meta property="og:description" content="Registro al programa Mi Beca para Empezar cuyo objetivo es apoyar económicamente a los hogares con niñas, niños y adolescentes inscritos en el nivel básico de educación pública." />
-	    <meta property="og:url" content="https://www.registro.mibecaparaempezar.cdmx.gob.mx" />    	
+		<meta property="og:url" content="https://www.registro.mibecaparaempezar.cdmx.gob.mx" />    	
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content="Mi Beca para Empezar" />
+		<meta property="og:description" content="Registro al programa Mi Beca para Empezar cuyo objetivo es apoyar económicamente a los hogares con niñas, niños y adolescentes inscritos en el nivel básico de educación pública." />
+		<meta property="og:image" content="https://www.registro.mibecaparaempezar.cdmx.gob.mx/resources/img/MiBecaParaEmpezar.png" />
+		<meta property="og:image:type" content="image/png" />
+		<meta property="og:image:width" content="1200" />
+	    <meta property="og:image:height" content="630" />
+	    
 	    
 		<!--Twitter Meta Tags -->
 		<meta property="twitter:url" content="https://www.registro.mibecaparaempezar.cdmx.gob.mx"/>
 		<meta name="twitter:title" content="Mi Beca para Empezar"/>
 		<meta name="twitter:description" content="Registro al programa Mi Beca para Empezar cuyo objetivo es apoyar económicamente a los hogares con niñas, niños y adolescentes inscritos en el nivel básico de educación pública."/>
-		<meta name="twitter:image" content="https://www.registro.mibecaparaempezar.cdmx.gob.mx/resources/img/MiBecaParaEmpezar.jpg"/>
+		<meta name="twitter:image" content="https://www.registro.mibecaparaempezar.cdmx.gob.mx/resources/img/MiBecaParaEmpezar.png"/>
 		
 
 	<!-- El proyecto de grafica base requiere JQuery para cargar header y footer, pero dado que en este proyecto ocupamos  
@@ -165,13 +169,13 @@
 				<ui:include src="menubarHeader.xhtml" />
 
 				<div>
-					<h:form id="frmLogin" rendered="#{authenticatorBean.usuarioLogueado.idUsuarioLlaveCdmx == 0 }">
-						<div id="login" class="ui-fluid" style="color: #4a5568 !important; text-align: left !important;">
-							<p:commandButton id="btnIniciaSesionLlave" value="Inicia sesión #{msg.lbl_home_btn_llave}" action="#{authenticatorBean.redirectUrlLoginCDMX()}" immediate="true"
-								style="color: #4a5568 !important; font-size: 14px !important; line-height: 1.2 !important;" styleClass="boton-continuar-llave-home" escape="false"
-								update="messages, frmLogin" rendered="#{authenticatorBean.ingresaDesdeLlave}" />
-						</div>
-					</h:form>
+<!-- 					<h:form id="frmLogin" rendered="#{authenticatorBean.usuarioLogueado.idUsuarioLlaveCdmx == 0 }"> -->
+<!-- 						<div id="login" class="ui-fluid" style="color: #4a5568 !important; text-align: left !important;"> -->
+<!-- 							<p:commandButton id="btnIniciaSesionLlave" value="#{msg.lbl_home_btn_llave}" action="#{authenticatorBean.redirectUrlLoginCDMX()}" immediate="true" -->
+<!-- 								style="color: #4a5568 !important; font-size: 14px !important; line-height: 1.2 !important;" styleClass="boton-continuar-llave-home" escape="false" -->
+<!-- 								update="messages, frmLogin" rendered="#{authenticatorBean.ingresaDesdeLlave}" /> -->
+<!-- 						</div> -->
+<!-- 					</h:form> -->
 
 					<h:form id="frmMenuUsuario" rendered="#{authenticatorBean.usuarioLogueado.idUsuarioLlaveCdmx > 0}" style="text-align: right;">
 						<div class="parquimetro-login">

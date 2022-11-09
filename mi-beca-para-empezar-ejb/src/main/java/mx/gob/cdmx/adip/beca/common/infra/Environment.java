@@ -77,11 +77,7 @@ public final class Environment {
 
 	private static String urlServicioClimaOpen = "";
 
-	private static String urlHoyNoCircula = "";
-
 	private static String urlServicioSemaforoEpidemiologico = "";
-
-	private static String servicioVinculacion = "";
 
 	private static String urlHoyNoCirculaCDMX = "";
 	
@@ -94,6 +90,10 @@ public final class Environment {
 	/**
 	 * Indica la url para el servicio de paga todo
 	 */
+	
+	private static String clientSecret = "";
+	
+	private static String clientId = "";
 	
 	private static String urlObtenMas = "";
 	
@@ -135,6 +135,11 @@ public final class Environment {
      * Url que especifica la ruta donde estan almacenados los archivos de dispersion
      */
     private static String rutaArchivosDispersiones = "";
+    
+    /*
+     * Url que especifica la ruta donde estan almacenados los archivos temporales
+     */
+    private static String pathDocumentosTemporales = "";
 
 	/**
      * Inicializacion de variables utilizando como entrada el archivo
@@ -176,6 +181,9 @@ public final class Environment {
             passwordHttpBasicAuth = properties.getProperty("login.passwordHttpBasicAuth");
             LOGGER.info("ENV [login.passwordHttpBasicAuth:\t\t{}]", passwordHttpBasicAuth);
             
+            /**
+             * Servicios de Llave CDMX
+             */
             urlServiceGetToken = properties.getProperty("services.cdmx.getToken");
             LOGGER.info("ENV [services.cdmx.getToken:\t\t{}]", urlServiceGetToken);
             
@@ -185,88 +193,100 @@ public final class Environment {
             urlServiceGetRolesUsuario = properties.getProperty("services.cdmx.getRolesUsuario");
             LOGGER.info("ENV [services.cdmx.getRolesUsuario:\t\t{}]", urlServiceGetRolesUsuario);
             
-            
             urlServiceLogout = properties.getProperty("services.cdmx.logout");
 			LOGGER.info("ENV [services.cdmx.logout:\t\t{}]", urlServiceLogout);
 
-			/** SERVICIOS DEL WIDGET **/
-			urlServicioClima = properties.getProperty("servicio.clima.url");
-			LOGGER.info("ENV [servicio.clima.url:\t\t{}]", urlServicioClima);
-
-			urlServicioClimaOpen = properties.getProperty("servicio.climaopen.url");
-			LOGGER.info("ENV [servicio.climaopen.url:\t\t{}]", urlServicioClimaOpen);
-
-			urlHoyNoCircula = properties.getProperty("servicio.hoynocircula.url");
-			LOGGER.info("ENV [servicio.hoynocircula.url:\t\t{}]", urlHoyNoCircula);
-
-			urlServicioSemaforoEpidemiologico = properties.getProperty("servicio.semaforoepidemiologico.url");
-			LOGGER.info("ENV [servicio.semaforoepidemiologico.url:\t\t{}]", urlServicioSemaforoEpidemiologico);
-
-			urlHoyNoCirculaCDMX = properties.getProperty("servicio.cdmx.hoynocircula.url");
-			LOGGER.info("ENV [servicio.cdmx.hoynocircula.url:\t\t{}]", urlHoyNoCirculaCDMX);		
-			/**
+			urlServicioCDMXDocumento = properties.getProperty("services.cdmx.documentos.url");
+            LOGGER.info("ENV [services.cdmx.documentos.url:\t\t{}]", urlServicioCDMXDocumento);
+            
+            urlServicioCDMXValidaDocumento = properties.getProperty("services.cdmx.valida.documentos.url");
+            LOGGER.info("ENV [services.cdmx.valida.documentos.url:\t\t{}]", urlServicioCDMXValidaDocumento);
+            
+            /**
 			 * SERVICIO INE
 			 */
+			urlServicioINE = properties.getProperty("services.cdmx.ine.url");
+            LOGGER.info("ENV [services.cdmx.ine.url:\t\t{}]", urlServicioINE);
 			
-			urlServicioINE = properties.getProperty("servicio.urlINE");
-            LOGGER.info("ENV [servicio.urlINE:\t\t{}]", urlServicioINE);
-			
-			userHttpBasicAuthINE = properties.getProperty("servicio.userHttpBasicAuthINE");
-            LOGGER.info("ENV [servicio.userHttpBasicAuthINE:\t\t{}]", userHttpBasicAuthINE);
+			userHttpBasicAuthINE = properties.getProperty("services.cdmx.ine.user");
+            LOGGER.info("ENV [services.cdmx.ine.user:\t\t{}]", userHttpBasicAuthINE);
             
-            passwordHttpBasicAuthINE = properties.getProperty("servicio.passwordHttpBasicAuthINE");
-            LOGGER.info("ENV [servicio.passwordHttpBasicAuthINE:\t\t{}]", passwordHttpBasicAuthINE);
+            passwordHttpBasicAuthINE = properties.getProperty("services.cdmx.ine.password");
+            LOGGER.info("ENV [services.cdmx.ine.password:\t\t{}]", passwordHttpBasicAuthINE);
+            
+            /**
+             * SERVICIO CURP
+             */
+            urlServicioCurp = properties.getProperty("services.cdmx.curp.url");
+            LOGGER.info("ENV [services.cdmx.curp.url:\t\t{}]", urlServicioCurp);
+            
+            userCurpBasicAuth = properties.getProperty("services.cdmx.curp.user");
+            LOGGER.info("ENV [services.cdmx.curp.user:\t\t{}]", userCurpBasicAuth);
+            
+            passworCurpBasicAuth = properties.getProperty("services.cdmx.curp.password");
+            LOGGER.info("ENV [services.cdmx.curp.password:\t\t{}]", passworCurpBasicAuth);
+			
+			/** SERVICIOS DEL WIDGET **/
+			urlServicioSemaforoEpidemiologico = properties.getProperty("services.cdmx.semaforoepidemiologico.url");
+			LOGGER.info("ENV [services.cdmx.semaforoepidemiologico.url:\t\t{}]", urlServicioSemaforoEpidemiologico);
+
+			urlHoyNoCirculaCDMX = properties.getProperty("services.cdmx.hoynocircula.url");
+			LOGGER.info("ENV [services.cdmx.hoynocircula.url:\t\t{}]", urlHoyNoCirculaCDMX);	
+			
+			urlServicioClima = properties.getProperty("services.cdmx.simat.clima.url");
+			LOGGER.info("ENV [services.cdmx.simat.clima.url:\t\t{}]", urlServicioClima);
+
+			urlServicioClimaOpen = properties.getProperty("services.climaopen.url");
+			LOGGER.info("ENV [services.climaopen.url:\t\t{}]", urlServicioClimaOpen);
             
             /**
 			 * SERVICIO Pagatodo
 			 */
+            clientSecret = properties.getProperty("services.obtenmas.clientSecret");
+            LOGGER.info("ENV [services.obtenmas.clientSecret:\t\t{}]", clientSecret);
+            
+            clientId = properties.getProperty("services.obtenmas.clientId");
+            LOGGER.info("ENV [services.obtenmas.clientId:\t\t{}]", clientId);
+            
+        	urlObtenMas = properties.getProperty("services.obtenmas.url");
+            LOGGER.info("ENV [services.obtenmas.url:\t\t{}]", urlObtenMas);
 			
-        	urlObtenMas = properties.getProperty("services.cdmx.obtenmas.url");
-            LOGGER.info("ENV [services.cdmx.obtenmas.url:\t\t{}]", urlObtenMas);
-			
-            urlObtenMasRequestToken = properties.getProperty("services.cdmx.obtenmas.endpoint.token");
-            LOGGER.info("ENV [services.cdmx.obtenmas.endpoint.token:\t\t{}]", urlObtenMasRequestToken);
+            urlObtenMasRequestToken = properties.getProperty("services.obtenmas.endpoint.token");
+            LOGGER.info("ENV [services.obtenmas.endpoint.token:\t\t{}]", urlObtenMasRequestToken);
             
-            urlObtenMasRegistrarTutor = properties.getProperty("services.cdmx.obtenmas.endpoint.registrar.tutor");
-            LOGGER.info("ENV [services.cdmx.obtenmas.endpoint.registrar.tutor:\t\t{}]", urlObtenMasRegistrarTutor);
+            urlObtenMasRegistrarTutor = properties.getProperty("services.obtenmas.endpoint.registrar.tutor");
+            LOGGER.info("ENV [services.obtenmas.endpoint.registrar.tutor:\t\t{}]", urlObtenMasRegistrarTutor);
             
-            urlObtenMasReasignarTutor = properties.getProperty("services.cdmx.obtenmas.endpoint.reasignar.tutor");
-            LOGGER.info("ENV [services.cdmx.obtenmas.endpoint.reasignar.tutor:\t\t{}]", urlObtenMasReasignarTutor);
+            urlObtenMasReasignarTutor = properties.getProperty("services.obtenmas.endpoint.reasignar.tutor");
+            LOGGER.info("ENV [services.obtenmas.endpoint.reasignar.tutor:\t\t{}]", urlObtenMasReasignarTutor);
             
-            urlObtenMasConsultarTutor = properties.getProperty("services.cdmx.obtenmas.endpoint.consultar.tutor");
-            LOGGER.info("ENV [services.cdmx.obtenmas.endpoint.consultar.tutor:\t\t{}]", urlObtenMasConsultarTutor);
+            urlObtenMasConsultarTutor = properties.getProperty("services.obtenmas.endpoint.consultar.tutor");
+            LOGGER.info("ENV [services.obtenmas.endpoint.consultar.tutor:\t\t{}]", urlObtenMasConsultarTutor);
 
+            /**
+             * Servicios Autoridad Educativa de la CDMX
+             */
+            serviceAEFCMUser = properties.getProperty("services.aefcm.user");
+            LOGGER.info("ENV [services.aefcm.user:\t\t{}]", serviceAEFCMUser);
             
-            /*SERVICIO CURP*/
+            serviceAEFCMPassword = properties.getProperty("services.aefcm.password");
+            LOGGER.info("ENV [services.aefcm.password:\t\t{}]", serviceAEFCMPassword);
             
-            urlServicioCurp = properties.getProperty("services.cdmx.curp.url");
-            LOGGER.info("ENV [services.cdmx.curp.url:\t\t{}]", urlServicioCurp);
             
-            userCurpBasicAuth = properties.getProperty("services.cdmx.curp.userCurpBasicAuth");
-            LOGGER.info("ENV [services.cdmx.curp.userCurpBasicAuth:\t\t{}]", userCurpBasicAuth);
-            
-            passworCurpBasicAuth = properties.getProperty("services.cdmx.curp.passwordCurpBasicAuth");
-            LOGGER.info("ENV [services.cdmx.curp.passwordCurpBasicAuth:\t\t{}]", passworCurpBasicAuth);
-            
-            /*Ruta Documentos*/
+            /**
+             * Rutas del filesystem usadas por el sistema
+             */
             pathDocumentos = properties.getProperty("beca.pathDocumentos");
             LOGGER.info("ENV [beca.pathDocumentos:\t\t{}]", pathDocumentos);
             
             rutaArchivosDispersiones = properties.getProperty("beca.pathDispersiones");
             LOGGER.info("ENV [beca.pathDispersiones:\t\t{}]", rutaArchivosDispersiones);
             
-            /**/
-            urlServicioCDMXDocumento = properties.getProperty("services.cdmx.documentos.url");
-            LOGGER.info("ENV [services.cdmx.documentos.url:\t\t{}]", urlServicioCDMXDocumento);
-            
-            serviceAEFCMUser = properties.getProperty("service.aefcm.user");
-            LOGGER.info("ENV [service.aefcm.user:\t\t{}]", serviceAEFCMUser);
-            
-            serviceAEFCMPassword = properties.getProperty("service.aefcm.password");
-            LOGGER.info("ENV [service.aefcm.password:\t\t{}]", serviceAEFCMPassword);
-            
-            urlServicioCDMXValidaDocumento = properties.getProperty("services.cdmx.valida.documentos.url");
-            LOGGER.info("ENV [services.cdmx.valida.documentos.url:\t\t{}]", urlServicioCDMXValidaDocumento);
+			/*
+			 * Rutas del filesystem usadas por el sistema
+			 */
+			pathDocumentosTemporales = properties.getProperty("beca.pathDocumentosTemporales");
+			LOGGER.info("ENV [beca.pathDocumentosTemporales:\t\t{}]", pathDocumentosTemporales);
             
             
         } catch (IOException e) {
@@ -344,16 +364,8 @@ public final class Environment {
 		return urlServicioClimaOpen;
 	}
 
-	public static String getUrlHoyNoCircula() {
-		return urlHoyNoCircula;
-	}
-
 	public static String getUrlServicioSemaforoEpidemiologico() {
 		return urlServicioSemaforoEpidemiologico;
-	}
-
-	public static String getServicioVinculacion() {
-		return servicioVinculacion;
 	}
 
 	public static String getUrlHoyNoCirculaCDMX() {
@@ -407,6 +419,14 @@ public final class Environment {
 	public static void setServiceAEFCMPassword(String serviceAEFCMPassword) {
 		Environment.serviceAEFCMPassword = serviceAEFCMPassword;
 	}
+	
+	public static String getClientSecret() {
+		return clientSecret;
+	}
+	
+	public static String getClientId() {
+		return clientId;
+	}
 
 	public static String getUrlObtenMas() {
 		return urlObtenMas;
@@ -434,6 +454,10 @@ public final class Environment {
 
 	public static String getRutaArchivosDispersiones() {
 		return rutaArchivosDispersiones;
-	}	
+	}
+	
+	public static String getPathDocumentosTemporales() {
+		return pathDocumentosTemporales;
+	}
 
 }

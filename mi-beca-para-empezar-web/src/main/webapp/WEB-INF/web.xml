@@ -194,7 +194,7 @@
 <!-- 	</filter-mapping> -->
 
 	<session-config>
-		<session-timeout>15</session-timeout>
+		<session-timeout>10</session-timeout>
 		<!-- According to Michael Howard, Senior Security Program Manager in the 
 			Secure Windows Initiative group at Microsoft, the majority of XSS attacks 
 			target theft of session cookies. A server could help mitigate this issue 

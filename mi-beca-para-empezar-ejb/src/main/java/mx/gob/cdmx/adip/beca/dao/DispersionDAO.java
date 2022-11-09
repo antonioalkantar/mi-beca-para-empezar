@@ -1,5 +1,6 @@
 package mx.gob.cdmx.adip.beca.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -14,6 +15,8 @@ import mx.gob.cdmx.adip.beca.model.CatEstatusDispersion;
 import mx.gob.cdmx.adip.beca.model.CatPeriodoEscolar;
 import mx.gob.cdmx.adip.beca.model.CatTipoDispersion;
 import mx.gob.cdmx.adip.beca.model.Dispersion;
+import mx.gob.cdmx.adip.beca.model.Solicitud;
+import mx.gob.cdmx.adip.beca.model.Tutor;
 
 @LocalBean
 @Stateless
@@ -30,10 +33,10 @@ public class DispersionDAO extends IBaseDAO<DispersionDTO, Long>{
 		return em.createNamedQuery("Dispersion.findAll", DispersionDTO.class).getResultList();
 	}
 
-	public List<DispersionDTO> buscarPorCicloPeriodoAndTipo(Long idCicloEscolar, Long idPeriodoEscolar, Long idTipoDispersion) {
+	public List<DispersionDTO> buscarPorCicloPeriodoAndTipo(Integer idCicloEscolar, Integer idPeriodoEscolar, Integer idTipoDispersion) {
 		return em.createNamedQuery("Dispersion.findByCicloPeriodoAndTipo", DispersionDTO.class)
 				.setParameter("idCicloEscolar", idCicloEscolar)
-				//.setParameter("idPeriodoEscolar", idPeriodoEscolar)
+				.setParameter("idPeriodoEscolar", idPeriodoEscolar)
 				.setParameter("idTipoDispersion", idTipoDispersion)		
 				.getResultList();
 	}
@@ -123,8 +126,11 @@ public class DispersionDAO extends IBaseDAO<DispersionDTO, Long>{
 
 	@Override
 	public void actualizar(DispersionDTO e) {
-		// TODO Auto-generated method stub
+		Dispersion dispersion= em.getReference(Dispersion.class, e.getIdDispersion());
+		dispersion.setFechaDescarga(new Date());
 		
+		em.merge(dispersion);
+		em.flush();
 	}
 
 	@Override

@@ -28,14 +28,14 @@ import javax.persistence.Table;
 public class CatTipoDispersion implements java.io.Serializable {
 		
 	private static final long serialVersionUID = -8493803739019289554L;
-	private Long idTipoDispersion;
+	private Integer idTipoDispersion;
 	private String descripcion;
 	private Boolean estatus;
 
 	public CatTipoDispersion() {
 	}
 
-	public CatTipoDispersion(Long idTipoDispersion, String descripcion, Boolean estatus) {
+	public CatTipoDispersion(Integer idTipoDispersion, String descripcion, Boolean estatus) {
 		this.idTipoDispersion = idTipoDispersion;
 		this.descripcion = descripcion;
 		this.estatus = estatus;
@@ -44,11 +44,11 @@ public class CatTipoDispersion implements java.io.Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id_tipo_dispersion", unique = true, nullable = false)
-	public Long getIdTipoDispersion() {
+	public Integer getIdTipoDispersion() {
 		return this.idTipoDispersion;
 	}
 
-	public void setIdTipoDispersion(Long idTipoDispersion) {
+	public void setIdTipoDispersion(Integer idTipoDispersion) {
 		this.idTipoDispersion = idTipoDispersion;
 	}
 

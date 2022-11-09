@@ -22,14 +22,12 @@ public class CrcBeneficiarioSolicitudDTO implements Serializable {
 	}
 // DTO para CrcBeneficiarioSolicitud.findByIdLlave	
 	public CrcBeneficiarioSolicitudDTO(Long idBenefSolic, Long idBeneficiario, String nombresBeneficiario,
-			String primerApellidoBeneficiario, String segundoApellidoBeneficiario, Long idSolicitud, String folioSolicitud, int idEncuesta,
-			Integer idEstatusBeneficiario, String descripcionEstatusBeneficiario)
- {
+			String primerApellidoBeneficiario, String segundoApellidoBeneficiario, Long idSolicitud, String folioSolicitud,
+			Integer idEstatusBeneficiario, String descripcionEstatusBeneficiario) {
 		this.idBenefSolic = idBenefSolic;
 		this.beneficiarioDTO = new BeneficiarioDTO(idBeneficiario, nombresBeneficiario, primerApellidoBeneficiario,
 				segundoApellidoBeneficiario);
 		this.solicitudDTO = new SolicitudDTO(idSolicitud, folioSolicitud, idEstatusBeneficiario, descripcionEstatusBeneficiario);
-		this.encuestaDTO = new EncuestaDTO(idEncuesta);
 	}
 //DTO para CrcBeneficiarioSolicitud.findByFolioSolicitud
 	public CrcBeneficiarioSolicitudDTO(
@@ -48,7 +46,13 @@ public class CrcBeneficiarioSolicitudDTO implements Serializable {
 			, Integer idNive
 			, String descripcion
 			, String turno
-			, String gradoEscolar, String cct, String colonia, String calle, String alcaldia, String codigoPostal
+			, String gradoEscolar
+			, String cct
+			, String colonia
+			, String calle
+			, Integer idMunicipio
+			, String municipio
+			, String codigoPostal
 			, Integer idEstatusBeneficiario, String descripcionEstatusBeneficiario
 			, int idParentesco
 			, String descripcionParentesco
@@ -56,7 +60,22 @@ public class CrcBeneficiarioSolicitudDTO implements Serializable {
 		this.idBenefSolic = idBenefSolic;
 		this.beneficiarioDTO = new BeneficiarioDTO(idBeneficiario, curpBeneficiario, nombresBeneficiario, primerApellidoBeneficiario,
 				segundoApellidoBeneficiario, nacionalidad, fechaNacimientoBeneficiario, esTutor);
-		this.solicitudDTO = new SolicitudDTO(idSolicitud, folioSolicitud, nombre, idNive, descripcion, idEstatusBeneficiario, descripcionEstatusBeneficiario, turno, gradoEscolar,  cct,  colonia,  calle,  alcaldia, codigoPostal, idParentesco, descripcionParentesco);
+		this.solicitudDTO = new SolicitudDTO(idSolicitud, folioSolicitud, nombre, idNive, descripcion, idEstatusBeneficiario, descripcionEstatusBeneficiario, turno, gradoEscolar,  cct,  colonia,  calle,  idMunicipio, municipio, codigoPostal, idParentesco, descripcionParentesco);
+	}
+	
+	// DTO para CrcBeneficiarioSolicitud.findByRechazadoPagatodo
+	public CrcBeneficiarioSolicitudDTO(Long idBenefSolic, Long idBeneficiario, String curpBeneficiario,
+			String nombresBeneficiario, String primerApellidoBeneficiario, String segundoApellidoBeneficiario,
+			String nacionalidad, Date fechaNacimientoBeneficiario, Boolean esTutor, Long idSolicitud,
+			Long idUsuarioLlaveCdmx, String nombre, String primerApellido, String segundoApellido, String curp,
+			String fechaNacimiento, String correo, String telefono, boolean esExtranjero, String sexo, Long idCuentaBeneficiario, String numeroCuenta) {
+		this.idBenefSolic = idBenefSolic;
+		this.beneficiarioDTO = new BeneficiarioDTO(idBeneficiario, curpBeneficiario, nombresBeneficiario,
+				primerApellidoBeneficiario, segundoApellidoBeneficiario, nacionalidad, fechaNacimientoBeneficiario,
+				esTutor);
+		this.solicitudDTO = new SolicitudDTO(idSolicitud, new TutorDTO(idUsuarioLlaveCdmx, nombre, primerApellido,
+				segundoApellido, curp, telefono, correo, fechaNacimiento, sexo, esExtranjero));
+		this.beneficiarioDTO.setDetCuentaBeneficiarioDTO( new DetCuentaBeneficiarioDTO(idCuentaBeneficiario, numeroCuenta));
 	}
 
 	public Long getIdBenefSolic() {

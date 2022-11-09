@@ -142,20 +142,6 @@
 			<version>5.15.4</version>
 		</dependency>
 
-		<!-- Dependencia necesaria para DataExporter en PDF de Primefaces -->
-		<dependency>
-			<groupId>com.lowagie</groupId>
-			<artifactId>itext</artifactId>
-			<version>2.1.7</version>
-		</dependency>
-
-		<!-- Dependencia necesaria para DataExporter en Excel de Primefaces -->
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi</artifactId>
-			<version>3.17</version>
-		</dependency>
-
 		<!-- JSF utility library, not a JSF UI/component library. Para JSF 2.2 
 			se necesita la version de omnifaces 2.x, para JSF 2.3 se puede ocupar omnifaces 
 			3.x Se utiliza para FullAjaxExceptionHandler -->
@@ -233,61 +219,6 @@
 		    <artifactId>resteasy-jaxb-provider</artifactId>
 		    <version>4.3.1.Final</version>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/net.sf.scannotation/scannotation -->
-		<!--<dependency>
-		    <groupId>net.sf.scannotation</groupId>
-		    <artifactId>scannotation</artifactId>
-		    <version>1.0.2</version>
-		</dependency>-->
-		
-		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
-		<!-- Dependencia para poder utilizar la anotación @JsonIgnore y corregir error que se cicla la conversión de JSON -->
-		<!-- https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-core-asl -->
-		<!--<dependency>
-		    <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-annotations</artifactId>
-		    <version>2.9.10</version>
-		</dependency>-->	
-		<dependency>
-			<groupId>org.apache.axis</groupId>
-			<artifactId>axis</artifactId>
-			<version>1.4</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/javax.xml/jaxrpc -->
-		<dependency>
-			<groupId>javax.xml</groupId>
-			<artifactId>jaxrpc</artifactId>
-			<version>1.1</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>commons-discovery</groupId>
-			<artifactId>commons-discovery</artifactId>
-			<version>0.2</version>
-			<scope>runtime</scope>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>1.2</version>
-			<scope>runtime</scope>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/wsdl4j/wsdl4j -->
-		<dependency>
-			<groupId>wsdl4j</groupId>
-			<artifactId>wsdl4j</artifactId>
-			<version>1.6.2</version>
-			<scope>runtime</scope>
-		</dependency>
-
-
 	</dependencies>
 
 	<repositories>

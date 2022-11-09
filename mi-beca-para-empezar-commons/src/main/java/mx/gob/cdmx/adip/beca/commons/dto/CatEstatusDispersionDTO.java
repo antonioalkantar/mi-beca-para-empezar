@@ -8,7 +8,7 @@ public class CatEstatusDispersionDTO implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -7556406127108271018L;
-	private Long idEstatusDispersion;
+	private Integer idEstatusDispersion;
 	private String descripcion;
 	private Boolean estatus;
 
@@ -16,26 +16,26 @@ public class CatEstatusDispersionDTO implements Serializable{
 
 	}
 	
-	public CatEstatusDispersionDTO(Long idEstatusDispersion) {
+	public CatEstatusDispersionDTO(Integer idEstatusDispersion) {
 		this.idEstatusDispersion = idEstatusDispersion;
 	}
 	
-	public CatEstatusDispersionDTO(Long idEstatusDispersion, String descripcion) {
+	public CatEstatusDispersionDTO(Integer idEstatusDispersion, String descripcion) {
 		this.idEstatusDispersion = idEstatusDispersion;
 		this.descripcion = descripcion;
 	}
 
-	public CatEstatusDispersionDTO(Long idEstatusDispersion, String descripcion, Boolean estatus) {
+	public CatEstatusDispersionDTO(Integer idEstatusDispersion, String descripcion, Boolean estatus) {
 		this.idEstatusDispersion = idEstatusDispersion;
 		this.descripcion = descripcion;
 		this.estatus = estatus;
 	}
 
-	public Long getIdEstatusDispersion() {
+	public Integer getIdEstatusDispersion() {
 		return idEstatusDispersion;
 	}
 
-	public void setIdEstatusDispersion(Long idEstatusDispersion) {
+	public void setIdEstatusDispersion(Integer idEstatusDispersion) {
 		this.idEstatusDispersion = idEstatusDispersion;
 	}
 

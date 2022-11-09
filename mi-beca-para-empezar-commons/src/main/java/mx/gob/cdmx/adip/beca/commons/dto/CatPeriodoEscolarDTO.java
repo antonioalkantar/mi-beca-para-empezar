@@ -5,32 +5,32 @@ import java.io.Serializable;
 public class CatPeriodoEscolarDTO implements Serializable {
 
 	private static final long serialVersionUID = 1670507576652389950L;
-	private Long idPeriodoEscolar;
+	private Integer idPeriodoEscolar;
 	private String descripcion;
 	private Boolean estatus;
 
 	public CatPeriodoEscolarDTO() {	}
 	
-	public CatPeriodoEscolarDTO(Long idPeriodoEscolar) {
+	public CatPeriodoEscolarDTO(Integer idPeriodoEscolar) {
 		this.idPeriodoEscolar = idPeriodoEscolar;
 	}
 	
-	public CatPeriodoEscolarDTO(Long idPeriodoEscolar, String descripcion) {
+	public CatPeriodoEscolarDTO(Integer idPeriodoEscolar, String descripcion) {
 		this.idPeriodoEscolar = idPeriodoEscolar;
 		this.descripcion = descripcion;
 	}
-
-	public CatPeriodoEscolarDTO(Long idPeriodoEscolar, String descripcion, Boolean estatus) {
+	
+	public CatPeriodoEscolarDTO(Integer idPeriodoEscolar, String descripcion, Boolean estatus) {
 		this.idPeriodoEscolar = idPeriodoEscolar;
 		this.descripcion = descripcion;
 		this.estatus = estatus;
 	}
 
-	public Long getIdPeriodoEscolar() {
+	public Integer getIdPeriodoEscolar() {
 		return idPeriodoEscolar;
 	}
 
-	public void setIdPeriodoEscolar(Long idPeriodoEscolar) {
+	public void setIdPeriodoEscolar(Integer idPeriodoEscolar) {
 		this.idPeriodoEscolar = idPeriodoEscolar;
 	}
 

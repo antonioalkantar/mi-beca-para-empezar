@@ -9,6 +9,42 @@
       <ui:define name="content">
       
       <style>
+
+.adip-dialog {
+	max-height: 80%;
+	overflow-y: overlay;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+	.adip-dialog {
+		max-width: 100%;
+	}
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+	.adip-dialog {
+		max-width: 55%;
+	}
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+	.adip-dialog {
+		max-width: 45rem;
+		min-width: 40rem !important;
+	}
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+}
+
 .etiqueta{
   font-size: 12px !important;
   font-weight: bold !important;
@@ -69,6 +105,7 @@
    <p:panelGrid id="pnlGeneral" columns="3" columnClasses="ui-grid-col-2, ui-grid-col-8, ui-grid-col-2" layout="grid" style="text-align: center;" styleClass="ui-panelgrid-blank ui-fluid">
    <p:outputPanel/>
    <h:form id="formCambioTutor">
+      
    <p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align:left !important; padding-left: 0px !important;" >
   		<p:commandButton value="#{msg.regresar}" action="#{bandejaFuncionarioBean.init()}" styleClass="adip-btn-green" icon="back" immediate="true" />
 	</p:panelGrid>
@@ -214,6 +251,7 @@
 								<p:commandLink onclick="PF('mdlAsignacionTutor').show();"   >
 									<p:outputLabel value="+ Asignar" style="font-size:14px; text-align: left; font-weight: bold;" />
 									<f:setPropertyActionListener value="#{tutores}" target="#{cambioTutorBean.nuevoTutor}" />
+									<f:setPropertyActionListener value="#{cambioTutorBean.bitacoraCambiosTutorDTO}" target="#{cambioTutorBean.bitacoraCambiosTutorDTO}" />
 								</p:commandLink>
 							</p:column>
 						</p:dataTable>
@@ -231,44 +269,95 @@
    			</h:form>
    		</p:panelGrid>
    		</div>
-   		
-   		<p:dialog id="dlgAsignacionTutor"  widgetVar="mdlAsignacionTutor" header="Asignación del tutor" 
-				  modal="true" width="500px" heigh="200px important!" responsive="true" resizable="false" styleClass="ui-modal-gray" closable="true" >
-		<h:form id="frmMdlCambioTutor">
-			<p:panelGrid id="pnlMdlAsignacionTutor" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+
+	<h:form id="frmMdlCambioTutor">
+		<!-- DIALOG INE -->
+		<p:dialog id="dlgAsignacionTutor" widgetVar="mdlAsignacionTutor" modal="true" closable="false" responsive="true" styleClass="adip-dialog">
+			<f:facet name="header">
+				<p:outputLabel value="Asignación del tutor" styleClass="adip-dialog-titulo" />
+				<p:separator styleClass="adip-separador" />
+			</f:facet>
+			<p:panelGrid id="pnlMdlAsignacionTutor" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="adip-panel-gris"
 			             style="text-align: left; font-weight: 700; border-bottom: 0 none; padding: 1.5rem; background: #fff;" >
 				<p:panelGrid id="pnlObservacionCambio" for="txtObservacionCambio" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
-				<p:outputLabel value="Agregue un motivo para asignar el cambio de tutor" />
-				
-				<p:inputTextarea id="txtObservacionCambio" rows="5" cols="30"  maxlength="200" required="true" requiredMessage="#{msg.msj_campo_requerido}" 
-                         value="#{cambioTutorBean.observaciones}" autoResize="false"/>
-				<p:message for="txtObservacionCambio" styleClass="adip-messages" display="text" />
-			</p:panelGrid>		
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" style="text-align: right !important;">
+						<span>Campos obligatorios</span><span style="color: #FF0000 !important;">*</span>
+						<p:column></p:column>
+		   			</p:panelGrid>
+
+					<p:outputLabel for="txtObservacionCambio" value="Agregue un motivo para asignar el cambio de tutor" />
+					<p:inputTextarea id="txtObservacionCambio" rows="4" cols="30"  maxlength="200" required="true" requiredMessage="Agregue un motivo para asignar el cambio de tutor" 
+	                         value="#{cambioTutorBean.bitacoraCambiosTutorDTO.observaciones}" autoResize="false"/>
+					<p:panelGrid rendered="#{cambioTutorBean.msjObs ne null}" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<p:staticMessage id="stmsgObs" severity="error" detail="#{cambioTutorBean.msjObs}" styleClass="adip-correccion-message" escape="false" />
+					</p:panelGrid>
+
+					<p:message for="txtObservacionCambio" style="width: 100%"> <p:autoUpdate /> </p:message>
+					
+					<p:outputLabel value="Documento de soporte que respalda el cambio de tutor" />
+					<p:inputTextarea id="txtDctoSoporte" rows="2" cols="30"  maxlength="100"  
+	                         value="#{cambioTutorBean.bitacoraCambiosTutorDTO.soporteDocDescripcion}" autoResize="false"/>
+	
+					<p:outputLabel value="Adjunte el documento de soporte que respalda el cambio de tutor" />
+					<p:panelGrid id="pgIdentifica" columns="1" columnClasses="ui-g-12 ui-md-12 ui-lg-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<p:panelGrid id="pgIdentificaOf" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="adip-pg-gris pt-2 pb-2">
+							<p:outputLabel for="uploadIdenOf" value="Documento de soporte" styleClass="adip-output-campos ml-2" />
+							<p:fileUpload id="uploadIdenOf" listener="#{cambioTutorBean.agregaDocumento}" styleClass="adip-file-upload" accept=".pdf,.jpg,.png,.jpeg" label="#{msg.lbl_cargar_archivo}" mode="advanced"
+								messageTemplate=" " auto="true" process="@this uploadIdenOf" update="pgIdentifica" immediate="true"
+								valueChangeListener="#{cambioTutorBean.asignarSoporteDocumental()}" sizeLimit="4194304" invalidSizeMessage="#{msg.msj_documento_oversize}"
+								invalidFileMessage="#{msg.msj_formato_permitido}" allowTypes="/(\.|\/)(jpe?g|png|pdf)$/" />
+							<p:outputLabel id="lblfileIdenOf" value="#{msg.lbl_max_file_size.concat('.')}" styleClass="adip-observacion-file" />
 			
+							<p:panelGrid rendered="#{cambioTutorBean.bitacoraCambiosTutorDTO.rutaDocto ne null}" columns="1"
+								columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+								<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
+									<p:outputLabel id="txtIdentifica" value="#{cambioTutorBean.bitacoraCambiosTutorDTO.nombreArchivoCorto}" styleClass="adip-output-campos-green" style="overflow-wrap: anywhere;"/>
+								</p:panelGrid>
+							</p:panelGrid>
+			
+							<p:panelGrid rendered="#{cambioTutorBean.bitacoraCambiosTutorDTO.rutaDocto ne null}" columns="2" columnClasses="ui-g-1 ui-md-1 ui-lg-1 adip-info-icon, ui-g-11 ui-md-11 ui-lg-11"
+								layout="grid" styleClass="ui-panel-sin-pading">
+								<p:graphicImage value="/resources/img/ic_chek_green.svg" style=" width: 17px;  height: 17px;" />
+								<p:outputLabel value="Carga completa y correcta." styleClass="adip-lbl-green-info ml-2" />
+							</p:panelGrid>
+						</p:panelGrid>
+					</p:panelGrid>
+					<p:panelGrid id="pnlAcciones" columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid" style="text-align: center !important;" >
+			 			<p:commandButton id="btnCancelar" value="Cancelar" onclick="PF('mdlAsignacionTutor').hide();" immediate="true" styleClass="boton-cancelar-regresar-tarjeta ui-button-acciones"/>
+						<p:commandButton 
+							id="btnAsignar" 
+							value="Asignar"
+							partialSubmit="true"
+							action="#{cambioTutorBean.guardar()}" 
+							update="pnlMdlAsignacionTutor"
+							style="background-color: #1B5C4F !important" 
+							styleClass="boton-siguiente-tarjeta"  />
+					</p:panelGrid>
+					<p:column></p:column>
+					<p:column></p:column>
+				</p:panelGrid>					
+
 			</p:panelGrid>
-			<p:panelGrid id="pnlAcciones" columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid" style="text-align: right !important;" >
-	 			<p:commandButton id="btnCancelar" value="Cancelar" onclick="PF('mdlAsignacionTutor').hide();" immediate="true" styleClass="boton-cancelar-regresar-tarjeta ui-button-acciones"/>
-				<p:commandButton id="btnAsignar"  value="Asignar"  action="#{cambioTutorBean.guardar()}" onclick="PF('mdlAsignacionTutorGreen').show();"  update="pnlMdlAsignacionTutor @this"
-				style="background-color: #1B5C4F !important" styleClass="boton-siguiente-tarjeta"  />
-			</p:panelGrid>
-			  <br />
-		</h:form>
+
 		</p:dialog>
+	</h:form>
 
 	<p:dialog id="dlgAsignacionTutorGreen" widgetVar="mdlAsignacionTutorGreen" header="Asignación del tutor" 
 		modal="true" width="500px" heigh="200px important!" responsive="true" resizable="false" styleClass="ui-modal-green" closable="true" >
-			<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
-			 style="text-align: left; 
-    font-weight: 700;
-    border-bottom: 0 none;
-    padding: 1.5rem;
-    background: #C7EFBD;" >
-    <p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
-			 style="text-align: center;" >
+		<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+			style="text-align: left; 
+		    font-weight: 700;
+		    border-bottom: 0 none;
+		    padding: 1.5rem;
+		    background: #C7EFBD;" >
+		    <p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+					 style="text-align: center;" >
 				<p:outputLabel value="Nuevo tutor asignado con éxito." style="color: #1B5C4F !important;" />	
 			</p:panelGrid>
-	</p:panelGrid>
-		</p:dialog>
+		</p:panelGrid>
+	</p:dialog>
+	
+	<p:remoteCommand name="rcBandejaTutor" delay="3000" action="#{cambioTutorBean.init(cambioTutorBean.solicitud.idSolicitud)}" immediate="true"/>
 	
    </ui:define>
 </ui:composition>

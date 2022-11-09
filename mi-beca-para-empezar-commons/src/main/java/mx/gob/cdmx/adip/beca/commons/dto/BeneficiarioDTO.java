@@ -15,14 +15,14 @@ public class BeneficiarioDTO implements Serializable {
 	private Date fechaNacimientoBeneficiario;
 	private Boolean esTutor;
 	private String nacionalidad;
-	private int edad;
-	private Boolean curpValidada;
+	private int edad;	
 	private Boolean esExtranjero;
 	private Long idUsuarioLlaveCdmx;
 	private Date fechaRegistro;
+	private DetCuentaBeneficiarioDTO detCuentaBeneficiarioDTO;
 
 	public BeneficiarioDTO() {
-
+		detCuentaBeneficiarioDTO = new DetCuentaBeneficiarioDTO();
 	}
 
 	public BeneficiarioDTO(Long idBeneficiario) {
@@ -154,14 +154,6 @@ public class BeneficiarioDTO implements Serializable {
 		this.edad = edad;
 	}
 
-	public Boolean getCurpValidada() {
-		return curpValidada;
-	}
-
-	public void setCurpValidada(Boolean curpValidada) {
-		this.curpValidada = curpValidada;
-	}
-
 	public Boolean getEsExtranjero() {
 		return esExtranjero;
 	}
@@ -189,4 +181,13 @@ public class BeneficiarioDTO implements Serializable {
 	public void setFechaRegistro(Date fechaRegistro) {
 		this.fechaRegistro = fechaRegistro;
 	}
+
+	public DetCuentaBeneficiarioDTO getDetCuentaBeneficiarioDTO() {
+		return detCuentaBeneficiarioDTO;
+	}
+
+	public void setDetCuentaBeneficiarioDTO(DetCuentaBeneficiarioDTO detCuentaBeneficiarioDTO) {
+		this.detCuentaBeneficiarioDTO = detCuentaBeneficiarioDTO;
+	}
+	
 }

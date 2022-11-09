@@ -46,12 +46,11 @@
 						<p:outputLabel value="#{msg.lbl_identificacion}" styleClass="adip-output-campos" />
 						<p:outputLabel value="#{registroTutorBean.tutorDTO.catIdentificacionOficialDTO.descripcion}" styleClass="adip-output-bold-campos" />
 					</p:panelGrid>
-					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
-						<p:commandButton value="#{msg.lbl_ver_documento}" styleClass="adip-btn-transparent-blue" process="@this" iconPos="right"
-					actionListener="#{registroTutorBean.listenerVerDocumento(registroTutorBean.tutorDTO.fileIdentifica, registroTutorBean.tutorDTO.archivoIdentificacion)}">
-					<p:fileDownload value="#{registroTutorBean.scFile}" />
-				</p:commandButton>
-					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" rendered="#{registroTutorBean.tutorDTO.archivoIdentificacion ne null}">
+				<p:commandLink id="clDocGeneral" target="_blank" value="#{msg.lbl_ver_documento}" ajax="false" immediate="true" styleClass="adip-link"
+					action="#{descargaBean.descargar(registroTutorBean.tutorDTO.archivoIdentificacion, false)}">
+				</p:commandLink>
+			</p:panelGrid>
 				</p:panelGrid>
 				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
 					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
@@ -107,13 +106,13 @@
 						<p:outputLabel value="#{msg.lbl_comprobante}" styleClass="adip-output-campos" />
 						<p:outputLabel value="#{registroTutorBean.tutorDTO.catComprobanteDomicilioDTO.descripcion}" styleClass="adip-output-bold-campos" />
 					</p:panelGrid>
-					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading">
-						<p:commandButton value="#{msg.lbl_ver_documento}"  styleClass="adip-btn-transparent-blue" process="@this" iconPos="right"
-					actionListener="#{registroTutorBean.listenerVerDocumento(registroTutorBean.tutorDTO.fileComprobanteDom, registroTutorBean.tutorDTO.archivoComprobanteDomicilio)}">
-					<p:fileDownload value="#{registroTutorBean.scFile}" /> 
-				</p:commandButton>
-					</p:panelGrid>
-					</p:panelGrid>
+				<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading"
+					rendered="#{registroTutorBean.tutorDTO.archivoComprobanteDomicilio ne null}">
+					<p:commandLink id="clDocDomicilio" target="_blank" value="#{msg.lbl_ver_documento}" ajax="false" immediate="true" styleClass="adip-link"
+						action="#{descargaBean.descargar(registroTutorBean.tutorDTO.archivoComprobanteDomicilio, false)}">
+					</p:commandLink>
+				</p:panelGrid>
+			</p:panelGrid>
 		</p:panelGrid>
 	</p:outputPanel>
 

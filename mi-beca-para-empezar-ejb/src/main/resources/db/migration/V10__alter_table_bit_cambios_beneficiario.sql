@@ -1,0 +1,2 @@
+-- Se crea nueva columna a la tabla de bitacora de cambios de beneficiarios para guardar el estatus del beneficiario
+ALTER TABLE bit_cambios_beneficiarios ADD estatus_beneficiario_anterior character varying(30) NULL;

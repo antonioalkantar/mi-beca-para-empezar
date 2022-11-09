@@ -8,33 +8,33 @@ public class CatTipoDispersionDTO implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 3827780635510968367L;
-	private Long idTipoDispersion;
+	private Integer idTipoDispersion;
 	private String descripcion;
 	private Boolean estatus;
 
 	public CatTipoDispersionDTO() {
 	}
 	
-	public CatTipoDispersionDTO(Long idTipoDispersion) {
+	public CatTipoDispersionDTO(Integer idTipoDispersion) {
 		this.idTipoDispersion = idTipoDispersion;
 	}
 	
-	public CatTipoDispersionDTO(Long idTipoDispersion, String descripcion) {
+	public CatTipoDispersionDTO(Integer idTipoDispersion, String descripcion) {
 		this.idTipoDispersion = idTipoDispersion;
 		this.descripcion = descripcion;
 	}
 
-	public CatTipoDispersionDTO(Long idTipoDispersion, String descripcion, Boolean estatus) {
+	public CatTipoDispersionDTO(Integer idTipoDispersion, String descripcion, Boolean estatus) {
 		this.idTipoDispersion = idTipoDispersion;
 		this.descripcion = descripcion;
 		this.estatus = estatus;
 	}
 
-	public Long getIdTipoDispersion() {
+	public Integer getIdTipoDispersion() {
 		return idTipoDispersion;
 	}
 
-	public void setIdTipoDispersion(Long idTipoDispersion) {
+	public void setIdTipoDispersion(Integer idTipoDispersion) {
 		this.idTipoDispersion = idTipoDispersion;
 	}
 

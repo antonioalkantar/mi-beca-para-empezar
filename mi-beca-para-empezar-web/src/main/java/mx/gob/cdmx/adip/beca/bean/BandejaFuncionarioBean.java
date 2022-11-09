@@ -2,6 +2,7 @@ package mx.gob.cdmx.adip.beca.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -126,6 +127,27 @@ public class BandejaFuncionarioBean implements Serializable {
 	public void buscarSolicitudes(int pagina) {	
 		lstSolicitudes = new ArrayList<SolicitudDTO>();		
 		SolicitudDTO criterios = new SolicitudDTO();
+		Calendar calendarInit = Calendar.getInstance();
+		Calendar calendarFin = Calendar.getInstance();
+		
+		if (filtroFechaInicio != null) {
+			calendarInit.setTime(filtroFechaInicio);
+			calendarInit.add(Calendar.HOUR, 00);
+			calendarInit.add(Calendar.MINUTE, 00);
+			calendarInit.add(Calendar.SECOND , 00);
+			calendarInit.getTime();
+			filtroFechaInicio = calendarInit.getTime();
+		}
+		
+		if (filtroFechaFin != null) {
+			calendarFin.setTime(filtroFechaFin);
+			calendarFin.add(Calendar.HOUR, 23);
+			calendarFin.add(Calendar.MINUTE, 59);
+			calendarFin.add(Calendar.SECOND, 59);
+			calendarFin.getTime();
+			filtroFechaFin = calendarFin.getTime();
+		}
+		
 		criterios.getTutorDTO().setCurp(txtCurpTutor);
 		criterios.getBeneficiarioDTO().setCurpBeneficiario(txtCurpBeneficiario);
 		criterios.setFolioSolicitud(txtFolioDeSolicitud);

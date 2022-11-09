@@ -53,6 +53,14 @@
 			<artifactId>jboss-ejb-api_3.2_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- Para poder usar la anotacion TransactionTimeout -->
+		<dependency>
+			<groupId>org.jboss.ejb3</groupId>
+			<artifactId>jboss-ejb3-ext-api</artifactId>
+			<version>2.2.0.Final</version>
+			<scope>provided</scope>
+		</dependency>
 
 		<!-- Import the CDI API, we use provided scope as the API is included in 
 			JBoss WildFly -->
@@ -82,6 +90,7 @@
 		<dependency>
 		    <groupId>org.hibernate</groupId>
 		    <artifactId>hibernate-core</artifactId>
+		    <version>5.3.10.Final</version> <!-- Por el integrator de Flyway es necesario indicar que esta es la versión a usar -->
 		    <scope>provided</scope>
 		</dependency>
 
@@ -144,6 +153,7 @@
 	      	<version>2.8.6</version>
 	  	</dependency>
 	  	
+	  	<!-- Las defendencias de CXF se usan para el Cliente del WS de la Autoridad Educativa en la clase EntidadEducativaSoapClient -->
 	  	<dependency>
 		    <groupId>org.apache.cxf</groupId>
 		    <artifactId>cxf-rt-frontend-jaxws</artifactId>
@@ -159,8 +169,13 @@
 	        <artifactId>cxf-rt-ws-security</artifactId>
 	        <version>3.1.11</version>
 	    </dependency>
-	  	
-	  	
+	    
+	    <!-- Se agrega dependencia para usar Flyway como herramienta de control de versiones de la BD del sistema -->
+        <dependency>
+	        <groupId>org.flywaydb</groupId>
+	        <artifactId>flyway-core</artifactId>
+	        <version>9.2.0</version>
+	    </dependency>
 	
 	</dependencies>
 	
@@ -232,37 +247,37 @@
 				<services.cdmx.getDatosUsuario>https://llave-dev.cdmx.gob.mx/rest/oauth/usuario</services.cdmx.getDatosUsuario>
 				<services.cdmx.getRolesUsuario>https://llave-dev.cdmx.gob.mx/rest/oauth/roles</services.cdmx.getRolesUsuario>
 				<services.cdmx.logout>https://llave-dev.cdmx.gob.mx/rest/oauth/logout</services.cdmx.logout>
+				<services.cdmx.documentos.url>https://llave-dev.cdmx.gob.mx/rest/consulta/documentoUsuario</services.cdmx.documentos.url>
+				<services.cdmx.valida.documentos.url>https://llave-dev.cdmx.gob.mx/rest/documentos/validarDocumento</services.cdmx.valida.documentos.url>
 				
-				<servicio.clima.url>http://simat.aire.cdmx.gob.mx:8002/webserviceSIMAT.asmx/Indice_Aire_Salud</servicio.clima.url>
-				<servicio.hoynocircula.url>http://simat.aire.cdmx.gob.mx/calidadaire/xml/simat.json</servicio.hoynocircula.url>
-				<servicio.climaopen.url>https://api.openweathermap.org/data/2.5/weather?id=3530597&amp;lang=sp&amp;units=metric&amp;APPID=bd95d6a747404c06b6989721a1e79d03</servicio.climaopen.url>
-				<servicio.semaforoepidemiologico.url>https://www.cdmx.gob.mx/rest/semaforo-epidemiologico/consultar</servicio.semaforoepidemiologico.url>				
-				<servicio.cdmx.hoynocircula.url>https://hoynocircula.cdmx.gob.mx/rest/hoynocircula/hoy</servicio.cdmx.hoynocircula.url>				
-				
-				<servicio.urlINE>https://ine.cdmx.gob.mx/rest/datosIne/verificar</servicio.urlINE>
-				<servicio.userHttpBasicAuthINE>mibeca_empezar</servicio.userHttpBasicAuthINE>
-				<servicio.passwordHttpBasicAuthINE>M1b3C4Emp3Z4r12M4y2022</servicio.passwordHttpBasicAuthINE>
+				<services.cdmx.ine.url>https://ine.cdmx.gob.mx/rest/datosIne/verificar</services.cdmx.ine.url>
+				<services.cdmx.ine.user>mibeca_empezar</services.cdmx.ine.user>
+				<services.cdmx.ine.password>M1b3C4Emp3Z4r12M4y2022</services.cdmx.ine.password>
 				
 				<services.cdmx.curp.url>https://curp.cdmx.gob.mx/curp/rest/curp/</services.cdmx.curp.url>
-				<services.cdmx.curp.userCurpBasicAuth>mibecaparaempezar</services.cdmx.curp.userCurpBasicAuth>
-				<services.cdmx.curp.passwordCurpBasicAuth>M1_b3c4EMpez44rXkWs!</services.cdmx.curp.passwordCurpBasicAuth>
+				<services.cdmx.curp.user>mibecaparaempezar</services.cdmx.curp.user>
+				<services.cdmx.curp.password>M1_b3c4EMpez44rXkWs!</services.cdmx.curp.password>
 				
-				<services.cdmx.obtenmas.url>https://dev.obtenmas.com/</services.cdmx.obtenmas.url>
-				<services.cdmx.obtenmas.endpoint.token>connect/token/</services.cdmx.obtenmas.endpoint.token>
-				<services.cdmx.obtenmas.endpoint.registrar.tutor>Regom/api/adip/registry/</services.cdmx.obtenmas.endpoint.registrar.tutor>
-				<services.cdmx.obtenmas.endpoint.reasignar.tutor>Regom/api/adip/reassignstudent/</services.cdmx.obtenmas.endpoint.reasignar.tutor>
-				<services.cdmx.obtenmas.endpoint.consultar.tutor>Regom/api/adip/curpexists/</services.cdmx.obtenmas.endpoint.consultar.tutor>
+				<services.cdmx.semaforoepidemiologico.url>https://www.cdmx.gob.mx/rest/semaforo-epidemiologico/consultar</services.cdmx.semaforoepidemiologico.url>				
+				<services.cdmx.hoynocircula.url>https://hoynocircula.cdmx.gob.mx/rest/hoynocircula/hoy</services.cdmx.hoynocircula.url>
+				<services.cdmx.simat.clima.url>http://simat.aire.cdmx.gob.mx:8002/webserviceSIMAT.asmx/Indice_Aire_Salud</services.cdmx.simat.clima.url>
+				
+				<services.climaopen.url>https://api.openweathermap.org/data/2.5/weather?id=3530597&amp;lang=sp&amp;units=metric&amp;APPID=bd95d6a747404c06b6989721a1e79d03</services.climaopen.url>				
+				
+				<services.obtenmas.clientSecret>186f50f4-fea5-4288-9455-9ba5fe4ff002</services.obtenmas.clientSecret>
+				<services.obtenmas.clientId>ApiPRE</services.obtenmas.clientId>
+				<services.obtenmas.url>https://dev.obtenmas.com/</services.obtenmas.url>
+				<services.obtenmas.endpoint.token>connect/token/</services.obtenmas.endpoint.token>
+				<services.obtenmas.endpoint.registrar.tutor>Regom/api/adip/registry/</services.obtenmas.endpoint.registrar.tutor>
+				<services.obtenmas.endpoint.reasignar.tutor>Regom/api/adip/reassignstudent/</services.obtenmas.endpoint.reasignar.tutor>
+				<services.obtenmas.endpoint.consultar.tutor>Regom/api/adip/curpexists/</services.obtenmas.endpoint.consultar.tutor>
 
-				<beca.pathDocumentos>/home/mibeca/documentos/</beca.pathDocumentos>
+				<services.aefcm.user>mci_fidegar_adip</services.aefcm.user>
+				<services.aefcm.password>3AL7R0LD39UO</services.aefcm.password>
 				
+				<beca.pathDocumentos>/home/mibeca/archivos/documentos/</beca.pathDocumentos>
 				<beca.pathDispersiones>C:\becas\</beca.pathDispersiones>
-				
-				<services.cdmx.documentos.url>https://llave-dev.cdmx.gob.mx/rest/consulta/documentoUsuario</services.cdmx.documentos.url>
-				
-				<service.aefcm.user>mci_fidegar_adip</service.aefcm.user>
-				<service.aefcm.password>3AL7R0LD39UO</service.aefcm.password>
-				
-				<services.cdmx.valida.documentos.url>https://llave-dev.cdmx.gob.mx/rest/documentos/validarDocumento</services.cdmx.valida.documentos.url>
+				<beca.pathDocumentosTemporales>/home/mibeca/archivos/temporales/</beca.pathDocumentosTemporales>
 				
 			</properties>
 		</profile>
@@ -296,32 +311,39 @@
 				<services.cdmx.getToken>https://llave-dev.cdmx.gob.mx/rest/oauth/token</services.cdmx.getToken>
 				<services.cdmx.getDatosUsuario>https://llave-dev.cdmx.gob.mx/rest/oauth/usuario</services.cdmx.getDatosUsuario>
 				<services.cdmx.getRolesUsuario>https://llave-dev.cdmx.gob.mx/rest/oauth/roles</services.cdmx.getRolesUsuario>
-				<services.cdmx.logout>https://llave-dev.cdmx.gob.mx/rest/oauth/logout</services.cdmx.logout>				
+				<services.cdmx.logout>https://llave-dev.cdmx.gob.mx/rest/oauth/logout</services.cdmx.logout>
+				<services.cdmx.documentos.url>https://llave-dev.cdmx.gob.mx/rest/consulta/documentoUsuario</services.cdmx.documentos.url>
+				<services.cdmx.valida.documentos.url>https://llave-dev.cdmx.gob.mx/rest/documentos/validarDocumento</services.cdmx.valida.documentos.url>				
 			
-				<servicio.clima.url>http://simat.aire.cdmx.gob.mx:8002/webserviceSIMAT.asmx/Indice_Aire_Salud</servicio.clima.url>
-				<servicio.hoynocircula.url>http://simat.aire.cdmx.gob.mx/calidadaire/xml/simat.json</servicio.hoynocircula.url>
-				<servicio.climaopen.url>https://api.openweathermap.org/data/2.5/weather?id=3530597&amp;lang=sp&amp;units=metric&amp;APPID=bd95d6a747404c06b6989721a1e79d03</servicio.climaopen.url>
-				<servicio.semaforoepidemiologico.url>https://www.cdmx.gob.mx/rest/semaforo-epidemiologico/consultar</servicio.semaforoepidemiologico.url>				
-				<servicio.cdmx.hoynocircula.url>https://hoynocircula.cdmx.gob.mx/rest/hoynocircula/hoy</servicio.cdmx.hoynocircula.url>
-				
-				<servicio.urlINE>https://ine.cdmx.gob.mx/rest/datosIne/verificar</servicio.urlINE>
-				<servicio.userHttpBasicAuthINE>mibeca_empezar</servicio.userHttpBasicAuthINE>
-				<servicio.passwordHttpBasicAuthINE>M1b3C4Emp3Z4r12M4y2022</servicio.passwordHttpBasicAuthINE>
+				<services.cdmx.ine.url>https://ine.cdmx.gob.mx/rest/datosIne/verificar</services.cdmx.ine.url>
+				<services.cdmx.ine.user>mibeca_empezar</services.cdmx.ine.user>
+				<services.cdmx.ine.password>M1b3C4Emp3Z4r12M4y2022</services.cdmx.ine.password>
 				
 				<services.cdmx.curp.url>https://curp.cdmx.gob.mx/curp/rest/curp/</services.cdmx.curp.url>
-				<services.cdmx.curp.userCurpBasicAuth>mibecaparaempezar</services.cdmx.curp.userCurpBasicAuth>
-				<services.cdmx.curp.passwordCurpBasicAuth>M1_b3c4EMpez44rXkWs!</services.cdmx.curp.passwordCurpBasicAuth>
+				<services.cdmx.curp.user>mibecaparaempezar</services.cdmx.curp.user>
+				<services.cdmx.curp.password>M1_b3c4EMpez44rXkWs!</services.cdmx.curp.password>
+			
+				<services.cdmx.semaforoepidemiologico.url>https://www.cdmx.gob.mx/rest/semaforo-epidemiologico/consultar</services.cdmx.semaforoepidemiologico.url>				
+				<services.cdmx.hoynocircula.url>https://hoynocircula.cdmx.gob.mx/rest/hoynocircula/hoy</services.cdmx.hoynocircula.url>
+				<services.cdmx.simat.clima.url>http://simat.aire.cdmx.gob.mx:8002/webserviceSIMAT.asmx/Indice_Aire_Salud</services.cdmx.simat.clima.url>
 				
-				<beca.pathDocumentos>/home/usrmibecadev/documentos/</beca.pathDocumentos>
+				<services.climaopen.url>https://api.openweathermap.org/data/2.5/weather?id=3530597&amp;lang=sp&amp;units=metric&amp;APPID=bd95d6a747404c06b6989721a1e79d03</services.climaopen.url>
+
+				<services.obtenmas.clientSecret>186f50f4-fea5-4288-9455-9ba5fe4ff002</services.obtenmas.clientSecret>
+				<services.obtenmas.clientId>ApiPRE</services.obtenmas.clientId>
+				<services.obtenmas.url>https://dev.obtenmas.com/</services.obtenmas.url>
+				<services.obtenmas.endpoint.token>connect/token/</services.obtenmas.endpoint.token>
+				<services.obtenmas.endpoint.registrar.tutor>Regom/api/adip/registry/</services.obtenmas.endpoint.registrar.tutor>
+				<services.obtenmas.endpoint.reasignar.tutor>Regom/api/adip/reassignstudent/</services.obtenmas.endpoint.reasignar.tutor>
+				<services.obtenmas.endpoint.consultar.tutor>Regom/api/adip/curpexists/</services.obtenmas.endpoint.consultar.tutor>
 				
-				<beca.pathDispersiones>C:\becas\</beca.pathDispersiones>
+				<services.aefcm.user>mci_fidegar_adip</services.aefcm.user>
+				<services.aefcm.password>3AL7R0LD39UO</services.aefcm.password>
 				
-				<services.cdmx.documentos.url>https://llave-dev.cdmx.gob.mx/rest/consulta/documentoUsuario</services.cdmx.documentos.url>
-				<service.aefcm.user>mci_fidegar_adip</service.aefcm.user>
-				<service.aefcm.password>3AL7R0LD39UO</service.aefcm.password>
+				<beca.pathDocumentos>/home/usrmibecadev/archivos/documentos/</beca.pathDocumentos>
+				<beca.pathDispersiones>/home/usrmibecadev/archivos/dispersiones/</beca.pathDispersiones>
+				<beca.pathDocumentosTemporales>/home/usrmibecadev/archivos/temporales/</beca.pathDocumentosTemporales>
 				
-				<services.cdmx.valida.documentos.url>https://llave-dev.cdmx.gob.mx/rest/documentos/validarDocumento</services.cdmx.valida.documentos.url>
-							
 			</properties>
 		</profile>
 
@@ -355,31 +377,30 @@
 				<services.cdmx.getDatosUsuario>https://llave-dev.cdmx.gob.mx/rest/oauth/usuario</services.cdmx.getDatosUsuario>
 				<services.cdmx.getRolesUsuario>https://llave-dev.cdmx.gob.mx/rest/oauth/roles</services.cdmx.getRolesUsuario>
 				<services.cdmx.logout>https://llave-dev.cdmx.gob.mx/rest/oauth/logout</services.cdmx.logout>
+				<services.cdmx.documentos.url>https://llave-dev.cdmx.gob.mx/rest/consulta/documentoUsuario</services.cdmx.documentos.url>
+				<services.cdmx.valida.documentos.url>https://llave-dev.cdmx.gob.mx/rest/documentos/validarDocumento</services.cdmx.valida.documentos.url>
 
-				<servicio.clima.url>http://simat.aire.cdmx.gob.mx:8002/webserviceSIMAT.asmx/Indice_Aire_Salud</servicio.clima.url>
-				<servicio.hoynocircula.url>http://simat.aire.cdmx.gob.mx/calidadaire/xml/simat.json</servicio.hoynocircula.url>
-				<servicio.climaopen.url>https://api.openweathermap.org/data/2.5/weather?id=3530597&amp;lang=sp&amp;units=metric&amp;APPID=bd95d6a747404c06b6989721a1e79d03</servicio.climaopen.url>
-				<servicio.semaforoepidemiologico.url>https://www.cdmx.gob.mx/rest/semaforo-epidemiologico/consultar</servicio.semaforoepidemiologico.url>				
-				<servicio.cdmx.hoynocircula.url>https://hoynocircula.cdmx.gob.mx/rest/hoynocircula/hoy</servicio.cdmx.hoynocircula.url>
-				
-				<servicio.urlINE>https://ine.cdmx.gob.mx/rest/datosIne/verificar</servicio.urlINE>
-				<servicio.userHttpBasicAuthINE>mibeca_empezar</servicio.userHttpBasicAuthINE>
-				<servicio.passwordHttpBasicAuthINE>M1b3C4Emp3Z4r12M4y2022</servicio.passwordHttpBasicAuthINE>
+				<services.cdmx.ine.url>https://ine.cdmx.gob.mx/rest/datosIne/verificar</services.cdmx.ine.url>
+				<services.cdmx.ine.user>mibeca_empezar</services.cdmx.ine.user>
+				<services.cdmx.ine.password>M1b3C4Emp3Z4r12M4y2022</services.cdmx.ine.password>
 				
 				<services.cdmx.curp.url>https://curp.cdmx.gob.mx/curp/rest/curp/</services.cdmx.curp.url>
-				<services.cdmx.curp.userCurpBasicAuth>mibecaparaempezar</services.cdmx.curp.userCurpBasicAuth>
-				<services.cdmx.curp.passwordCurpBasicAuth>M1_b3c4EMpez44rXkWs!</services.cdmx.curp.passwordCurpBasicAuth>
+				<services.cdmx.curp.user>mibecaparaempezar</services.cdmx.curp.user>
+				<services.cdmx.curp.password>M1_b3c4EMpez44rXkWs!</services.cdmx.curp.password>
+
+				<services.cdmx.semaforoepidemiologico.url>https://www.cdmx.gob.mx/rest/semaforo-epidemiologico/consultar</services.cdmx.semaforoepidemiologico.url>				
+				<services.cdmx.hoynocircula.url>https://hoynocircula.cdmx.gob.mx/rest/hoynocircula/hoy</services.cdmx.hoynocircula.url>
+				<services.cdmx.simat.clima.url>http://simat.aire.cdmx.gob.mx:8002/webserviceSIMAT.asmx/Indice_Aire_Salud</services.cdmx.simat.clima.url>
+				
+				<services.climaopen.url>https://api.openweathermap.org/data/2.5/weather?id=3530597&amp;lang=sp&amp;units=metric&amp;APPID=bd95d6a747404c06b6989721a1e79d03</services.climaopen.url>
+				
+				<services.aefcm.user>mci_fidegar_adip</services.aefcm.user>
+				<services.aefcm.password>3AL7R0LD39UO</services.aefcm.password>
 				
 				<beca.pathDocumentos>/home/usrmibecadev/documentos/</beca.pathDocumentos>
+				<beca.pathDispersiones>/home/usrmibecadev/dispersiones/</beca.pathDispersiones>
+				<beca.pathDocumentosTemporales>/home/usrmibecadev/archivos/temporales/</beca.pathDocumentosTemporales>
 				
-				<beca.pathDispersiones>C:\becas\</beca.pathDispersiones>
-				
-				<services.cdmx.documentos.url>https://llave-dev.cdmx.gob.mx/rest/consulta/documentoUsuario</services.cdmx.documentos.url>
-
-				<service.aefcm.user>mci_fidegar_adip</service.aefcm.user>
-				<service.aefcm.password>3AL7R0LD39UO</service.aefcm.password>
-				
-				<services.cdmx.valida.documentos.url>https://llave-dev.cdmx.gob.mx/rest/documentos/validarDocumento</services.cdmx.valida.documentos.url>
 			</properties>
 		</profile>
 
@@ -403,39 +424,48 @@
 				<jpa.test.formatsql>false</jpa.test.formatsql>
 				
 				<login.urlLoginCdmx>https://llave.cdmx.gob.mx/oauth.xhtml</login.urlLoginCdmx>				
-				<login.urlRedirectLoginCdmx>https://registro.mibecaparaempezar-dev.cdmx.gob.mx/home.xhtml</login.urlRedirectLoginCdmx>
-				<login.appId>APP_ID_QUE_ME_PROPORCIONA_EL_ADMINISTRADOR_DE_LLAVE_CDMX</login.appId>
-				<login.secretKey>SECRET_KEY_QUE_ME_PROPORCIONA_EL_ADMINISTRADOR_DE_LLAVE_CDMX</login.secretKey>
-				<login.userHttpBasicAuth>admin</login.userHttpBasicAuth>
-				<login.passwordHttpBasicAuth>admin</login.passwordHttpBasicAuth>
+				<login.urlRedirectLoginCdmx>https://registro.mibecaparaempezar.cdmx.gob.mx/home.xhtml</login.urlRedirectLoginCdmx>
+				<login.appId>202208251511447835</login.appId>
+				<login.secretKey>zpcuoL6usMziM2RH1XdHrva_XzkPpV</login.secretKey>
+				<login.userHttpBasicAuth>mi_beca_para_empezar</login.userHttpBasicAuth>
+				<login.passwordHttpBasicAuth>M1%b3c4%p4r4%3eMp3z4r%Pr0d%25%Ago$70%2022</login.passwordHttpBasicAuth>
 
 				<services.cdmx.getToken>https://llave.cdmx.gob.mx/rest/oauth/token</services.cdmx.getToken>
 				<services.cdmx.getDatosUsuario>https://llave.cdmx.gob.mx/rest/oauth/usuario</services.cdmx.getDatosUsuario>
 				<services.cdmx.getRolesUsuario>https://llave.cdmx.gob.mx/rest/oauth/roles</services.cdmx.getRolesUsuario>
 				<services.cdmx.logout>https://llave.cdmx.gob.mx/rest/oauth/logout</services.cdmx.logout>
+				<services.cdmx.documentos.url>https://llave.cdmx.gob.mx/rest/consulta/documentoUsuario</services.cdmx.documentos.url>
+				<services.cdmx.valida.documentos.url>https://llave.cdmx.gob.mx/rest/documentos/validarDocumento</services.cdmx.valida.documentos.url>
 				
-				<servicio.clima.url>http://simat.aire.cdmx.gob.mx:8002/webserviceSIMAT.asmx/Indice_Aire_Salud</servicio.clima.url>
-				<servicio.hoynocircula.url>http://simat.aire.cdmx.gob.mx/calidadaire/xml/simat.json</servicio.hoynocircula.url>
-				<servicio.climaopen.url>https://api.openweathermap.org/data/2.5/weather?id=3530597&amp;lang=sp&amp;units=metric&amp;APPID=bd95d6a747404c06b6989721a1e79d03</servicio.climaopen.url>
-				<servicio.semaforoepidemiologico.url>https://www.cdmx.gob.mx/rest/semaforo-epidemiologico/consultar</servicio.semaforoepidemiologico.url>				
-				<servicio.cdmx.hoynocircula.url>https://hoynocircula.cdmx.gob.mx/rest/hoynocircula/hoy</servicio.cdmx.hoynocircula.url>
-				
-				<servicio.urlINE>https://ine.cdmx.gob.mx/rest/datosIne/verificar</servicio.urlINE>
-				<servicio.userHttpBasicAuthINE>mibeca_empezar</servicio.userHttpBasicAuthINE>
-				<servicio.passwordHttpBasicAuthINE>M1b3C4Emp3Z4r12M4y2022</servicio.passwordHttpBasicAuthINE>
+				<services.cdmx.ine.url>https://ine.cdmx.gob.mx/rest/datosIne/verificar</services.cdmx.ine.url>
+				<services.cdmx.ine.user>mibeca_empezar</services.cdmx.ine.user>
+				<services.cdmx.ine.password>M1b3C4Emp3Z4r12M4y2022</services.cdmx.ine.password>
 				
 				<services.cdmx.curp.url>https://curp.cdmx.gob.mx/curp/rest/curp/</services.cdmx.curp.url>
-				<services.cdmx.curp.userCurpBasicAuth>mibecaparaempezar</services.cdmx.curp.userCurpBasicAuth>
-				<services.cdmx.curp.passwordCurpBasicAuth>M1_b3c4EMpez44rXkWs!</services.cdmx.curp.passwordCurpBasicAuth>
+				<services.cdmx.curp.user>mibecaparaempezar</services.cdmx.curp.user>
+				<services.cdmx.curp.password>M1_b3c4EMpez44rXkWs!</services.cdmx.curp.password>
+				
+				<services.cdmx.semaforoepidemiologico.url>https://www.cdmx.gob.mx/rest/semaforo-epidemiologico/consultar</services.cdmx.semaforoepidemiologico.url>				
+				<services.cdmx.hoynocircula.url>https://hoynocircula.cdmx.gob.mx/rest/hoynocircula/hoy</services.cdmx.hoynocircula.url>
+				<services.cdmx.simat.clima.url>http://simat.aire.cdmx.gob.mx:8002/webserviceSIMAT.asmx/Indice_Aire_Salud</services.cdmx.simat.clima.url>
+				
+				<services.climaopen.url>https://api.openweathermap.org/data/2.5/weather?id=3530597&amp;lang=sp&amp;units=metric&amp;APPID=bd95d6a747404c06b6989721a1e79d03</services.climaopen.url>
+				
+				<services.obtenmas.clientSecret>186f50f4-fea5-4288-9455-9ba5fe4ff002</services.obtenmas.clientSecret>
+				<services.obtenmas.clientId>ApiPRE</services.obtenmas.clientId>
+				<services.obtenmas.url>https://api.obtenmas.com/</services.obtenmas.url>
+                <services.obtenmas.endpoint.token>connect/token/</services.obtenmas.endpoint.token>
+                <services.obtenmas.endpoint.registrar.tutor>Regom/api/adip/registry/</services.obtenmas.endpoint.registrar.tutor>
+                <services.obtenmas.endpoint.reasignar.tutor>Regom/api/adip/reassignstudent/</services.obtenmas.endpoint.reasignar.tutor>
+                <services.obtenmas.endpoint.consultar.tutor>Regom/api/adip/curpexists/</services.obtenmas.endpoint.consultar.tutor>
+				
+				<services.aefcm.user>mci_fidegar_adip</services.aefcm.user>
+				<services.aefcm.password>3AL7R0LD39UO</services.aefcm.password>
 								
-				<beca.pathDocumentos>/home/wwwmibeca/documentos/</beca.pathDocumentos>
-				<beca.pathDispersiones>C:\becas\</beca.pathDispersiones>
+				<beca.pathDocumentos>/home/wwwmibeca/archivos/documentos/</beca.pathDocumentos>
+				<beca.pathDispersiones>/home/wwwmibeca/archivos/dispersiones/</beca.pathDispersiones>
+				<beca.pathDocumentosTemporales>/home/wwwmibeca/archivos/temporales/</beca.pathDocumentosTemporales>
 				
-				<services.cdmx.documentos.url>https://llave.cdmx.gob.mx/rest/consulta/documentoUsuario</services.cdmx.documentos.url>
-				<service.aefcm.user>mci_fidegar_adip</service.aefcm.user>
-				<service.aefcm.password>3AL7R0LD39UO</service.aefcm.password>
-				
-				<services.cdmx.valida.documentos.url>https://llave.cdmx.gob.mx/rest/documentos/validarDocumento</services.cdmx.valida.documentos.url>
 			</properties>
 		</profile>
 	</profiles>

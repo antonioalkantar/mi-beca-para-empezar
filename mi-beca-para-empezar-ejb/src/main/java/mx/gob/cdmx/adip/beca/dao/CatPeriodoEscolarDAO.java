@@ -10,10 +10,10 @@ import mx.gob.cdmx.adip.beca.commons.dto.CatPeriodoEscolarDTO;
 
 @LocalBean
 @Stateless
-public class CatPeriodoEscolarDAO extends IBaseDAO<CatPeriodoEscolarDTO, Long>{
+public class CatPeriodoEscolarDAO extends IBaseDAO<CatPeriodoEscolarDTO, Integer>{
 
 	@Override
-	public CatPeriodoEscolarDTO buscarPorId(Long id) {
+	public CatPeriodoEscolarDTO buscarPorId(Integer id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

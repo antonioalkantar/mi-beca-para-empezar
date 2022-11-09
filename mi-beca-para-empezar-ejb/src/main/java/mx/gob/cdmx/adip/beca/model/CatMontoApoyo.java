@@ -31,7 +31,8 @@ import javax.persistence.TemporalType;
 					+ " JOIN c.catCicloEscolar cce "
 					+ " JOIN c.catNivelEducativo cne "
 					+ " where c.estatus = true "
-					+ " and cce.estatus = true" )
+					+ " and cce.estatus = true" 
+					+ " and cne.estatus = true" )
 })
 public class CatMontoApoyo implements java.io.Serializable {
 

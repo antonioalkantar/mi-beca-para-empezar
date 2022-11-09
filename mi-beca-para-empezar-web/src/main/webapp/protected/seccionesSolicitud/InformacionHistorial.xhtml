@@ -29,8 +29,17 @@
 	 			                    	<p:outputLabel value="#{bitacora.fecha.toString().substring(0,16)}" styleClass="font-texto-medio adip-output-bold-campos"/>		
 							 			
 							 			<p:outputLabel value="Observación" styleClass="adip-output-campos"/> 
-	 			                    	<p:outputLabel value="#{bitacora.observaciones}" styleClass="font-texto-medio adip-output-bold-campos"/>	
+	 			                    	<p:outputLabel value="#{bitacora.observaciones}" styleClass="font-texto-medio adip-output-bold-campos" style="word-wrap: break-word;"/>	
+
+							 			<p:outputLabel value="Soporte que respalda el cambio de tutor" styleClass="adip-output-campos"/> 
+	 			                    	<p:outputLabel value="#{bitacora.soporteDocDescripcion}" styleClass="font-texto-medio adip-output-bold-campos"/>	
 							 			
+							 			<p:outputLabel value="Documento de soporte" styleClass="adip-output-campos"/> 
+										<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panel-sin-pading" rendered="#{bitacora.rutaDocto ne null}">
+											<p:commandLink id="clDocGeneral" target="_blank" value="#{msg.lbl_ver_documento}" ajax="false" immediate="true" styleClass="adip-link"
+												action="#{consultaBean.verDocumento(bitacora.contentFileSoporteDoc)}">
+											</p:commandLink>
+										</p:panelGrid>
 							 </p:panelGrid>
 	 			               
  			             </p:outputPanel>       		            

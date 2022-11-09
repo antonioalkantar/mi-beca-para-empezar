@@ -14,6 +14,7 @@ public class SolicitudDTO implements Serializable {
 	private CatEstatusDTO catEstatusTutorDTO;
 	private CatMunicipiosDTO catMunicipiosDTO;
 	private CatParentescoDTO catParentescoDTO;
+	private CatCodigosRespuestaPagatodoDTO catCodigosRespuestaPagatodoDTO;
 	private TutorDTO tutorDTO;
 	private UsuarioDTO usuarioDTO;
 	private BeneficiarioDTO  beneficiarioDTO;
@@ -27,17 +28,18 @@ public class SolicitudDTO implements Serializable {
 	private String nombre;
 	private String calle;
 	private String colonia;
-	private String alcaldia;
 	private String codigopostal;
 	private String entidad;
 	private String turno;
 	private CatNivelEducativoDTO catNivelEducativoDTO;
 	private String gradoEscolar;
 	private String estatusBeneficiario;
-	private boolean envioExitoso;
+	private boolean pagatodoEnvioExitoso;
 	private String nombreCompletoTutor;
 	private String nombreCompletoBeneficiario;
 	private Boolean esNuevoRegistro;
+	private Boolean externo;
+	private Date pagatodoFechaEnvio;
 
 	public SolicitudDTO() {
 		catParentescoDTO = new CatParentescoDTO();
@@ -48,6 +50,7 @@ public class SolicitudDTO implements Serializable {
 		catMunicipiosDTO = new CatMunicipiosDTO();
 		catEstatusBeneficiarioDTO = new CatEstatusBeneficiarioDTO();
 		catNivelEducativoDTO = new CatNivelEducativoDTO();
+		catCodigosRespuestaPagatodoDTO = new CatCodigosRespuestaPagatodoDTO();
 	}
 	
 	public SolicitudDTO(Long idSolicitud) {
@@ -83,7 +86,7 @@ public class SolicitudDTO implements Serializable {
 	//DTO para consulta Solicitud.findById
 	public SolicitudDTO(Long idSolicitud, String folioSolicitud, Long idUsuarioLlaveCdmx, String nombreTutor, String apellidoPTutor, String apellidoMTutor, String curpTutor,
 			Long idBeneficiario, String nombresBeneficiario, String primerApellidoBeneficiario, String segundoApellidoBeneficiario, String nacionalidadBeneficiario, String curpBeneficiario,
-			Integer idEstatusTutor ,String estatusTutor, int idEstatusBeneficiario, String descripcionBeneficiario ) {
+			Integer idEstatusTutor ,String estatusTutor, int idEstatusBeneficiario, String descripcionBeneficiario, Long idCodigoRespuestaPagaTodo) {
 		this.idSolicitud = idSolicitud;
 		this.folioSolicitud = folioSolicitud;
 		this.tutorDTO = new TutorDTO(idUsuarioLlaveCdmx, nombresBeneficiario, primerApellidoBeneficiario, segundoApellidoBeneficiario, curpTutor, idEstatusTutor, estatusTutor);
@@ -91,6 +94,7 @@ public class SolicitudDTO implements Serializable {
 		this.nombreCompletoTutor = (nombreTutor + " " + apellidoPTutor + " " + (apellidoMTutor == null ? "" : apellidoMTutor)).toUpperCase();
 		this.nombreCompletoBeneficiario = (nombresBeneficiario+" "+primerApellidoBeneficiario+" "+(segundoApellidoBeneficiario == null ? "" : segundoApellidoBeneficiario)).toUpperCase();
 		this.catEstatusBeneficiarioDTO = new CatEstatusBeneficiarioDTO(idEstatusBeneficiario, descripcionBeneficiario);
+		this.catCodigosRespuestaPagatodoDTO = new CatCodigosRespuestaPagatodoDTO(idCodigoRespuestaPagaTodo);
 	}
 
 	public SolicitudDTO(Long idSolicitud, int idEstatusSolicitud, String descripcionEstatusSolicitud) {
@@ -106,7 +110,13 @@ public class SolicitudDTO implements Serializable {
 			, Integer idEstatusBeneficiario
 			, String descripcionEstatusBeneficiario
 			, String turno
-			, String gradoEscolar, String cct, String colonia, String calle, String alcaldia, String codigoPostal
+			, String gradoEscolar
+			, String cct
+			, String colonia
+			, String calle
+			, Integer idMunicipio
+			, String municipio
+			, String codigoPostal
 			, int idPatentesco
 			, String descripcionParentesco) {
 		this.idSolicitud = idSolicitud;
@@ -117,11 +127,22 @@ public class SolicitudDTO implements Serializable {
 		this.cct = cct;
 		this.colonia = colonia; 
 		this.calle = calle;
-		this.alcaldia = alcaldia;
+		this.catMunicipiosDTO = new CatMunicipiosDTO(idMunicipio, municipio);
 		this.codigopostal = codigoPostal;
 		this.gradoEscolar = gradoEscolar;
 		this.catParentescoDTO =  new CatParentescoDTO(idPatentesco, descripcionParentesco);
 		this.catEstatusBeneficiarioDTO = new CatEstatusBeneficiarioDTO(idEstatusBeneficiario, descripcionEstatusBeneficiario, null);
+	}
+	
+	//findByIdTutor
+	public SolicitudDTO(Long idCodigoRespuestaPagaTodo, Long idUsuarioLlaveCdmx ) {
+		this.catCodigosRespuestaPagatodoDTO = new CatCodigosRespuestaPagatodoDTO(idCodigoRespuestaPagaTodo);
+		this.tutorDTO = new TutorDTO(idUsuarioLlaveCdmx);
+	}
+	
+	public SolicitudDTO(Long idSolicitud, TutorDTO tutorDTO ) {
+		this.idSolicitud = idSolicitud;
+		this.tutorDTO = tutorDTO;
 	}
 
 	public Long getIdSolicitud() {
@@ -196,14 +217,6 @@ public class SolicitudDTO implements Serializable {
 		this.colonia = colonia;
 	}
 
-	public String getAlcaldia() {
-		return alcaldia;
-	}
-
-	public void setAlcaldia(String alcaldia) {
-		this.alcaldia = alcaldia;
-	}
-
 	public String getCodigopostal() {
 		return codigopostal;
 	}
@@ -244,12 +257,20 @@ public class SolicitudDTO implements Serializable {
 		this.estatusBeneficiario = estatusBeneficiario;
 	}
 
-	public boolean getEnvioExitoso() {
-		return envioExitoso;
+	public CatCodigosRespuestaPagatodoDTO getCatCodigosRespuestaPagatodoDTO() {
+		return catCodigosRespuestaPagatodoDTO;
 	}
 
-	public void setEnvioExitoso(boolean envioExitoso) {
-		this.envioExitoso = envioExitoso;
+	public void setCatCodigosRespuestaPagatodoDTO(CatCodigosRespuestaPagatodoDTO catCodigosRespuestaPagatodoDTO) {
+		this.catCodigosRespuestaPagatodoDTO = catCodigosRespuestaPagatodoDTO;
+	}
+
+	public boolean isPagatodoEnvioExitoso() {
+		return pagatodoEnvioExitoso;
+	}
+
+	public void setPagatodoEnvioExitoso(boolean pagatodoEnvioExitoso) {
+		this.pagatodoEnvioExitoso = pagatodoEnvioExitoso;
 	}
 
 	public CatEstatusDTO getCatEstatusDTO() {
@@ -363,5 +384,25 @@ public class SolicitudDTO implements Serializable {
 	public void setEsNuevoRegistro(Boolean esNuevoRegistro) {
 		this.esNuevoRegistro = esNuevoRegistro;
 	}
+
+	public Boolean getExterno() {
+		return externo;
+	}
+
+	public void setExterno(Boolean externo) {
+		this.externo = externo;
+	}
+
+	public Date getPagatodoFechaEnvio() {
+		return pagatodoFechaEnvio;
+	}
+
+	public void setPagatodoFechaEnvio(Date pagatodoFechaEnvio) {
+		this.pagatodoFechaEnvio = pagatodoFechaEnvio;
+	}
+	
+	
+	
+	
 
 }

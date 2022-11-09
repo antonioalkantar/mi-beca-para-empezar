@@ -1,0 +1,1 @@
+drop table mibecaparaempezar.motivos_rechazo_beneficiario;

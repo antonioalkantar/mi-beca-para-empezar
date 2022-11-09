@@ -1,7 +1,7 @@
 package mx.gob.cdmx.adip.beca.commons.dto;
 
-import java.io.InputStream;
 import java.io.Serializable;
+import java.util.Date;
 
 import mx.gob.cdmx.adip.beca.commons.utils.Constantes;
 
@@ -46,17 +46,17 @@ public class TutorDTO implements Serializable {
 	private boolean documentoLlave;
 	private Integer idDocumentoLlave;
 	private String lada;
-
-	// Auxiliares documentos
-	private InputStream fileIdentifica;
-	private byte[] contentFileIdentifica;
-	private InputStream fileComprobanteDom;
-	private byte[] contentFileComprobanteDom;
+	private Date ultimaActualizacion;
+	private boolean enviadoAPagatodo;
+	private String sexo;
+	private String fechaNacimiento;
+	private Date fechaEnvioAPagatodo;
 
 	public TutorDTO() {
 		catMunicipiosDTO = new CatMunicipiosDTO();
 		catIdentificacionOficialDTO = new CatIdentificacionOficialDTO();
 		catComprobanteDomicilioDTO = new CatComprobanteDomicilioDTO();
+		catEstatusDTO = new CatEstatusDTO();
 	}
 
 	public TutorDTO(Long idUsuarioLlaveCdmx) {
@@ -71,7 +71,7 @@ public class TutorDTO implements Serializable {
 			Boolean informacionGralCorrecto, Boolean domicilioCorrecto, Integer idEstatus, String descripcion,
 			String informacionGeneralObservaciones, String domicilioObservaciones, Integer idTipoIne,
 			boolean esExtranjero , boolean esMayorTresBeneficiarios, boolean esCasaHogar, String nombreCasaHogar,
-			String motivoMayorTresBeneficiarios, boolean documentoLlave, Integer idDocumentoLlave
+			String motivoMayorTresBeneficiarios, boolean documentoLlave, Integer idDocumentoLlave, boolean enviadoAPagatodo
 			) {
 
 		this.idUsuarioLlaveCdmx = idUsuarioLlaveCdmx;
@@ -112,6 +112,7 @@ public class TutorDTO implements Serializable {
 		this.motivoMayorTresBeneficiarios = motivoMayorTresBeneficiarios;
 		this.documentoLlave = documentoLlave;
 		this.idDocumentoLlave = idDocumentoLlave;
+		this.enviadoAPagatodo = enviadoAPagatodo;
 	}
 
 	public TutorDTO(Long idUsuarioLlaveCdmx, String nombre, String primerApellido, String segundoApellido, String curp,
@@ -127,6 +128,24 @@ public class TutorDTO implements Serializable {
 		this.correo = correo;
 		this.esExtranjero = esExtranjero;
 	}
+	
+	//Query findByCurp
+		public TutorDTO(Long idUsuarioLlaveCdmx, String nombre, String primerApellido, String segundoApellido, String curp,
+				String telefono, String correo, boolean esExtranjero, boolean esMayorTresBeneficiarios, boolean enviadoAPagatodo ) {
+
+			this.idUsuarioLlaveCdmx = idUsuarioLlaveCdmx;
+			this.nombre = nombre;
+			this.primerApellido = primerApellido;
+			this.segundoApellido = segundoApellido;
+			this.nombreCompletoTutor = nombre + " " + primerApellido + " " + segundoApellido;
+			this.curp = curp;
+			this.telefono = telefono;
+			this.correo = correo;
+			this.esExtranjero = esExtranjero;
+			this.esMayorTresBeneficiarios = esMayorTresBeneficiarios;
+			this.enviadoAPagatodo = enviadoAPagatodo;
+		}
+	
 	
 	public TutorDTO(Long idUsuarioLlaveCdmx, String nombre, String primerApellido, String segundoApellido, String curp) {
 		this.idUsuarioLlaveCdmx = idUsuarioLlaveCdmx;
@@ -146,6 +165,25 @@ public class TutorDTO implements Serializable {
 		this.primerApellido = primerApellido;
 		this.segundoApellido = segundoApellido;
 	}
+	
+	/*
+	 * Constructor para registro de Tutor con pagatodo 
+	 */
+	public TutorDTO(Long idUsuarioLlaveCdmx, String nombre, String primerApellido, String segundoApellido, String curp, String telefono, String correo,
+			String fechaNacimiento, String sexo, boolean esExtranjero) {
+		this.idUsuarioLlaveCdmx = idUsuarioLlaveCdmx;
+		this.nombre = nombre;
+		this.primerApellido = primerApellido;
+		this.segundoApellido = segundoApellido;
+		this.curp = curp;
+		this.telefono = telefono;
+		this.correo = correo;
+		this.fechaNacimiento = fechaNacimiento;
+		this.sexo = sexo;
+		this.esExtranjero = esExtranjero;		
+	}
+	
+	
 
 	public Long getIdUsuarioLlaveCdmx() {
 		return idUsuarioLlaveCdmx;
@@ -379,38 +417,6 @@ public class TutorDTO implements Serializable {
 		this.esExtranjero = esExtranjero;
 	}
 
-	public InputStream getFileIdentifica() {
-		return fileIdentifica;
-	}
-
-	public void setFileIdentifica(InputStream fileIdentifica) {
-		this.fileIdentifica = fileIdentifica;
-	}
-
-	public byte[] getContentFileIdentifica() {
-		return contentFileIdentifica;
-	}
-
-	public void setContentFileIdentifica(byte[] contentFileIdentifica) {
-		this.contentFileIdentifica = contentFileIdentifica;
-	}
-
-	public InputStream getFileComprobanteDom() {
-		return fileComprobanteDom;
-	}
-
-	public void setFileComprobanteDom(InputStream fileComprobanteDom) {
-		this.fileComprobanteDom = fileComprobanteDom;
-	}
-
-	public byte[] getContentFileComprobanteDom() {
-		return contentFileComprobanteDom;
-	}
-
-	public void setContentFileComprobanteDom(byte[] contentFileComprobanteDom) {
-		this.contentFileComprobanteDom = contentFileComprobanteDom;
-	}
-
 	public String getNombreArchivoIdentificaCorto() {
 		return archivoIdentificacion == null ? ""
 				: archivoIdentificacion.contains(Constantes.SEPARADOR_RUTA)
@@ -490,4 +496,52 @@ public class TutorDTO implements Serializable {
 	public void setLada(String lada) {
 		this.lada = lada;
 	}
+
+	public Date getUltimaActualizacion() {
+		return ultimaActualizacion;
+	}
+
+	public void setUltimaActualizacion(Date ultimaActualizacion) {
+		this.ultimaActualizacion = ultimaActualizacion;
+	}
+
+	public boolean isEnviadoAPagatodo() {
+		return enviadoAPagatodo;
+	}
+
+	public void setEnviadoAPagatodo(boolean enviadoAPagatodo) {
+		this.enviadoAPagatodo = enviadoAPagatodo;
+	}
+	
+	public String getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
+	}
+	
+	public String getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+
+	public void setFechaNacimiento(String fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+	
+	public Date getFechaEnvioAPagatodo() {
+		return fechaEnvioAPagatodo;
+	}
+
+	public void setFechaEnvioAPagatodo(Date fechaEnvioAPagatodo) {
+		this.fechaEnvioAPagatodo = fechaEnvioAPagatodo;
+	}
+
+	@Override
+	public String toString() {
+		return "TutorDTO [idUsuarioLlaveCdmx=" + idUsuarioLlaveCdmx + ", nombre=" + nombre
+				+ ", primerApellido=" + primerApellido + ", segundoApellido=" + segundoApellido + ", curp=" + curp
+				+ ", telefono=" + telefono + ", correo=" + correo + ", enviadoAPagatodo=" + enviadoAPagatodo+"]";
+	}
+	
 }

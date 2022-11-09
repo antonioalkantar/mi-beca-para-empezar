@@ -1,16 +1,27 @@
 package mx.gob.cdmx.adip.beca.bean;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.net.ProtocolException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.primefaces.PrimeFaces;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import mx.gob.cdmx.adip.beca.acceso.bean.AuthenticatorBean;
 import mx.gob.cdmx.adip.beca.commons.dto.BitacoraCambiosTutorDTO;
@@ -26,6 +37,7 @@ import mx.gob.cdmx.adip.beca.dao.TutorDAO;
 @SessionScoped
 public class ConsultaBean implements Serializable {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConsultaBean.class);
 	private static final long serialVersionUID = -4324012361015434687L;
 	
 	@Inject
@@ -76,9 +88,20 @@ public class ConsultaBean implements Serializable {
 		estiloSelectOneMenu = "background-color: #fff !important;";
 		registroTutorBean.consultaTutorDeshabilitado(idUsuarioLaveCdmx);
 		registroBeneficiarioBean.consulta(idSolicitud);
-		encuestaBeneficiarioBean.consulta(idSolicitud);
+		encuestaBeneficiarioBean.consultaPorCiclo(idSolicitud);
 		cambiarEstatusSolicitud();
-		lstBitacora = bitacoraCambiosTutorDAO.buscarPorIdSolicitud(idSolicitud);
+		lstBitacora = new ArrayList<BitacoraCambiosTutorDTO>();
+		
+		List<BitacoraCambiosTutorDTO> datos = bitacoraCambiosTutorDAO.buscarPorIdSolicitud(idSolicitud);
+		if (datos!= null && datos.size()>0)
+			for (BitacoraCambiosTutorDTO forDatos:datos) {
+				//LOGGER.info("Datos "+forDatos.getRutaDocto());
+				if (forDatos.getRutaDocto() != null && !forDatos.getRutaDocto().isEmpty())
+					forDatos.setContentFileSoporteDoc(construyeDocumento(forDatos.getRutaDocto()));
+				//LOGGER.info("Datos ContentFileSoporteDoc "+forDatos.getContentFileSoporteDoc());
+				lstBitacora.add(forDatos);
+			}
+
 		lstEstatus = catEstatusDAO.buscarEstatusTutor();
 		return Constantes.RETURN_HOME_BACKOFFICE_PAGE_ADMIN_CONSULTA + Constantes.JSF_REDIRECT;
 	}
@@ -215,6 +238,48 @@ public class ConsultaBean implements Serializable {
             break;
         }
     }
+
+	public byte[] construyeDocumento(String ruta) {
+		byte[] arreglo = null;
+		try {
+			arreglo = FileUtils.readFileToByteArray(new File(ruta));
+		} catch (IOException e) {
+			LOGGER.error("Error al construir array", e);
+		}
+		return arreglo;
+	}
+
+	
+	/**
+	 * Método que permite ver el documento en nueva pestaña
+	 * 
+	 * @param archivo
+	 * @param nombreDocumento
+	 */
+	public void verDocumento(byte[] archivo) {
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
+				.getResponse();
+		try (BufferedInputStream input = new BufferedInputStream(new ByteArrayInputStream(archivo));
+				BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream(),
+						Constantes.TAMAÑO_BUFFER);) {
+			byte[] buffer = new byte[Constantes.TAMAÑO_BUFFER];
+			int tamaño;
+			while ((tamaño = input.read(buffer)) > Constantes.INT_VALOR_CERO) {
+				output.write(buffer, Constantes.INT_VALOR_CERO, tamaño);
+			}
+
+			input.close();
+			output.flush();
+			output.close();
+			facesContext.responseComplete();
+			facesContext.renderResponse();
+
+			PrimeFaces.current().ajax().update("form");
+		} catch (IOException e) {
+			LOGGER.error("Error al leer el documento", e);
+		}
+	}
 
 	public boolean isInfoBeneficiario() {
 		return infoBeneficiario;
